@@ -22,7 +22,7 @@ AdaptiveImageProcessor::AdaptiveImageProcessor(const AdaptiveImageProcParams &pa
 	parameters = params;
 }
 
-void AdaptiveImageProcessor::Process(const cv::Mat &inputImg, const cv::Mat &outputImg)
+void AdaptiveImageProcessor::Process(const cv::Mat &inputImg, cv::Mat &outputImg)
 {
 
 }

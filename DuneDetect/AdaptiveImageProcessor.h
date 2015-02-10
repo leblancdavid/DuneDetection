@@ -21,7 +21,7 @@ public:
 	AdaptiveImageProcessor(const AdaptiveImageProcessor &cpy);
 	AdaptiveImageProcessor(const AdaptiveImageProcParams &params);
 
-	void Process(const cv::Mat &inputImg, const cv::Mat &outputImg);
+	void Process(const cv::Mat &inputImg, cv::Mat &outputImg);
 
 private:
 	AdaptiveImageProcParams parameters;

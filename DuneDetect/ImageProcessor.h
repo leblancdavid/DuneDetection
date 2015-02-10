@@ -13,7 +13,7 @@ namespace dune
 		ImageProcessor(const ImageProcessor &cpy) {};
 		~ImageProcessor() {};
 
-		virtual void Process(const cv::Mat &inputImg, const cv::Mat &outputImg)=0;
+		virtual void Process(const cv::Mat &inputImg, cv::Mat &outputImg)=0;
 		
 	};
 
