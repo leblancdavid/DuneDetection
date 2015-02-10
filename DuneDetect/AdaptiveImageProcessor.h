@@ -7,7 +7,10 @@ namespace dune
 {
 struct AdaptiveImageProcParams 
 {
-
+	int Method;
+	int ThresholdType;
+	double C;
+	int BlockSize;
 };
 
 class AdaptiveImageProcessor : public ImageProcessor

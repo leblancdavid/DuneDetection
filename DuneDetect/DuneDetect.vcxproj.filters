@@ -40,4 +40,9 @@
       <Filter>Header Files\ImageProcessing</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AdaptiveImageProcessor.cpp">
+      <Filter>Source Files\ImageProcessing</Filter>
+    </ClCompile>
+  </ItemGroup>
 </Project>
