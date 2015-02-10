@@ -25,6 +25,9 @@
     <Filter Include="Source Files\ImageProcessing">
       <UniqueIdentifier>{8ccf2e0c-9cc7-4b2c-9d4c-f5d26b764c76}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Dataset">
+      <UniqueIdentifier>{c67b8dbb-04f3-413f-953e-fb51a952475c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OpenCVHeaders.h">
@@ -38,6 +41,12 @@
     </ClInclude>
     <ClInclude Include="AdaptiveImageProcessor.h">
       <Filter>Header Files\ImageProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="DuneDetectLibHeaders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DatasetProcessor.h">
+      <Filter>Header Files\Dataset</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
