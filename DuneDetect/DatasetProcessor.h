@@ -25,8 +25,8 @@ public:
 	void Process()
 	{
 		dune::AdaptiveImageProcParams params;
-		params.BlockSize = 15;
-		params.C = 0.5;
+		params.BlockSize = 101;
+		params.C = -25.0;
 		params.Method = cv::ADAPTIVE_THRESH_GAUSSIAN_C;
 		params.ThresholdType = cv::THRESH_BINARY;
 		dune::AdaptiveImageProcessor adaptiveProcessor(params);
@@ -37,8 +37,9 @@ public:
 			cv::Mat resultImg;
 			adaptiveProcessor.Process(img, resultImg);
 
-			cv::imshow("Processed Image: " + imageFiles[i], resultImg);
-			cv::waitKey(0);
+			cv::imwrite(imageFiles[i] + "_result.jpg", resultImg);
+			//cv::imshow("Processed Image: " + imageFiles[i], resultImg);
+			//cv::waitKey(0);
 		}
 	}
 

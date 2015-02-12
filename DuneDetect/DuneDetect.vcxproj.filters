@@ -48,6 +48,9 @@
     <ClInclude Include="DatasetProcessor.h">
       <Filter>Header Files\Dataset</Filter>
     </ClInclude>
+    <ClInclude Include="BaseDuneFeatures.h">
+      <Filter>Header Files\DuneDetection</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AdaptiveImageProcessor.cpp">
