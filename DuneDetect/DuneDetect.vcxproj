@@ -70,10 +70,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AdaptiveImageProcessor.h" />
-    <ClInclude Include="BaseDuneFeatures.h" />
     <ClInclude Include="DuneDetectLibHeaders.h" />
     <ClInclude Include="BaseDuneDetector.h" />
-    <ClInclude Include="DuneSegment.h" />
     <ClInclude Include="DuneSegmentDetector.h" />
     <ClInclude Include="BaseImageProcessor.h" />
     <ClInclude Include="OpenCVHeaders.h" />
@@ -81,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AdaptiveImageProcessor.cpp" />
+    <ClCompile Include="DuneSegmentDetector.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -2,6 +2,9 @@
 #define _PROCESS_DATASET_H_
 
 #include "DuneDetectLibHeaders.h"
+
+#include "DuneSegmentDetector.h"
+
 #include <vector>
 
 class DatasetProcessor
@@ -29,18 +32,23 @@ public:
 		params.C = -25.0;
 		params.Method = cv::ADAPTIVE_THRESH_GAUSSIAN_C;
 		params.ThresholdType = cv::THRESH_BINARY;
-		dune::AdaptiveImageProcessor adaptiveProcessor(params);
+		dune::BaseImageProcessor* adaptiveProcessor = new dune::AdaptiveImageProcessor(params);
+
+		dune::DuneSegmentDetector detector;
+		detector.SetImageProcess(adaptiveProcessor);
 
 		for(size_t i = 0; i < imageFiles.size(); ++i)
 		{
 			cv::Mat img = cv::imread(imageFiles[i],0);
-			cv::Mat resultImg;
-			adaptiveProcessor.Process(img, resultImg);
+			
+			std::vector<dune::DuneSegment> segments = detector.Extract(img);
 
-			cv::imwrite(imageFiles[i] + "_result.jpg", resultImg);
+			//cv::imwrite(imageFiles[i] + "_result.jpg", resultImg);
 			//cv::imshow("Processed Image: " + imageFiles[i], resultImg);
 			//cv::waitKey(0);
 		}
+
+		delete adaptiveProcessor;
 	}
 
 private:
