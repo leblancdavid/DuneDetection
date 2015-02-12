@@ -5,13 +5,13 @@
 
 namespace dune
 {
-	class ImageProcessor
+	class BaseImageProcessor
 	{
 	public:
 
-		ImageProcessor() {};
-		ImageProcessor(const ImageProcessor &cpy) {};
-		~ImageProcessor() {};
+		BaseImageProcessor() {};
+		BaseImageProcessor(const BaseImageProcessor &cpy) {};
+		~BaseImageProcessor() {};
 
 		virtual void Process(const cv::Mat &inputImg, cv::Mat &outputImg)=0;
 		

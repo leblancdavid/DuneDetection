@@ -72,8 +72,10 @@
     <ClInclude Include="AdaptiveImageProcessor.h" />
     <ClInclude Include="BaseDuneFeatures.h" />
     <ClInclude Include="DuneDetectLibHeaders.h" />
-    <ClInclude Include="DuneDetector.h" />
-    <ClInclude Include="ImageProcessor.h" />
+    <ClInclude Include="BaseDuneDetector.h" />
+    <ClInclude Include="DuneSegment.h" />
+    <ClInclude Include="DuneSegmentDetector.h" />
+    <ClInclude Include="BaseImageProcessor.h" />
     <ClInclude Include="OpenCVHeaders.h" />
     <ClInclude Include="DatasetProcessor.h" />
   </ItemGroup>

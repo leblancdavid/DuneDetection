@@ -33,12 +33,6 @@
     <ClInclude Include="OpenCVHeaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DuneDetector.h">
-      <Filter>Header Files\DuneDetection</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageProcessor.h">
-      <Filter>Header Files\ImageProcessing</Filter>
-    </ClInclude>
     <ClInclude Include="AdaptiveImageProcessor.h">
       <Filter>Header Files\ImageProcessing</Filter>
     </ClInclude>
@@ -50,6 +44,18 @@
     </ClInclude>
     <ClInclude Include="BaseDuneFeatures.h">
       <Filter>Header Files\DuneDetection</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseDuneDetector.h">
+      <Filter>Header Files\DuneDetection</Filter>
+    </ClInclude>
+    <ClInclude Include="DuneSegment.h">
+      <Filter>Header Files\DuneDetection</Filter>
+    </ClInclude>
+    <ClInclude Include="DuneSegmentDetector.h">
+      <Filter>Header Files\DuneDetection</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseImageProcessor.h">
+      <Filter>Header Files\ImageProcessing</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

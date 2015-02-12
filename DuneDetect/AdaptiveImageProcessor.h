@@ -1,7 +1,7 @@
 #ifndef _ADAPTIVE_IMAGE_PROCESSOR_H_
 #define _ADAPTIVE_IMAGE_PROCESSOR_H_
 
-#include "ImageProcessor.h"
+#include "BaseImageProcessor.h"
 
 namespace dune 
 {
@@ -13,7 +13,7 @@ struct AdaptiveImageProcParams
 	int BlockSize;
 };
 
-class AdaptiveImageProcessor : public ImageProcessor
+class AdaptiveImageProcessor : public BaseImageProcessor
 {
 public:
 	AdaptiveImageProcessor();

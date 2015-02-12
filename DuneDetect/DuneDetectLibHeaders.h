@@ -3,6 +3,5 @@
 
 #include "OpenCVHeaders.h"
 #include "AdaptiveImageProcessor.h"
-#include "DuneDetector.h"
 
 #endif

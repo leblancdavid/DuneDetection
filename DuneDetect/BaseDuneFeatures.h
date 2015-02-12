@@ -4,32 +4,21 @@
 namespace dune
 {
 
-template<class T>
 class BaseDuneFeature
 {
 public:
 	BaseDuneFeature() { }
 	~BaseDuneFeature() { }
-	BaseDuneFeature(const BaseDuneFeature &cpy)
-	{
-		Data = cpy.Data;
-	}
-
-	std::vector<T> Data;
 private:
 
 };
 
-class DuneSegments : public BaseDuneFeature<cv::Point>
+class DuneSegment : public BaseDuneFeature
 {
 public:
-	DuneSegments() { }
-	~DuneSegments() { }
-	DuneSegments(const DuneSegments &cpy)
-	{
-		Data = cpy.Data;
-	}
+
 private:
+
 };
 
 }
