@@ -28,6 +28,9 @@
     <Filter Include="Header Files\Dataset">
       <UniqueIdentifier>{c67b8dbb-04f3-413f-953e-fb51a952475c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Benchmarking">
+      <UniqueIdentifier>{f92ff9ae-fc3e-4d23-b186-95d06ae1af5c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OpenCVHeaders.h">

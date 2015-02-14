@@ -16,7 +16,10 @@ DuneSegmentDetector::DuneSegmentDetector(BaseImageProcessor* imgproc, const Dune
 
 DuneSegmentDetector::~DuneSegmentDetector() 
 {
-	delete ImageProcess;
+	/*if(ImageProcess != NULL)
+	{
+		delete ImageProcess;
+	}*/
 }
 
 std::vector<DuneSegment> DuneSegmentDetector::Extract(const cv::Mat &img)
@@ -57,6 +60,27 @@ std::vector<std::vector<cv::Point>> DuneSegmentDetector::GetContours(const cv::M
 	}
 
 	return contours;
+}
+
+std::vector<std::vector<cv::Point>> DuneSegmentDetector::SplitContourSegments(const std::vector<cv::Point> &contour)
+{
+	std::vector<std::vector<cv::Point>> segments;
+	int k = 9;
+	std::vector<double> kernal(k);
+	kernal[0] = -1.0;
+	kernal[1] = -2.0;
+	kernal[2] = -3.0;
+	kernal[3] = 1.0;
+	kernal[4] = 6.0;;
+	kernal[5] = 1.0;
+	kernal[6] = -3.0;
+	kernal[7] = -2.0;
+	kernal[8] = -1.0;
+
+
+	return segments;
+
+
 }
 
 }

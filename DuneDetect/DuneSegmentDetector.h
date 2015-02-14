@@ -53,6 +53,7 @@ private:
 
 	DuneSegmentDetectorParameters Parameters;
 	std::vector<std::vector<cv::Point>> GetContours(const cv::Mat &img);
+	std::vector<std::vector<cv::Point>> SplitContourSegments(const std::vector<cv::Point> &contour);
 };
 
 }

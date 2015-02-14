@@ -48,7 +48,7 @@ public:
 			//cv::waitKey(0);
 		}
 
-		delete adaptiveProcessor;
+		//delete adaptiveProcessor;
 	}
 
 private:
