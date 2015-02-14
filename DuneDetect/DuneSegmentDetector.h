@@ -8,27 +8,6 @@
 namespace dune
 {
 
-struct DuneSegmentData
-{
-	cv::Point Position;
-	double Orientation;
-};
-
-class DuneSegment
-{
-public:
-	DuneSegment() { }
-	~DuneSegment() { }
-	DuneSegment(const DuneSegment &cpy)
-	{
-		Data = cpy.Data;
-	}
-
-	std::vector<DuneSegmentData> Data;
-private:
-
-};
-
 class DuneSegmentDetectorParameters
 {
 public:
@@ -40,7 +19,7 @@ public:
 	int MinContourLength;
 };
 
-class DuneSegmentDetector : public BaseDuneDetector<DuneSegment>
+class DuneSegmentDetector : public BaseDuneDetector
 {
 public:
 	DuneSegmentDetector();

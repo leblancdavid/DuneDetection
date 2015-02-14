@@ -72,14 +72,17 @@
     <ClInclude Include="AdaptiveImageProcessor.h" />
     <ClInclude Include="DuneDetectLibHeaders.h" />
     <ClInclude Include="BaseDuneDetector.h" />
+    <ClInclude Include="BaseDuneDetectorBenchmarkTest.h" />
     <ClInclude Include="DuneSegmentDetector.h" />
     <ClInclude Include="BaseImageProcessor.h" />
+    <ClInclude Include="DuneSegmentDetectorBenchmark.h" />
     <ClInclude Include="OpenCVHeaders.h" />
     <ClInclude Include="DatasetProcessor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AdaptiveImageProcessor.cpp" />
     <ClCompile Include="DuneSegmentDetector.cpp" />
+    <ClCompile Include="DuneSegmentDetectorBenchmark.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

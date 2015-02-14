@@ -31,6 +31,9 @@
     <Filter Include="Header Files\Benchmarking">
       <UniqueIdentifier>{f92ff9ae-fc3e-4d23-b186-95d06ae1af5c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Benchmarking">
+      <UniqueIdentifier>{588822e0-f76d-4cea-b98c-bf285eada328}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OpenCVHeaders.h">
@@ -54,6 +57,12 @@
     <ClInclude Include="BaseImageProcessor.h">
       <Filter>Header Files\ImageProcessing</Filter>
     </ClInclude>
+    <ClInclude Include="BaseDuneDetectorBenchmarkTest.h">
+      <Filter>Header Files\Benchmarking</Filter>
+    </ClInclude>
+    <ClInclude Include="DuneSegmentDetectorBenchmark.h">
+      <Filter>Header Files\Benchmarking</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AdaptiveImageProcessor.cpp">
@@ -61,6 +70,9 @@
     </ClCompile>
     <ClCompile Include="DuneSegmentDetector.cpp">
       <Filter>Source Files\DuneDetection</Filter>
+    </ClCompile>
+    <ClCompile Include="DuneSegmentDetectorBenchmark.cpp">
+      <Filter>Source Files\Benchmarking</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
