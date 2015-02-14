@@ -97,6 +97,18 @@ protected:
 	{
 		BenchmarkResults results;
 
+		results.TP = CalcTruePositives(segments, groundTruth, results.Error);
+		results.FP = CalcFalsePositives(segments, groundTruth);
+		
+		return results;
+	}
+
+	double CalcTruePositives(const std::vector<DuneSegment> &segments,
+									const std::vector<cv::Point> &groundTruth,
+									double &error)
+	{
+		double TP = 0;
+		error = 0;
 		//Compute the true positives;
 		for(size_t i = 0; i < groundTruth.size(); ++i)
 		{
@@ -116,11 +128,55 @@ protected:
 
 			if(minDist < BenchmarkParams.MinError)
 			{
+				TP++;
+			}
+			error += minDist;
+		}
 
+		//Calculate the True positive
+		TP /= (double)groundTruth.size();
+		error /= (double)groundTruth.size();
+
+		return TP;
+	}
+
+	double CalcFalsePositives(const std::vector<DuneSegment> &segments,
+									const std::vector<cv::Point> &groundTruth)
+	{
+		double FP = 0;
+		//Calculate the false positives
+		//For each segment
+		int totalPoints = 0;
+		for(size_t i = 0; i < segments.size(); ++i)
+		{
+			//For each point in the segment;
+			for(size_t j = 0; j < segments[i].Data.size(); ++j)
+			{
+				double minDist = DBL_MAX;
+				//Find the closest ground truth to that point
+				for(size_t k = 0; k < groundTruth.size(); ++k)
+				{
+					double d = std::sqrt(((segments[i].Data[j].Position.x-groundTruth[k].x) *
+								(segments[i].Data[j].Position.x-groundTruth[k].x)) +
+								((segments[i].Data[j].Position.y-groundTruth[k].y) *
+								(segments[i].Data[j].Position.y-groundTruth[k].y)));
+					if(d < minDist)
+						minDist = d;
+				}
+
+				//If there's no ground truth near that segment point, it's a FP
+				if(minDist > BenchmarkParams.MinError)
+				{
+					FP++;
+				}
+
+				totalPoints++;
 			}
 		}
 
-		return results;
+		FP /= (double)totalPoints;
+
+		return FP;
 	}
 
 };
