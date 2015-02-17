@@ -7,8 +7,27 @@
 namespace dune
 {
 
-struct DuneSegmentData
+class DuneSegmentData
 {
+public:
+	DuneSegmentData()
+	{
+		Position.x = 0;
+		Position.y = 0;
+		Orientation = 0;
+	}
+	~DuneSegmentData(){}
+	DuneSegmentData(const DuneSegmentData &cpy)
+	{
+		Position = cpy.Position;
+		Orientation = cpy.Orientation;
+	}
+	DuneSegmentData(cv::Point pos, double orient)
+	{
+		Position = pos;
+		Orientation = orient;
+	}
+
 	cv::Point Position;
 	double Orientation;
 };

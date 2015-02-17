@@ -30,11 +30,21 @@ std::vector<DuneSegment> DuneSegmentDetector::Extract(const cv::Mat &img)
 	std::vector<DuneSegment> duneSegs;
 	std::vector<std::vector<cv::Point>> contours = GetContours(processedImage);
 
-	cv::Mat colorImg;
+	for(size_t i = 0; i < contours.size(); ++i)
+	{
+		DuneSegment s;
+		for(size_t j = 0; j < contours[i].size(); ++j)
+		{
+			s.Data.push_back(DuneSegmentData(contours[i][j], 0));
+		}
+		duneSegs.push_back(s);
+	}
+
+	/*cv::Mat colorImg;
 	cv::cvtColor(img, colorImg, CV_GRAY2BGR);
 	cv::drawContours(colorImg, contours, -1, cv::Scalar(0,0,255),2);
 	cv::imshow("Contours", colorImg);
-	cv::waitKey(0);
+	cv::waitKey(0);*/
 
 	return duneSegs;
 }

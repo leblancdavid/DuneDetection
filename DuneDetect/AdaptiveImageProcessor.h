@@ -5,8 +5,32 @@
 
 namespace dune 
 {
-struct AdaptiveImageProcParams 
+class AdaptiveImageProcParams 
 {
+public:
+	AdaptiveImageProcParams()
+	{
+		BlockSize = 101;
+		C = -25.0;
+		Method = cv::ADAPTIVE_THRESH_GAUSSIAN_C;
+		ThresholdType = cv::THRESH_BINARY;
+	}
+	~AdaptiveImageProcParams() {}
+	AdaptiveImageProcParams(const AdaptiveImageProcParams &cpy)
+	{
+		BlockSize = cpy.BlockSize;
+		C = cpy.C;
+		Method = cpy.Method;
+		ThresholdType = cpy.ThresholdType;
+	}
+	AdaptiveImageProcParams(int pMethod, int pThreshType, double pC, int pBlockSize)
+	{
+		Method = pMethod;
+		ThresholdType = pThreshType;
+		C = pC;
+		BlockSize = pBlockSize;
+	}
+
 	int Method;
 	int ThresholdType;
 	double C;

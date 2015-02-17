@@ -41,6 +41,20 @@ private:
 class BenchmarkTestParameters
 {
 public:
+	BenchmarkTestParameters()
+	{
+		MinError = 0;
+	}
+	~BenchmarkTestParameters(){}
+	BenchmarkTestParameters(const BenchmarkTestParameters &cpy)
+	{
+		MinError = cpy.MinError;
+	}
+	BenchmarkTestParameters(double pMinError)
+	{
+		MinError = pMinError;
+	}
+
 	double MinError;
 
 private:
@@ -57,7 +71,17 @@ public:
 	{
 		delete Detector;
 	}
-	
+	BaseDuneDetectorBenchmark(const BaseDuneDetectorBenchmark &cpy)
+	{
+		BenchmarkParams = cpy.BenchmarkParams;
+	}
+	BaseDuneDetectorBenchmark(const BenchmarkTestParameters &params)
+	{
+		BenchmarkParams = params;
+	}
+
+	BenchmarkTestParameters BenchmarkParams;
+
 	BenchmarkResults GetResults(const std::string &testImageFile,
 								const std::string &groundTruthImageFile)
 	{
@@ -67,12 +91,31 @@ public:
 		std::vector<DuneSegment> segments = Detector->Extract(testImg);
 		std::vector<cv::Point> groundTruth = GetGroundTruthPoints(groundTruthImg);
 
-		return GetBenchmarkResults(segments, groundTruth);
+		cv::Mat colorImg = cv::Mat::zeros(groundTruthImg.rows, groundTruthImg.cols, CV_8UC3);
+		for(size_t i = 0; i < segments.size(); ++i)
+		{
+			for(size_t j = 0; j < segments[i].Data.size(); ++j)
+			{
+				cv::Point p = segments[i].Data[j].Position;
+				colorImg.at<cv::Vec3b>(p) = cv::Vec3b(0,0,255);
+			}
+		}
+
+		for(size_t i = 0; i < groundTruth.size(); ++i)
+		{
+			colorImg.at<cv::Vec3b>(groundTruth[i]) = cv::Vec3b(0,255,0);
+		}
+		cv::imshow("Ground Truth Image", colorImg);
+		cv::waitKey(0);
+
+		BenchmarkResults results;
+		//results = GetBenchmarkResults(segments, groundTruth);
+		return results;
 	}
 
 protected:
 	BaseDuneDetector *Detector;
-	BenchmarkTestParameters BenchmarkParams;
+	
 
 	std::vector<cv::Point> GetGroundTruthPoints(const cv::Mat &groundTruthImage)
 	{
@@ -83,9 +126,8 @@ protected:
 			{
 				if(groundTruthImage.at<uchar>(y,x) != 0)
 				{
-					groundTruthLocations.push_back(cv::Point(x,y));
+					groundTruthLocations.push_back(cv::Point(x,y));	
 				}
-			
 			}
 		}
 
@@ -118,7 +160,7 @@ protected:
 			for(size_t j = 0; j < segments.size(); ++j)
 			{
 				double d;
-				cv::Point closest = segments[i].FindClosestPoint(groundTruth[i], d);
+				cv::Point closest = segments[j].FindClosestPoint(groundTruth[i], d);
 				if(d < minDist)
 				{
 					minJ = j;

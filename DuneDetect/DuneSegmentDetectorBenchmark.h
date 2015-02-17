@@ -7,7 +7,7 @@
 namespace dune
 {
 
-class DuneSegmentDetectorBenchmark : BaseDuneDetectorBenchmark
+class DuneSegmentDetectorBenchmark : public BaseDuneDetectorBenchmark
 {
 public:
 	DuneSegmentDetectorBenchmark();
