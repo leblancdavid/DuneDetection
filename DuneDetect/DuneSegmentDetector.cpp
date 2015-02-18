@@ -91,7 +91,7 @@ std::vector<std::vector<cv::Point>> DuneSegmentDetector::GetContours(const cv::M
 	std::vector<std::vector<cv::Point>>::iterator ctrIt = contours.begin();
 	while(i < (int)contours.size())
 	{
-		if((int)contours[i].size() < Parameters.MinContourLength)
+		if((int)contours[i].size() < Parameters.MinSegmentLength)
 		{
 			//I for some reason don't remember how to use iterators...
 			contours.erase(contours.begin()+i);
@@ -102,15 +102,35 @@ std::vector<std::vector<cv::Point>> DuneSegmentDetector::GetContours(const cv::M
 		}
 	}
 
+	cv::Mat smoothedImg;
+	cv::Mat derivativeImg;
+	cv::medianBlur(img, smoothedImg, 9);
+	cv::Sobel(img, derivativeImg, CV_64F, 1, 1, 11);
+	//cv::Laplacian(img, derivativeImg, CV_64F, 9);
 	std::vector<std::vector<cv::Point>> outputSegments;
 	for(size_t i = 0; i < contours.size(); ++i)
 	{
 		std::vector<std::vector<cv::Point>> segments = SplitContourSegments(contours[i]);
 
+		std::vector<double> derivs;
+		double averageMag = 0;
 		for(size_t j = 0; j < segments.size(); ++j)
 		{
-			GaussianSmoothSegment(segments[j]);
-			outputSegments.push_back(segments[j]);
+			double d = CalcSegmentAverageDerivative(derivativeImg, segments[j]);
+			derivs.push_back(d);
+			averageMag += d;
+		}
+		averageMag /= (double)segments.size();
+
+		for(size_t j = 0; j < segments.size(); ++j)
+		{
+			if(derivs[j] < averageMag)
+			{
+				GaussianSmoothSegment(segments[j]);
+				outputSegments.push_back(segments[j]);
+			}
+			//GaussianSmoothSegment(segments[j]);
+			//outputSegments.push_back(segments[j]);
 		}
 	}
 
@@ -139,11 +159,11 @@ std::vector<std::vector<cv::Point>> DuneSegmentDetector::SplitContourSegments(co
 	}
 
 	std::vector<cv::Point> s;
-	for(int i = 0; i < peaks[0]; ++i)
+	for(int i = peaks[peaks.size()-1]; i < contour.size(); ++i)
 	{
 		s.push_back(contour[i]);
 	}
-	for(int i = peaks[peaks.size()-1]; i < contour.size(); ++i)
+	for(int i = 0; i < peaks[0]; ++i)
 	{
 		s.push_back(contour[i]);
 	}
@@ -221,6 +241,19 @@ void DuneSegmentDetector::GaussianSmoothSegment(std::vector<cv::Point> &segment)
 	}
 
 	segment = smoothed;
+}
+
+double DuneSegmentDetector::CalcSegmentAverageDerivative(const cv::Mat &derivativeImg, const std::vector<cv::Point> &segment)
+{
+	double deriv = 0;
+
+	for(size_t i = 0; i < segment.size(); ++i)
+	{
+		deriv += fabs(derivativeImg.at<double>(segment[i]));
+	}
+
+	return deriv / (double)segment.size();
+
 }
 
 }

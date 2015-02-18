@@ -13,24 +13,24 @@ class DuneSegmentDetectorParameters
 public:
 	DuneSegmentDetectorParameters()
 	{
-		MinContourLength = 50;
-		KernelSize = 15;
+		MinSegmentLength = 100;
+		KernelSize = 11;
 		KernelSigma = (double)KernelSize/6.4251;
 	}
 	DuneSegmentDetectorParameters(const DuneSegmentDetectorParameters &cpy)
 	{
-		MinContourLength = cpy.MinContourLength;
+		MinSegmentLength = cpy.MinSegmentLength;
 		KernelSize = cpy.KernelSize;
 		KernelSigma = cpy.KernelSigma;
 	}
 	DuneSegmentDetectorParameters(int pMinContourLength, int pKernelSize, double pKernelSigma)
 	{
-		MinContourLength = pMinContourLength;
+		MinSegmentLength = pMinContourLength;
 		KernelSize = pKernelSize;
 		KernelSigma = pKernelSigma;
 	}
 
-	int MinContourLength;
+	int MinSegmentLength;
 	int KernelSize;
 	double KernelSigma;
 };
@@ -58,6 +58,7 @@ private:
 
 	std::vector<double> CalcContourCurvature(const std::vector<cv::Point> &contour);
 	void GaussianSmoothSegment(std::vector<cv::Point> &contour);
+	double CalcSegmentAverageDerivative(const cv::Mat &derivativeImg, const std::vector<cv::Point> &segment);
 };
 
 }
