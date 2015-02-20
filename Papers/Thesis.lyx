@@ -1,0 +1,223 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 2
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Automated Detection of Dune Crests
+\end_layout
+
+\begin_layout Author
+David Leblanc
+\end_layout
+
+\begin_layout Date
+02/17/15
+\end_layout
+
+\begin_layout Abstract
+TODO
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+TODO
+\end_layout
+
+\begin_layout Section
+Previous Work
+\end_layout
+
+\begin_layout Standard
+TODO
+\end_layout
+
+\begin_layout Section
+Methodology
+\end_layout
+
+\begin_layout Subsection
+Dune Crest Segment Detector
+\end_layout
+
+\begin_layout Subsubsection
+Adaptive Threshold Image Process
+\end_layout
+
+\begin_layout Standard
+Dune crest images typically have a shaded and a light side.
+ Depending on the conditions and image quality, the actual edge or dune
+ crest line may not be clearly defined.
+ Some image processing typically improves the quality and allow the extraction
+ of the dune crest lines.
+\end_layout
+
+\begin_layout Standard
+Many approaches revolve around edge detection, but because the conditions
+ and image quality can vary, edges may not be accurately extracted.
+ In this approach, we use a thresholding method to extract the light side
+ of a dune.
+ Using a fixed threshold may not be sufficient to extract the dunes since
+ the illumination across an image is usually not uniform.
+ An adaptive threshold can be a useful tool to threshold an image with non-unifo
+rm illumination.
+ An example of this type of thresholding is shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:AdaptiveThreshold1"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figures/Kalahari 3 image.jpg
+	scale 25
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figures/Kalahari 3 image.jpg_result.jpg
+	scale 25
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:AdaptiveThreshold1"
+
+\end_inset
+
+Example of an adaptive thresholding method applied on a dune crest image
+ with poor illumination and contrast.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Experiments
+\end_layout
+
+\begin_layout Standard
+TODO
+\end_layout
+
+\begin_layout Section
+Results
+\end_layout
+
+\begin_layout Standard
+TODO
+\end_layout
+
+\begin_layout Section
+Conclusion
+\end_layout
+
+\begin_layout Standard
+TODO.
+\end_layout
+
+\begin_layout Section*
+References
+\end_layout
+
+\end_body
+\end_document

@@ -102,10 +102,10 @@ public:
 			}
 		}
 
-		for(size_t i = 0; i < groundTruth.size(); ++i)
-		{
-			colorImg.at<cv::Vec3b>(groundTruth[i])[1] = 255;// = cv::Vec3b(0,255,0);
-		}
+		//for(size_t i = 0; i < groundTruth.size(); ++i)
+		//{
+		//	colorImg.at<cv::Vec3b>(groundTruth[i])[1] = 255;// = cv::Vec3b(0,255,0);
+		//}
 		cv::imshow("Ground Truth Image", colorImg);
 		cv::waitKey(0);
 

@@ -6,16 +6,16 @@ namespace dune
 DuneSegmentDetector::DuneSegmentDetector() 
 {
 	ImageProcess = new AdaptiveImageProcessor();
-	InitCurvatureKernel(Parameters.KernelSize, Parameters.KernelSigma);
-	InitGaussianKernel(Parameters.KernelSize, Parameters.KernelSigma);
+	InitCurvatureKernel(Parameters.CurvatureKernelSize, Parameters.CurvatureKernelSigma);
+	InitGaussianKernel(Parameters.GaussianKernelSize, Parameters.GaussianKernelSigma);
 }
 
 DuneSegmentDetector::DuneSegmentDetector(BaseImageProcessor* imgproc, const DuneSegmentDetectorParameters &params) 
 {
 	ImageProcess = imgproc;
 	Parameters = params;
-	InitCurvatureKernel(Parameters.KernelSize, Parameters.KernelSigma);
-	InitGaussianKernel(Parameters.KernelSize, Parameters.KernelSigma);
+	InitCurvatureKernel(Parameters.CurvatureKernelSize, Parameters.CurvatureKernelSigma);
+	InitGaussianKernel(Parameters.GaussianKernelSize, Parameters.GaussianKernelSigma);
 }
 
 DuneSegmentDetector::~DuneSegmentDetector() 
@@ -102,14 +102,17 @@ std::vector<std::vector<cv::Point>> DuneSegmentDetector::GetContours(const cv::M
 		}
 	}
 
-	cv::Mat smoothedImg;
+	
 	cv::Mat derivativeImg;
-	cv::medianBlur(img, smoothedImg, 9);
-	cv::Sobel(img, derivativeImg, CV_64F, 1, 1, 11);
-	//cv::Laplacian(img, derivativeImg, CV_64F, 9);
+	//cv::Mat smoothedImg;
+	//cv::GaussianBlur(img, smoothedImg, cv::Size(Parameters.KernelSize,Parameters.KernelSize),Parameters.KernelSigma, Parameters.KernelSigma);
+	//cv::Sobel(img, derivativeImg, CV_64F, 1, 1, 15);
+	cv::Laplacian(img, derivativeImg, CV_64F, 15);
 	std::vector<std::vector<cv::Point>> outputSegments;
 	for(size_t i = 0; i < contours.size(); ++i)
 	{
+		//smooth first
+		GaussianSmoothSegment(contours[i]);
 		std::vector<std::vector<cv::Point>> segments = SplitContourSegments(contours[i]);
 
 		std::vector<double> derivs;
@@ -117,20 +120,34 @@ std::vector<std::vector<cv::Point>> DuneSegmentDetector::GetContours(const cv::M
 		for(size_t j = 0; j < segments.size(); ++j)
 		{
 			double d = CalcSegmentAverageDerivative(derivativeImg, segments[j]);
-			derivs.push_back(d);
 			averageMag += d;
 		}
 		averageMag /= (double)segments.size();
 
 		for(size_t j = 0; j < segments.size(); ++j)
 		{
-			if(derivs[j] < averageMag)
+			derivs = CalcContourDerivative(derivativeImg, segments[j]);
+			double ratio = 0;
+			for(size_t k = 0; k < derivs.size(); ++k)
 			{
-				GaussianSmoothSegment(segments[j]);
+				if(derivs[k] < averageMag)
+				{
+					ratio++;
+				}
+			}
+
+			//outputSegments.push_back(segments[j]);
+
+			ratio /= (double)derivs.size();
+			if(ratio > 0.5)
+			{
 				outputSegments.push_back(segments[j]);
 			}
-			//GaussianSmoothSegment(segments[j]);
-			//outputSegments.push_back(segments[j]);
+
+			/*if(derivs[j] < averageMag)
+			{
+				outputSegments.push_back(segments[j]);
+			}*/
 		}
 	}
 
@@ -158,28 +175,38 @@ std::vector<std::vector<cv::Point>> DuneSegmentDetector::SplitContourSegments(co
 		}
 	}
 
+	if(peaks.size() < 1)
+	{
+		segments.push_back(contour);
+		return segments;
+	}
+
+	int buffer = 1;
 	std::vector<cv::Point> s;
-	for(int i = peaks[peaks.size()-1]; i < contour.size(); ++i)
+	for(int i = peaks[peaks.size()-1] + buffer; i < contour.size(); ++i)
 	{
 		s.push_back(contour[i]);
 	}
-	for(int i = 0; i < peaks[0]; ++i)
+	for(int i = 0; i < peaks[0] - buffer; ++i)
 	{
 		s.push_back(contour[i]);
 	}
-	segments.push_back(s);
+	if(s.size() > 0)
+		segments.push_back(s);
 
 	for(int i = 0; i < peaks.size()-1; ++i)
 	{
-		int start = peaks[i];
-		int end =  peaks[i+1]; 
+		int start = peaks[i] + buffer;
+		int end =  peaks[i+1] - buffer; 
 		s.clear();
 		while(start < end)
 		{
 			s.push_back(contour[start]);
 			start++;
 		}
-		segments.push_back(s);
+
+		if(s.size() > 0)
+			segments.push_back(s);
 	}
 
 	return segments;
@@ -189,30 +216,24 @@ std::vector<std::vector<cv::Point>> DuneSegmentDetector::SplitContourSegments(co
 
 std::vector<double> DuneSegmentDetector::CalcContourCurvature(const std::vector<cv::Point> &contour)
 {
-	std::vector<cv::Point> cntrTemp = contour;
 	std::vector<double> curvature(contour.size());
-	for(int i = 0; i < Parameters.KernelSize; ++i)
-	{
-		cntrTemp.push_back(cntrTemp[i]);
-	}
-	for(size_t i = 0; i < contour.size(); ++i)
+	for(int i = 0; i < (int)contour.size(); ++i)
 	{
 		double c_x = 0;
 		double c_y = 0;
-		for(size_t j = 0; j < CurvatureKernel.size(); ++j)
+		for(int j = 0; j < (int)CurvatureKernel.size(); ++j)
 		{
-			c_x = cntrTemp[i+j].x * CurvatureKernel[j];
-			c_y = cntrTemp[i+j].y * CurvatureKernel[j];
+			int index = i + j - Parameters.CurvatureKernelSize/2;
+			if(index < 0)
+				index = (int)CurvatureKernel.size()-index;
+			if(index >= CurvatureKernel.size())
+				index = index-(int)CurvatureKernel.size();
+
+			c_x += contour[index].x * CurvatureKernel[j];
+			c_y += contour[index].y * CurvatureKernel[j];
 		}
 
 		curvature[i] = c_x*c_x + c_y*c_y;
-	}
-
-	for(int i = 0; i < Parameters.KernelSize/2; ++i)
-	{
-		double last = curvature[curvature.size()-1];
-		curvature.pop_back();
-		curvature.insert(curvature.begin(), last);
 	}
 
 	return curvature;
@@ -225,13 +246,13 @@ void DuneSegmentDetector::GaussianSmoothSegment(std::vector<cv::Point> &segment)
 	for(int i = 0; i < segment.size(); ++i)
 	{
 		cv::Point2d avg(0,0);
-		for(int j = 0; j < Parameters.KernelSize; ++j)
+		for(int j = 0; j < Parameters.GaussianKernelSize; ++j)
 		{
-			int index = i + j - Parameters.KernelSize/2;
+			int index = i + j - Parameters.GaussianKernelSize/2;
 			if(index < 0)
-				index = 0;
+				index = segment.size()-index;
 			if(index >= segment.size())
-				index = segment.size()-1;
+				index = index-segment.size();
 
 			avg.x += GaussianKernel[j]*segment[index].x;
 			avg.y += GaussianKernel[j]*segment[index].y;
@@ -241,6 +262,18 @@ void DuneSegmentDetector::GaussianSmoothSegment(std::vector<cv::Point> &segment)
 	}
 
 	segment = smoothed;
+}
+
+std::vector<double> DuneSegmentDetector::CalcContourDerivative(const cv::Mat &derivativeImg, const std::vector<cv::Point> &segment)
+{
+	std::vector<double> values;
+
+	for(size_t i = 0; i < segment.size(); ++i)
+	{
+		values.push_back(fabs(derivativeImg.at<double>(segment[i])));
+	}
+
+	return values;
 }
 
 double DuneSegmentDetector::CalcSegmentAverageDerivative(const cv::Mat &derivativeImg, const std::vector<cv::Point> &segment)
