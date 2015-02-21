@@ -14,7 +14,6 @@ namespace dune
 		~BaseImageProcessor() {};
 
 		virtual void Process(const cv::Mat &inputImg, cv::Mat &outputImg)=0;
-		
 	};
 
 }

@@ -31,8 +31,8 @@ void AdaptiveImageProcessor::Process(const cv::Mat &inputImg, cv::Mat &outputImg
 	cv::erode(outputImg, outputImg, cv::Mat(), cv::Point(-1,-1), 1);
 	cv::dilate(outputImg, outputImg, cv::Mat(), cv::Point(-1,-1), 1);
 
-	//cv::imshow("AdaptiveTheshold Result", outputImg);
-	//cv::waitKey(0);
+	cv::imshow("AdaptiveTheshold Result", outputImg);
+	cv::waitKey(0);
 
 }
 

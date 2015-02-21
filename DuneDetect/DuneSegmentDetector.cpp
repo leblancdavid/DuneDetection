@@ -104,54 +104,97 @@ std::vector<std::vector<cv::Point>> DuneSegmentDetector::GetContours(const cv::M
 
 	
 	cv::Mat derivativeImg;
-	//cv::Mat smoothedImg;
-	//cv::GaussianBlur(img, smoothedImg, cv::Size(Parameters.KernelSize,Parameters.KernelSize),Parameters.KernelSigma, Parameters.KernelSigma);
-	//cv::Sobel(img, derivativeImg, CV_64F, 1, 1, 15);
-	cv::Laplacian(img, derivativeImg, CV_64F, 15);
+	cv::Mat smoothedImg;
+	//cv::medianBlur(img, smoothedImg, 7);
+	//cv::GaussianBlur(img, smoothedImg, cv::Size(7,7), 1.5);
+	//cv::Sobel(img, derivativeImg, CV_64F, 1, 1, Parameters.DerivativeSize);
+	cv::Laplacian(img, derivativeImg, CV_64F, Parameters.DerivativeSize);
 	std::vector<std::vector<cv::Point>> outputSegments;
 	for(size_t i = 0; i < contours.size(); ++i)
 	{
 		//smooth first
 		GaussianSmoothSegment(contours[i]);
-		std::vector<std::vector<cv::Point>> segments = SplitContourSegments(contours[i]);
+		outputSegments.push_back(FilterSegmentFromDerivative(derivativeImg, contours[i]));
 
-		std::vector<double> derivs;
-		double averageMag = 0;
-		for(size_t j = 0; j < segments.size(); ++j)
-		{
-			double d = CalcSegmentAverageDerivative(derivativeImg, segments[j]);
-			averageMag += d;
-		}
-		averageMag /= (double)segments.size();
+		//std::vector<std::vector<cv::Point>> segments = SplitContourSegments(contours[i]);
 
-		for(size_t j = 0; j < segments.size(); ++j)
-		{
-			derivs = CalcContourDerivative(derivativeImg, segments[j]);
-			double ratio = 0;
-			for(size_t k = 0; k < derivs.size(); ++k)
-			{
-				if(derivs[k] < averageMag)
-				{
-					ratio++;
-				}
-			}
+		//std::vector<double> derivs;
+		//double averageMag = 0;
+		//for(size_t j = 0; j < segments.size(); ++j)
+		//{
+		//	double d = CalcSegmentAverageDerivative(derivativeImg, segments[j]);
+		//	averageMag += d;
+		//}
+		//averageMag /= (double)segments.size();
 
-			//outputSegments.push_back(segments[j]);
+		//for(size_t j = 0; j < segments.size(); ++j)
+		//{
+		//	derivs = CalcContourDerivative(derivativeImg, segments[j]);
+		//	double ratio = 0;
+		//	for(size_t k = 0; k < derivs.size(); ++k)
+		//	{
+		//		if(derivs[k] < averageMag)
+		//		{
+		//			ratio++;
+		//		}
+		//	}
 
-			ratio /= (double)derivs.size();
-			if(ratio > 0.5)
-			{
-				outputSegments.push_back(segments[j]);
-			}
+		//	outputSegments.push_back(segments[j]);
 
-			/*if(derivs[j] < averageMag)
-			{
-				outputSegments.push_back(segments[j]);
-			}*/
-		}
+		//	/*ratio /= (double)derivs.size();
+		//	if(ratio > 0.5)
+		//	{
+		//		outputSegments.push_back(segments[j]);
+		//	}*/
+
+		//	/*if(derivs[j] < averageMag)
+		//	{
+		//		outputSegments.push_back(segments[j]);
+		//	}*/
+		//}
 	}
 
 	return outputSegments;
+}
+
+std::vector<cv::Point> DuneSegmentDetector::FilterSegmentFromDerivative(const cv::Mat &deriv, const std::vector<cv::Point> &contour)
+{
+	std::vector<double> values(contour.size());
+
+	double average = 0;
+	for(size_t i = 0; i < contour.size(); ++i)
+	{
+		values[i] = fabs(deriv.at<double>(contour[i]));
+		average += values[i];
+	}
+	average /= (double)contour.size();
+
+
+	std::vector<cv::Point> filtered;
+	for(int i = 0; i < values.size(); ++i)
+	{
+		double count = 0;
+		for(int j = 0; j < Parameters.GaussianKernelSize; ++j)
+		{
+			int index = i + j - Parameters.GaussianKernelSize/2;
+			if(index < 0)
+				index = values.size()-index;
+			if(index >= values.size())
+				index = index-values.size();
+
+			if(values[index] < average)
+			{
+				count++;
+			}
+		}
+		count /= (double)Parameters.GaussianKernelSize;
+		if(count > 0.8)
+		{
+			filtered.push_back(contour[i]);
+		}
+	}
+
+	return filtered;
 }
 
 std::vector<std::vector<cv::Point>> DuneSegmentDetector::SplitContourSegments(const std::vector<cv::Point> &contour)
@@ -181,7 +224,7 @@ std::vector<std::vector<cv::Point>> DuneSegmentDetector::SplitContourSegments(co
 		return segments;
 	}
 
-	int buffer = 1;
+	int buffer = 0;
 	std::vector<cv::Point> s;
 	for(int i = peaks[peaks.size()-1] + buffer; i < contour.size(); ++i)
 	{
