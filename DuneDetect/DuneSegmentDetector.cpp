@@ -60,6 +60,8 @@ std::vector<DuneSegment> DuneSegmentDetector::Extract(const cv::Mat &img)
 	cv::Mat processedImage;
 	ImageProcess->Process(img, processedImage);
 
+	//cv::imshow("AdaptiveTheshold Result", processedImage);
+	//cv::waitKey(0);
 	std::vector<DuneSegment> duneSegs;
 	std::vector<std::vector<cv::Point>> contours = GetContours(processedImage);
 
