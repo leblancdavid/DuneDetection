@@ -16,9 +16,9 @@ public:
 		MinSegmentLength = 100;
 		GaussianKernelSize = 21;
 		GaussianKernelSigma = (double)GaussianKernelSigma/6.4251;
-		CurvatureKernelSize = 21;
+		CurvatureKernelSize = 51;
 		CurvatureKernelSigma = (double)CurvatureKernelSize/6.4251;
-		DerivativeSize = 15;
+		DerivativeSize = 5;
 	}
 	DuneSegmentDetectorParameters(const DuneSegmentDetectorParameters &cpy)
 	{

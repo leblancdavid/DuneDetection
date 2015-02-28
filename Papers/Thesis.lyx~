@@ -65,7 +65,7 @@
 \begin_body
 
 \begin_layout Title
-Automated Detection of Dune Crests
+Automated Dune Crest Line Detection
 \end_layout
 
 \begin_layout Author
@@ -73,7 +73,7 @@ David Leblanc
 \end_layout
 
 \begin_layout Date
-02/17/15
+02/25/15
 \end_layout
 
 \begin_layout Abstract
@@ -125,6 +125,14 @@ Many approaches revolve around edge detection, but because the conditions
  the illumination across an image is usually not uniform.
  An adaptive threshold can be a useful tool to threshold an image with non-unifo
 rm illumination.
+ An example of this type of thresholding is shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:AdaptiveThreshold1"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -134,9 +142,10 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename Figures/Kalahari 3 image.jpg
-	scale 50
+	scale 23
 
 \end_inset
 
@@ -144,9 +153,10 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename Figures/Kalahari 3 image.jpg_result.jpg
-	scale 50
+	scale 23
 
 \end_inset
 
@@ -172,6 +182,411 @@ Example of an adaptive thresholding method applied on a dune crest image
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Dune Crest Line Extraction
+\end_layout
+
+\begin_layout Standard
+Once the image has been preprocessed, the bright regions can extracted from
+ the resulting binary image.
+ As shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:AdaptiveThreshold1"
+
+\end_inset
+
+, the bright regions shown consist of the sun illuminated side of the dunes
+ and some noise.
+ 
+\end_layout
+
+\begin_layout Standard
+From the regions, contours can be extracted, which can be filtered by size
+ of the region.
+ Smaller regions are considered as noise, and can be rejected from the potential
+ dune candidates.
+ The remaining region contours are used as potential candidates for dune
+ crest lines.
+ From the coutours, figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:AdaptiveThreshold1"
+
+\end_inset
+
+ shows that typically one of the edges of the contour is located very nearly
+ on the dune crest line.
+ On the opposite side of the region is essentially the base of the dune.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Contour-extraction-from"
+
+\end_inset
+
+ shows the results of the extracting the contours from the processed image.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figures/ContourResults.jpg
+	scale 23
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Contour-extraction-from"
+
+\end_inset
+
+Contour extraction from binary processed image
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Because the regions tend to be noisy, the contours are therefore smoothed
+ using a Gaussian kernel, define as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+G\left(i\right)=\frac{1}{\sqrt{2\pi}\sigma}e^{\frac{-i^{2}}{2\sigma^{2}}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The Gaussian kernel is convolved on the contour, which a collection of two
+ dimentional points (x,y).
+ The result of this convolution is a smoother contour which can be more
+ reliably used as a dune crest line candidate.
+\end_layout
+
+\begin_layout Standard
+Typically, the dune crest lines are located on an area in the image where
+ the derivatives are larger, or consistant along the edge of the dune.
+ For each contour, the average magnitude 
+\emph on
+μ
+\emph default
+ of the derivative 
+\emph on
+δ
+\emph default
+(
+\emph on
+i
+\emph default
+) of the image in the 
+\emph on
+x
+\emph default
+ and 
+\emph on
+y
+\emph default
+ directions is computed.
+ Then, for each point within a contour compares its derivative with 
+\emph on
+K
+\emph default
+ neighbor's gradient magnitudes.
+ Dune crest line candidate points will tend to have neighbors with similarly
+ and consistantly high gradients.
+ To determine if a point 
+\emph on
+P
+\emph default
+(
+\emph on
+i
+\emph default
+) on a contour belongs on the dune crest line, we use the following criteria
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P\left(i\right)=\begin{cases}
+1 & \phi(i)\geq r\\
+0 & otherwise
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\phi(i)=\frac{\sum_{k=0}^{K}\begin{cases}
+1 & \delta\left(k\right)\geq\mu\\
+0 & \delta\left(k\right)<\mu
+\end{cases}}{K}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and 
+\begin_inset Formula $0<r\leq1$
+\end_inset
+
+, which is the ratio of how many strong consistant edges to neighbors around
+ a point 
+\emph on
+i
+\emph default
+ on the contour.
+ Typically, 
+\emph on
+r
+\emph default
+ would be larger than 0.5, which means most of the neighbors of a point most
+ have strong edges for a point to be considered a dune crest line candidate.
+ The parameter 
+\emph on
+r
+\emph default
+ can be fine tune to allow more or less points to fit the criteria.
+ This method will group common contour points based on gradient magnitude.
+\end_layout
+
+\begin_layout Standard
+Once the dune crest line candidates on the contour have been extracted,
+ the contour can be split into contiguous crest line segments.
+ Some further processing can be applied to the segments, such as filtering
+ out smaller or less significant segments (potential false positives).
+ More work needs to be done in this area.
+\end_layout
+
+\begin_layout Subsection
+Dune Morphology
+\end_layout
+
+\begin_layout Standard
+With the reliable crest line data extracted, morphology parameters of the
+ target image can be computed.
+ The desired properties include crest line lenght, dune scale, distance
+ between dune crests, and other properties.
+ TODO (more research on this later).
+\end_layout
+
+\begin_layout Section
+Experiments
+\end_layout
+
+\begin_layout Standard
+Since the goal of this project is to automatically segment dune crest lines,
+ a dataset of images with labeled ground truth is used to measure the accuracy
+ of the dune detection algorithm.
+ The current dataset is a small sample set of six images taken from different
+ regions, at various scale and various illuminations.
+ The regions include: Kalahari, Namib, Simpson, Skeleton Coast, WDC, and
+ White Sands, as shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Dune-dataset-with"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+TODO.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide true
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+(1)
+\begin_inset Graphics
+	filename C:/Users/David/Documents/Research/DuneDetect/DuneDataset/Kalahari 3/Kalahari 3 image.jpg
+	scale 15
+
+\end_inset
+
+ 
+\begin_inset Graphics
+	filename C:/Users/David/Documents/Research/DuneDetect/DuneDataset/Kalahari 3/Kalahari 3_gt.jpg
+	scale 15
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+(2) 
+\begin_inset Graphics
+	filename C:/Users/David/Documents/Research/DuneDetect/DuneDataset/Namib 2/Namib 2 image.jpg
+	scale 15
+
+\end_inset
+
+ 
+\begin_inset Graphics
+	filename C:/Users/David/Documents/Research/DuneDetect/DuneDataset/Namib 2/Namib 2_gt.jpg
+	scale 15
+	clip
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+(3) 
+\begin_inset Graphics
+	filename C:/Users/David/Documents/Research/DuneDetect/DuneDataset/Simpson 1/Simpson 1_image.jpg
+	scale 15
+
+\end_inset
+
+ 
+\begin_inset Graphics
+	filename C:/Users/David/Documents/Research/DuneDetect/DuneDataset/Simpson 1/Simpson 1_gt.jpg
+	scale 15
+	clip
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+(4) 
+\begin_inset Graphics
+	filename C:/Users/David/Documents/Research/DuneDetect/DuneDataset/Skeleton Coast 3/Skeleton Coast 3_image.jpg
+	scale 15
+
+\end_inset
+
+ 
+\begin_inset Graphics
+	filename C:/Users/David/Documents/Research/DuneDetect/DuneDataset/Skeleton Coast 3/Skeleton Coast 3_gt.jpg
+	scale 15
+	clip
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+(5) 
+\begin_inset Graphics
+	filename C:/Users/David/Documents/Research/DuneDetect/DuneDataset/WDC 1/WDC_1_image.jpg
+	scale 15
+
+\end_inset
+
+ 
+\begin_inset Graphics
+	filename C:/Users/David/Documents/Research/DuneDetect/DuneDataset/WDC 1/WDC_1_gt.jpg
+	scale 15
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+(6) 
+\begin_inset Graphics
+	filename C:/Users/David/Documents/Research/DuneDetect/DuneDataset/White Sands 2/White Sands_2_image.jpg
+	scale 15
+
+\end_inset
+
+ 
+\begin_inset Graphics
+	filename C:/Users/David/Documents/Research/DuneDetect/DuneDataset/White Sands 2/White Sands_2_gt.jpg
+	scale 15
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Dune-dataset-with"
+
+\end_inset
+
+Dune dataset with corresponding dune crest line ground truth map.
+ The images are labeled as (1) Kalahari, (2) Namib, (3) Simpson, (4) Skeleton
+ Coast, (5) WDC, and (6) White Sands.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Plain Layout
 
 \end_layout
@@ -182,19 +597,433 @@ Example of an adaptive thresholding method applied on a dune crest image
 \end_layout
 
 \begin_layout Section
-Experiments
-\end_layout
-
-\begin_layout Standard
-TODO
-\end_layout
-
-\begin_layout Section
 Results
 \end_layout
 
 \begin_layout Standard
-TODO
+The dune line crest detector is applied to the labeled benchmark images
+ shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Dune-dataset-with"
+
+\end_inset
+
+.
+ The results we are interested in for detection purposes are the true positives
+ (correctly detected dune lines) and false positive (segments that are not
+ dunes).
+ The results are computed in a brute force manner:
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+\bar under
+True Positives
+\series default
+\bar default
+: The 
+\emph on
+TP
+\emph default
+s are computed by taking each ground truth pixel, and finding the nearest
+ detected dune segment pixel.
+ If the distance between the nearest detected and the ground truth is smaller
+ than some error 
+\emph on
+e
+\emph default
+, the ground truth is considered to be detected.
+ The 
+\emph on
+TP
+\emph default
+ rate is then the number of correctly identified ground truth points, over
+ the total number of ground truth points.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+\bar under
+False Positives
+\series default
+\bar default
+: The 
+\emph on
+FP
+\emph default
+s are computed by taking each detected dune candidate, and finding the nearest
+ ground truth point.
+ If that distance is greater than some error 
+\emph on
+e
+\emph default
+, then the detected dune candidate is a false positive.
+ The 
+\emph on
+FP
+\emph default
+ rate is then expressed as the number of incorrectly detected dune points
+ over the total number of dune points detected.
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+TP
+\emph default
+ and 
+\emph on
+FP
+\emph default
+ rates are shown in table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Results-of-the"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Images
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\emph on
+TP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\emph on
+FP
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Kalahari
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.7094
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.2178
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Namib
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.7493
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.6026
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Simpson
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.1364
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.6512
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Skeleton Coast
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.8033
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.3253
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+WDC
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.5581
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.3731
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+White Sands
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.2614
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.6926
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Results-of-the"
+
+\end_inset
+
+Results of the dune segment detection algorithm for the benchmark dataset
+ using a value of 
+\emph on
+e
+\emph default
+ = 5 pixels.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+(1)
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figures/Kalahari Results001.jpg
+	scale 23
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+(2)
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figures/Simpson Results001.jpg
+	scale 23
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+(3)
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figures/Skeleton Coast Results001.jpg
+	scale 23
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Dune detection results (red) compared to the ground truth (green), overall
+ is shown in yellow.
+ Shown are results for (1) Kalahari, (2) Simpson, and (3) Skeleton Coast
+ benchmark images 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section

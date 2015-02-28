@@ -65,6 +65,13 @@ std::vector<DuneSegment> DuneSegmentDetector::Extract(const cv::Mat &img)
 	std::vector<DuneSegment> duneSegs;
 	std::vector<std::vector<cv::Point>> contours = GetContours(processedImage);
 
+	/*cv::Mat colorImg;
+	cv::cvtColor(img, colorImg, CV_GRAY2BGR);
+	cv::drawContours(colorImg, contours, -1, cv::Scalar(0,0,255),2);
+	cv::imwrite("ContourResults.jpg", colorImg);*/
+	//cv::imshow("Contours", colorImg);
+	//cv::waitKey(0);
+
 	for(size_t i = 0; i < contours.size(); ++i)
 	{
 		DuneSegment s;
@@ -74,12 +81,6 @@ std::vector<DuneSegment> DuneSegmentDetector::Extract(const cv::Mat &img)
 		}
 		duneSegs.push_back(s);
 	}
-
-	/*cv::Mat colorImg;
-	cv::cvtColor(img, colorImg, CV_GRAY2BGR);
-	cv::drawContours(colorImg, contours, -1, cv::Scalar(0,0,255),2);
-	cv::imshow("Contours", colorImg);
-	cv::waitKey(0);*/
 
 	return duneSegs;
 }
