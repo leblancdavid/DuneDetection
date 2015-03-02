@@ -274,22 +274,7 @@ key "Ewing_Peyret_Kocurek_Bourke"
 \end_layout
 
 \begin_layout Standard
-In the most recent work, 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Multi_spatial_analysis_aeolian_dune_field_patterns"
 
-\end_inset
-
- study the aeolian dune-fields at different scales.
-\end_layout
-
-\begin_layout Subsection
-Image Processing Techniques
-\end_layout
-
-\begin_layout Standard
-HERE WILL GO PAPERS DEALING WITH THE IMAGE PROCESSING ASPECT OF THE PROJECT.
 \end_layout
 
 \begin_layout Subsection
@@ -347,7 +332,7 @@ Methodology
 \end_layout
 
 \begin_layout Subsection
-Dune Detector: Approach #1
+Dune Crest Segment Detector
 \end_layout
 
 \begin_layout Subsubsection

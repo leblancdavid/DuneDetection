@@ -1,5 +1,5 @@
-#LyX 2.0 created this file. For more info see http://www.lyx.org/
-\lyxformat 413
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
 \begin_document
 \begin_header
 \textclass article
@@ -12,13 +12,13 @@
 \font_roman default
 \font_sans default
 \font_typewriter default
+\font_math auto
 \font_default_family default
 \use_non_tex_fonts false
 \font_sc false
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
-
 \graphics default
 \default_output_format default
 \output_sync 0
@@ -29,15 +29,24 @@
 \use_hyperref false
 \papersize default
 \use_geometry true
-\use_amsmath 1
-\use_esint 1
-\use_mhchem 1
-\use_mathdots 1
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
 \cite_engine basic
+\cite_engine_type default
+\biblio_style plain
 \use_bibtopic false
 \use_indices false
 \paperorientation portrait
 \suppress_date false
+\justification true
 \use_refstyle 1
 \index Index
 \shortcut idx
@@ -47,6 +56,7 @@
 \topmargin 2cm
 \rightmargin 2cm
 \bottommargin 2cm
+\columnsep 1cm
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
@@ -65,7 +75,7 @@
 \begin_body
 
 \begin_layout Title
-Automated Dune Crest Line Detection
+Automated Dune Crestline Detection
 \end_layout
 
 \begin_layout Author
@@ -92,8 +102,270 @@ TODO
 Previous Work
 \end_layout
 
+\begin_layout Subsection
+
+\color red
+Dune Pattern Studies
+\end_layout
+
 \begin_layout Standard
-TODO
+
+\color red
+In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kocurek_Ewing"
+
+\end_inset
+
+, an explanation of how dune-field patterns emerge and addresses the degree
+ of complexity from the standpoint of self-organizing system.
+ Dune patterns are classified into two basic categories: simple or complex.
+ According to this paper, a simple pattern is defined as having a single
+ pattern type.
+ Complex patterns are said to potentially have multiple spatially superimposed
+ pattern types.
+ Simple patterns trend towards a better ordering, so long as the wind regime
+ remains constant.
+ Changes in the trend of wind pattern will cause reorientation.
+ Complex patterns can then be interpreted as the superposition of many generatio
+ns of wind regimes.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Complexity can be measured using pattern analysis, measuring parameters
+ such as the crest length, orientation, spacing, defect density, and other
+ properties.
+ These properties would be very useful information to extract for the dune
+ detection.
+ Finding crest-lines can help us identify the patterns, extracting meanful
+ data such as junctions, terminations, mergers, linking, and other interesting
+ processes explained in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kocurek_Ewing"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In later work, 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Ewing_Peyret_Kocurek_Bourke"
+
+\end_inset
+
+ studied the dune field pattern formations on the north polar region of
+ Mars.
+ These dunes are thought to be mostly inactive, with relative no movement
+ over a period of 4 to15 martian years.
+ The reason this region is interesting is because there are two nearly orthogona
+l crestline orientations present in the region.
+ This complex system of superposition of multiple patterns in this example
+ showcase a set of 
+\emph on
+primary
+\emph default
+ and 
+\emph on
+secondary
+\emph default
+ crestlines which would be valuable data to automatically segment.
+ The 
+\emph on
+primary
+\emph default
+ dunes are the largest-scale dunes, extend over the entire lenght of the
+ image set, and contain many 
+\emph on
+Y 
+\emph default
+junctions, an indication of well-organized linear dunes.
+ In contrast, 
+\emph on
+secondary
+\emph default
+ dunes are rounded, have least defined features, and are perpendicular to
+ the main primary crestlines.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Other interesting features are the so-called 
+\emph on
+Slipfaces
+\emph default
+.
+ These typically appear along the 
+\emph on
+primary
+\emph default
+ crestlines, in areas of intersection with the 
+\emph on
+primary
+\emph default
+ and 
+\emph on
+secondary
+\emph default
+ crestlines.
+ Another feature are the 
+\emph on
+Wind Ripples
+\emph default
+.
+ The ripples are present on the surface of most dunes with the exception
+ of 
+\emph on
+slipfaces
+\emph default
+.
+ To detect these types of features, a higher resolution image is a required,
+ as those types of features are very small compared to the scale of the
+ 
+\emph on
+primary
+\emph default
+ and 
+\emph on
+secondary
+\emph default
+ dunes.
+ 
+\emph on
+Interdune Areas
+\emph default
+ are features specific to the area studied in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Ewing_Peyret_Kocurek_Bourke"
+
+\end_inset
+
+, have a polygonal shape, and are indicative of ice.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+The rest of the paper describes an in depth statiscal analysis of the features
+ to compute the flow fields and understand the geomorphic relationships
+ which are present in the area
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\color red
+The paper 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Ewing_Peyret_Kocurek_Bourke"
+
+\end_inset
+
+ provides a lot of interesting and valuable information which can be used
+ to understand the application of automatic dune detection.
+ If these features can be extracted, it would be interesting to see if we
+ can do a similar statistical analysis based on the results presented.
+ The next step would be to retrieve the HiRISE dataset and their data or
+ ground truth to compare.
+ 
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In the most recent work, 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Multi_spatial_analysis_aeolian_dune_field_patterns"
+
+\end_inset
+
+ study the aeolian dune-fields at different scales.
+\end_layout
+
+\begin_layout Subsection
+
+\color red
+Image Processing Techniques
+\end_layout
+
+\begin_layout Standard
+
+\color red
+HERE WILL GO PAPERS DEALING WITH THE IMAGE PROCESSING ASPECT OF THE PROJECT.
+\end_layout
+
+\begin_layout Subsection
+
+\color red
+Automated Dune Detection
+\end_layout
+
+\begin_layout Standard
+
+\color red
+There has been some work done in automated dune detection.
+ In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "BandeiraMarques"
+
+\end_inset
+
+, a supervised learning approach is used, training classifiers such as Support
+ Vector Machine and Random Forests to detect dune structures on Mars.
+ The method proposed in this paper is to classify small (40 by 40 pixels)
+ cells in a quantized image grid.
+ In each cells features are computed based on the image gradients, using
+ both phase and magnitude.
+ In order to classify a cell as either a dune or not a dune, the features
+ of both the cell and the cell's neighboring cells are used.
+ The features extracted are then used to train the machine learning method,
+ which is used to then predict if a cell is a dune.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Although this type of method has typically shown very good results, there
+ are a few drawbacks with using supervised learning approaches.
+ These types of methods usually require a fairly large labelled dataset
+ which may not always be available.
+ Anytime a dataset is constructed for this purpose, it is important to provide
+ a large number of examples of different types of dunes, in order to get
+ a robust representation of the problem set.
+ In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "BandeiraMarques"
+
+\end_inset
+
+, 230 labelled images were used to train and test the method, and have a
+ decent representation of various dune types.
+ Another drawback of this approach is the use of cells, for which fixed-sized
+ cells may not be scale invariant.
+ Also, quantizing an image into largers cells will affect localization accuracy
+ of the dunes.
+ If the application requires higher localization accuracy, this type of
+ surpervised learning approach may not be suitable.
 \end_layout
 
 \begin_layout Section
@@ -101,7 +373,7 @@ Methodology
 \end_layout
 
 \begin_layout Subsection
-Dune Crest Segment Detector
+Dune Detector: Approach #1
 \end_layout
 
 \begin_layout Subsubsection
@@ -139,7 +411,7 @@ reference "fig:AdaptiveThreshold1"
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -164,7 +436,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 \begin_inset CommandInset label
@@ -237,7 +509,7 @@ reference "fig:Contour-extraction-from"
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -251,7 +523,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 \begin_inset CommandInset label
@@ -454,14 +726,14 @@ status collapsed
 \align center
 (1)
 \begin_inset Graphics
-	filename C:/Users/David/Documents/Research/DuneDetect/DuneDataset/Kalahari 3/Kalahari 3 image.jpg
+	filename Figures/Kalahari 3 image.jpg
 	scale 15
 
 \end_inset
 
  
 \begin_inset Graphics
-	filename C:/Users/David/Documents/Research/DuneDetect/DuneDataset/Kalahari 3/Kalahari 3_gt.jpg
+	filename Figures/Kalahari 3_gt.jpg
 	scale 15
 
 \end_inset
@@ -473,14 +745,14 @@ status collapsed
 \align center
 (2) 
 \begin_inset Graphics
-	filename C:/Users/David/Documents/Research/DuneDetect/DuneDataset/Namib 2/Namib 2 image.jpg
+	filename Figures/Namib 2 image.jpg
 	scale 15
 
 \end_inset
 
  
 \begin_inset Graphics
-	filename C:/Users/David/Documents/Research/DuneDetect/DuneDataset/Namib 2/Namib 2_gt.jpg
+	filename Figures/Namib 2_gt.jpg
 	scale 15
 	clip
 
@@ -493,14 +765,14 @@ status collapsed
 \align center
 (3) 
 \begin_inset Graphics
-	filename C:/Users/David/Documents/Research/DuneDetect/DuneDataset/Simpson 1/Simpson 1_image.jpg
+	filename Figures/Simpson 1_image.jpg
 	scale 15
 
 \end_inset
 
  
 \begin_inset Graphics
-	filename C:/Users/David/Documents/Research/DuneDetect/DuneDataset/Simpson 1/Simpson 1_gt.jpg
+	filename Figures/Simpson 1_gt.jpg
 	scale 15
 	clip
 
@@ -513,14 +785,14 @@ status collapsed
 \align center
 (4) 
 \begin_inset Graphics
-	filename C:/Users/David/Documents/Research/DuneDetect/DuneDataset/Skeleton Coast 3/Skeleton Coast 3_image.jpg
+	filename Figures/Skeleton Coast 3_image.jpg
 	scale 15
 
 \end_inset
 
  
 \begin_inset Graphics
-	filename C:/Users/David/Documents/Research/DuneDetect/DuneDataset/Skeleton Coast 3/Skeleton Coast 3_gt.jpg
+	filename Figures/Skeleton Coast 3_gt.jpg
 	scale 15
 	clip
 
@@ -533,14 +805,14 @@ status collapsed
 \align center
 (5) 
 \begin_inset Graphics
-	filename C:/Users/David/Documents/Research/DuneDetect/DuneDataset/WDC 1/WDC_1_image.jpg
+	filename Figures/WDC_1_image.jpg
 	scale 15
 
 \end_inset
 
  
 \begin_inset Graphics
-	filename C:/Users/David/Documents/Research/DuneDetect/DuneDataset/WDC 1/WDC_1_gt.jpg
+	filename Figures/WDC_1_gt.jpg
 	scale 15
 
 \end_inset
@@ -552,14 +824,14 @@ status collapsed
 \align center
 (6) 
 \begin_inset Graphics
-	filename C:/Users/David/Documents/Research/DuneDetect/DuneDataset/White Sands 2/White Sands_2_image.jpg
+	filename Figures/White Sands_2_image.jpg
 	scale 15
 
 \end_inset
 
  
 \begin_inset Graphics
-	filename C:/Users/David/Documents/Research/DuneDetect/DuneDataset/White Sands 2/White Sands_2_gt.jpg
+	filename Figures/White Sands_2_gt.jpg
 	scale 15
 
 \end_inset
@@ -568,7 +840,7 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 \begin_inset CommandInset label
@@ -706,10 +978,10 @@ status open
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="7" columns="3">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
 <row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
@@ -929,7 +1201,7 @@ White Sands
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 \begin_inset CommandInset label
@@ -960,7 +1232,7 @@ e
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -1011,7 +1283,7 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 \begin_inset CommandInset label
@@ -1048,8 +1320,20 @@ Conclusion
 TODO.
 \end_layout
 
-\begin_layout Section*
-References
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintAll"
+bibfiles "references"
+options "bibtotoc,plain"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
 \end_layout
 
 \end_body
