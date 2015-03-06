@@ -103,10 +103,14 @@ Previous Work
 \end_layout
 
 \begin_layout Subsection
+
+\color red
 Dune Pattern Studies
 \end_layout
 
 \begin_layout Standard
+
+\color red
 In 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -130,6 +134,8 @@ ns of wind regimes.
 \end_layout
 
 \begin_layout Standard
+
+\color red
 Complexity can be measured using pattern analysis, measuring parameters
  such as the crest length, orientation, spacing, defect density, and other
  properties.
@@ -148,6 +154,8 @@ key "Kocurek_Ewing"
 \end_layout
 
 \begin_layout Standard
+
+\color red
 In later work, 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -190,6 +198,8 @@ secondary
 \end_layout
 
 \begin_layout Standard
+
+\color red
 Other interesting features are the so-called 
 \emph on
 Slipfaces
@@ -245,6 +255,8 @@ key "Ewing_Peyret_Kocurek_Bourke"
 \end_layout
 
 \begin_layout Standard
+
+\color red
 The rest of the paper describes an in depth statiscal analysis of the features
  to compute the flow fields and understand the geomorphic relationships
  which are present in the area
@@ -252,6 +264,8 @@ The rest of the paper describes an in depth statiscal analysis of the features
 status open
 
 \begin_layout Plain Layout
+
+\color red
 The paper 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -274,6 +288,8 @@ key "Ewing_Peyret_Kocurek_Bourke"
 \end_layout
 
 \begin_layout Standard
+
+\color red
 In the most recent work, 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -282,21 +298,205 @@ key "Multi_spatial_analysis_aeolian_dune_field_patterns"
 \end_inset
 
  study the aeolian dune-fields at different scales.
-\end_layout
-
-\begin_layout Subsection
-Image Processing Techniques
+ Scale is an important factor to consider because aeolian dune-fields patterns
+ can vary over a wide range of scales, both spatially and temporally.
+ Being able to measure the change of scale over time is important in order
+ to investigate the environmental conditions of the studied region.
+ Aeolian dunes are developped typically in transitions from sand patches,
+ to proto-dunes, to dunes, to dune-field patterns.
+ Complex dune patterns are usually a juxtaposition of simple dune patterns
+ are multiple scales.
+ To summarize, being able to detect the crestlines and other types of features
+ at multiple scales is invaluable.
 \end_layout
 
 \begin_layout Standard
-HERE WILL GO PAPERS DEALING WITH THE IMAGE PROCESSING ASPECT OF THE PROJECT.
+
+\color red
+In other related work, 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Application_spatial_cross_correlation_detection_submarine_dunes"
+
+\end_inset
+
+ studied the migration of submarine sand dunes.
+ The dataset used in this paper includes digital terrain models (DTMs) retrieved
+ from high-density multibeam echosounders (MBES) taken of submarine sand
+ dunes along the coast of New Brunswick.
+ In order to measure the migration of these types of dunes, the motion was
+ measured by simply subtracting the DTMs from sequences over time.
+ The implementation uses a simple cross-correlation to find similarities
+ from one set to the next.
+ From the correlation matches found, the migration vector can be computed.
+ The migration data processing can extract the flow fields of the dunes.
 \end_layout
 
 \begin_layout Subsection
-Automated Dune Detection
+
+\color red
+Image Processing
+\end_layout
+
+\begin_layout Subsubsection
+
+\color red
+Edge Detection
 \end_layout
 
 \begin_layout Standard
+
+\color red
+The Canny edge detector is a well known and used method to retrieve important
+ edge features from an image.
+ In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Canny_edge_detection_enhancement_scale_multiplication"
+
+\end_inset
+
+, enhancement to the method is proposed by analysing the responses of detection
+ at two scales.
+ The benefits of this technique are better localization in images with larger
+ amounts of noise, at the cost of a slightly lower detection rate.
+ Overall the performance of the Canny operator is improved by using multiple
+ scales.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Improved_Canny_Edge_Detection"
+
+\end_inset
+
+, an improved implementation of the popular Canny edge detector is proposed.
+ According to the authors, the traditional Canny algorithm suffers from
+ two main problems: the gradient calculation is sensitive to noise and the
+ use of the fixed double threshold may not be suitable for images with high
+ gradient variability.
+ The main flaw in the gradient calculation has to do with the inequality
+ of the edge detection in darker versus brighter regions.
+ For the parameter selection of the double threshold, the paper propose
+ chosing the high and low thresolds from the computed mean and standard
+ deviation of the gradient magnitudes.
+\end_layout
+
+\begin_layout Subsection
+
+\color red
+Pattern Recognition
+\end_layout
+
+\begin_layout Subsection
+
+\color red
+Automated Feature Detection
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Extraction_roads_multispectral_imagery"
+
+\end_inset
+
+, a semi-automated method for extracting roads from aerial or satellite
+ images is proposed.
+ The purpose of this paper is to localize roads from higher resolution images,
+ using some form of segmentation.
+ The proposed method is semi-automated because a user must provide and initial
+ seed point, onto which a region growing algorithm is applied to extract
+ the road.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\color red
+A level set method is applied to evolve the boundary of the road region,
+ which can better handle noise and multiple road mergers.
+ The boundary for the desired region is based on a speed function, which
+ is designed based on uniformity, texture, and contrast properties.
+ Once the regions have been extracted, the centerlines of the roads are
+ estimated using a skeletonization procedure, with junction analysis to
+ ensure that intersections are properly handled
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\color red
+The skeletonization procedure used in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Extraction_roads_multispectral_imagery"
+
+\end_inset
+
+ may be useful for extracting the dune crestlines and junction points from
+ segmented dune regions.
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Extracting_ocean_surface_feature_modis"
+
+\end_inset
+
+, linear features of internal waves are extracted using a technique called
+ 
+\emph on
+Multiscale Retinex 
+\emph default
+(MSR) feature extraction
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\color red
+Although the problem set in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Extracting_ocean_surface_feature_modis"
+
+\end_inset
+
+ is different, there appears to be significant overlap and comparison between
+ dune crestline detection and oceanic internal wave detection.
+\end_layout
+
+\end_inset
+
+.
+ The oceanic internal waves are typically generated from many sources such
+ as tidal currents, ocean frontal boundaries, and other atmospheric conditions.
+ The MSR is an image processing technique that provides consistency and
+ dynamic range compression accross an image with poor contrast.
+ The paper discusses the use both the Wavelet Transform Modulus Maxima (WTMM)
+ and the Canny edge detector, which turned out to have superior performance.
+\end_layout
+
+\begin_layout Standard
+
+\color red
 There has been some work done in automated dune detection.
  In 
 \begin_inset CommandInset citation
@@ -318,6 +518,8 @@ key "BandeiraMarques"
 \end_layout
 
 \begin_layout Standard
+
+\color red
 Although this type of method has typically shown very good results, there
  are a few drawbacks with using supervised learning approaches.
  These types of methods usually require a fairly large labelled dataset
