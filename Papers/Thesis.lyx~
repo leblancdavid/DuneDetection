@@ -341,7 +341,7 @@ Image Processing
 \begin_layout Subsubsection
 
 \color red
-Edge Detection
+Edge and Line Detection
 \end_layout
 
 \begin_layout Standard
@@ -367,6 +367,26 @@ key "Canny_edge_detection_enhancement_scale_multiplication"
 \begin_layout Standard
 
 \color red
+The Canny detector is further improved in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Runway_detection_tracking_unmanned"
+
+\end_inset
+
+ for a runway detection application for unmanned aerial vehicles.
+ The main contribution of this paper is the use the Canny operator combined
+ with a mean filter, and using the Hough Transform to track runways.
+ The advantages o f the mean filtering is that it filters out noise, preserves
+ edges (better than a traditional Gaussian filter), and makes the image
+ less fuzzy.
+ To solve the problem of the dual threshold of the Canny operator, the proposed
+ method is to compute the thresholds dynamically based on averages.
+\end_layout
+
+\begin_layout Standard
+
+\color red
 In 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -384,6 +404,117 @@ key "Improved_Canny_Edge_Detection"
  For the parameter selection of the double threshold, the paper propose
  chosing the high and low thresolds from the computed mean and standard
  deviation of the gradient magnitudes.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+A line detection and image enhancement has been proposed in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Robust_Faint_Line_Detection_Enhancement_Algorithm"
+
+\end_inset
+
+, for a digital image restoration of heritage art application.
+ The images worked with have been deteriorated over time, and contain many
+ cracks, faint lines, and broken stroke.
+ The goal of this is to remove unwanted edges, and enhance the desired edges.
+ The approach is implemented in three basic steps: Initial line detection
+ with non-maxima suppression, true line detection using anisotropic refinement,
+ and noise reduction.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+The initial step is to perform correlation convolving the image with some
+ sort of edge detecting mask, rotated at different orientations, and retrieving
+ the maximum response for the orientation for each pixel.
+ The paper claims this produces a sharper and more reliable edge map, which
+ is then filtered using non-maxima supression.
+ This process preserves strong lines while removing texture lines.
+ The image is the binarized to remove all remaining weak edges, and only
+ allowing strong edges to remain.
+ The smoothing is applied to the original based on the processing done,
+ smoothing out weak edges, while not smoothing strong true edges.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In a similar approach, 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Image_Edge_detection_Rotating_Kernel_Transformation"
+
+\end_inset
+
+ use rotating edge detection kernels and fuse the responses from the operations.
+ What determines what an edge is a location and a direction, as a non-edge
+ point such as a flat area or noise, which has no specific direction.
+ Following this principle, the response in on direction should be higher
+ than in the other directions.
+ For a non-edge, the responses in each of the directions are similar.
+ Therefore computing the mean and standard deviation of each of the kernel
+ responses can help resolve edge versus non edge pixels.
+ The results obtained from this process shows promising results when applied
+ to noisy images
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\color red
+The approach proposed in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Image_Edge_detection_Rotating_Kernel_Transformation"
+
+\end_inset
+
+ has definite potential for improved edge detection applied to dune crestline
+ detection.
+ It also has potential for improvement of the method itself
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+An interesting alternative to the classical Hough transform is presented
+ in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Automated_cable_tracking_sonar_imagery"
+
+\end_inset
+
+ in an application inspection or maintenance of underwater cable components.
+ The paper discusses image processing techniques to extract linear features
+ in cluttered and noisy images.
+ After applying some anisotropic filtering to remote high frequency noise,
+ edges and lines are detected on the sonar based images.
+ To detect potential linear features, they use a Phase Congruency detector
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\color red
+The Phase Congruency detector requires more research to determine what type
+ of features can be extracted from it.
+\end_layout
+
+\end_inset
+
+.
+ The Hough transform is then used to find linear features, and some criterias
+ are determined to reject false positives and preserve true positives.
 \end_layout
 
 \begin_layout Subsection
@@ -549,10 +680,14 @@ Methodology
 \end_layout
 
 \begin_layout Subsection
-Dune Detector: Approach #1
+Dune Detection
 \end_layout
 
 \begin_layout Subsubsection
+Approach #1: Adaptive threshold and contour detection
+\end_layout
+
+\begin_layout Paragraph
 Adaptive Threshold Image Process
 \end_layout
 
@@ -635,7 +770,7 @@ Example of an adaptive thresholding method applied on a dune crest image
 
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Dune Crest Line Extraction
 \end_layout
 
@@ -853,6 +988,26 @@ Once the dune crest line candidates on the contour have been extracted,
  Some further processing can be applied to the segments, such as filtering
  out smaller or less significant segments (potential false positives).
  More work needs to be done in this area.
+\end_layout
+
+\begin_layout Subsubsection
+
+\color red
+Approach #2: Edge-based line detection
+\end_layout
+
+\begin_layout Paragraph
+
+\color red
+Edge Detection Image Processing
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Standard
+
 \end_layout
 
 \begin_layout Subsection
