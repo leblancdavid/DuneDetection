@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 
-const std::string DUNE_DATASET_BASE_PATH = "C:/Users/David/Documents/Research/DuneDetect/DuneDataset/";
+const std::string DUNE_DATASET_BASE_PATH = "E:/Projects/Thesis/DuneDetection/DuneDataset/";
 
 #include "DuneSegmentDetectorBenchmark.h"
 

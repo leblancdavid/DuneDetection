@@ -1,5 +1,0 @@
-Kalahari	0	0
-Namib	0	0
-Simpson	0	0
-Skeleton_Coast	0	0
-WDC	0	0
