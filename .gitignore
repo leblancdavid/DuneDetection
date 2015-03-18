@@ -12,6 +12,7 @@
 *.log
 *.opensdf
 *.sdf
+*.txt
 [Bb]in
 [Dd]ebug*/
 *.sbr

@@ -94,7 +94,6 @@ public:
 		cv::Mat colorImg = cv::Mat::zeros(groundTruthImg.rows, groundTruthImg.cols, CV_8UC3);
 		//cv::cvtColor(groundTruthImg, colorImg, CV_GRAY2BGR);
 
-		
 
 		for(size_t i = 0; i < segments.size(); ++i)
 		{
@@ -114,7 +113,7 @@ public:
 
 		cv::dilate(colorImg, colorImg, cv::Mat(), cv::Point(-1,-1), 3);
 		
-		cv::imwrite("ResultsImage.jpg", colorImg);
+		//cv::imwrite("ResultsImage.jpg", colorImg);
 		//cv::imshow("Ground Truth Image", colorImg);
 		//cv::waitKey(0);
 

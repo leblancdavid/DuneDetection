@@ -2,16 +2,33 @@
 
 #include <iostream>
 #include <fstream>
+#include <time.h>
+#include <algorithm>
 
 const std::string DUNE_DATASET_BASE_PATH = "E:/Projects/Thesis/DuneDetection/DuneDataset/";
 
 #include "DuneSegmentDetectorBenchmark.h"
+#include "EdgeBasedDetectorBenchmark.h"
 
 int main()
 {
-	std::ofstream resultsFile(DUNE_DATASET_BASE_PATH + "Results/Results001.txt");
+	time_t rawtime;
+	time(&rawtime);
+	std::string timestamp = ctime(&rawtime);
+	timestamp.erase(timestamp.end() - 1, timestamp.end());
+	std::replace(timestamp.begin(), timestamp.end(), ':', '-');
+	timestamp.erase(std::remove(timestamp.begin(), timestamp.end(), ' '), timestamp.end());
+	std::string filename = DUNE_DATASET_BASE_PATH + "Results/EdgeBased - " + timestamp + ".txt";
+	std::ofstream resultsFile(filename);
 
-	dune::DuneSegmentDetectorBenchmark benchmark = dune::DuneSegmentDetectorBenchmark();
+	if (!resultsFile.good())
+		return -1;
+	//resultsFile << "TEST";
+	//resultsFile.close();
+
+	//dune::DuneSegmentDetectorBenchmark benchmark = dune::DuneSegmentDetectorBenchmark();
+	dune::EdgeBasedDetectorBenchmark benchmark = dune::EdgeBasedDetectorBenchmark();
+
 	benchmark.BenchmarkParams = dune::BenchmarkTestParameters(5.0);
 
 	std::string imageFile = DUNE_DATASET_BASE_PATH;
@@ -51,8 +68,6 @@ int main()
 	results = benchmark.GetResults(imageFile, groundTruthFile);
 
 	resultsFile << "White_Sands\t" << results.TP << "\t" << results.FP << std::endl;
-
-
 
 	resultsFile.close();
 

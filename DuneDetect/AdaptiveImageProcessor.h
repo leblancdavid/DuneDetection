@@ -10,8 +10,8 @@ class AdaptiveImageProcParams
 public:
 	AdaptiveImageProcParams()
 	{
-		BlockSize = 31;
-		C = -4.0;
+		BlockSize = 51;
+		C = -2.0;
 		Method = cv::ADAPTIVE_THRESH_GAUSSIAN_C;
 		ThresholdType = cv::THRESH_BINARY;
 	}

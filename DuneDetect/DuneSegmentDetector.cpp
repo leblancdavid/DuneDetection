@@ -65,12 +65,12 @@ std::vector<DuneSegment> DuneSegmentDetector::Extract(const cv::Mat &img)
 	std::vector<DuneSegment> duneSegs;
 	std::vector<std::vector<cv::Point>> contours = GetContours(processedImage);
 
-	/*cv::Mat colorImg;
+	cv::Mat colorImg;
 	cv::cvtColor(img, colorImg, CV_GRAY2BGR);
 	cv::drawContours(colorImg, contours, -1, cv::Scalar(0,0,255),2);
-	cv::imwrite("ContourResults.jpg", colorImg);*/
-	//cv::imshow("Contours", colorImg);
-	//cv::waitKey(0);
+	//cv::imwrite("ContourResults.jpg", colorImg);*/
+	cv::imshow("Contours", colorImg);
+	cv::waitKey(0);
 
 	for(size_t i = 0; i < contours.size(); ++i)
 	{
@@ -105,57 +105,23 @@ std::vector<std::vector<cv::Point>> DuneSegmentDetector::GetContours(const cv::M
 		}
 	}
 
-	
-	cv::Mat derivativeImg;
-	cv::Mat smoothedImg;
-	//cv::medianBlur(img, smoothedImg, 7);
-	//cv::GaussianBlur(img, smoothedImg, cv::Size(7,7), 1.5);
-	//cv::Sobel(img, derivativeImg, CV_64F, 1, 1, Parameters.DerivativeSize);
-	cv::Laplacian(img, derivativeImg, CV_64F, Parameters.DerivativeSize);
-	std::vector<std::vector<cv::Point>> outputSegments;
-	for(size_t i = 0; i < contours.size(); ++i)
-	{
-		//smooth first
-		GaussianSmoothSegment(contours[i]);
-		outputSegments.push_back(FilterSegmentFromDerivative(derivativeImg, contours[i]));
 
-		//std::vector<std::vector<cv::Point>> segments = SplitContourSegments(contours[i]);
+	//return contours;
+	std::vector<std::vector<cv::Point>> outputSegments = FilterSegmentsByGradients(img, contours);
 
-		//std::vector<double> derivs;
-		//double averageMag = 0;
-		//for(size_t j = 0; j < segments.size(); ++j)
-		//{
-		//	double d = CalcSegmentAverageDerivative(derivativeImg, segments[j]);
-		//	averageMag += d;
-		//}
-		//averageMag /= (double)segments.size();
-
-		//for(size_t j = 0; j < segments.size(); ++j)
-		//{
-		//	derivs = CalcContourDerivative(derivativeImg, segments[j]);
-		//	double ratio = 0;
-		//	for(size_t k = 0; k < derivs.size(); ++k)
-		//	{
-		//		if(derivs[k] < averageMag)
-		//		{
-		//			ratio++;
-		//		}
-		//	}
-
-		//	outputSegments.push_back(segments[j]);
-
-		//	/*ratio /= (double)derivs.size();
-		//	if(ratio > 0.5)
-		//	{
-		//		outputSegments.push_back(segments[j]);
-		//	}*/
-
-		//	/*if(derivs[j] < averageMag)
-		//	{
-		//		outputSegments.push_back(segments[j]);
-		//	}*/
-		//}
-	}
+	//cv::Mat derivativeImg;
+	//cv::Mat smoothedImg;
+	////cv::medianBlur(img, smoothedImg, 7);
+	////cv::GaussianBlur(img, smoothedImg, cv::Size(7,7), 1.5);
+	////cv::Sobel(img, derivativeImg, CV_64F, 1, 1, Parameters.DerivativeSize);
+	//cv::Laplacian(img, derivativeImg, CV_64F, Parameters.DerivativeSize);
+	//std::vector<std::vector<cv::Point>> outputSegments;
+	//for(size_t i = 0; i < contours.size(); ++i)
+	//{
+	//	//smooth first
+	//	GaussianSmoothSegment(contours[i]);
+	//	outputSegments.push_back(FilterSegmentFromDerivative(derivativeImg, contours[i]));
+	//}
 
 	return outputSegments;
 }
@@ -198,6 +164,149 @@ std::vector<cv::Point> DuneSegmentDetector::FilterSegmentFromDerivative(const cv
 	}
 
 	return filtered;
+}
+
+std::vector<std::vector<cv::Point>> DuneSegmentDetector::FilterSegmentsByGradients(const cv::Mat &img, std::vector<std::vector<cv::Point>> &contours)
+{
+	cv::Mat d_x, d_y;
+	cv::Sobel(img, d_x, CV_32F, 1, 0, Parameters.DerivativeSize);
+	cv::Sobel(img, d_y, CV_32F, 0, 1, Parameters.DerivativeSize);
+
+	std::vector<cv::Point2f> gradients;
+	std::vector<cv::Point> contourPoints;
+	std::vector<std::vector<int>> contourLabels(contours.size());
+	float avgMag = 0;
+	float scale = d_x.rows*d_y.cols;
+	for (size_t i = 0; i < contours.size(); ++i)
+	{
+		contourLabels[i].resize(contours[i].size());
+		for (size_t j = 0; j < contours[i].size(); ++j)
+		{
+			float mag = std::sqrt(d_x.at<float>(contours[i][j])*d_x.at<float>(contours[i][j]) +
+				d_y.at<float>(contours[i][j])*d_y.at<float>(contours[i][j])) / 1000.0f;
+			avgMag += mag;
+
+			gradients.push_back(cv::Point2f(d_x.at<float>(contours[i][j]), d_y.at<float>(contours[i][j])));
+			contourPoints.push_back(cv::Point(i, j));
+		}
+	}
+
+	avgMag /= (float)gradients.size();
+	avgMag *= 1000.0f;
+
+	for (size_t i = 0; i < gradients.size(); ++i)
+	{
+		gradients[i].x /= avgMag;
+		gradients[i].y /= avgMag;
+	}
+
+	int clusters = 2;
+	std::vector<int> labels;
+	cv::Mat centers;
+	cv::kmeans(gradients, clusters, labels, cv::TermCriteria(CV_TERMCRIT_ITER, 1000, 0.1), 5, cv::KMEANS_PP_CENTERS, centers);
+
+	double domOrientation;
+	double maxMag = 0;
+	int index = 0;
+	for (int i = 0; i < centers.rows; ++i)
+	{
+		double m = centers.at<float>(i, 0)*centers.at<float>(i, 0) + centers.at<float>(i, 1)*centers.at<float>(i, 1);
+		if (m > maxMag)
+		{
+			maxMag = m;
+			domOrientation = std::atan2(centers.at<float>(i, 1), centers.at<float>(i, 0));
+			index = i;
+		}
+	}
+
+	for (size_t i = 0; i < labels.size(); ++i)
+	{
+		contourLabels[contourPoints[i].x][contourPoints[i].y] = labels[i];
+	}
+
+
+	std::vector<std::vector<cv::Point>> output;
+	for (size_t i = 0; i < contours.size(); ++i)
+	{
+		std::vector<cv::Point> segment = FilterContoursByLabel(contours[i], contourLabels[i], labels[index]);
+		if (segment.size() > 0)
+		{
+			output.push_back(segment);
+		}
+	}
+
+	return output;
+
+	/*cv::Mat orientationImg;
+	cv::cvtColor(img, orientationImg, CV_GRAY2BGR);
+	cv::Point center(orientationImg.cols / 2.0, orientationImg.rows / 2.0);
+	cv::Point endPt(200.0*std::cos(domOrientation) + center.x, 200.0*std::sin(domOrientation) + center.y);
+	cv::Point arrow1(20.0*std::cos(domOrientation - 2.3562) + endPt.x, 20.0*std::sin(domOrientation - 2.3562) + endPt.y);
+	cv::Point arrow2(20.0*std::cos(domOrientation - 3.927) + endPt.x, 20.0*std::sin(domOrientation - 3.927) + endPt.y);
+	cv::line(orientationImg, center, endPt, cv::Scalar(0, 0, 255), 3);
+	cv::line(orientationImg, endPt, arrow1, cv::Scalar(0, 0, 255), 3);
+	cv::line(orientationImg, endPt, arrow2, cv::Scalar(0, 0, 255), 3);
+	cv::imwrite("orientationImg.jpg", orientationImg);
+	cv::imshow("Average Orientation", orientationImg);
+	cv::waitKey(1000);*/
+
+	//std::ofstream clusterFile1("clusterFile1.txt");
+	//std::ofstream clusterFile2("clusterFile2.txt");
+
+	//cv::Mat filteredResults = cv::Mat::zeros(edges.rows, edges.cols, CV_8UC3);
+	//cv::Mat filteredImg = cv::Mat::zeros(edges.rows, edges.cols, CV_8UC1);
+	//for (size_t i = 0; i < labels.size(); ++i)
+	//{
+	//	if (labels[i] == index)
+	//	{
+	//		filteredResults.at<cv::Vec3b>(points[i])[1] = 255;
+	//		filteredImg.at<uchar>(points[i]) = 255;
+	//		//clusterFile1 << gradients[i].x << '\t' << gradients[i].y << std::endl;
+	//	}
+	//	else
+	//	{
+	//		filteredResults.at<cv::Vec3b>(points[i])[2] = 255;
+	//		//clusterFile2 << gradients[i].x << '\t' << gradients[i].y << std::endl;
+	//	}
+	//}
+
+	//clusterFile1.close();
+	//clusterFile2.close();
+
+	//cv::imwrite("filteredResults.jpg", filteredResults);
+	//cv::imshow("Processed Img", filteredImg);
+	//cv::waitKey(1000);
+
+}
+
+std::vector<cv::Point> DuneSegmentDetector::FilterContoursByLabel(const std::vector<cv::Point> &contour, const std::vector<int> &labels, int desired)
+{
+	std::vector<cv::Point> segment;
+	int neighbors = 11;
+	for (int i = 0; i < contour.size(); ++i)
+	{
+		int count = 0;
+		for (int j = 0; j < neighbors; ++j)
+		{
+			int k = i - neighbors/2 + j;
+			if (k < 0)
+				k = contour.size() + k;
+			else if (k >= (int)contour.size())
+				k = j-1;
+			
+			if (labels[k] == desired)
+			{
+				count++;
+			}
+		}
+
+		if ((double)count / (double)neighbors > 0.5)
+		{
+			segment.push_back(contour[i]);
+		}
+	}
+
+	return segment;
 }
 
 std::vector<std::vector<cv::Point>> DuneSegmentDetector::SplitContourSegments(const std::vector<cv::Point> &contour)

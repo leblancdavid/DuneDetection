@@ -684,11 +684,17 @@ Dune Detection
 \end_layout
 
 \begin_layout Subsubsection
-Approach #1: Adaptive threshold and contour detection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Method-#1:-Adaptive"
+
+\end_inset
+
+Method #1: Adaptive threshold and contour detection
 \end_layout
 
 \begin_layout Paragraph
-Adaptive Threshold Image Process
+Adaptive Threshold Image Process:
 \end_layout
 
 \begin_layout Standard
@@ -771,7 +777,7 @@ Example of an adaptive thresholding method applied on a dune crest image
 \end_layout
 
 \begin_layout Paragraph
-Dune Crest Line Extraction
+Dune Crest Line Extraction:
 \end_layout
 
 \begin_layout Standard
@@ -993,21 +999,537 @@ Once the dune crest line candidates on the contour have been extracted,
 \begin_layout Subsubsection
 
 \color red
-Approach #2: Edge-based line detection
+Method #2: Unsupervized Edge-based line detection
 \end_layout
 
 \begin_layout Paragraph
 
 \color red
-Edge Detection Image Processing
+Edge Detection Image Processing:
 \end_layout
 
 \begin_layout Standard
 
+\color red
+This approach is based on the gradient information detect on the image.
+ Dune crestlines typically have relatively large gradient magnitudes.
+ There are a few challenges with extracting edges of the dune satelite images:
+\end_layout
+
+\begin_layout Enumerate
+
+\color red
+Images tend to be noisy and very textured, which results in many edges of
+ varying orientations and magnitudes.
+\end_layout
+
+\begin_layout Enumerate
+
+\color red
+Many of the stronger edges may not necessarily be the crestlines themselves.
+ Generally, dunes cast relatively large shadows which themselves produce
+ relatively strong edges.
+\end_layout
+
+\begin_layout Enumerate
+
+\color red
+Determining the parameters and appropriate scale for the parameters of the
+ edge detector can be sensitive and affect detection rates.
 \end_layout
 
 \begin_layout Standard
 
+\color red
+To address these concerns, the Canny edge detector is used along side some
+ of the techniques inspired from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Improved_Canny_Edge_Detection"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Runway_detection_tracking_unmanned"
+
+\end_inset
+
+.
+ First, in order to reduce the amount of noise in the images, both a median
+ and Gaussian filtering is applied to the image.
+ The reasoning for the median filter removes small speckles (which for dune
+ images may be small bushes or other contrasting features found in the images)
+ while preserving major edge gradients.
+ The Gaussian filter will then smooth out the gradient magnitudes and even
+ out the image.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Once the image has been pre-processed, the Canny edge detector is used to
+ recover the potential crestline candidates.
+ To overcome the parameter selection of the high and low threshold, the
+ mean gradient 
+\emph on
+μ 
+\emph default
+and standard deviation 
+\emph on
+σ
+\emph default
+ is computed over the entire image.
+ The high and low thresholds are determined as follows:
+\end_layout
+
+\begin_layout Standard
+
+\color red
+\begin_inset Formula 
+\[
+T_{high}=\mu+q\centerdot\sigma
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color red
+\begin_inset Formula 
+\[
+T_{low}=\frac{T_{high}}{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color red
+where 
+\emph on
+q
+\emph default
+ is so factor which can be determined based on the problem set.
+ This makes the threshold parameter less sensitive to fixed threshold problems.
+ The result of the Canny edge detector after filtering are displayed in
+ figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Canny-edge-detector"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+
+\color red
+\begin_inset Graphics
+	filename Figures/M2_edge_map.jpg
+	scale 23
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\color red
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Canny-edge-detector"
+
+\end_inset
+
+Canny edge detector after median and Gaussian filtering of the Kalahari
+ dune image.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\color red
+Unsupervised Crestline Detection from Detected Edges
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Many of the edges provided in the edge detection step are noise, shadows,
+ and non crestline textures.
+ Crestlines all have one feature in common: all of their gradient have relativel
+y similar orientations.
+ Dune crests typically appear to have larger gradient magnitures relative
+ to other noisy edges or texture (but this may not always be the case).
+ Similarly, because of the position at which the sun, edges generated from
+ the shadows of the dunes will also have similar orientations within themselves.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Given these properties, there should be a clear deliniation between crestline
+ edges, and non-crestline edges.
+ Resolving these differences by grouping similar edges together can be achieved
+ by clustering the gradients.
+ There have been many approaches to clustering (REFERENCES NEEDED HERE???),
+ but the most common is the K-Means algorithm.
+ The benefits of using a clustering algorithm is that it is unsupervised,
+ so that the differences should form themselves from the edge data itelf.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Typically, the main parameter that is required for K-Means is the value
+ 
+\emph on
+K,
+\emph default
+ which is the number of clusters.
+ In this problem set, the goal is to seperate the crestline group from all
+ other non-crestline edges.
+ Therefore, the parameter is simply set to 
+\begin_inset Formula $K=2$
+\end_inset
+
+, to seperate the gradients into two distinct groupings
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\color red
+So far, only using two clusters has been investigated.
+ Using more clusters may have more valuable information and better seperation.
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In order to get normalized results for the clustering algorithm, the gradients
+ themselves are normalized.
+ To normalize the gradients, the average gradient magnitude of the detected
+ edges is computed as:
+\end_layout
+
+\begin_layout Standard
+
+\color red
+\begin_inset Formula 
+\[
+\bar{\mu}=\frac{\sum_{i=0}^{P}\sqrt{\delta_{x_{i}}^{2}+\delta_{y_{i}}^{2}}}{P}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color red
+where 
+\emph on
+P
+\emph default
+ is the total number of detected edges from the Canny edge detector, 
+\begin_inset Formula $\delta_{x_{i}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\delta_{y_{i}}$
+\end_inset
+
+ are the 
+\emph on
+x
+\emph default
+ and 
+\emph on
+y
+\emph default
+ gradient component of the 
+\emph on
+i
+\emph default
+th point.
+ Each gradient is then normalized by dividing by the average magnitude 
+\begin_inset Formula $\bar{\mu}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+\begin_inset Formula 
+\[
+\bar{\delta_{x_{i}}}=\frac{\delta_{x_{i}}}{\bar{\mu}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color red
+\begin_inset Formula 
+\[
+\bar{\delta_{y_{i}}}=\frac{\delta_{y_{i}}}{\bar{\mu}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color red
+The set of normalized gradient vectors are then clustered using the K-Means
+ algorithm with 
+\begin_inset Formula $K=2$
+\end_inset
+
+.
+ In Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Results-of-K-Means"
+
+\end_inset
+
+, the results of the clustering method are shown.
+ The blue points are gradient vectors which potentially belong to the dune
+ crestline.
+ Studying the points, we notice that there is a skew towards the stronger
+ edges in the blue cluster, which we will call the dominant cluster.
+ This is determined by computing the centroids of each cluster.
+ The cluster with the larger overall gradient magnitude is therefore assumed
+ to be the set which contains the crestline points.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+\begin_inset Float figure
+wide true
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+
+\color red
+\begin_inset Graphics
+	filename Figures/kmeans_results.jpg
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\color red
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Results-of-K-Means"
+
+\end_inset
+
+Results of K-Means clustering algorithm with 
+\begin_inset Formula $K=2$
+\end_inset
+
+., on the edge gradients detected using Canny, from Kalahari.
+ The blue cluster represents the dune crestline gradients, and the red represent
+s all other non-crestline edges.
+ The cluster centers of blue is (0.8958, -0.5496), and the cluster center
+ of the red is (-0.4111, 0.2705).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color red
+The centroid values for each cluster are displayed in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Results-of-K-Means"
+
+\end_inset
+
+, which clearly indicates that the blue cluster contains the stronger edges,
+ which are more than likely crestlines.
+ To prove this, figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Results-of-filtering"
+
+\end_inset
+
+a.
+ shows the results of rejecting all weaker cluster gradients, and keeping
+ the dominant cluster gradients.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+\begin_inset Float figure
+wide true
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+
+\color red
+\begin_inset Graphics
+	filename Figures/filteredResults.jpg
+	scale 40
+
+\end_inset
+
+(a)
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\color red
+\begin_inset Graphics
+	filename Figures/orientationImg.jpg
+	scale 40
+
+\end_inset
+
+(b)
+\end_layout
+
+\begin_layout Plain Layout
+
+\color red
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Results-of-filtering"
+
+\end_inset
+
+(a) Results of filtering out edges (red) which belong to the cluster with
+ the weaker edges.
+ Potential crestline edges (green) are preserved for use.
+ (b) Average orientation of the dominant cluster, which correctly appears
+ to be perpendicular to the trend of the crestlines.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Once the weak edges have been filtered out, the remaining edges are used
+ as crestline candidates.
+ The K-Means cluster removes a majority of false positives, but does preserve
+ some small edge segments which are most likely noise.
+ By using connected components technique, these smaller less significant
+ edge segments can be removed, keeping only longer contiguous segments
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\color red
+More research can be done here.
+ There may be techniques used to fuse smaller segments into larger ones
+ to achieve higher detection accuracy
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Results of this processing is displayed in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Results"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Subsection
@@ -1200,6 +1722,12 @@ Dune dataset with corresponding dune crest line ground truth map.
 \end_layout
 
 \begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Results"
+
+\end_inset
+
 Results
 \end_layout
 
@@ -1308,19 +1836,73 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="7" columns="3">
+<lyxtabular version="3" rows="8" columns="5">
 <features rotate="0" tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
 <row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
 \series bold
 Images
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Method #1
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\color red
+Method #2
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
 \end_layout
 
 \end_inset
@@ -1337,6 +1919,31 @@ TP
 
 \end_inset
 </cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\emph on
+FP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\emph on
+\color red
+TP
+\end_layout
+
+\end_inset
+</cell>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
@@ -1344,6 +1951,7 @@ TP
 
 \series bold
 \emph on
+\color red
 FP
 \end_layout
 
@@ -1369,11 +1977,36 @@ Kalahari
 
 \end_inset
 </cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0.2178
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\color red
+0.9396
+\end_layout
+
+\end_inset
+</cell>
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.2178
+
+\color red
+0.2495
 \end_layout
 
 \end_inset
@@ -1398,11 +2031,35 @@ Namib
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 0.6026
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\color red
+0.9281
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\color red
+0.4924
 \end_layout
 
 \end_inset
@@ -1427,11 +2084,35 @@ Simpson
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 0.6512
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\color red
+0.7464
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\color red
+0.4979
 \end_layout
 
 \end_inset
@@ -1451,7 +2132,29 @@ Skeleton Coast
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\series bold
 0.8033
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.3253
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+0.7605
 \end_layout
 
 \end_inset
@@ -1460,7 +2163,10 @@ Skeleton Coast
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.3253
+
+\series bold
+\color red
+0.1517
 \end_layout
 
 \end_inset
@@ -1480,7 +2186,31 @@ WDC
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\series bold
 0.5581
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0.3731
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+0.5111
 \end_layout
 
 \end_inset
@@ -1489,7 +2219,9 @@ WDC
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.3731
+
+\color red
+0.4849
 \end_layout
 
 \end_inset
@@ -1514,11 +2246,35 @@ White Sands
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 0.6926
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\color red
+0.6231
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\color red
+0.4762
 \end_layout
 
 \end_inset
@@ -1541,8 +2297,8 @@ name "tab:Results-of-the"
 
 \end_inset
 
-Results of the dune segment detection algorithm for the benchmark dataset
- using a value of 
+Results of the dune detection algorithms for the benchmark dataset using
+ a value of 
 \emph on
 e
 \emph default

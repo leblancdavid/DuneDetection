@@ -18,7 +18,7 @@ public:
 		GaussianKernelSigma = (double)GaussianKernelSigma/6.4251;
 		CurvatureKernelSize = 51;
 		CurvatureKernelSigma = (double)CurvatureKernelSize/6.4251;
-		DerivativeSize = 5;
+		DerivativeSize = 9;
 	}
 	DuneSegmentDetectorParameters(const DuneSegmentDetectorParameters &cpy)
 	{
@@ -73,6 +73,9 @@ private:
 
 	std::vector<std::vector<cv::Point>> GetContours(const cv::Mat &img);
 	std::vector<cv::Point> FilterSegmentFromDerivative(const cv::Mat &deriv, const std::vector<cv::Point> &contour);
+
+	std::vector<std::vector<cv::Point>> FilterSegmentsByGradients(const cv::Mat &img, std::vector<std::vector<cv::Point>> &contours);
+	std::vector<cv::Point> FilterContoursByLabel(const std::vector<cv::Point> &contour, const std::vector<int> &labels, int desired);
 
 	std::vector<std::vector<cv::Point>> SplitContourSegments(const std::vector<cv::Point> &contour);
 	std::vector<double> CalcContourCurvature(const std::vector<cv::Point> &contour);

@@ -63,6 +63,15 @@
     <ClInclude Include="DuneSegmentDetectorBenchmark.h">
       <Filter>Header Files\Benchmarking</Filter>
     </ClInclude>
+    <ClInclude Include="EdgeDetectorImageProcessor.h">
+      <Filter>Header Files\ImageProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="EdgeBasedDuneDetector.h">
+      <Filter>Header Files\DuneDetection</Filter>
+    </ClInclude>
+    <ClInclude Include="EdgeBasedDetectorBenchmark.h">
+      <Filter>Header Files\Benchmarking</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AdaptiveImageProcessor.cpp">
@@ -72,6 +81,15 @@
       <Filter>Source Files\DuneDetection</Filter>
     </ClCompile>
     <ClCompile Include="DuneSegmentDetectorBenchmark.cpp">
+      <Filter>Source Files\Benchmarking</Filter>
+    </ClCompile>
+    <ClCompile Include="EdgeDetectorImageProcessor.cpp">
+      <Filter>Source Files\ImageProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="EdgeBasedDuneDetector.cpp">
+      <Filter>Source Files\DuneDetection</Filter>
+    </ClCompile>
+    <ClCompile Include="EdgeBasedDetectorBenchmark.cpp">
       <Filter>Source Files\Benchmarking</Filter>
     </ClCompile>
   </ItemGroup>
