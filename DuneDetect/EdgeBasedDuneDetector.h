@@ -46,7 +46,7 @@ namespace dune
 		EdgeBasedDetectorParameters Parameters;
 
 		double GetDominantOrientation(const cv::Mat &inputImg, const cv::Mat &edges);
-		cv::Mat FilterByDominantOrientation(const cv::Mat &inputImg, const cv::Mat &edges);
+		cv::Mat FilterByDominantOrientationUsingKMeans(const cv::Mat &inputImg, const cv::Mat &edges);
 
 		std::vector<std::vector<cv::Point>> GetContours(const cv::Mat &img);
 	};

@@ -75,42 +75,56 @@
 \begin_body
 
 \begin_layout Title
+
+\color black
 Automated Dune Crestline Detection
 \end_layout
 
 \begin_layout Author
+
+\color black
 David Leblanc
 \end_layout
 
 \begin_layout Date
+
+\color black
 03/13/2015
 \end_layout
 
 \begin_layout Abstract
+
+\color black
 TODO
 \end_layout
 
 \begin_layout Section
+
+\color black
 Introduction
 \end_layout
 
 \begin_layout Standard
+
+\color black
 TODO
 \end_layout
 
 \begin_layout Section
+
+\color black
 Previous Work
 \end_layout
 
 \begin_layout Subsection
 
-\color red
+\color black
 Dune Pattern Studies
 \end_layout
 
 \begin_layout Standard
 
-\color red
+\color black
 In 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -135,7 +149,7 @@ ns of wind regimes.
 
 \begin_layout Standard
 
-\color red
+\color black
 Complexity can be measured using pattern analysis, measuring parameters
  such as the crest length, orientation, spacing, defect density, and other
  properties.
@@ -155,7 +169,7 @@ key "Kocurek_Ewing"
 
 \begin_layout Standard
 
-\color red
+\color black
 In later work, 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -199,7 +213,7 @@ secondary
 
 \begin_layout Standard
 
-\color red
+\color black
 Other interesting features are the so-called 
 \emph on
 Slipfaces
@@ -256,7 +270,7 @@ key "Ewing_Peyret_Kocurek_Bourke"
 
 \begin_layout Standard
 
-\color red
+\color black
 The rest of the paper describes an in depth statiscal analysis of the features
  to compute the flow fields and understand the geomorphic relationships
  which are present in the area
@@ -265,7 +279,7 @@ status open
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 The paper 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -289,7 +303,7 @@ key "Ewing_Peyret_Kocurek_Bourke"
 
 \begin_layout Standard
 
-\color red
+\color black
 In the most recent work, 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -312,7 +326,7 @@ key "Multi_spatial_analysis_aeolian_dune_field_patterns"
 
 \begin_layout Standard
 
-\color red
+\color black
 In other related work, 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -334,19 +348,19 @@ key "Application_spatial_cross_correlation_detection_submarine_dunes"
 
 \begin_layout Subsection
 
-\color red
+\color black
 Image Processing
 \end_layout
 
 \begin_layout Subsubsection
 
-\color red
+\color black
 Edge and Line Detection
 \end_layout
 
 \begin_layout Standard
 
-\color red
+\color black
 The Canny edge detector is a well known and used method to retrieve important
  edge features from an image.
  In 
@@ -366,7 +380,7 @@ key "Canny_edge_detection_enhancement_scale_multiplication"
 
 \begin_layout Standard
 
-\color red
+\color black
 The Canny detector is further improved in 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -386,7 +400,7 @@ key "Runway_detection_tracking_unmanned"
 
 \begin_layout Standard
 
-\color red
+\color black
 In 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -408,7 +422,7 @@ key "Improved_Canny_Edge_Detection"
 
 \begin_layout Standard
 
-\color red
+\color black
 A line detection and image enhancement has been proposed in 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -427,7 +441,7 @@ key "Robust_Faint_Line_Detection_Enhancement_Algorithm"
 
 \begin_layout Standard
 
-\color red
+\color black
 The initial step is to perform correlation convolving the image with some
  sort of edge detecting mask, rotated at different orientations, and retrieving
  the maximum response for the orientation for each pixel.
@@ -442,7 +456,7 @@ The initial step is to perform correlation convolving the image with some
 
 \begin_layout Standard
 
-\color red
+\color black
 In a similar approach, 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -465,7 +479,7 @@ status open
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 The approach proposed in 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -485,7 +499,7 @@ key "Image_Edge_detection_Rotating_Kernel_Transformation"
 
 \begin_layout Standard
 
-\color red
+\color black
 An interesting alternative to the classical Hough transform is presented
  in 
 \begin_inset CommandInset citation
@@ -505,7 +519,7 @@ status open
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 The Phase Congruency detector requires more research to determine what type
  of features can be extracted from it.
 \end_layout
@@ -519,19 +533,19 @@ The Phase Congruency detector requires more research to determine what type
 
 \begin_layout Subsection
 
-\color red
+\color black
 Pattern Recognition
 \end_layout
 
 \begin_layout Subsection
 
-\color red
+\color black
 Automated Feature Detection
 \end_layout
 
 \begin_layout Standard
 
-\color red
+\color black
 In 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -551,7 +565,7 @@ key "Extraction_roads_multispectral_imagery"
 
 \begin_layout Standard
 
-\color red
+\color black
 A level set method is applied to evolve the boundary of the road region,
  which can better handle noise and multiple road mergers.
  The boundary for the desired region is based on a speed function, which
@@ -564,7 +578,7 @@ status open
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 The skeletonization procedure used in 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -583,7 +597,7 @@ key "Extraction_roads_multispectral_imagery"
 
 \begin_layout Standard
 
-\color red
+\color black
 In 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -602,7 +616,7 @@ status open
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 Although the problem set in 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -627,7 +641,7 @@ key "Extracting_ocean_surface_feature_modis"
 
 \begin_layout Standard
 
-\color red
+\color black
 There has been some work done in automated dune detection.
  In 
 \begin_inset CommandInset citation
@@ -650,7 +664,7 @@ key "BandeiraMarques"
 
 \begin_layout Standard
 
-\color red
+\color black
 Although this type of method has typically shown very good results, there
  are a few drawbacks with using supervised learning approaches.
  These types of methods usually require a fairly large labelled dataset
@@ -676,14 +690,20 @@ key "BandeiraMarques"
 \end_layout
 
 \begin_layout Section
+
+\color black
 Methodology
 \end_layout
 
 \begin_layout Subsection
+
+\color black
 Dune Detection
 \end_layout
 
 \begin_layout Subsubsection
+
+\color black
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:Method-#1:-Adaptive"
@@ -694,10 +714,14 @@ Method #1: Adaptive threshold and contour detection
 \end_layout
 
 \begin_layout Paragraph
+
+\color black
 Adaptive Threshold Image Process:
 \end_layout
 
 \begin_layout Standard
+
+\color black
 Dune crest images typically have a shaded and a light side.
  Depending on the conditions and image quality, the actual edge or dune
  crest line may not be clearly defined.
@@ -706,6 +730,8 @@ Dune crest images typically have a shaded and a light side.
 \end_layout
 
 \begin_layout Standard
+
+\color black
 Many approaches revolve around edge detection, but because the conditions
  and image quality can vary, edges may not be accurately extracted.
  In this approach, we use a thresholding method to extract the light side
@@ -725,6 +751,8 @@ reference "fig:AdaptiveThreshold1"
 \end_layout
 
 \begin_layout Standard
+
+\color black
 \begin_inset Float figure
 wide false
 sideways false
@@ -732,6 +760,8 @@ status collapsed
 
 \begin_layout Plain Layout
 \align center
+
+\color black
 \begin_inset Graphics
 	filename Figures/Kalahari 3 image.jpg
 	scale 23
@@ -743,6 +773,8 @@ status collapsed
 
 \begin_layout Plain Layout
 \align center
+
+\color black
 \begin_inset Graphics
 	filename Figures/Kalahari 3 image.jpg_result.jpg
 	scale 23
@@ -753,6 +785,8 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
+
+\color black
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
@@ -777,10 +811,14 @@ Example of an adaptive thresholding method applied on a dune crest image
 \end_layout
 
 \begin_layout Paragraph
+
+\color black
 Dune Crest Line Extraction:
 \end_layout
 
 \begin_layout Standard
+
+\color black
 Once the image has been preprocessed, the bright regions can extracted from
  the resulting binary image.
  As shown in figure 
@@ -796,6 +834,8 @@ reference "fig:AdaptiveThreshold1"
 \end_layout
 
 \begin_layout Standard
+
+\color black
 From the regions, contours can be extracted, which can be filtered by size
  of the region.
  Smaller regions are considered as noise, and can be rejected from the potential
@@ -823,6 +863,8 @@ reference "fig:Contour-extraction-from"
 \end_layout
 
 \begin_layout Standard
+
+\color black
 \begin_inset Float figure
 wide false
 sideways false
@@ -830,6 +872,8 @@ status collapsed
 
 \begin_layout Plain Layout
 \align center
+
+\color black
 \begin_inset Graphics
 	filename Figures/ContourResults.jpg
 	scale 23
@@ -840,6 +884,8 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
+
+\color black
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
@@ -867,11 +913,15 @@ Contour extraction from binary processed image
 \end_layout
 
 \begin_layout Standard
+
+\color black
 Because the regions tend to be noisy, the contours are therefore smoothed
  using a Gaussian kernel, define as:
 \end_layout
 
 \begin_layout Standard
+
+\color black
 \begin_inset Formula 
 \[
 G\left(i\right)=\frac{1}{\sqrt{2\pi}\sigma}e^{\frac{-i^{2}}{2\sigma^{2}}}
@@ -883,6 +933,8 @@ G\left(i\right)=\frac{1}{\sqrt{2\pi}\sigma}e^{\frac{-i^{2}}{2\sigma^{2}}}
 \end_layout
 
 \begin_layout Standard
+
+\color black
 The Gaussian kernel is convolved on the contour, which a collection of two
  dimentional points (x,y).
  The result of this convolution is a smoother contour which can be more
@@ -890,6 +942,8 @@ The Gaussian kernel is convolved on the contour, which a collection of two
 \end_layout
 
 \begin_layout Standard
+
+\color black
 Typically, the dune crest lines are located on an area in the image where
  the derivatives are larger, or consistant along the edge of the dune.
  For each contour, the average magnitude 
@@ -932,6 +986,8 @@ i
 \end_layout
 
 \begin_layout Standard
+
+\color black
 \begin_inset Formula 
 \[
 P\left(i\right)=\begin{cases}
@@ -946,10 +1002,14 @@ P\left(i\right)=\begin{cases}
 \end_layout
 
 \begin_layout Standard
+
+\color black
 where
 \end_layout
 
 \begin_layout Standard
+
+\color black
 \begin_inset Formula 
 \[
 \phi(i)=\frac{\sum_{k=0}^{K}\begin{cases}
@@ -964,6 +1024,8 @@ where
 \end_layout
 
 \begin_layout Standard
+
+\color black
 and 
 \begin_inset Formula $0<r\leq1$
 \end_inset
@@ -989,6 +1051,8 @@ r
 \end_layout
 
 \begin_layout Standard
+
+\color black
 Once the dune crest line candidates on the contour have been extracted,
  the contour can be split into contiguous crest line segments.
  Some further processing can be applied to the segments, such as filtering
@@ -998,19 +1062,19 @@ Once the dune crest line candidates on the contour have been extracted,
 
 \begin_layout Subsubsection
 
-\color red
+\color black
 Method #2: Unsupervized Edge-based line detection
 \end_layout
 
 \begin_layout Paragraph
 
-\color red
+\color black
 Edge Detection Image Processing:
 \end_layout
 
 \begin_layout Standard
 
-\color red
+\color black
 This approach is based on the gradient information detect on the image.
  Dune crestlines typically have relatively large gradient magnitudes.
  There are a few challenges with extracting edges of the dune satelite images:
@@ -1018,14 +1082,14 @@ This approach is based on the gradient information detect on the image.
 
 \begin_layout Enumerate
 
-\color red
+\color black
 Images tend to be noisy and very textured, which results in many edges of
  varying orientations and magnitudes.
 \end_layout
 
 \begin_layout Enumerate
 
-\color red
+\color black
 Many of the stronger edges may not necessarily be the crestlines themselves.
  Generally, dunes cast relatively large shadows which themselves produce
  relatively strong edges.
@@ -1033,14 +1097,14 @@ Many of the stronger edges may not necessarily be the crestlines themselves.
 
 \begin_layout Enumerate
 
-\color red
+\color black
 Determining the parameters and appropriate scale for the parameters of the
  edge detector can be sensitive and affect detection rates.
 \end_layout
 
 \begin_layout Standard
 
-\color red
+\color black
 To address these concerns, the Canny edge detector is used along side some
  of the techniques inspired from 
 \begin_inset CommandInset citation
@@ -1068,7 +1132,7 @@ key "Runway_detection_tracking_unmanned"
 
 \begin_layout Standard
 
-\color red
+\color black
 Once the image has been pre-processed, the Canny edge detector is used to
  recover the potential crestline candidates.
  To overcome the parameter selection of the high and low threshold, the
@@ -1086,7 +1150,7 @@ and standard deviation
 
 \begin_layout Standard
 
-\color red
+\color black
 \begin_inset Formula 
 \[
 T_{high}=\mu+q\centerdot\sigma
@@ -1099,7 +1163,7 @@ T_{high}=\mu+q\centerdot\sigma
 
 \begin_layout Standard
 
-\color red
+\color black
 \begin_inset Formula 
 \[
 T_{low}=\frac{T_{high}}{2}
@@ -1112,7 +1176,7 @@ T_{low}=\frac{T_{high}}{2}
 
 \begin_layout Standard
 
-\color red
+\color black
 where 
 \emph on
 q
@@ -1132,7 +1196,7 @@ reference "fig:Canny-edge-detector"
 
 \begin_layout Standard
 
-\color red
+\color black
 \begin_inset Float figure
 wide false
 sideways false
@@ -1141,7 +1205,7 @@ status collapsed
 \begin_layout Plain Layout
 \align center
 
-\color red
+\color black
 \begin_inset Graphics
 	filename Figures/M2_edge_map.jpg
 	scale 23
@@ -1153,7 +1217,7 @@ status collapsed
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
@@ -1179,13 +1243,13 @@ Canny edge detector after median and Gaussian filtering of the Kalahari
 
 \begin_layout Subsubsection*
 
-\color red
+\color black
 Unsupervised Crestline Detection from Detected Edges
 \end_layout
 
 \begin_layout Standard
 
-\color red
+\color black
 Many of the edges provided in the edge detection step are noise, shadows,
  and non crestline textures.
  Crestlines all have one feature in common: all of their gradient have relativel
@@ -1198,7 +1262,7 @@ y similar orientations.
 
 \begin_layout Standard
 
-\color red
+\color black
 Given these properties, there should be a clear deliniation between crestline
  edges, and non-crestline edges.
  Resolving these differences by grouping similar edges together can be achieved
@@ -1211,7 +1275,7 @@ Given these properties, there should be a clear deliniation between crestline
 
 \begin_layout Standard
 
-\color red
+\color black
 Typically, the main parameter that is required for K-Means is the value
  
 \emph on
@@ -1230,7 +1294,7 @@ status open
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 So far, only using two clusters has been investigated.
  Using more clusters may have more valuable information and better seperation.
 \end_layout
@@ -1242,7 +1306,7 @@ So far, only using two clusters has been investigated.
 
 \begin_layout Standard
 
-\color red
+\color black
 In order to get normalized results for the clustering algorithm, the gradients
  themselves are normalized.
  To normalize the gradients, the average gradient magnitude of the detected
@@ -1251,7 +1315,7 @@ In order to get normalized results for the clustering algorithm, the gradients
 
 \begin_layout Standard
 
-\color red
+\color black
 \begin_inset Formula 
 \[
 \bar{\mu}=\frac{\sum_{i=0}^{P}\sqrt{\delta_{x_{i}}^{2}+\delta_{y_{i}}^{2}}}{P}
@@ -1264,7 +1328,7 @@ In order to get normalized results for the clustering algorithm, the gradients
 
 \begin_layout Standard
 
-\color red
+\color black
 where 
 \emph on
 P
@@ -1299,7 +1363,7 @@ th point.
 
 \begin_layout Standard
 
-\color red
+\color black
 \begin_inset Formula 
 \[
 \bar{\delta_{x_{i}}}=\frac{\delta_{x_{i}}}{\bar{\mu}}
@@ -1312,7 +1376,7 @@ th point.
 
 \begin_layout Standard
 
-\color red
+\color black
 \begin_inset Formula 
 \[
 \bar{\delta_{y_{i}}}=\frac{\delta_{y_{i}}}{\bar{\mu}}
@@ -1325,7 +1389,7 @@ th point.
 
 \begin_layout Standard
 
-\color red
+\color black
 The set of normalized gradient vectors are then clustered using the K-Means
  algorithm with 
 \begin_inset Formula $K=2$
@@ -1351,7 +1415,7 @@ reference "fig:Results-of-K-Means"
 
 \begin_layout Standard
 
-\color red
+\color black
 \begin_inset Float figure
 wide true
 sideways false
@@ -1360,7 +1424,7 @@ status collapsed
 \begin_layout Plain Layout
 \align center
 
-\color red
+\color black
 \begin_inset Graphics
 	filename Figures/kmeans_results.jpg
 	scale 50
@@ -1372,7 +1436,7 @@ status collapsed
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
@@ -1409,7 +1473,7 @@ s all other non-crestline edges.
 
 \begin_layout Standard
 
-\color red
+\color black
 The centroid values for each cluster are displayed in 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -1433,7 +1497,7 @@ a.
 
 \begin_layout Standard
 
-\color red
+\color black
 \begin_inset Float figure
 wide true
 sideways false
@@ -1442,7 +1506,7 @@ status collapsed
 \begin_layout Plain Layout
 \align center
 
-\color red
+\color black
 \begin_inset Graphics
 	filename Figures/filteredResults.jpg
 	scale 40
@@ -1455,7 +1519,7 @@ status collapsed
 \begin_layout Plain Layout
 \align center
 
-\color red
+\color black
 \begin_inset Graphics
 	filename Figures/orientationImg.jpg
 	scale 40
@@ -1467,7 +1531,7 @@ status collapsed
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
@@ -1496,7 +1560,7 @@ name "fig:Results-of-filtering"
 
 \begin_layout Standard
 
-\color red
+\color black
 Once the weak edges have been filtered out, the remaining edges are used
  as crestline candidates.
  The K-Means cluster removes a majority of false positives, but does preserve
@@ -1508,7 +1572,7 @@ status open
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 More research can be done here.
  There may be techniques used to fuse smaller segments into larger ones
  to achieve higher detection accuracy
@@ -1521,7 +1585,7 @@ More research can be done here.
 
 \begin_layout Standard
 
-\color red
+\color black
 Results of this processing is displayed in section 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -1533,10 +1597,14 @@ reference "sec:Results"
 \end_layout
 
 \begin_layout Subsection
+
+\color black
 Dune Morphology
 \end_layout
 
 \begin_layout Standard
+
+\color black
 With the reliable crest line data extracted, morphology parameters of the
  target image can be computed.
  The desired properties include crest line lenght, dune scale, distance
@@ -1545,10 +1613,14 @@ With the reliable crest line data extracted, morphology parameters of the
 \end_layout
 
 \begin_layout Section
+
+\color black
 Experiments
 \end_layout
 
 \begin_layout Standard
+
+\color black
 Since the goal of this project is to automatically segment dune crest lines,
  a dataset of images with labeled ground truth is used to measure the accuracy
  of the dune detection algorithm.
@@ -1566,10 +1638,14 @@ reference "fig:Dune-dataset-with"
 \end_layout
 
 \begin_layout Standard
+
+\color black
 TODO.
 \end_layout
 
 \begin_layout Standard
+
+\color black
 \begin_inset Float figure
 wide true
 sideways false
@@ -1577,6 +1653,8 @@ status collapsed
 
 \begin_layout Plain Layout
 \align center
+
+\color black
 (1)
 \begin_inset Graphics
 	filename Figures/Kalahari 3 image.jpg
@@ -1596,6 +1674,8 @@ status collapsed
 
 \begin_layout Plain Layout
 \align center
+
+\color black
 (2) 
 \begin_inset Graphics
 	filename Figures/Namib 2 image.jpg
@@ -1616,6 +1696,8 @@ status collapsed
 
 \begin_layout Plain Layout
 \align center
+
+\color black
 (3) 
 \begin_inset Graphics
 	filename Figures/Simpson 1_image.jpg
@@ -1636,6 +1718,8 @@ status collapsed
 
 \begin_layout Plain Layout
 \align center
+
+\color black
 (4) 
 \begin_inset Graphics
 	filename Figures/Skeleton Coast 3_image.jpg
@@ -1656,6 +1740,8 @@ status collapsed
 
 \begin_layout Plain Layout
 \align center
+
+\color black
 (5) 
 \begin_inset Graphics
 	filename Figures/WDC_1_image.jpg
@@ -1675,6 +1761,8 @@ status collapsed
 
 \begin_layout Plain Layout
 \align center
+
+\color black
 (6) 
 \begin_inset Graphics
 	filename Figures/White Sands_2_image.jpg
@@ -1693,6 +1781,8 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
+
+\color black
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
@@ -1722,6 +1812,8 @@ Dune dataset with corresponding dune crest line ground truth map.
 \end_layout
 
 \begin_layout Section
+
+\color black
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Results"
@@ -1732,6 +1824,8 @@ Results
 \end_layout
 
 \begin_layout Standard
+
+\color black
 The dune line crest detector is applied to the labeled benchmark images
  shown in figure 
 \begin_inset CommandInset ref
@@ -1751,6 +1845,7 @@ reference "fig:Dune-dataset-with"
 
 \series bold
 \bar under
+\color black
 True Positives
 \series default
 \bar default
@@ -1778,6 +1873,7 @@ TP
 
 \series bold
 \bar under
+\color black
 False Positives
 \series default
 \bar default
@@ -1801,6 +1897,8 @@ FP
 \end_layout
 
 \begin_layout Standard
+
+\color black
 The 
 \emph on
 TP
@@ -1828,6 +1926,8 @@ reference "fig:Dune-detection-results"
 \end_layout
 
 \begin_layout Standard
+
+\color black
 \begin_inset Float table
 wide false
 sideways false
@@ -1835,6 +1935,8 @@ status open
 
 \begin_layout Plain Layout
 \align center
+
+\color black
 \begin_inset Tabular
 <lyxtabular version="3" rows="8" columns="5">
 <features rotate="0" tabularvalignment="middle">
@@ -1850,6 +1952,7 @@ status open
 \begin_layout Plain Layout
 
 \series bold
+\color black
 Images
 \end_layout
 
@@ -1861,6 +1964,7 @@ Images
 \begin_layout Plain Layout
 
 \series bold
+\color black
 Method #1
 \end_layout
 
@@ -1881,7 +1985,7 @@ Method #1
 \begin_layout Plain Layout
 
 \series bold
-\color red
+\color black
 Method #2
 \end_layout
 
@@ -1914,6 +2018,7 @@ Method #2
 
 \series bold
 \emph on
+\color black
 TP
 \end_layout
 
@@ -1926,6 +2031,7 @@ TP
 
 \series bold
 \emph on
+\color black
 FP
 \end_layout
 
@@ -1938,7 +2044,7 @@ FP
 
 \series bold
 \emph on
-\color red
+\color black
 TP
 \end_layout
 
@@ -1951,7 +2057,7 @@ TP
 
 \series bold
 \emph on
-\color red
+\color black
 FP
 \end_layout
 
@@ -1963,6 +2069,8 @@ FP
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\color black
 Kalahari
 \end_layout
 
@@ -1972,6 +2080,8 @@ Kalahari
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\color black
 0.7094
 \end_layout
 
@@ -1983,6 +2093,7 @@ Kalahari
 \begin_layout Plain Layout
 
 \series bold
+\color black
 0.2178
 \end_layout
 
@@ -1994,7 +2105,7 @@ Kalahari
 \begin_layout Plain Layout
 
 \series bold
-\color red
+\color black
 0.9396
 \end_layout
 
@@ -2005,7 +2116,7 @@ Kalahari
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 0.2495
 \end_layout
 
@@ -2017,6 +2128,8 @@ Kalahari
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\color black
 Namib
 \end_layout
 
@@ -2026,6 +2139,8 @@ Namib
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\color black
 0.7493
 \end_layout
 
@@ -2035,6 +2150,8 @@ Namib
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\color black
 0.6026
 \end_layout
 
@@ -2046,7 +2163,7 @@ Namib
 \begin_layout Plain Layout
 
 \series bold
-\color red
+\color black
 0.9281
 \end_layout
 
@@ -2058,7 +2175,7 @@ Namib
 \begin_layout Plain Layout
 
 \series bold
-\color red
+\color black
 0.4924
 \end_layout
 
@@ -2070,6 +2187,8 @@ Namib
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\color black
 Simpson
 \end_layout
 
@@ -2079,6 +2198,8 @@ Simpson
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\color black
 0.1364
 \end_layout
 
@@ -2088,6 +2209,8 @@ Simpson
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\color black
 0.6512
 \end_layout
 
@@ -2099,7 +2222,7 @@ Simpson
 \begin_layout Plain Layout
 
 \series bold
-\color red
+\color black
 0.7464
 \end_layout
 
@@ -2111,7 +2234,7 @@ Simpson
 \begin_layout Plain Layout
 
 \series bold
-\color red
+\color black
 0.4979
 \end_layout
 
@@ -2123,6 +2246,8 @@ Simpson
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\color black
 Skeleton Coast
 \end_layout
 
@@ -2134,6 +2259,7 @@ Skeleton Coast
 \begin_layout Plain Layout
 
 \series bold
+\color black
 0.8033
 \end_layout
 
@@ -2143,6 +2269,8 @@ Skeleton Coast
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\color black
 0.3253
 \end_layout
 
@@ -2153,7 +2281,7 @@ Skeleton Coast
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 0.7605
 \end_layout
 
@@ -2165,7 +2293,7 @@ Skeleton Coast
 \begin_layout Plain Layout
 
 \series bold
-\color red
+\color black
 0.1517
 \end_layout
 
@@ -2177,6 +2305,8 @@ Skeleton Coast
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\color black
 WDC
 \end_layout
 
@@ -2188,6 +2318,7 @@ WDC
 \begin_layout Plain Layout
 
 \series bold
+\color black
 0.5581
 \end_layout
 
@@ -2199,6 +2330,7 @@ WDC
 \begin_layout Plain Layout
 
 \series bold
+\color black
 0.3731
 \end_layout
 
@@ -2209,7 +2341,7 @@ WDC
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 0.5111
 \end_layout
 
@@ -2220,7 +2352,7 @@ WDC
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 0.4849
 \end_layout
 
@@ -2232,6 +2364,8 @@ WDC
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\color black
 White Sands
 \end_layout
 
@@ -2241,6 +2375,8 @@ White Sands
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\color black
 0.2614
 \end_layout
 
@@ -2250,6 +2386,8 @@ White Sands
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\color black
 0.6926
 \end_layout
 
@@ -2261,7 +2399,7 @@ White Sands
 \begin_layout Plain Layout
 
 \series bold
-\color red
+\color black
 0.6231
 \end_layout
 
@@ -2273,7 +2411,7 @@ White Sands
 \begin_layout Plain Layout
 
 \series bold
-\color red
+\color black
 0.4762
 \end_layout
 
@@ -2288,6 +2426,8 @@ White Sands
 \end_layout
 
 \begin_layout Plain Layout
+
+\color black
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
@@ -2316,6 +2456,8 @@ e
 \end_layout
 
 \begin_layout Standard
+
+\color black
 \begin_inset Float figure
 wide false
 sideways false
@@ -2323,11 +2465,15 @@ status collapsed
 
 \begin_layout Plain Layout
 \align center
+
+\color black
 (1)
 \end_layout
 
 \begin_layout Plain Layout
 \align center
+
+\color black
 \begin_inset Graphics
 	filename Figures/Kalahari Results001.jpg
 	scale 23
@@ -2339,11 +2485,15 @@ status collapsed
 
 \begin_layout Plain Layout
 \align center
+
+\color black
 (2)
 \end_layout
 
 \begin_layout Plain Layout
 \align center
+
+\color black
 \begin_inset Graphics
 	filename Figures/Simpson Results001.jpg
 	scale 23
@@ -2355,11 +2505,15 @@ status collapsed
 
 \begin_layout Plain Layout
 \align center
+
+\color black
 (3)
 \end_layout
 
 \begin_layout Plain Layout
 \align center
+
+\color black
 \begin_inset Graphics
 	filename Figures/Skeleton Coast Results001.jpg
 	scale 21
@@ -2370,6 +2524,8 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
+
+\color black
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
@@ -2400,14 +2556,20 @@ Dune detection results (red) compared to the ground truth (green), overall
 \end_layout
 
 \begin_layout Section
+
+\color black
 Conclusion
 \end_layout
 
 \begin_layout Standard
+
+\color black
 TODO.
 \end_layout
 
 \begin_layout Standard
+
+\color black
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
 btprint "btPrintAll"

@@ -13,34 +13,28 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\DuneDetection">
-      <UniqueIdentifier>{5b9a16d9-9831-4a27-98c3-96d02a242a79}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\ImageProcessing">
-      <UniqueIdentifier>{cb9ae35a-bc9f-4c87-8795-486ba95f3651}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\DuneDetection">
-      <UniqueIdentifier>{11053d7b-cd11-4e37-9a2a-653659697f8c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\ImageProcessing">
-      <UniqueIdentifier>{8ccf2e0c-9cc7-4b2c-9d4c-f5d26b764c76}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Dataset">
       <UniqueIdentifier>{c67b8dbb-04f3-413f-953e-fb51a952475c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Benchmarking">
-      <UniqueIdentifier>{f92ff9ae-fc3e-4d23-b186-95d06ae1af5c}</UniqueIdentifier>
+    <Filter Include="Header Files\Base Objects">
+      <UniqueIdentifier>{38e18b7f-3ae8-49f4-a40a-56e35028d938}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Benchmarking">
-      <UniqueIdentifier>{588822e0-f76d-4cea-b98c-bf285eada328}</UniqueIdentifier>
+    <Filter Include="Header Files\Dune Segment Detector">
+      <UniqueIdentifier>{4445da00-da9b-48d6-b600-03b1509fc936}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Edge Based Detector">
+      <UniqueIdentifier>{2233da31-417f-4a0d-82d6-806773b576b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Dune Segment Detector">
+      <UniqueIdentifier>{9cdf30ec-338b-43cb-ad43-b0c8f7d3bc3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Edge Based Detector">
+      <UniqueIdentifier>{f7510209-c9e8-45a8-afae-d1c8258241b0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OpenCVHeaders.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AdaptiveImageProcessor.h">
-      <Filter>Header Files\ImageProcessing</Filter>
     </ClInclude>
     <ClInclude Include="DuneDetectLibHeaders.h">
       <Filter>Header Files</Filter>
@@ -48,49 +42,52 @@
     <ClInclude Include="DatasetProcessor.h">
       <Filter>Header Files\Dataset</Filter>
     </ClInclude>
-    <ClInclude Include="BaseDuneDetector.h">
-      <Filter>Header Files\DuneDetection</Filter>
+    <ClInclude Include="BaseDuneDetectorBenchmarkTest.h">
+      <Filter>Header Files\Base Objects</Filter>
     </ClInclude>
-    <ClInclude Include="DuneSegmentDetector.h">
-      <Filter>Header Files\DuneDetection</Filter>
+    <ClInclude Include="BaseDuneDetector.h">
+      <Filter>Header Files\Base Objects</Filter>
     </ClInclude>
     <ClInclude Include="BaseImageProcessor.h">
-      <Filter>Header Files\ImageProcessing</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseDuneDetectorBenchmarkTest.h">
-      <Filter>Header Files\Benchmarking</Filter>
+      <Filter>Header Files\Base Objects</Filter>
     </ClInclude>
     <ClInclude Include="DuneSegmentDetectorBenchmark.h">
-      <Filter>Header Files\Benchmarking</Filter>
+      <Filter>Header Files\Dune Segment Detector</Filter>
     </ClInclude>
-    <ClInclude Include="EdgeDetectorImageProcessor.h">
-      <Filter>Header Files\ImageProcessing</Filter>
+    <ClInclude Include="DuneSegmentDetector.h">
+      <Filter>Header Files\Dune Segment Detector</Filter>
     </ClInclude>
-    <ClInclude Include="EdgeBasedDuneDetector.h">
-      <Filter>Header Files\DuneDetection</Filter>
+    <ClInclude Include="AdaptiveImageProcessor.h">
+      <Filter>Header Files\Dune Segment Detector</Filter>
     </ClInclude>
     <ClInclude Include="EdgeBasedDetectorBenchmark.h">
-      <Filter>Header Files\Benchmarking</Filter>
+      <Filter>Header Files\Edge Based Detector</Filter>
+    </ClInclude>
+    <ClInclude Include="EdgeBasedDuneDetector.h">
+      <Filter>Header Files\Edge Based Detector</Filter>
+    </ClInclude>
+    <ClInclude Include="EdgeDetectorImageProcessor.h">
+      <Filter>Header Files\Edge Based Detector</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DuneSegmentDetectorBenchmark.cpp">
+      <Filter>Source Files\Dune Segment Detector</Filter>
+    </ClCompile>
     <ClCompile Include="AdaptiveImageProcessor.cpp">
-      <Filter>Source Files\ImageProcessing</Filter>
+      <Filter>Source Files\Dune Segment Detector</Filter>
     </ClCompile>
     <ClCompile Include="DuneSegmentDetector.cpp">
-      <Filter>Source Files\DuneDetection</Filter>
-    </ClCompile>
-    <ClCompile Include="DuneSegmentDetectorBenchmark.cpp">
-      <Filter>Source Files\Benchmarking</Filter>
-    </ClCompile>
-    <ClCompile Include="EdgeDetectorImageProcessor.cpp">
-      <Filter>Source Files\ImageProcessing</Filter>
-    </ClCompile>
-    <ClCompile Include="EdgeBasedDuneDetector.cpp">
-      <Filter>Source Files\DuneDetection</Filter>
+      <Filter>Source Files\Dune Segment Detector</Filter>
     </ClCompile>
     <ClCompile Include="EdgeBasedDetectorBenchmark.cpp">
-      <Filter>Source Files\Benchmarking</Filter>
+      <Filter>Source Files\Edge Based Detector</Filter>
+    </ClCompile>
+    <ClCompile Include="EdgeBasedDuneDetector.cpp">
+      <Filter>Source Files\Edge Based Detector</Filter>
+    </ClCompile>
+    <ClCompile Include="EdgeDetectorImageProcessor.cpp">
+      <Filter>Source Files\Edge Based Detector</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

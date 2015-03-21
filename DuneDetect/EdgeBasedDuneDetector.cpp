@@ -34,8 +34,13 @@ std::vector<DuneSegment> EdgeBasedDuneDetector::Extract(const cv::Mat &img)
 	//cv::imshow("Average Orientation", orientationImg);
 	//cv::waitKey(0);
 
-	cv::Mat filtered = FilterByDominantOrientation(img, processedImage);
-	std::vector<std::vector<cv::Point>> contours = GetContours(filtered);
+	//cv::Mat filtered = FilterByDominantOrientation(img, processedImage);
+	std::vector<std::vector<cv::Point>> contours = GetContours(processedImage);
+
+	cv::Mat colorImg(processedImage.rows, processedImage.cols, CV_8UC3);
+	cv::drawContours(colorImg, contours, -1, cv::Scalar(255, 0, 0));
+	cv::imshow("Contours", colorImg);
+	cv::waitKey(0);
 
 	std::vector<DuneSegment> duneSegs;
 	for (size_t i = 0; i < contours.size(); ++i)
@@ -57,7 +62,7 @@ double EdgeBasedDuneDetector::GetDominantOrientation(const cv::Mat &inputImg, co
 	return 0.0;
 }
 
-cv::Mat EdgeBasedDuneDetector::FilterByDominantOrientation(const cv::Mat &inputImg, const cv::Mat &edges)
+cv::Mat EdgeBasedDuneDetector::FilterByDominantOrientationUsingKMeans(const cv::Mat &inputImg, const cv::Mat &edges)
 {
 	cv::Mat sobel_x;
 	cv::Mat sobel_y;
@@ -123,8 +128,8 @@ cv::Mat EdgeBasedDuneDetector::FilterByDominantOrientation(const cv::Mat &inputI
 	cv::line(orientationImg, endPt, arrow1, cv::Scalar(0, 0, 255), 3);
 	cv::line(orientationImg, endPt, arrow2, cv::Scalar(0, 0, 255), 3);
 	cv::imwrite("orientationImg.jpg", orientationImg);
-	cv::imshow("Average Orientation", orientationImg);
-	cv::waitKey(1000);
+	//cv::imshow("Average Orientation", orientationImg);
+	//cv::waitKey(1000);
 
 
 
@@ -156,8 +161,8 @@ cv::Mat EdgeBasedDuneDetector::FilterByDominantOrientation(const cv::Mat &inputI
 	clusterFile2.close();
 
 	//cv::imwrite("filteredResults.jpg", filteredResults);
-	cv::imshow("Processed Img", filteredResults);
-	cv::waitKey(1000);
+	//cv::imshow("Processed Img", filteredResults);
+	//cv::waitKey(1000);
 
 
 	return filteredImg;

@@ -69,8 +69,8 @@ std::vector<DuneSegment> DuneSegmentDetector::Extract(const cv::Mat &img)
 	cv::cvtColor(img, colorImg, CV_GRAY2BGR);
 	cv::drawContours(colorImg, contours, -1, cv::Scalar(0,0,255),2);
 	//cv::imwrite("ContourResults.jpg", colorImg);*/
-	cv::imshow("Contours", colorImg);
-	cv::waitKey(0);
+	//cv::imshow("Contours", colorImg);
+	//cv::waitKey(0);
 
 	for(size_t i = 0; i < contours.size(); ++i)
 	{
