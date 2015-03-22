@@ -1249,23 +1249,38 @@ Unsupervised Crestline Detection from Detected Edges
 
 \begin_layout Standard
 
-\color black
+\color red
 Many of the edges provided in the edge detection step are noise, shadows,
  and non crestline textures.
  Crestlines all have one feature in common: all of their gradient have relativel
 y similar orientations.
  Dune crests typically appear to have larger gradient magnitures relative
  to other noisy edges or texture (but this may not always be the case).
- Similarly, because of the position at which the sun, edges generated from
+ 
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Similarly, because of the position at which the sun, edges generated from
  the shadows of the dunes will also have similar orientations within themselves.
+ Given these properties, there should be a clear deliniation between crestline
+ edges, and non-crestline edges.
+\end_layout
+
+\begin_layout Paragraph*
+
+\bar under
+\color red
+Using KMeans
+\bar default
+:
 \end_layout
 
 \begin_layout Standard
 
 \color black
-Given these properties, there should be a clear deliniation between crestline
- edges, and non-crestline edges.
- Resolving these differences by grouping similar edges together can be achieved
+Resolving these differences by grouping similar edges together can be achieved
  by clustering the gradients.
  There have been many approaches to clustering (REFERENCES NEEDED HERE???),
  but the most common is the K-Means algorithm.
@@ -1366,20 +1381,7 @@ th point.
 \color black
 \begin_inset Formula 
 \[
-\bar{\delta_{x_{i}}}=\frac{\delta_{x_{i}}}{\bar{\mu}}
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-
-\color black
-\begin_inset Formula 
-\[
-\bar{\delta_{y_{i}}}=\frac{\delta_{y_{i}}}{\bar{\mu}}
+\dot{\delta}\left(x_{i},y_{i}\right)=\left(\frac{\delta_{x_{i}}}{\bar{\mu}},\frac{\delta_{y_{i}}}{\bar{\mu}}\right)
 \]
 
 \end_inset
@@ -1499,7 +1501,7 @@ a.
 
 \color black
 \begin_inset Float figure
-wide true
+wide false
 sideways false
 status collapsed
 
@@ -1509,10 +1511,17 @@ status collapsed
 \color black
 \begin_inset Graphics
 	filename Figures/filteredResults.jpg
-	scale 40
+	scale 20
 
 \end_inset
 
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\color black
 (a)
 \end_layout
 
@@ -1522,10 +1531,17 @@ status collapsed
 \color black
 \begin_inset Graphics
 	filename Figures/orientationImg.jpg
-	scale 40
+	scale 20
 
 \end_inset
 
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\color black
 (b)
 \end_layout
 
@@ -1568,7 +1584,7 @@ Once the weak edges have been filtered out, the remaining edges are used
  By using connected components technique, these smaller less significant
  edge segments can be removed, keeping only longer contiguous segments
 \begin_inset Foot
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
@@ -1594,6 +1610,452 @@ reference "sec:Results"
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Paragraph*
+
+\bar under
+\color red
+Using Histograms of Gradients
+\bar default
+:
+\end_layout
+
+\begin_layout Standard
+
+\color red
+An alternative to the clustering method is to compute a histogram of the
+ gradients based on orientation (REFERENCE NEEDED!!!).
+ Quantizing the space allows us to split edges according to their orientation,
+ where each bin in the histogram represents an edge orientation.
+ Each bin then covers an angle of 
+\begin_inset Formula $\frac{2\pi}{N}$
+\end_inset
+
+radians, where 
+\emph on
+N
+\emph default
+ is the number of bins.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Each bin of the histogram is weighed by the magnitude of edges.
+ Once the histogram is constructed, peaks in the magnitude will help determine
+ the dominant orientation (
+\begin_inset Formula $\varPhi$
+\end_inset
+
+) of the dune crestlines.
+ The approach poses two main problems:
+\end_layout
+
+\begin_layout Enumerate
+
+\color red
+Determining 
+\emph on
+N
+\emph default
+: In practice, a larger value for 
+\emph on
+N
+\emph default
+ has shown to provide finer grain resolution which improves dominant orientation
+ determination.
+ In Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Resuls-of-unnormalized"
+
+\end_inset
+
+ a value of 
+\begin_inset Formula $N=18$
+\end_inset
+
+ is used
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\color red
+The optimal value for 
+\emph on
+N
+\emph default
+ has not yet been determined, but at first glance, smaller values for 
+\emph on
+N
+\emph default
+ will cause issues, while larger values seem to improve results.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\color red
+Multiple Peaks: Often, images may have multple peaks in the histogram, but
+ only one of the peaks should represents the true dominant orientation of
+ crestlines.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+One assumption made is that the bin with the largest value represents the
+ orientation of the crestline edges.
+ Although this assumption holds for many cases, it is not always the case.
+ The Skeleton Coast test image provides a good example of this case in Figure
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Resuls-of-unnormalized"
+
+\end_inset
+
+.
+ In this particular case, the are two major peaks in the histogram, where
+ the stronger is not the part of the crestline edge group, and the weaker
+ one is.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Choosing the higher peak will cause invalid crestlines to be chosen.
+ In order to determine which peak best represents the crestline edge group,
+ some normalization can be applied.
+ The normalization process begins by computing the mean vector of the gradients
+ from the edge image as follows:
+\end_layout
+
+\begin_layout Standard
+
+\color red
+\begin_inset Formula 
+\[
+\hat{\mu}\left\langle \bar{x},\bar{y}\right\rangle =\left\langle \frac{\sum_{i=0}^{P}\delta_{x_{i}}}{P},\frac{\sum_{i=0}^{P}\delta_{y_{i}}}{P}\right\rangle 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color red
+where 
+\emph on
+P
+\emph default
+ is the total number of detected edges from the Canny edge detector, 
+\begin_inset Formula $\delta_{x_{i}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\delta_{y_{i}}$
+\end_inset
+
+ are the 
+\emph on
+x
+\emph default
+ and 
+\emph on
+y
+\emph default
+ gradient component of the 
+\emph on
+i
+\emph default
+th point.
+ The mean orientation is computed from the mean vector as:
+\end_layout
+
+\begin_layout Standard
+
+\color red
+\begin_inset Formula 
+\[
+\bar{\theta_{\mu}}=\arctan\left(\frac{\mu_{\bar{y}}}{\mu_{\bar{x}}}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color red
+The gradients are then normalized by simply subtracting the mean vector
+ from each gradient:
+\end_layout
+
+\begin_layout Standard
+
+\color red
+\begin_inset Formula 
+\[
+\dot{\delta}\left(x_{i},y_{i}\right)=\left(\delta_{x_{i}}-\mu_{\bar{x}},\delta_{y_{i}}-\mu_{\bar{y}}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color red
+The normalized orientation 
+\begin_inset Formula $\dot{\theta_{i}}$
+\end_inset
+
+ can then be computed:
+\end_layout
+
+\begin_layout Standard
+
+\color red
+\begin_inset Formula 
+\[
+\dot{\theta_{i}}=\arctan\left(\frac{\dot{\delta_{y_{i}}}}{\dot{\delta_{x_{i}}}}\right)-\bar{\theta_{\mu}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color red
+To determine which bin the 
+\emph on
+i
+\emph default
+th edge point belongs to, we simply calculate 
+\begin_inset Formula $\left\lceil \frac{\dot{\theta_{i}}\centerdot N}{2\pi}-0.5\right\rceil $
+\end_inset
+
+, and increment that bin by the magnitude of the normalized gradient by
+ 
+\begin_inset Formula $\sqrt{\dot{\delta}_{x_{i}}^{2}+\dot{\delta}_{y_{i}}^{2}}$
+\end_inset
+
+.
+ In essense, this normalization process removes the uneven skew of the gradients
+ in the overall image.
+ Removing this skew allows true crestline edges to be fairly compared with
+ other stronger edges.
+ As shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Resuls-of-unnormalized"
+
+\end_inset
+
+, the normalization process softens the stronger dominant edge and enhances
+ the true crestline edges.
+ This process enables crestlines to be accurately detected in images where
+ the valleys of dunes are sharp and contain strong edges
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+
+\color red
+The gradient normalization process has not be proven to work for all cases,
+ only for the images from the test set.
+ There may be cases where the normalization may have the opposite effect
+ and remove all true crestline.
+ More investigation and sample images are required to determine the effectivenes
+s of the normalization.
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+
+\color red
+\begin_inset Graphics
+	filename Figures/hog_unnorm_results.jpg
+	scale 20
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\color red
+(a)
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\color red
+\begin_inset Graphics
+	filename Figures/hog_norm_results.jpg
+	scale 20
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\color red
+(b)
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\color red
+\begin_inset Graphics
+	filename Figures/hog_unnorm_histogram.jpg
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\color red
+(c)
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\color red
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\color red
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Resuls-of-unnormalized"
+
+\end_inset
+
+Results of unnormalized (red) and normalized (green) histograms of gradients
+ (
+\begin_inset Formula $N=18$
+\end_inset
+
+).
+ The histogram contains two major peaks, but the crestline is the weaker
+ of the two peaks.
+ (a) Edges which belong to the dominant orientation whic are invalid crestlines.
+ (b) With normalization, the true crestlines now have the higher overall
+ magnitude.
+ (c) The 18 bin histogram of gradients witth and without normalization.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color red
+The dominant orientation can be used to filter out most non-crestline edges
+ by keeping all edges using the following criteria:
+\end_layout
+
+\begin_layout Standard
+
+\color red
+\begin_inset Formula 
+\[
+P\left(x_{i},y_{i}\right)=\begin{cases}
+1 & \left\Vert \arctan\left(\frac{\delta_{y_{i}}}{\delta_{x_{i}}}\right)-\varPhi\right\Vert \leqqφ\\
+0 & otherwise
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+\color red
+P
+\emph default
+ is a crestline candidate if it satisfies the orientation criteria, where
+ 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ is an angle tolerance value which is experimentally set to 
+\begin_inset Formula $\varphi=\frac{\pi}{2}$
+\end_inset
+
+
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+
+\color red
+The value of 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ has not been extensively tested yet, and may have an effect on the results,
+ more testing is required to determine the sensitivity of this parameter.
+\end_layout
+
+\end_inset
+
+ .
 \end_layout
 
 \begin_layout Subsection
@@ -1929,7 +2391,7 @@ reference "fig:Dune-detection-results"
 
 \color black
 \begin_inset Float table
-wide false
+wide true
 sideways false
 status open
 
@@ -1985,8 +2447,8 @@ Method #1
 \begin_layout Plain Layout
 
 \series bold
-\color black
-Method #2
+\color red
+Method #2 (K-Means)
 \end_layout
 
 \end_inset

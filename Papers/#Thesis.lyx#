@@ -1503,7 +1503,7 @@ a.
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -1666,6 +1666,38 @@ N
 \emph default
  has shown to provide finer grain resolution which improves dominant orientation
  determination.
+ In Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Resuls-of-unnormalized"
+
+\end_inset
+
+ a value of 
+\begin_inset Formula $N=18$
+\end_inset
+
+ is used
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\color red
+The optimal value for 
+\emph on
+N
+\emph default
+ has not yet been determined, but at first glance, smaller values for 
+\emph on
+N
+\emph default
+ will cause issues, while larger values seem to improve results.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Enumerate
@@ -1943,7 +1975,11 @@ name "fig:Resuls-of-unnormalized"
 \end_inset
 
 Results of unnormalized (red) and normalized (green) histograms of gradients
- (18 bins).
+ (
+\begin_inset Formula $N=18$
+\end_inset
+
+).
  The histogram contains two major peaks, but the crestline is the weaker
  of the two peaks.
  (a) Edges which belong to the dominant orientation whic are invalid crestlines.

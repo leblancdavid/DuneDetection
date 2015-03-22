@@ -36,8 +36,8 @@ namespace dune
 
 		/*cv::dilate(canny, canny, cv::Mat(), cv::Point(-1, -1), 1);
 		cv::erode(canny, canny, cv::Mat(), cv::Point(-1, -1), 1);*/
-		cv::imshow("Dilated Canny", outputImg);
-		cv::waitKey(0);
+		//cv::imshow("Dilated Canny", outputImg);
+		//cv::waitKey(0);
 		
 		//cv::imshow("StableEdges", outputImg);
 		//cv::waitKey(0);
@@ -78,7 +78,7 @@ namespace dune
 	void EdgeDetectorImageProcessor::GetCannyImage(const cv::Mat &img, cv::Mat &canny)
 	{
 		double stdev, orientation, average = CalcAverageGradient(img, parameters.K, stdev, orientation);
-		double q = 2.0;
+		double q = 1.0;
 		double cannyHighThreshold = average + q*stdev;
 		cv::Canny(img, canny, cannyHighThreshold, cannyHighThreshold / 2.0, parameters.K);
 	}
