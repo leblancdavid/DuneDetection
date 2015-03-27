@@ -1,7 +1,7 @@
 #ifndef _EDGE_DETECTOR_IMAGE_PROCESSOR_H_
 #define _EDGE_DETECTOR_IMAGE_PROCESSOR_H_
 
-#include "BaseImageProcessor.h"
+#include "BaseEdgeImageProcessor.h"
 
 namespace dune
 {
@@ -37,7 +37,7 @@ namespace dune
 		double DistanceThreshold;
 	};
 
-	class EdgeDetectorImageProcessor : public BaseImageProcessor
+	class EdgeDetectorImageProcessor : public BasedEdgeImageProcessor
 	{
 	public:
 		EdgeDetectorImageProcessor();

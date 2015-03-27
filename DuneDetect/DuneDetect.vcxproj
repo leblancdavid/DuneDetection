@@ -70,6 +70,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AdaptiveImageProcessor.h" />
+    <ClInclude Include="BaseEdgeImageProcessor.h" />
     <ClInclude Include="DuneDetectLibHeaders.h" />
     <ClInclude Include="BaseDuneDetector.h" />
     <ClInclude Include="BaseDuneDetectorBenchmarkTest.h" />

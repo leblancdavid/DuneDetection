@@ -14,26 +14,30 @@ namespace dune
 		EdgeBasedDetectorParameters()
 		{
 			K = 7;
-			MinSegmentLength = 20;
-			HistogramBins = 18;
+			R = 0.1;
+			MinSegmentLength = 10;
+			HistogramBins = 16;
 			AngleTolerance = 3.1416*0.5;
 		}
 		EdgeBasedDetectorParameters(const EdgeBasedDetectorParameters &cpy)
 		{
 			K = cpy.K;
+			R = cpy.R;
 			MinSegmentLength = cpy.MinSegmentLength;
 			HistogramBins = cpy.HistogramBins;
 			AngleTolerance = cpy.AngleTolerance;
 		}
-		EdgeBasedDetectorParameters(int pK, int pMinSegmentLength, int pHistBins, double pAngleTolerance)
+		EdgeBasedDetectorParameters(int pK, double pR, int pMinSegmentLength, int pHistBins, double pAngleTolerance)
 		{
 			K = pK;
+			R = pR;
 			MinSegmentLength = pMinSegmentLength;
 			HistogramBins = pHistBins;
 			AngleTolerance = pAngleTolerance;
 		}
 
 		int K;
+		double R;
 		int MinSegmentLength;
 		int HistogramBins;
 		double AngleTolerance;

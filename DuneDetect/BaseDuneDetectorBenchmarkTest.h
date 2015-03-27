@@ -91,34 +91,32 @@ public:
 		std::vector<DuneSegment> segments = Detector->Extract(testImg);
 		std::vector<cv::Point> groundTruth = GetGroundTruthPoints(groundTruthImg);
 
-		cv::Mat colorImg = cv::Mat::zeros(groundTruthImg.rows, groundTruthImg.cols, CV_8UC3);
-		//cv::cvtColor(groundTruthImg, colorImg, CV_GRAY2BGR);
+		//cv::Mat colorImg = cv::Mat::zeros(groundTruthImg.rows, groundTruthImg.cols, CV_8UC3);
+		////cv::cvtColor(groundTruthImg, colorImg, CV_GRAY2BGR);
 
 
-		for(size_t i = 0; i < segments.size(); ++i)
-		{
-			for(size_t j = 0; j < segments[i].Data.size(); ++j)
-			{
-				cv::Point p = segments[i].Data[j].Position;
-				colorImg.at<cv::Vec3b>(p) = cv::Vec3b(0,0,255);
-			}
-		}
+		//for(size_t i = 0; i < segments.size(); ++i)
+		//{
+		//	for(size_t j = 0; j < segments[i].Data.size(); ++j)
+		//	{
+		//		cv::Point p = segments[i].Data[j].Position;
+		//		colorImg.at<cv::Vec3b>(p) = cv::Vec3b(0,0,255);
+		//	}
+		//}
 
-		
+		//for(size_t i = 0; i < groundTruth.size(); ++i)
+		//{
+		//	colorImg.at<cv::Vec3b>(groundTruth[i])[1] = 255;// = cv::Vec3b(0,255,0);
+		//}
 
-		for(size_t i = 0; i < groundTruth.size(); ++i)
-		{
-			colorImg.at<cv::Vec3b>(groundTruth[i])[1] = 255;// = cv::Vec3b(0,255,0);
-		}
-
-		cv::dilate(colorImg, colorImg, cv::Mat(), cv::Point(-1,-1), 3);
+		//cv::dilate(colorImg, colorImg, cv::Mat(), cv::Point(-1,-1), 3);
 		
 		//cv::imwrite("ResultsImage.jpg", colorImg);
 		//cv::imshow("Ground Truth Image", colorImg);
 		//cv::waitKey(0);
 
 		BenchmarkResults results;
-		//results = GetBenchmarkResults(segments, groundTruth);
+		results = GetBenchmarkResults(segments, groundTruth);
 		return results;
 	}
 
@@ -144,7 +142,7 @@ protected:
 	}
 
 	BenchmarkResults GetBenchmarkResults(const std::vector<DuneSegment> &segments,
-											const std::vector<cv::Point> &groundTruth)
+		const std::vector<cv::Point> &groundTruth)
 	{
 		BenchmarkResults results;
 
@@ -155,8 +153,8 @@ protected:
 	}
 
 	double CalcTruePositives(const std::vector<DuneSegment> &segments,
-									const std::vector<cv::Point> &groundTruth,
-									double &error)
+		const std::vector<cv::Point> &groundTruth,
+		double &error)
 	{
 		double TP = 0;
 		error = 0;
@@ -165,12 +163,12 @@ protected:
 		{
 			int minJ;
 			double minDist = DBL_MAX;
-
-			for(size_t j = 0; j < segments.size(); ++j)
+			bool found = false;
+			for (size_t j = 0; j < segments.size(); ++j)
 			{
 				double d;
 				cv::Point closest = segments[j].FindClosestPoint(groundTruth[i], d);
-				if(d < minDist)
+				if (d < minDist)
 				{
 					minJ = j;
 					minDist = d;

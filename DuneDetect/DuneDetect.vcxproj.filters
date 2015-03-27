@@ -69,6 +69,9 @@
     <ClInclude Include="EdgeDetectorImageProcessor.h">
       <Filter>Header Files\Edge Based Detector</Filter>
     </ClInclude>
+    <ClInclude Include="BaseEdgeImageProcessor.h">
+      <Filter>Header Files\Base Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DuneSegmentDetectorBenchmark.cpp">

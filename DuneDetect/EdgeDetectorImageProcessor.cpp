@@ -78,7 +78,7 @@ namespace dune
 	void EdgeDetectorImageProcessor::GetCannyImage(const cv::Mat &img, cv::Mat &canny)
 	{
 		double stdev, orientation, average = CalcAverageGradient(img, parameters.K, stdev, orientation);
-		double q = 1.0;
+		double q = 1.5;
 		double cannyHighThreshold = average + q*stdev;
 		cv::Canny(img, canny, cannyHighThreshold, cannyHighThreshold / 2.0, parameters.K);
 	}

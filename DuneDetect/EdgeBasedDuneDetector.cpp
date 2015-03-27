@@ -35,24 +35,39 @@ std::vector<DuneSegment> EdgeBasedDuneDetector::Extract(const cv::Mat &img)
 	//cv::waitKey(0);
 
 	cv::Mat filtered = FilterByDominantOrientationUsingHoG(img, processedImage);
-	std::vector<std::vector<cv::Point>> contours = GetContours(filtered);
+	std::vector<std::vector<cv::Point>> contours = GetContours(processedImage);
 
-	/*cv::Mat colorImg(processedImage.rows, processedImage.cols, CV_8UC3);
+	cv::Mat colorImg;
 	cv::cvtColor(img, colorImg, CV_GRAY2BGR);
-	cv::drawContours(colorImg, contours, -1, cv::Scalar(255, 0, 0));
-	cv::imshow("Contours", colorImg);
-	cv::waitKey(0);*/
+	
 
 	std::vector<DuneSegment> duneSegs;
 	for (size_t i = 0; i < contours.size(); ++i)
 	{
-		DuneSegment s;
+		double validPts = 0;
 		for (size_t j = 0; j < contours[i].size(); ++j)
 		{
-			s.Data.push_back(DuneSegmentData(contours[i][j], 0));
+			if (filtered.at<uchar>(contours[i][j]) != 0)
+			{
+				validPts++;
+			}
 		}
-		duneSegs.push_back(s);
+
+		double r = validPts / (double)contours[i].size();
+		if (r > Parameters.R)
+		{
+			DuneSegment s;
+			for (size_t j = 0; j < contours[i].size(); ++j)
+			{
+				s.Data.push_back(DuneSegmentData(contours[i][j], 0));
+				colorImg.at<cv::Vec3b>(contours[i][j]) = cv::Vec3b(255, 0, 0);
+			}
+			duneSegs.push_back(s);
+		}
 	}
+
+	cv::imshow("Contours", colorImg);
+	cv::waitKey(30);
 
 	return duneSegs;
 }
@@ -172,8 +187,8 @@ cv::Mat EdgeBasedDuneDetector::FilterByDominantOrientationUsingHoG(const cv::Mat
 	}
 
 	cv::Mat filteredImg = cv::Mat::zeros(edges.rows, edges.cols, CV_8UC1);
-	//cv::Mat resultsImg;
-	//cv::cvtColor(inputImg, resultsImg, CV_GRAY2BGR);
+	cv::Mat resultsImg;
+	cv::cvtColor(inputImg, resultsImg, CV_GRAY2BGR);
 
 	for (int x = 0; x < inputImg.cols; ++x)
 	{
@@ -192,7 +207,11 @@ cv::Mat EdgeBasedDuneDetector::FilterByDominantOrientationUsingHoG(const cv::Mat
 					std::fabs(orientation - maxOrientation + 2.0*3.1416) < Parameters.AngleTolerance)
 				{
 					filteredImg.at<uchar>(y, x) = 255;
-					//resultsImg.at<cv::Vec3b>(y, x) = cv::Vec3b(0, 0, 255);
+					resultsImg.at<cv::Vec3b>(y, x) = cv::Vec3b(0, 255, 0);
+				}
+				else
+				{
+					resultsImg.at<cv::Vec3b>(y, x) = cv::Vec3b(0, 0, 255);
 				}
 				/*int bin = std::ceil((orientation / increments) - 0.5);
 				if (bin >= Parameters.HistogramBins)
@@ -205,6 +224,9 @@ cv::Mat EdgeBasedDuneDetector::FilterByDominantOrientationUsingHoG(const cv::Mat
 			}
 		}
 	}
+
+	//cv::imshow("resultImg", resultsImg);
+	//cv::waitKey(0);
 
 	/*cv::Point center(resultsImg.cols / 2.0, resultsImg.rows / 2.0);
 	cv::Point endPt(150.0*std::cos(maxOrientation) + center.x, 150.0*std::sin(maxOrientation) + center.y);

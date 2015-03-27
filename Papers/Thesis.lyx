@@ -531,6 +531,42 @@ The Phase Congruency detector requires more research to determine what type
  are determined to reject false positives and preserve true positives.
 \end_layout
 
+\begin_layout Subsubsection
+
+\color red
+Edge Linking
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Edge_linking_using_geodesic_distance_neighborhood_information"
+
+\end_inset
+
+, an edge linking approach is proposed which using local neighborhood, using
+ geodesic distance (as opposed to the common Euclidean distance measure)
+ between edge candidates.
+ When calculating the direction of edge end points, typically eight directions
+ are used, which introduces error.
+ To address this 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Edge_linking_using_geodesic_distance_neighborhood_information"
+
+\end_inset
+
+ define a windows size based on the maximum allowable edge gap, and fit
+ a line to the edges, which allows a full range of directions to be accounted
+ for.
+ The geodesic distance measurement is not only based on euclidean distance
+ but also on intensity values of the image, which reportedly gives better
+ results.
+\end_layout
+
 \begin_layout Subsection
 
 \color black
@@ -2011,12 +2047,12 @@ The dominant orientation can be used to filter out most non-crestline edges
 
 \color red
 \begin_inset Formula 
-\[
+\begin{equation}
 P\left(x_{i},y_{i}\right)=\begin{cases}
 1 & \left\Vert \arctan\left(\frac{\delta_{y_{i}}}{\delta_{x_{i}}}\right)-\varPhi\right\Vert \leqqφ\\
 0 & otherwise
-\end{cases}
-\]
+\end{cases}\label{eq:edge-criteria}
+\end{equation}
 
 \end_inset
 
@@ -2056,6 +2092,55 @@ The value of
 \end_inset
 
  .
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In order to improve the robustness, a connected components method is used
+ to find all segments from the canny image.
+ For each segments if the number of points along the segment satisfy the
+ criteria from 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:edge-criteria"
+
+\end_inset
+
+ is greater than some ratio 
+\emph on
+R
+\emph default
+, then the segment is considered to be a dune segment, where 
+\begin_inset Formula $0<R<1$
+\end_inset
+
+.
+ Choosing a small 
+\emph on
+R
+\emph default
+ generally improves the true positive detection, while increasing false
+ positive rate
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\color red
+During initial testing, 
+\emph on
+R
+\emph default
+ (~0.1) was set to a very low value, which allowed many of the true positive
+ to be found at the expense of a higher false positive rate.
+ This technique is very simplistic and does require more investigation to
+ improve on.
+\end_layout
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Subsection
@@ -2400,8 +2485,10 @@ status open
 
 \color black
 \begin_inset Tabular
-<lyxtabular version="3" rows="8" columns="5">
+<lyxtabular version="3" rows="8" columns="7">
 <features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -2441,7 +2528,7 @@ Method #1
 
 \end_inset
 </cell>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2449,6 +2536,27 @@ Method #1
 \series bold
 \color red
 Method #2 (K-Means)
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\color red
+Method #2 (HoG)
 \end_layout
 
 \end_inset
@@ -2512,7 +2620,7 @@ TP
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2520,6 +2628,32 @@ TP
 \series bold
 \emph on
 \color black
+FP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\emph on
+\color red
+TP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\emph on
+\color red
 FP
 \end_layout
 
@@ -2573,13 +2707,35 @@ Kalahari
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
 \color black
 0.2495
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+0.9852
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+0.7155
 \end_layout
 
 \end_inset
@@ -2631,7 +2787,7 @@ Namib
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2639,6 +2795,28 @@ Namib
 \series bold
 \color black
 0.4924
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+0.9626
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+0.6850
 \end_layout
 
 \end_inset
@@ -2690,7 +2868,7 @@ Simpson
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2698,6 +2876,28 @@ Simpson
 \series bold
 \color black
 0.4979
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+0.8977
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+0.6478
 \end_layout
 
 \end_inset
@@ -2749,7 +2949,7 @@ Skeleton Coast
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2757,6 +2957,28 @@ Skeleton Coast
 \series bold
 \color black
 0.1517
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+0.8187
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+0.2178
 \end_layout
 
 \end_inset
@@ -2809,13 +3031,35 @@ WDC
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
 \color black
 0.4849
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+0.7478
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+0.5399
 \end_layout
 
 \end_inset
@@ -2867,7 +3111,7 @@ White Sands
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2875,6 +3119,28 @@ White Sands
 \series bold
 \color black
 0.4762
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+0.7634
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+0.5740
 \end_layout
 
 \end_inset
@@ -2905,6 +3171,11 @@ Results of the dune detection algorithms for the benchmark dataset using
 e
 \emph default
  = 5 pixels.
+ Method #2 used 
+\begin_inset Formula $R=0.1$
+\end_inset
+
+ 
 \end_layout
 
 \end_inset
@@ -3040,10 +3311,6 @@ options "bibtotoc,plain"
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
 
 \end_layout
 
