@@ -6,7 +6,7 @@ namespace dune
 EdgeBasedDetectorBenchmark::EdgeBasedDetectorBenchmark()
 {
 	DetectorParams = EdgeBasedDetectorParameters();
-	Detector = new EdgeBasedDuneDetector(new EdgeDetectorImageProcessor(), DetectorParams);
+	Detector = new EdgeBasedDuneDetector();
 }
 
 EdgeBasedDetectorBenchmark::EdgeBasedDetectorBenchmark(const EdgeBasedDetectorBenchmark &cpy)
@@ -16,7 +16,7 @@ EdgeBasedDetectorBenchmark::EdgeBasedDetectorBenchmark(const EdgeBasedDetectorBe
 
 EdgeBasedDetectorBenchmark::EdgeBasedDetectorBenchmark(const EdgeBasedDetectorParameters &params)
 {
-	Detector = new EdgeBasedDuneDetector(new EdgeDetectorImageProcessor(), DetectorParams);
+	Detector = new EdgeBasedDuneDetector();
 }
 
 EdgeBasedDetectorBenchmark::~EdgeBasedDetectorBenchmark()

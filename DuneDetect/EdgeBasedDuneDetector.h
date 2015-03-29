@@ -4,6 +4,7 @@
 #include "OpenCVHeaders.h"
 #include "BaseDuneDetector.h"
 #include "EdgeDetectorImageProcessor.h"
+#include "RotatedKernelEdgeDetector.h"
 
 namespace dune
 {

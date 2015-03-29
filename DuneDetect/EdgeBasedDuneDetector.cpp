@@ -6,7 +6,7 @@ namespace dune
 {
 EdgeBasedDuneDetector::EdgeBasedDuneDetector()
 {
-	ImageProcess = new EdgeDetectorImageProcessor();
+	ImageProcess = new RotatedKernelEdgeDetector();
 }
 
 EdgeBasedDuneDetector::EdgeBasedDuneDetector(BaseImageProcessor* imgproc, const EdgeBasedDetectorParameters &params)
@@ -34,14 +34,16 @@ std::vector<DuneSegment> EdgeBasedDuneDetector::Extract(const cv::Mat &img)
 	//cv::imshow("Average Orientation", orientationImg);
 	//cv::waitKey(0);
 
-	cv::Mat filtered = FilterByDominantOrientationUsingHoG(img, processedImage);
+	std::vector<DuneSegment> duneSegs;
+
+	/*cv::Mat filtered = FilterByDominantOrientationUsingHoG(img, processedImage);
 	std::vector<std::vector<cv::Point>> contours = GetContours(processedImage);
 
 	cv::Mat colorImg;
 	cv::cvtColor(img, colorImg, CV_GRAY2BGR);
 	
 
-	std::vector<DuneSegment> duneSegs;
+	
 	for (size_t i = 0; i < contours.size(); ++i)
 	{
 		double validPts = 0;
@@ -67,7 +69,7 @@ std::vector<DuneSegment> EdgeBasedDuneDetector::Extract(const cv::Mat &img)
 	}
 
 	cv::imshow("Contours", colorImg);
-	cv::waitKey(30);
+	cv::waitKey(30);*/
 
 	return duneSegs;
 }

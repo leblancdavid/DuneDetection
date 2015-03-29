@@ -72,6 +72,9 @@
     <ClInclude Include="BaseEdgeImageProcessor.h">
       <Filter>Header Files\Base Objects</Filter>
     </ClInclude>
+    <ClInclude Include="RotatedKernelEdgeDetector.h">
+      <Filter>Header Files\Edge Based Detector</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DuneSegmentDetectorBenchmark.cpp">
@@ -90,6 +93,9 @@
       <Filter>Source Files\Edge Based Detector</Filter>
     </ClCompile>
     <ClCompile Include="EdgeDetectorImageProcessor.cpp">
+      <Filter>Source Files\Edge Based Detector</Filter>
+    </ClCompile>
+    <ClCompile Include="RotatedKernelEdgeDetector.cpp">
       <Filter>Source Files\Edge Based Detector</Filter>
     </ClCompile>
   </ItemGroup>

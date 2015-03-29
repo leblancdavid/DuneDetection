@@ -116,7 +116,7 @@ public:
 		//cv::waitKey(0);
 
 		BenchmarkResults results;
-		results = GetBenchmarkResults(segments, groundTruth);
+		//results = GetBenchmarkResults(segments, groundTruth);
 		return results;
 	}
 

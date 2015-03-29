@@ -82,6 +82,7 @@
     <ClInclude Include="EdgeDetectorImageProcessor.h" />
     <ClInclude Include="OpenCVHeaders.h" />
     <ClInclude Include="DatasetProcessor.h" />
+    <ClInclude Include="RotatedKernelEdgeDetector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AdaptiveImageProcessor.cpp" />
@@ -90,6 +91,7 @@
     <ClCompile Include="EdgeBasedDetectorBenchmark.cpp" />
     <ClCompile Include="EdgeBasedDuneDetector.cpp" />
     <ClCompile Include="EdgeDetectorImageProcessor.cpp" />
+    <ClCompile Include="RotatedKernelEdgeDetector.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
