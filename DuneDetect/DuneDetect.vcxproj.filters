@@ -31,6 +31,12 @@
     <Filter Include="Source Files\Edge Based Detector">
       <UniqueIdentifier>{f7510209-c9e8-45a8-afae-d1c8258241b0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Watershed Dune Detector">
+      <UniqueIdentifier>{dbdb71fa-c58a-4cd2-bd3d-c0aacc951989}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Watershed Dune Detector">
+      <UniqueIdentifier>{6a6064e9-f566-472b-9614-277afb095374}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OpenCVHeaders.h">
@@ -75,6 +81,15 @@
     <ClInclude Include="RotatedKernelEdgeDetector.h">
       <Filter>Header Files\Edge Based Detector</Filter>
     </ClInclude>
+    <ClInclude Include="WatershedImageProcessor.h">
+      <Filter>Header Files\Watershed Dune Detector</Filter>
+    </ClInclude>
+    <ClInclude Include="WatershedDuneDetector.h">
+      <Filter>Header Files\Watershed Dune Detector</Filter>
+    </ClInclude>
+    <ClInclude Include="WatershedDuneDetectorBenchmark.h">
+      <Filter>Header Files\Watershed Dune Detector</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DuneSegmentDetectorBenchmark.cpp">
@@ -97,6 +112,15 @@
     </ClCompile>
     <ClCompile Include="RotatedKernelEdgeDetector.cpp">
       <Filter>Source Files\Edge Based Detector</Filter>
+    </ClCompile>
+    <ClCompile Include="WatershedImageProcessor.cpp">
+      <Filter>Source Files\Watershed Dune Detector</Filter>
+    </ClCompile>
+    <ClCompile Include="WatershedDuneDetector.cpp">
+      <Filter>Source Files\Watershed Dune Detector</Filter>
+    </ClCompile>
+    <ClCompile Include="WatershedDuneDetectorBenchmark.cpp">
+      <Filter>Source Files\Watershed Dune Detector</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
