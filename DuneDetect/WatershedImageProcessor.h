@@ -10,20 +10,37 @@ namespace dune
 	public:
 		WatershedProcessorParameters()
 		{
-
+			K = 7;
+			HighQ = 1.0;
+			LowQ = 0.5;
+			HistogramBins = 16;
+			AngleTolerance = 3.1416*0.5;
 		}
 
 		~WatershedProcessorParameters() {}
 
 		WatershedProcessorParameters(const WatershedProcessorParameters &cpy)
 		{
-
+			K = cpy.K;
+			HighQ = cpy.HighQ;
+			LowQ = cpy.LowQ;
+			HistogramBins = cpy.HistogramBins;
+			AngleTolerance = cpy.AngleTolerance;
 		}
-		WatershedProcessorParameters(int k)
+		WatershedProcessorParameters(int pK, double pHQ, double pLQ, int pHistBins, double pAngleTolerance)
 		{
-
+			K = pK;
+			HighQ = pHQ;
+			LowQ = pLQ;
+			HistogramBins = pHistBins;
+			AngleTolerance = pAngleTolerance;
 		}
-
+		
+		int K;
+		double HighQ;
+		double LowQ;
+		int HistogramBins;
+		double AngleTolerance;
 	};
 
 	class WatershedImageProcessor : public BasedEdgeImageProcessor
@@ -38,9 +55,10 @@ namespace dune
 
 	private:
 
-		WatershedProcessorParameters parameters;
+		WatershedProcessorParameters Parameters;
 
 		void WatershedSegmentation(const cv::Mat &inputImg, cv::Mat &outputImg);
+		std::vector<double> FindDominantOrientations();
 
 	};
 

@@ -37,6 +37,9 @@
     <Filter Include="Source Files\Watershed Dune Detector">
       <UniqueIdentifier>{6a6064e9-f566-472b-9614-277afb095374}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Math">
+      <UniqueIdentifier>{35f9a7e9-1b26-4576-8a94-dfbf2c254445}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OpenCVHeaders.h">
@@ -89,6 +92,9 @@
     </ClInclude>
     <ClInclude Include="WatershedDuneDetectorBenchmark.h">
       <Filter>Header Files\Watershed Dune Detector</Filter>
+    </ClInclude>
+    <ClInclude Include="DuneMathTools.h">
+      <Filter>Header Files\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

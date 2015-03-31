@@ -80,6 +80,7 @@
     <ClInclude Include="EdgeBasedDetectorBenchmark.h" />
     <ClInclude Include="EdgeBasedDuneDetector.h" />
     <ClInclude Include="EdgeDetectorImageProcessor.h" />
+    <ClInclude Include="DuneMathTools.h" />
     <ClInclude Include="OpenCVHeaders.h" />
     <ClInclude Include="DatasetProcessor.h" />
     <ClInclude Include="RotatedKernelEdgeDetector.h" />

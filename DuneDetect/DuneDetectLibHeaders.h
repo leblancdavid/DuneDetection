@@ -2,6 +2,7 @@
 #define _DUNE_DETECT_LIB_HEADERS_H_
 
 #include "OpenCVHeaders.h"
+#include "DuneMathTools.h"
 #include "AdaptiveImageProcessor.h"
 
 #endif
