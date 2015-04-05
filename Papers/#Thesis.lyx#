@@ -353,7 +353,83 @@ Image Processing
 \end_layout
 
 \begin_layout Subsubsection
+
+\color red
 Illumination Normalization
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Illumination normalization is a process in which the image illumation is
+ made to be more evenly distributed accross the image, to make the illumination
+ invariant in conditions of varying lighting.
+ This processing is most commonly used in face detection or recognition
+ applications.
+ In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Illumination_normalization_based_on_2d_gaussian_model"
+
+\end_inset
+
+, a Gaussian illumination model is used to stretch the contrasts of darker
+ areas.
+ The process involves using a Quadtree method to divide the image into sub
+ regions to find dark areas.
+ The areas that meet these requirements are processed with the Gaussian
+ illumination model to brighten them up, which evens out the illumination.
+ Applying this normalization significantly improves performance of face
+ recognition.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In a similar approach 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Illumination_normalization_for_image_restoration_using_modified_retinex_algorithm"
+
+\end_inset
+
+, the authors use a modified retinex algorithm to restore poorly illuminated
+ areas of an image.
+ According to Lambertian reflectance theory, images consist of two components,
+ reflectance and illumination.
+ If an image contains a set of small scale features, and large scale features,
+ and illumination is only applied to the large-scale set, then the small
+ scale features can be preserved.
+ In this approach, the normalization is applied to small-scale and large-scale
+ features independently.
+ The Single Scale Retinex process is applied to the image to seperate the
+ reflectance (small scale) and illumination (large scale).
+ After, images are thresholded and histogram equalization is applied, which
+ spreads out intensity values of darker areas of the image.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In a remote sensing application, 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Illumination_normalization_among_multiple_remote_senging_images"
+
+\end_inset
+
+, illumination normalization in the gradient domain and using singular value
+ equalization.
+ According to the authors, the gradient domain image enhancement process
+ can compress the dynamic range of images, increase contrast, and enhance
+ fine details in darker regions.
+ The goal of singular value equalization is to make all images in a specific
+ set to have similar mean intensity value.
+ Some images may have a lower or higher mean intensity.
+ By using SVE, the pixels can be processed to achieve a mean closer to the
+ target intensity, therefore normalizing illumination accross a set of images.
+ The drawback of this method is that multiple images of the same or similar
+ scenes are required.
 \end_layout
 
 \begin_layout Subsubsection
@@ -575,6 +651,109 @@ key "Edge_linking_using_geodesic_distance_neighborhood_information"
 
 \color black
 Pattern Recognition
+\end_layout
+
+\begin_layout Subsubsection
+
+\color red
+Watershed Segmentation
+\end_layout
+
+\begin_layout Standard
+
+\color red
+The Watershed Transform is a well know algorithm for segmenting meaningful
+ regions from an image.
+ The main benefit of the watershed technique as opposed to method, such
+ as edge-based detection, is that the watershed produces closed boundaries,
+ which allows contours to be detected.
+ An overview of the Watershed algorithm is presented in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Watershed-transform-definition-algorithms-parallelization-strategies"
+
+\end_inset
+
+
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\color red
+This paper still needs to be read
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Image_segmentation_using_texture_gradient_based_watershed_transform"
+
+\end_inset
+
+, segmentation is achieved using the watershed transform from texture gradients.
+ The texture gradients are retrieved using various wavelet transforms.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Similarly, in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Watershed-based-textural-image-segmentation"
+
+\end_inset
+
+, an approach to texture segmentation is proposed.
+ When applied to textures, the watershed algoritm tends to over-segment
+ a texture into small homogeneous sub-texture regions.
+ Therefore, a texture can be determined to be set of texture segments.
+ The texture sub-regions can be merged using a clustering algorithm.
+ A wavelet transform is used to characterize the irregular shaped segment
+ regions, which are used to cluster similar groups of sub-textures.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Another approach used in the Watershed algorithm is based on markers.
+ The desired regions to segment can be extracted using some known feature
+ which gets marked on the image.
+ In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Fingerprint-pore-extraction-based-marker-controlled-watershed-segmentation"
+
+\end_inset
+
+, this concept is applied to a fingerprint pore extraction application.
+ Marker based segmentation has been shown to be robust for segmentations
+ problems where the objects are closed contours with boundaries being ridges.
+ In this application, the watershed transform is applied to the gradient
+ image of the fingerprints, and the regional minimas are computed to obtain
+ the markers, then compute the watershed transform based on the markers.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Detection-breast-tumor-candidates-using-marker-controlled-watershed-segmentation"
+
+\end_inset
+
+, the watershed segmentation is applied to a breast tumor detection application.
 \end_layout
 
 \begin_layout Subsection

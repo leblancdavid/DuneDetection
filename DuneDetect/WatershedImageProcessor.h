@@ -10,11 +10,12 @@ namespace dune
 	public:
 		WatershedProcessorParameters()
 		{
-			K = 7;
-			HighQ = 1.0;
-			LowQ = 0.5;
+			K = 9;
+			HighQ = 0.8;
+			LowQ =  0.4;
 			HistogramBins = 16;
 			AngleTolerance = 3.1416*0.5;
+			Radius = 20;
 		}
 
 		~WatershedProcessorParameters() {}
@@ -26,14 +27,16 @@ namespace dune
 			LowQ = cpy.LowQ;
 			HistogramBins = cpy.HistogramBins;
 			AngleTolerance = cpy.AngleTolerance;
+			Radius = cpy.Radius;
 		}
-		WatershedProcessorParameters(int pK, double pHQ, double pLQ, int pHistBins, double pAngleTolerance)
+		WatershedProcessorParameters(int pK, double pHQ, double pLQ, int pHistBins, double pAngleTolerance, int pRadius)
 		{
 			K = pK;
 			HighQ = pHQ;
 			LowQ = pLQ;
 			HistogramBins = pHistBins;
 			AngleTolerance = pAngleTolerance;
+			Radius = pRadius;
 		}
 		
 		int K;
@@ -41,6 +44,7 @@ namespace dune
 		double LowQ;
 		int HistogramBins;
 		double AngleTolerance;
+		int Radius;
 	};
 
 	class WatershedImageProcessor : public BasedEdgeImageProcessor
@@ -57,8 +61,13 @@ namespace dune
 
 		WatershedProcessorParameters Parameters;
 
+		void CannyBasedWatershedSegmentation(const cv::Mat &inputImg, cv::Mat &outputImg);
+		void WatershedSegmentationIntensityBased(const cv::Mat &inputImg, cv::Mat &outputImg);
 		void WatershedSegmentation(const cv::Mat &inputImg, cv::Mat &outputImg);
 		std::vector<double> FindDominantOrientations();
+		double FindDominantOrientation();
+
+		void NormalizeIllumination(const cv::Mat &inputImg, cv::Mat &outputImg);
 
 	};
 

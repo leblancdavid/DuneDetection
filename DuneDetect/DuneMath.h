@@ -1,5 +1,5 @@
-#ifndef _DUNE_MATH_TOOLS_H_
-#define _DUNE_MATH_TOOLS_H_
+#ifndef _DUNE_MATH_H_
+#define _DUNE_MATH_H_
 
 namespace dune
 {

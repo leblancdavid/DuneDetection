@@ -354,6 +354,86 @@ Image Processing
 
 \begin_layout Subsubsection
 
+\color red
+Illumination Normalization
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Illumination normalization is a process in which the image illumation is
+ made to be more evenly distributed accross the image, to make the illumination
+ invariant in conditions of varying lighting.
+ This processing is most commonly used in face detection or recognition
+ applications.
+ In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Illumination_normalization_based_on_2d_gaussian_model"
+
+\end_inset
+
+, a Gaussian illumination model is used to stretch the contrasts of darker
+ areas.
+ The process involves using a Quadtree method to divide the image into sub
+ regions to find dark areas.
+ The areas that meet these requirements are processed with the Gaussian
+ illumination model to brighten them up, which evens out the illumination.
+ Applying this normalization significantly improves performance of face
+ recognition.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In a similar approach 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Illumination_normalization_for_image_restoration_using_modified_retinex_algorithm"
+
+\end_inset
+
+, the authors use a modified retinex algorithm to restore poorly illuminated
+ areas of an image.
+ According to Lambertian reflectance theory, images consist of two components,
+ reflectance and illumination.
+ If an image contains a set of small scale features, and large scale features,
+ and illumination is only applied to the large-scale set, then the small
+ scale features can be preserved.
+ In this approach, the normalization is applied to small-scale and large-scale
+ features independently.
+ The Single Scale Retinex process is applied to the image to seperate the
+ reflectance (small scale) and illumination (large scale).
+ After, images are thresholded and histogram equalization is applied, which
+ spreads out intensity values of darker areas of the image.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In a remote sensing application, 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Illumination_normalization_among_multiple_remote_senging_images"
+
+\end_inset
+
+, illumination normalization in the gradient domain and using singular value
+ equalization.
+ According to the authors, the gradient domain image enhancement process
+ can compress the dynamic range of images, increase contrast, and enhance
+ fine details in darker regions.
+ The goal of singular value equalization is to make all images in a specific
+ set to have similar mean intensity value.
+ Some images may have a lower or higher mean intensity.
+ By using SVE, the pixels can be processed to achieve a mean closer to the
+ target intensity, therefore normalizing illumination accross a set of images.
+ The drawback of this method is that multiple images of the same or similar
+ scenes are required.
+\end_layout
+
+\begin_layout Subsubsection
+
 \color black
 Edge and Line Detection
 \end_layout
@@ -533,13 +613,13 @@ The Phase Congruency detector requires more research to determine what type
 
 \begin_layout Subsubsection
 
-\color red
+\color black
 Edge Linking
 \end_layout
 
 \begin_layout Standard
 
-\color red
+\color black
 In 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -571,6 +651,109 @@ key "Edge_linking_using_geodesic_distance_neighborhood_information"
 
 \color black
 Pattern Recognition
+\end_layout
+
+\begin_layout Subsubsection
+
+\color red
+Watershed Segmentation
+\end_layout
+
+\begin_layout Standard
+
+\color red
+The Watershed Transform is a well know algorithm for segmenting meaningful
+ regions from an image.
+ The main benefit of the watershed technique as opposed to method, such
+ as edge-based detection, is that the watershed produces closed boundaries,
+ which allows contours to be detected.
+ An overview of the Watershed algorithm is presented in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Watershed-transform-definition-algorithms-parallelization-strategies"
+
+\end_inset
+
+
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\color red
+This paper still needs to be read
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Image_segmentation_using_texture_gradient_based_watershed_transform"
+
+\end_inset
+
+, segmentation is achieved using the watershed transform from texture gradients.
+ The texture gradients are retrieved using various wavelet transforms.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Similarly, in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Watershed-based-textural-image-segmentation"
+
+\end_inset
+
+, an approach to texture segmentation is proposed.
+ When applied to textures, the watershed algoritm tends to over-segment
+ a texture into small homogeneous sub-texture regions.
+ Therefore, a texture can be determined to be set of texture segments.
+ The texture sub-regions can be merged using a clustering algorithm.
+ A wavelet transform is used to characterize the irregular shaped segment
+ regions, which are used to cluster similar groups of sub-textures.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Another approach used in the Watershed algorithm is based on markers.
+ The desired regions to segment can be extracted using some known feature
+ which gets marked on the image.
+ In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Fingerprint-pore-extraction-based-marker-controlled-watershed-segmentation"
+
+\end_inset
+
+, this concept is applied to a fingerprint pore extraction application.
+ Marker based segmentation has been shown to be robust for segmentations
+ problems where the objects are closed contours with boundaries being ridges.
+ In this application, the watershed transform is applied to the gradient
+ image of the fingerprints, and the regional minimas are computed to obtain
+ the markers, then compute the watershed transform based on the markers.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Detection-breast-tumor-candidates-using-marker-controlled-watershed-segmentation"
+
+\end_inset
+
+, the watershed segmentation is applied to a breast tumor detection application.
 \end_layout
 
 \begin_layout Subsection
@@ -1285,7 +1468,7 @@ Unsupervised Crestline Detection from Detected Edges
 
 \begin_layout Standard
 
-\color red
+\color black
 Many of the edges provided in the edge detection step are noise, shadows,
  and non crestline textures.
  Crestlines all have one feature in common: all of their gradient have relativel
@@ -1297,7 +1480,7 @@ y similar orientations.
 
 \begin_layout Standard
 
-\color red
+\color black
 Similarly, because of the position at which the sun, edges generated from
  the shadows of the dunes will also have similar orientations within themselves.
  Given these properties, there should be a clear deliniation between crestline
@@ -1307,7 +1490,7 @@ Similarly, because of the position at which the sun, edges generated from
 \begin_layout Paragraph*
 
 \bar under
-\color red
+\color black
 Using KMeans
 \bar default
 :
@@ -1651,7 +1834,7 @@ reference "sec:Results"
 \begin_layout Paragraph*
 
 \bar under
-\color red
+\color black
 Using Histograms of Gradients
 \bar default
 :
@@ -1659,7 +1842,7 @@ Using Histograms of Gradients
 
 \begin_layout Standard
 
-\color red
+\color black
 An alternative to the clustering method is to compute a histogram of the
  gradients based on orientation (REFERENCE NEEDED!!!).
  Quantizing the space allows us to split edges according to their orientation,
@@ -1678,7 +1861,7 @@ N
 
 \begin_layout Standard
 
-\color red
+\color black
 Each bin of the histogram is weighed by the magnitude of edges.
  Once the histogram is constructed, peaks in the magnitude will help determine
  the dominant orientation (
@@ -1691,7 +1874,7 @@ Each bin of the histogram is weighed by the magnitude of edges.
 
 \begin_layout Enumerate
 
-\color red
+\color black
 Determining 
 \emph on
 N
@@ -1719,7 +1902,7 @@ status open
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 The optimal value for 
 \emph on
 N
@@ -1738,7 +1921,7 @@ N
 
 \begin_layout Enumerate
 
-\color red
+\color black
 Multiple Peaks: Often, images may have multple peaks in the histogram, but
  only one of the peaks should represents the true dominant orientation of
  crestlines.
@@ -1746,7 +1929,7 @@ Multiple Peaks: Often, images may have multple peaks in the histogram, but
 
 \begin_layout Standard
 
-\color red
+\color black
 One assumption made is that the bin with the largest value represents the
  orientation of the crestline edges.
  Although this assumption holds for many cases, it is not always the case.
@@ -1766,7 +1949,7 @@ reference "fig:Resuls-of-unnormalized"
 
 \begin_layout Standard
 
-\color red
+\color black
 Choosing the higher peak will cause invalid crestlines to be chosen.
  In order to determine which peak best represents the crestline edge group,
  some normalization can be applied.
@@ -1776,7 +1959,7 @@ Choosing the higher peak will cause invalid crestlines to be chosen.
 
 \begin_layout Standard
 
-\color red
+\color black
 \begin_inset Formula 
 \[
 \hat{\mu}\left\langle \bar{x},\bar{y}\right\rangle =\left\langle \frac{\sum_{i=0}^{P}\delta_{x_{i}}}{P},\frac{\sum_{i=0}^{P}\delta_{y_{i}}}{P}\right\rangle 
@@ -1789,7 +1972,7 @@ Choosing the higher peak will cause invalid crestlines to be chosen.
 
 \begin_layout Standard
 
-\color red
+\color black
 where 
 \emph on
 P
@@ -1820,7 +2003,7 @@ th point.
 
 \begin_layout Standard
 
-\color red
+\color black
 \begin_inset Formula 
 \[
 \bar{\theta_{\mu}}=\arctan\left(\frac{\mu_{\bar{y}}}{\mu_{\bar{x}}}\right)
@@ -1833,14 +2016,14 @@ th point.
 
 \begin_layout Standard
 
-\color red
+\color black
 The gradients are then normalized by simply subtracting the mean vector
  from each gradient:
 \end_layout
 
 \begin_layout Standard
 
-\color red
+\color black
 \begin_inset Formula 
 \[
 \dot{\delta}\left(x_{i},y_{i}\right)=\left(\delta_{x_{i}}-\mu_{\bar{x}},\delta_{y_{i}}-\mu_{\bar{y}}\right)
@@ -1853,7 +2036,7 @@ The gradients are then normalized by simply subtracting the mean vector
 
 \begin_layout Standard
 
-\color red
+\color black
 The normalized orientation 
 \begin_inset Formula $\dot{\theta_{i}}$
 \end_inset
@@ -1863,7 +2046,7 @@ The normalized orientation
 
 \begin_layout Standard
 
-\color red
+\color black
 \begin_inset Formula 
 \[
 \dot{\theta_{i}}=\arctan\left(\frac{\dot{\delta_{y_{i}}}}{\dot{\delta_{x_{i}}}}\right)-\bar{\theta_{\mu}}
@@ -1876,7 +2059,7 @@ The normalized orientation
 
 \begin_layout Standard
 
-\color red
+\color black
 To determine which bin the 
 \emph on
 i
@@ -1911,7 +2094,7 @@ status collapsed
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 The gradient normalization process has not be proven to work for all cases,
  only for the images from the test set.
  There may be cases where the normalization may have the opposite effect
@@ -1927,7 +2110,7 @@ s of the normalization.
 
 \begin_layout Standard
 
-\color red
+\color black
 \begin_inset Float figure
 wide false
 sideways false
@@ -1936,7 +2119,7 @@ status open
 \begin_layout Plain Layout
 \align center
 
-\color red
+\color black
 \begin_inset Graphics
 	filename Figures/hog_unnorm_results.jpg
 	scale 20
@@ -1949,14 +2132,14 @@ status open
 \begin_layout Plain Layout
 \align center
 
-\color red
+\color black
 (a)
 \end_layout
 
 \begin_layout Plain Layout
 \align center
 
-\color red
+\color black
 \begin_inset Graphics
 	filename Figures/hog_norm_results.jpg
 	scale 20
@@ -1969,14 +2152,14 @@ status open
 \begin_layout Plain Layout
 \align center
 
-\color red
+\color black
 (b)
 \end_layout
 
 \begin_layout Plain Layout
 \align center
 
-\color red
+\color black
 \begin_inset Graphics
 	filename Figures/hog_unnorm_histogram.jpg
 	scale 35
@@ -1989,7 +2172,7 @@ status open
 \begin_layout Plain Layout
 \align center
 
-\color red
+\color black
 (c)
 \end_layout
 
@@ -2000,12 +2183,12 @@ status open
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:Resuls-of-unnormalized"
@@ -2038,14 +2221,14 @@ Results of unnormalized (red) and normalized (green) histograms of gradients
 
 \begin_layout Standard
 
-\color red
+\color black
 The dominant orientation can be used to filter out most non-crestline edges
  by keeping all edges using the following criteria:
 \end_layout
 
 \begin_layout Standard
 
-\color red
+\color black
 \begin_inset Formula 
 \begin{equation}
 P\left(x_{i},y_{i}\right)=\begin{cases}
@@ -2062,7 +2245,7 @@ P\left(x_{i},y_{i}\right)=\begin{cases}
 \begin_layout Standard
 
 \emph on
-\color red
+\color black
 P
 \emph default
  is a crestline candidate if it satisfies the orientation criteria, where
@@ -2080,7 +2263,7 @@ status collapsed
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 The value of 
 \begin_inset Formula $\varphi$
 \end_inset
@@ -2096,7 +2279,7 @@ The value of
 
 \begin_layout Standard
 
-\color red
+\color black
 In order to improve the robustness, a connected components method is used
  to find all segments from the canny image.
  For each segments if the number of points along the segment satisfy the
@@ -2127,7 +2310,7 @@ status open
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 During initial testing, 
 \emph on
 R
@@ -2141,6 +2324,16 @@ R
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Subsubsection
+
+\color red
+Method #3: Watershed Segmentation
+\end_layout
+
+\begin_layout Standard
+
 \end_layout
 
 \begin_layout Subsection
@@ -2534,7 +2727,7 @@ Method #1
 \begin_layout Plain Layout
 
 \series bold
-\color red
+\color black
 Method #2 (K-Means)
 \end_layout
 
@@ -2555,7 +2748,7 @@ Method #2 (K-Means)
 \begin_layout Plain Layout
 
 \series bold
-\color red
+\color black
 Method #2 (HoG)
 \end_layout
 
@@ -2640,7 +2833,7 @@ FP
 
 \series bold
 \emph on
-\color red
+\color black
 TP
 \end_layout
 
@@ -2653,7 +2846,7 @@ TP
 
 \series bold
 \emph on
-\color red
+\color black
 FP
 \end_layout
 
@@ -2723,7 +2916,7 @@ Kalahari
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 0.9852
 \end_layout
 
@@ -2734,7 +2927,7 @@ Kalahari
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 0.7155
 \end_layout
 
@@ -2804,7 +2997,7 @@ Namib
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 0.9626
 \end_layout
 
@@ -2815,7 +3008,7 @@ Namib
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 0.6850
 \end_layout
 
@@ -2885,7 +3078,7 @@ Simpson
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 0.8977
 \end_layout
 
@@ -2896,7 +3089,7 @@ Simpson
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 0.6478
 \end_layout
 
@@ -2966,7 +3159,7 @@ Skeleton Coast
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 0.8187
 \end_layout
 
@@ -2977,7 +3170,7 @@ Skeleton Coast
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 0.2178
 \end_layout
 
@@ -3047,7 +3240,7 @@ WDC
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 0.7478
 \end_layout
 
@@ -3058,7 +3251,7 @@ WDC
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 0.5399
 \end_layout
 
@@ -3128,7 +3321,7 @@ White Sands
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 0.7634
 \end_layout
 
@@ -3139,7 +3332,7 @@ White Sands
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 0.5740
 \end_layout
 
