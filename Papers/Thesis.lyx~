@@ -89,7 +89,7 @@ David Leblanc
 \begin_layout Date
 
 \color black
-03/13/2015
+04/9/2015
 \end_layout
 
 \begin_layout Abstract
@@ -353,7 +353,83 @@ Image Processing
 \end_layout
 
 \begin_layout Subsubsection
+
+\color red
 Illumination Normalization
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Illumination normalization is a process in which the image illumation is
+ made to be more evenly distributed accross the image, to make the illumination
+ invariant in conditions of varying lighting.
+ This processing is most commonly used in face detection or recognition
+ applications.
+ In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Illumination_normalization_based_on_2d_gaussian_model"
+
+\end_inset
+
+, a Gaussian illumination model is used to stretch the contrasts of darker
+ areas.
+ The process involves using a Quadtree method to divide the image into sub
+ regions to find dark areas.
+ The areas that meet these requirements are processed with the Gaussian
+ illumination model to brighten them up, which evens out the illumination.
+ Applying this normalization significantly improves performance of face
+ recognition.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In a similar approach 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Illumination_normalization_for_image_restoration_using_modified_retinex_algorithm"
+
+\end_inset
+
+, the authors use a modified retinex algorithm to restore poorly illuminated
+ areas of an image.
+ According to Lambertian reflectance theory, images consist of two components,
+ reflectance and illumination.
+ If an image contains a set of small scale features, and large scale features,
+ and illumination is only applied to the large-scale set, then the small
+ scale features can be preserved.
+ In this approach, the normalization is applied to small-scale and large-scale
+ features independently.
+ The Single Scale Retinex process is applied to the image to seperate the
+ reflectance (small scale) and illumination (large scale).
+ After, images are thresholded and histogram equalization is applied, which
+ spreads out intensity values of darker areas of the image.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In a remote sensing application, 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Illumination_normalization_among_multiple_remote_senging_images"
+
+\end_inset
+
+, illumination normalization in the gradient domain and using singular value
+ equalization.
+ According to the authors, the gradient domain image enhancement process
+ can compress the dynamic range of images, increase contrast, and enhance
+ fine details in darker regions.
+ The goal of singular value equalization is to make all images in a specific
+ set to have similar mean intensity value.
+ Some images may have a lower or higher mean intensity.
+ By using SVE, the pixels can be processed to achieve a mean closer to the
+ target intensity, therefore normalizing illumination accross a set of images.
+ The drawback of this method is that multiple images of the same or similar
+ scenes are required.
 \end_layout
 
 \begin_layout Subsubsection
@@ -575,6 +651,109 @@ key "Edge_linking_using_geodesic_distance_neighborhood_information"
 
 \color black
 Pattern Recognition
+\end_layout
+
+\begin_layout Subsubsection
+
+\color red
+Watershed Segmentation
+\end_layout
+
+\begin_layout Standard
+
+\color red
+The Watershed Transform is a well know algorithm for segmenting meaningful
+ regions from an image.
+ The main benefit of the watershed technique as opposed to method, such
+ as edge-based detection, is that the watershed produces closed boundaries,
+ which allows contours to be detected.
+ An overview of the Watershed algorithm is presented in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Watershed-transform-definition-algorithms-parallelization-strategies"
+
+\end_inset
+
+
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\color red
+This paper still needs to be read
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Image_segmentation_using_texture_gradient_based_watershed_transform"
+
+\end_inset
+
+, segmentation is achieved using the watershed transform from texture gradients.
+ The texture gradients are retrieved using various wavelet transforms.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Similarly, in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Watershed-based-textural-image-segmentation"
+
+\end_inset
+
+, an approach to texture segmentation is proposed.
+ When applied to textures, the watershed algoritm tends to over-segment
+ a texture into small homogeneous sub-texture regions.
+ Therefore, a texture can be determined to be set of texture segments.
+ The texture sub-regions can be merged using a clustering algorithm.
+ A wavelet transform is used to characterize the irregular shaped segment
+ regions, which are used to cluster similar groups of sub-textures.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Another approach used in the Watershed algorithm is based on markers.
+ The desired regions to segment can be extracted using some known feature
+ which gets marked on the image.
+ In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Fingerprint-pore-extraction-based-marker-controlled-watershed-segmentation"
+
+\end_inset
+
+, this concept is applied to a fingerprint pore extraction application.
+ Marker based segmentation has been shown to be robust for segmentations
+ problems where the objects are closed contours with boundaries being ridges.
+ In this application, the watershed transform is applied to the gradient
+ image of the fingerprints, and the regional minimas are computed to obtain
+ the markers, then compute the watershed transform based on the markers.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Detection-breast-tumor-candidates-using-marker-controlled-watershed-segmentation"
+
+\end_inset
+
+, the watershed segmentation is applied to a breast tumor detection application.
 \end_layout
 
 \begin_layout Subsection
@@ -1103,6 +1282,12 @@ Once the dune crest line candidates on the contour have been extracted,
 \begin_layout Subsubsection
 
 \color black
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Method-#2:-Unsupervized"
+
+\end_inset
+
 Method #2: Unsupervized Edge-based line detection
 \end_layout
 
@@ -2147,6 +2332,549 @@ R
 .
 \end_layout
 
+\begin_layout Subsubsection
+
+\color red
+Method #3: Watershed Segmentation
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In an approach similar to 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Method-#1:-Adaptive"
+
+\end_inset
+
+, the goal of this approach is to segment out the brighter region of the
+ image, which represents the sunny side of the dune, using the watershed
+ transform.
+ This powerful segmentation tool is used to determine the boundary of the
+ bright dune region, better than a simple thresholding method.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In order to extract reliable regions, image illumination normalization is
+ applied, to make the illumination more evenly distributed accross an image.
+ After applying some pre-processing to the image (Median and Gaussian blurring
+ to remove as much noise as possible), the illumination normalization
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\color red
+The illumination normalization presented is very basic, and better normalization
+ schemes should be tried.
+\end_layout
+
+\end_inset
+
+ is applied to the image as shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Illumination-Normalization-using"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+The normalization process is done in a fairly simple and efficient way,
+ using integral images.
+ The integral images was orignially proposed in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Summed-area-tables-for-texture-mapping"
+
+\end_inset
+
+, and was popularized for computer vision applications by 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Robust-real-time-Object-Detection"
+
+\end_inset
+
+.
+ The integral image representation allows rectangular features to be computed
+ very efficiently.
+ Each pixel (x,y) of the integral image is the sum of the pixels above and
+ to the left of it, as described in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Robust-real-time-Object-Detection"
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+
+\color red
+\begin_inset Formula 
+\[
+ii\left(x,y\right)=\sum_{x'\leq x,y'\leq y}i\left(x',y'\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color red
+To normalize using integral images, the mean 
+\begin_inset Formula $\mu_{i}$
+\end_inset
+
+ of the image, which can be done efficiently once the integral images is
+ computed, given an 
+\begin_inset Formula $N\times M$
+\end_inset
+
+ image.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+\begin_inset Formula 
+\[
+\mu_{i}=\frac{ii\left(M,N\right)}{M\cdot N}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color red
+The goal of the illumination normalization is to bring pixel intensities
+ value closer to the mean intensity of the image for a more even distribution
+ of intensities.
+ To accomplish this we simply compute a ratio multiplier of the mean intensity
+ 
+\begin_inset Formula $\mu_{i}$
+\end_inset
+
+ over the square local area (
+\begin_inset Formula $w\times w$
+\end_inset
+
+ ) mean intensity centered around a pixel (x,y).
+ The mean of a local area can be computed efficiently using the integral
+ image theory:
+\end_layout
+
+\begin_layout Standard
+
+\color red
+\begin_inset Formula 
+\[
+\mu_{l}\left(x,y\right)=D-C-B+A
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color red
+\begin_inset Formula 
+\[
+A=ii\left(x-\frac{w}{2},y-\frac{w}{2}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color red
+\begin_inset Formula 
+\[
+B=ii\left(x+\frac{w}{2},y-\frac{w}{2}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color red
+\begin_inset Formula 
+\[
+C=ii\left(x-\frac{w}{2},y+\frac{w}{2}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color red
+\begin_inset Formula 
+\[
+D=ii\left(x+\frac{w}{2},y+\frac{w}{2}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Then, the ratio of image intensity to local mean intensity simply is 
+\begin_inset Formula $r_{\mu_{l}\left(x,y\right)}=\frac{\mu_{i}}{\mu_{l}\left(x,y\right)}$
+\end_inset
+
+.
+ The pixel intensity value at that location is then multipled by this ratio
+ to get the normalized value:
+\end_layout
+
+\begin_layout Standard
+
+\color red
+\begin_inset Formula 
+\[
+\tilde{i}\left(x,y\right)=r_{\mu_{l}\left(x,y\right)}\cdot i\left(x,y\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figures/normalizedIllumination.jpg
+	scale 20
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\color red
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Illumination-Normalization-using"
+
+\end_inset
+
+Illumination Normalization using integral images with 
+\emph on
+w
+\emph default
+ = 30 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color red
+With the image illumation normalized, the watershed transform can be used
+ to segment out the brighter regions of the image which will be the dune
+ sunny sides.
+ The watershed implementation used is provided by the OpenCV library, and
+ is a variant of the implementation proposed in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Color-image-segmentation"
+
+\end_inset
+
+.
+ The watershed uses an initial seed rough image of the desired locations
+ to segment out, which in this application is the brighter regions of the
+ image.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+The desired regions to extract are the bright and shaded areas.
+ The threshold values for these can be determined from the image's mean
+ and standard deviation intensity values:
+\end_layout
+
+\begin_layout Standard
+
+\color red
+\begin_inset Formula 
+\[
+T_{high}=\mu_{i}+\rho_{high}\cdot\sigma_{i}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color red
+\begin_inset Formula 
+\[
+T_{low}=\mu_{i}+\rho_{low}\cdot\sigma_{i}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Where the 
+\begin_inset Formula $\rho_{high}$
+\end_inset
+
+ and 
+\begin_inset Formula $\rho_{low}$
+\end_inset
+
+ are scalar values determined empirically.
+ All pixels above the high threshold are labeled as the desired region to
+ segment (in white), and all pixels below the lower threshold are set to
+ the non-desired region (in gray).
+ A morphological eroding operation is applied to better seperate the regions
+ for the watershed transform.
+ Using the labeled image and normalized illumination image, the watershed
+ algorithm is able to segment out the dune regions reliably, as shown in
+ Figure .
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figures/sunnylabel.jpg
+	scale 20
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+(a)
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figures/shadedlabel.jpg
+	scale 20
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+(b)
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figures/watershedResultingMarkers.jpg
+	scale 20
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+(c)
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Watershed-segmentation-process"
+
+\end_inset
+
+Watershed segmentation process with 
+\begin_inset Formula $\rho_{high}=0.8$
+\end_inset
+
+ and 
+\begin_inset Formula $\rho_{low}=0.4$
+\end_inset
+
+, (a) Result of the high threshold, (b) Result of low threshold, (c) Watershed
+ segmentation results
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color red
+After computing the watershed segmentation image, the regions extracted
+ from it can be retrieved using contour detection, as done in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Method-#1:-Adaptive"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\color red
+The contours retrieved are closed loops where one segment will be along
+ the dune crest line and the other not.
+ To determine which segments of the coutour belong to the dune crestline,
+ we can use what was learned from section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Method-#2:-Unsupervized"
+
+\end_inset
+
+.
+ Building a histogram of the image gradients, choosing the dominant orientation,
+ and filtering out all contour points which do not agree with the dominant
+ orientation.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\color red
+The results of the filtering are shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Dune-Crestline-detection"
+
+\end_inset
+
+, and the accuracy of these results are shown in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Results-of-the"
+
+\end_inset
+
+.
+ There are a few drawbacks so far:
+\end_layout
+
+\begin_layout Enumerate
+
+\color red
+An assumption that a dune contains a bright side.
+ Not all images (especially the Simpson image), have crestlines that have
+ a bright edge.
+\end_layout
+
+\begin_layout Enumerate
+
+\color red
+The edges of the contours appear to be slightly noisier than edge-based
+ approaches.
+\end_layout
+
+\begin_layout Enumerate
+
+\color red
+Localization of the segments is poor.
+ Some segments do not lie on an actual edge, which may be reported as a
+ false positive.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+On the other hand, the watershed approach appears to have some benefits:
+\end_layout
+
+\begin_layout Enumerate
+
+\color red
+Better connectivity of dune crestline segments.
+ When edges become weak between two connecting segments, the edge based
+ approaches produce gaps, where the watershed is able to fill the gaps.
+\end_layout
+
+\begin_layout Enumerate
+
+\color red
+Watershed method could be further expanded to include color image processing.
+\end_layout
+
 \begin_layout Subsection
 
 \color black
@@ -2489,8 +3217,10 @@ status open
 
 \color black
 \begin_inset Tabular
-<lyxtabular version="3" rows="8" columns="7">
+<lyxtabular version="3" rows="8" columns="9">
 <features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -2539,7 +3269,28 @@ Method #1
 
 \series bold
 \color black
-Method #2 (K-Means)
+Method #2 (K-M)
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\color black
+Method #2 (HoG)
 \end_layout
 
 \end_inset
@@ -2559,8 +3310,8 @@ Method #2 (K-Means)
 \begin_layout Plain Layout
 
 \series bold
-\color black
-Method #2 (HoG)
+\color red
+Method #3
 \end_layout
 
 \end_inset
@@ -2650,7 +3401,7 @@ TP
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2658,6 +3409,32 @@ TP
 \series bold
 \emph on
 \color black
+FP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\emph on
+\color red
+TP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\emph on
+\color red
 FP
 \end_layout
 
@@ -2704,7 +3481,6 @@ Kalahari
 
 \begin_layout Plain Layout
 
-\series bold
 \color black
 0.9396
 \end_layout
@@ -2727,8 +3503,31 @@ Kalahari
 
 \begin_layout Plain Layout
 
+\series bold
 \color black
 0.9852
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color black
+0.7155
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+0.9239
 \end_layout
 
 \end_inset
@@ -2738,8 +3537,8 @@ Kalahari
 
 \begin_layout Plain Layout
 
-\color black
-0.7155
+\color red
+0.5229
 \end_layout
 
 \end_inset
@@ -2784,7 +3583,6 @@ Namib
 
 \begin_layout Plain Layout
 
-\series bold
 \color black
 0.9281
 \end_layout
@@ -2808,8 +3606,31 @@ Namib
 
 \begin_layout Plain Layout
 
+\series bold
 \color black
 0.9626
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color black
+0.6850
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+0.8591
 \end_layout
 
 \end_inset
@@ -2819,8 +3640,8 @@ Namib
 
 \begin_layout Plain Layout
 
-\color black
-0.6850
+\color red
+0.7290
 \end_layout
 
 \end_inset
@@ -2865,7 +3686,6 @@ Simpson
 
 \begin_layout Plain Layout
 
-\series bold
 \color black
 0.7464
 \end_layout
@@ -2889,8 +3709,31 @@ Simpson
 
 \begin_layout Plain Layout
 
+\series bold
 \color black
 0.8977
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color black
+0.6478
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+0.4968
 \end_layout
 
 \end_inset
@@ -2900,8 +3743,8 @@ Simpson
 
 \begin_layout Plain Layout
 
-\color black
-0.6478
+\color red
+0.6979
 \end_layout
 
 \end_inset
@@ -2976,13 +3819,36 @@ Skeleton Coast
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
 \color black
 0.2178
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\color red
+0.9221
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+0.4461
 \end_layout
 
 \end_inset
@@ -3005,7 +3871,6 @@ WDC
 
 \begin_layout Plain Layout
 
-\series bold
 \color black
 0.5581
 \end_layout
@@ -3057,13 +3922,35 @@ WDC
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
 \color black
 0.5399
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+0.7005
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+0.5819
 \end_layout
 
 \end_inset
@@ -3138,13 +4025,35 @@ White Sands
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
 \color black
 0.5740
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+0.3889
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+0.8257
 \end_layout
 
 \end_inset
@@ -3276,6 +4185,52 @@ Dune detection results (red) compared to the ground truth (green), overall
  is shown in yellow.
  Shown are results for (1) Kalahari, (2) Simpson, and (3) Skeleton Coast
  benchmark images 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide true
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figures/WatershedDuneSegments.jpg
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\color red
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Dune-Crestline-detection"
+
+\end_inset
+
+Dune Crestline detection using Watershed Algorithm
 \end_layout
 
 \end_inset

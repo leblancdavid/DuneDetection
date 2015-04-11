@@ -35,15 +35,14 @@ void WatershedImageProcessor::Process(const cv::Mat &inputImg, cv::Mat &outputIm
 
 	//Get the derivatives
 	ComputeGradient(filtered, k);
-	
+
+	//This normalizes the illumination of the image, making segmentation slightly easier.
 	cv::Mat normalizedIllumination;
 	NormalizeIllumination(filtered, normalizedIllumination);
 
-
 	//Perform the watershed
 	WatershedSegmentationIntensityBased(normalizedIllumination, outputImg);
-	//WatershedSegmentation(normalizedIllumination, outputImg);
-	//CannyBasedWatershedSegmentation(filtered, outputImg);
+
 }
 
 void WatershedImageProcessor::WatershedSegmentationIntensityBased(const cv::Mat &inputImg, cv::Mat &outputImg)
@@ -63,17 +62,39 @@ void WatershedImageProcessor::WatershedSegmentationIntensityBased(const cv::Mat 
 	cv::erode(sun, sun, cv::Mat(), cv::Point(-1, -1), 1);
 	cv::Mat seedImg = sun + shade;
 
-
-	cv::imshow("Seed Image", seedImg);
-	//cv::waitKey(0);
+	//cv::imwrite("shadedlabel.jpg", shade);
+	//cv::imwrite("sunnylabel.jpg", sun);
 
 	cv::Mat markers;
 	seedImg.convertTo(markers, CV_32S);
 
 	cv::Mat watershedImg(inputImg.rows, inputImg.cols, CV_8UC3);
 	cv::cvtColor(inputImg, watershedImg, CV_GRAY2BGR);
-
+	
+	/*cv::Mat magnitudeImg = BaseData.toImage(GRADIENT_MAT_MAGNITUDE_INDEX);
+	for (int x = 0; x < watershedImg.cols; ++x)
+	{
+		for (int y = 0; y < watershedImg.rows; ++y)
+		{
+			watershedImg.at<cv::Vec3b>(y, x)[1] = 255 - magnitudeImg.at<uchar>(y, x);
+		}
+	}*/
+	
 	cv::watershed(watershedImg, markers);
+	markers.convertTo(outputImg, CV_8UC1);
+
+	//cv::imwrite("watershedResultingMarkers.jpg", outputImg);
+	//cv::imshow("markers", outputImg);
+	cv::threshold(outputImg, outputImg, 200, 255, CV_THRESH_BINARY);
+	//cv::imshow("watershedImg", watershedImg);
+	//cv::imshow("outputImg", outputImg);
+	//cv::waitKey(0);
+
+	//cv::erode(outputImg, outputImg, cv::Mat(), cv::Point(-1, -1), 1);
+	//cv::medianBlur(outputImg, outputImg, Parameters.K);
+	/*
+	cv::imshow("Seed Image", seedImg);
+	//cv::waitKey(0);
 	markers.convertTo(seedImg, CV_8UC1);
 	cv::imshow("Watershed Results", seedImg);
 
@@ -87,13 +108,13 @@ void WatershedImageProcessor::WatershedSegmentationIntensityBased(const cv::Mat 
 		}
 	}
 	cv::imshow("Overlap", overlapImg);
-	cv::waitKey(0);
+	cv::waitKey(0);*/
 
 }
 
 void WatershedImageProcessor::CannyBasedWatershedSegmentation(const cv::Mat &inputImg, cv::Mat &outputImg)
 {
-	double dominantOrientation = FindDominantOrientation();
+	double dominantOrientation = FindDominantOrientation(DominantOrientationMethod::HOG, Parameters.HistogramBins);
 
 	cv::Mat canny;
 	double HighT = BaseData.Mean[GRADIENT_MAT_MAGNITUDE_INDEX];
@@ -179,7 +200,7 @@ void WatershedImageProcessor::CannyBasedWatershedSegmentation(const cv::Mat &inp
 void WatershedImageProcessor::WatershedSegmentation(const cv::Mat &inputImg, cv::Mat &outputImg)
 {
 	//std::vector<double> orientations = FindDominantOrientations();
-	double dominantOrientation = FindDominantOrientation();
+	double dominantOrientation = FindDominantOrientation(DominantOrientationMethod::HOG, Parameters.HistogramBins);
 
 	cv::Mat dMag(inputImg.rows, inputImg.cols, CV_64F);
 	cv::Mat dDir(inputImg.rows, inputImg.cols, CV_64F);
@@ -259,144 +280,6 @@ void WatershedImageProcessor::WatershedSegmentation(const cv::Mat &inputImg, cv:
 
 }
 
-double WatershedImageProcessor::FindDominantOrientation()
-{
-	double avgOrientation = BaseData.Mean[GRADIENT_MAT_DIRECTION_INDEX];
-
-	double increments = 2.0*3.1416 / (double)Parameters.HistogramBins;
-	std::vector<double> HoG(Parameters.HistogramBins);
-	std::vector<cv::Point2d> HoG2D(Parameters.HistogramBins);
-	for (size_t i = 0; i < HoG.size(); ++i)
-	{
-		HoG2D[i].x = 0.0;
-		HoG2D[i].y = 0.0;
-	}
-
-	for (int x = 0; x < BaseData.Gradient.cols; ++x)
-	{
-		for (int y = 0; y < BaseData.Gradient.rows; ++y)
-		{
-			double dx = BaseData.Gradient.at<cv::Vec4d>(y, x)[GRADIENT_MAT_DX_INDEX] - BaseData.Mean[GRADIENT_MAT_DX_INDEX];
-			double dy = BaseData.Gradient.at<cv::Vec4d>(y, x)[GRADIENT_MAT_DY_INDEX] - BaseData.Mean[GRADIENT_MAT_DY_INDEX];
-
-			double orientation = std::atan2(dy, dx) - avgOrientation;
-			while (orientation < 0)
-				orientation += 2.0*3.1416;
-
-			int bin = std::ceil((orientation / increments) - 0.5);
-			if (bin >= Parameters.HistogramBins)
-				bin = 0;
-
-			HoG2D[bin].x += dx / 1000.0;
-			HoG2D[bin].y += dy / 1000.0;
-		}
-	}
-
-
-	int index = 0;
-	for (size_t i = 0; i < HoG.size(); ++i)
-	{
-		double dx = HoG2D[i].x / 1000.0;
-		double dy = HoG2D[i].y / 1000.0;
-		HoG[i] = std::sqrt(dx*dx + dy*dy);
-	}
-
-
-	double dominantDir;
-	double dominantMag = 0;
-	for (int i = 0; i < HoG.size(); ++i)
-	{
-		int p = i - 1;
-		int n = i + 1;
-		if (p < 0)
-			p = HoG.size() - 1;
-		if (n >= HoG.size())
-			n = 0;
-
-		if (HoG[i] > HoG[p] && HoG[i] > HoG[n] && HoG[i] > dominantMag)
-		{
-			dominantMag = HoG[i];
-
-			double dx = HoG2D[i].x;
-			double dy = HoG2D[i].y;
-
-			dominantDir = std::atan2(dy, dx);
-		}
-	}
-
-
-	return dominantDir;
-}
-
-std::vector<double> WatershedImageProcessor::FindDominantOrientations()
-{
-	double avgOrientation = BaseData.Mean[GRADIENT_MAT_DIRECTION_INDEX];
-
-	double increments = 2.0*3.1416 / (double)Parameters.HistogramBins;
-	std::vector<double> HoG(Parameters.HistogramBins);
-	std::vector<cv::Point2d> HoG2D(Parameters.HistogramBins);
-	for (size_t i = 0; i < HoG.size(); ++i)
-	{
-		HoG2D[i].x = 0.0;
-		HoG2D[i].y = 0.0;
-	}
-
-	for (int x = 0; x < BaseData.Gradient.cols; ++x)
-	{
-		for (int y = 0; y < BaseData.Gradient.rows; ++y)
-		{
-			double dx = BaseData.Gradient.at<double>(y, x) - BaseData.Mean[GRADIENT_MAT_DX_INDEX];
-			double dy = BaseData.Gradient.at<double>(y, x) - BaseData.Mean[GRADIENT_MAT_DY_INDEX];
-
-			double orientation = std::atan2(dy, dx) - avgOrientation;
-			while (orientation < 0)
-				orientation += 2.0*3.1416;
-
-			int bin = std::ceil((orientation / increments) - 0.5);
-			if (bin >= Parameters.HistogramBins)
-				bin = 0;
-
-			HoG2D[bin].x += dx / 1000.0;
-			HoG2D[bin].y += dy / 1000.0;
-		}
-	}
-
-
-	int index = 0;
-	for (size_t i = 0; i < HoG.size(); ++i)
-	{
-		double dx = HoG2D[i].x / 1000.0;
-		double dy = HoG2D[i].y / 1000.0;
-		HoG[i] = std::sqrt(dx*dx + dy*dy);
-	}
-	
-	
-	double dominantDir;
-	double dominantMag = 0;
-	for (int i = 0; i < HoG.size(); ++i)
-	{
-		int p = i - 1;
-		int n = i + 1;
-		if (p < 0)
-			p = HoG.size() - 1;
-		if (n >= HoG.size())
-			n = 0;
-
-		if (HoG[i] > HoG[p] && HoG[i] > HoG[n] && HoG[i] > dominantMag)
-		{
-			dominantMag = HoG[i];
-
-			double dx = HoG2D[i].x;
-			double dy = HoG2D[i].y;
-
-			dominantDir = std::atan2(dy, dx);
-		}
-	}
-
-	std::vector<double> orientations;
-	orientations.push_back(dominantDir);
-	return orientations;
-}
 
 void WatershedImageProcessor::NormalizeIllumination(const cv::Mat &inputImg, cv::Mat &outputImg)
 {

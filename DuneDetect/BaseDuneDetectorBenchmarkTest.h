@@ -91,29 +91,30 @@ public:
 		std::vector<DuneSegment> segments = Detector->Extract(testImg);
 		std::vector<cv::Point> groundTruth = GetGroundTruthPoints(groundTruthImg);
 
-		//cv::Mat colorImg = cv::Mat::zeros(groundTruthImg.rows, groundTruthImg.cols, CV_8UC3);
-		////cv::cvtColor(groundTruthImg, colorImg, CV_GRAY2BGR);
+		cv::Mat colorImg = cv::Mat::zeros(groundTruthImg.rows, groundTruthImg.cols, CV_8UC3);
+		cv::cvtColor(testImg, colorImg, CV_GRAY2BGR);
+		
+		/*for (size_t i = 0; i < groundTruth.size(); ++i)
+		{
+			colorImg.at<cv::Vec3b>(groundTruth[i]) = cv::Vec3b(0, 255, 0);
+		}*/
 
+		//cv::dilate(colorImg, colorImg, cv::Mat(), cv::Point(-1, -1), 5);
 
-		//for(size_t i = 0; i < segments.size(); ++i)
-		//{
-		//	for(size_t j = 0; j < segments[i].Data.size(); ++j)
-		//	{
-		//		cv::Point p = segments[i].Data[j].Position;
-		//		colorImg.at<cv::Vec3b>(p) = cv::Vec3b(0,0,255);
-		//	}
-		//}
-
-		//for(size_t i = 0; i < groundTruth.size(); ++i)
-		//{
-		//	colorImg.at<cv::Vec3b>(groundTruth[i])[1] = 255;// = cv::Vec3b(0,255,0);
-		//}
+		for(size_t i = 0; i < segments.size(); ++i)
+		{
+			for(size_t j = 0; j < segments[i].Data.size(); ++j)
+			{
+				cv::Point p = segments[i].Data[j].Position;
+				colorImg.at<cv::Vec3b>(p) = cv::Vec3b(0,0,255);
+			}
+		}
 
 		//cv::dilate(colorImg, colorImg, cv::Mat(), cv::Point(-1,-1), 3);
 		
-		//cv::imwrite("ResultsImage.jpg", colorImg);
-		//cv::imshow("Ground Truth Image", colorImg);
-		//cv::waitKey(0);
+		//cv::imwrite("WatershedDuneSegments.jpg", colorImg);
+		cv::imshow("Ground Truth Image", colorImg);
+		cv::waitKey(30);
 
 		BenchmarkResults results;
 		//results = GetBenchmarkResults(segments, groundTruth);

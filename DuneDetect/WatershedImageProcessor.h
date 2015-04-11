@@ -10,12 +10,12 @@ namespace dune
 	public:
 		WatershedProcessorParameters()
 		{
-			K = 9;
+			K = 5;
 			HighQ = 0.8;
 			LowQ =  0.4;
 			HistogramBins = 16;
 			AngleTolerance = 3.1416*0.5;
-			Radius = 20;
+			Radius = 15;
 		}
 
 		~WatershedProcessorParameters() {}
@@ -64,8 +64,6 @@ namespace dune
 		void CannyBasedWatershedSegmentation(const cv::Mat &inputImg, cv::Mat &outputImg);
 		void WatershedSegmentationIntensityBased(const cv::Mat &inputImg, cv::Mat &outputImg);
 		void WatershedSegmentation(const cv::Mat &inputImg, cv::Mat &outputImg);
-		std::vector<double> FindDominantOrientations();
-		double FindDominantOrientation();
 
 		void NormalizeIllumination(const cv::Mat &inputImg, cv::Mat &outputImg);
 

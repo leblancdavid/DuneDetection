@@ -327,7 +327,7 @@ cv::Mat EdgeBasedDuneDetector::FilterByDominantOrientationUsingKMeans(const cv::
 	cv::line(orientationImg, center, endPt, cv::Scalar(0, 0, 255), 3);
 	cv::line(orientationImg, endPt, arrow1, cv::Scalar(0, 0, 255), 3);
 	cv::line(orientationImg, endPt, arrow2, cv::Scalar(0, 0, 255), 3);
-	cv::imwrite("orientationImg.jpg", orientationImg);
+	//cv::imwrite("orientationImg.jpg", orientationImg);
 	//cv::imshow("Average Orientation", orientationImg);
 	//cv::waitKey(1000);
 
