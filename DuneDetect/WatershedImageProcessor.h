@@ -65,8 +65,6 @@ namespace dune
 		void WatershedSegmentationIntensityBased(const cv::Mat &inputImg, cv::Mat &outputImg);
 		void WatershedSegmentation(const cv::Mat &inputImg, cv::Mat &outputImg);
 
-		void NormalizeIllumination(const cv::Mat &inputImg, cv::Mat &outputImg);
-
 	};
 
 

@@ -1,5 +1,6 @@
 #include "WatershedImageProcessor.h"
 #include "DuneMath.h"
+#include "DuneImageProcessing.h"
 
 namespace dune
 {
@@ -38,7 +39,7 @@ void WatershedImageProcessor::Process(const cv::Mat &inputImg, cv::Mat &outputIm
 
 	//This normalizes the illumination of the image, making segmentation slightly easier.
 	cv::Mat normalizedIllumination;
-	NormalizeIllumination(filtered, normalizedIllumination);
+	imgproc::IntegralIlluminationNormalization(filtered, normalizedIllumination, Parameters.Radius);
 	//ComputeGradient(normalizedIllumination, k);
 	//Perform the watershed
 	WatershedSegmentationIntensityBased(normalizedIllumination, outputImg);
@@ -285,87 +286,6 @@ void WatershedImageProcessor::WatershedSegmentation(const cv::Mat &inputImg, cv:
 	cv::waitKey(0);
 
 
-}
-
-
-void WatershedImageProcessor::NormalizeIllumination(const cv::Mat &inputImg, cv::Mat &outputImg)
-{
-	cv::Mat integralImg;
-	cv::integral(inputImg, integralImg, CV_64F);
-
-	cv::Scalar meanIntensity, stdDevIntensity;
-	cv::meanStdDev(inputImg, meanIntensity, stdDevIntensity);
-
-	cv::Point A, B, C, D;
-	outputImg = cv::Mat(inputImg.rows, inputImg.cols, CV_8UC1);
-	
-	int radius = 50;
-
-	for (int x = 0; x < inputImg.cols; ++x)
-	{
-		for (int y = 0; y < inputImg.rows; ++y)
-		{
-			int left = x - Parameters.Radius;
-			int right = x + Parameters.Radius;
-			int top = y - Parameters.Radius;
-			int bottom = y + Parameters.Radius;
-
-			if (left < 0)
-				left = 0;
-			if (right >= integralImg.cols)
-				right = integralImg.cols - 1;
-			if (top < 0)
-				top = 0;
-			if (bottom >= integralImg.rows)
-				bottom = integralImg.rows - 1;
-
-			int width = right - left;
-			int height = bottom - top;
-			double area = width * height;
-
-			A.x = left, A.y = top;
-			B.x = right, B.y = top;
-			C.x = left, C.y = bottom;
-			D.x = right, D.y = bottom;
-
-			double sum = integralImg.at<double>(D) - integralImg.at<double>(C) - integralImg.at<double>(B) + integralImg.at<double>(A);
-			
-			double r = meanIntensity[0] / (sum / area);
-			double outputVal = std::ceil((double)inputImg.at<uchar>(y, x) * r - 0.5);
-			if (outputVal > 255.0)
-				outputVal = 255.0;
-			else if (outputVal < 0)
-				outputVal = 0;
-
-			//double r = meanIntensity[0] - (sum / area);
-			//double outputVal = std::ceil((double)inputImg.at<uchar>(y, x) + r - 0.5);
-			//if (outputVal > 255.0)
-			//	outputVal = 255.0;
-			//else if (outputVal < 0)
-			//	outputVal = 0;
-
-			outputImg.at<uchar>(y, x) = (uchar)outputVal;
-		}
-	}
-
-	//cv::imshow("Input Image", inputImg);
-	//cv::imshow("Normalized Illumination", outputImg);
-
-	//cv::Mat diff = (outputImg - inputImg);
-	//cv::normalize(diff, diff, 0, 255, cv::NORM_MINMAX);
-
-	//cv::Mat equalized;
-	//cv::equalizeHist(outputImg, equalized);
-	//cv::Mat threshold1, threshold2;
-	//cv::threshold(outputImg, threshold1, meanIntensity[0] + Parameters.HighQ * stdDevIntensity[0], 255.0, CV_THRESH_BINARY);
-	//cv::imshow("Diff Image", diff);
-	//cv::imshow("Equalized", equalized);
-	//cv::imshow("Thres1", threshold1);
-	//cv::threshold(inputImg, threshold2, meanIntensity[0] + Parameters.HighQ * stdDevIntensity[0], 255.0, CV_THRESH_BINARY);
-	//cv::imshow("Thres2", threshold2);
-	//cv::waitKey(0);
-
-	//cv::equalizeHist(outputImg, outputImg);
 }
 
 }

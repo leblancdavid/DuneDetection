@@ -40,7 +40,10 @@
     <Filter Include="Header Files\Math">
       <UniqueIdentifier>{35f9a7e9-1b26-4576-8a94-dfbf2c254445}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Image Processing">
+    <Filter Include="Source Files\Processing">
+      <UniqueIdentifier>{bc1f7471-f577-44f8-9083-41f9d1818ad1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Processing">
       <UniqueIdentifier>{a564de06-9b52-43de-912c-6538f8bbd799}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -100,7 +103,7 @@
       <Filter>Header Files\Math</Filter>
     </ClInclude>
     <ClInclude Include="DuneImageProcessing.h">
-      <Filter>Header Files\Image Processing</Filter>
+      <Filter>Header Files\Processing</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +136,9 @@
     </ClCompile>
     <ClCompile Include="WatershedDuneDetectorBenchmark.cpp">
       <Filter>Source Files\Watershed Dune Detector</Filter>
+    </ClCompile>
+    <ClCompile Include="DuneImageProcessing.cpp">
+      <Filter>Source Files\Processing</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

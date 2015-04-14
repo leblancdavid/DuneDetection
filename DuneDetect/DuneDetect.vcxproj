@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AdaptiveImageProcessor.cpp" />
+    <ClCompile Include="DuneImageProcessing.cpp" />
     <ClCompile Include="DuneSegmentDetector.cpp" />
     <ClCompile Include="DuneSegmentDetectorBenchmark.cpp" />
     <ClCompile Include="EdgeBasedDetectorBenchmark.cpp" />
