@@ -117,7 +117,7 @@ public:
 		cv::waitKey(30);
 
 		BenchmarkResults results;
-		//results = GetBenchmarkResults(segments, groundTruth);
+		results = GetBenchmarkResults(segments, groundTruth);
 		return results;
 	}
 
@@ -149,8 +149,80 @@ protected:
 
 		results.TP = CalcTruePositives(segments, groundTruth, results.Error);
 		results.FP = CalcFalsePositives(segments, groundTruth);
+
+		//CalculateResults(segments, groundTruth, results.TP, results.FP);
 		
 		return results;
+	}
+	
+	void CalculateResults(const std::vector<DuneSegment> &segments,
+		const std::vector<cv::Point> &groundTruth,
+		double &TP, double &FP)
+	{
+		cv::Mat resultsImg = cv::Mat::zeros(800, 1200, CV_8UC3) ;
+
+		TP = 0;
+		std::vector<std::vector<bool>> matchFound(segments.size());
+		double totalData = 0;
+		for (size_t i = 0; i < matchFound.size(); ++i)
+		{
+			for (size_t j = 0; j < segments[i].Data.size(); ++j)
+			{
+				matchFound[i].push_back(false);
+				totalData++;
+
+				resultsImg.at<cv::Vec3b>(segments[i].Data[j].Position) = cv::Vec3b(0, 0, 255);
+			}
+		}
+
+		for (size_t i = 0; i < groundTruth.size(); ++i)
+		{
+			resultsImg.at<cv::Vec3b>(groundTruth[i]) = cv::Vec3b(255, 0, 0);
+		}
+
+		//Compute the true positives;
+		for (size_t i = 0; i < groundTruth.size(); ++i)
+		{
+			int minJ, minK;
+			double minDist = DBL_MAX;
+			bool found = false;
+			for (size_t j = 0; j < segments.size(); ++j)
+			{
+				for (size_t k = 0; k < segments[j].Data.size(); ++k)
+				{
+					if (matchFound[j][k])
+						continue;
+
+					double d = segments[j].Data[k].DistanceFrom(groundTruth[i]);
+					if (d < minDist)
+					{
+						minJ = j;
+						minK = k;
+						minDist = d;
+					}
+				}
+
+				
+			}
+
+			if (minDist < BenchmarkParams.MinError)
+			{
+				matchFound[minJ][minK] = true;
+				TP++;
+
+				resultsImg.at<cv::Vec3b>(groundTruth[i]) = cv::Vec3b(0, 255, 0);
+				resultsImg.at<cv::Vec3b>(segments[minJ].Data[minK].Position) = cv::Vec3b(0, 255, 0);
+			}
+
+			cv::imshow("Results Progression", resultsImg);
+			cv::waitKey(33);
+			//error += minDist;
+		}
+
+		//Calculate the True positive
+		FP = TP / totalData;
+		TP /= (double)groundTruth.size();
+		//error /= (double)groundTruth.size();
 	}
 
 	double CalcTruePositives(const std::vector<DuneSegment> &segments,

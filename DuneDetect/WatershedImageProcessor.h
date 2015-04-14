@@ -10,12 +10,12 @@ namespace dune
 	public:
 		WatershedProcessorParameters()
 		{
-			K = 5;
-			HighQ = 0.8;
-			LowQ =  0.4;
+			K = 3;
+			HighQ = 1.2;
+			LowQ =  1.2;
 			HistogramBins = 16;
 			AngleTolerance = 3.1416*0.5;
-			Radius = 15;
+			Radius = 50;
 		}
 
 		~WatershedProcessorParameters() {}

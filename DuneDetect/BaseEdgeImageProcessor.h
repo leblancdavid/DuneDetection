@@ -88,12 +88,22 @@ namespace dune
 
 		double FindDominantOrientation(DominantOrientationMethod method, int param1)
 		{
-			if (method = HOG)
+			if (method == HOG)
 				return FindDominantOrientationUsingHoG(param1);
 			else
 				return 0.0;
 
 		}
+
+		double FindDominantOrientation(DominantOrientationMethod method, const std::vector<cv::Point> &points, int param1)
+		{
+			if (method == HOG)
+				return FindDominantOrientationUsingHoG(points, param1);
+			else
+				return 0.0;
+
+		}
+
 
 		//The gradient matrix is a 4-channel matrix where 
 		//C1: dx, C2: dy, C3: magnitude, C4: direction 
@@ -145,23 +155,73 @@ namespace dune
 				HoG[i] = std::sqrt(dx*dx + dy*dy);
 			}
 
+			return calcDominantOrientationFromHoG(HoG, HoG2D);
+		}
+
+		double FindDominantOrientationUsingHoG(const std::vector<cv::Point> &points, int bins)
+		{
+			double avgOrientation = BaseData.Mean[GRADIENT_MAT_DIRECTION_INDEX];
+
+			//Init the HoG Bins
+			double increments = 2.0*3.1416 / (double)bins;
+			std::vector<double> HoG(bins);
+			std::vector<cv::Point2d> HoG2D(bins);
+			for (size_t i = 0; i < HoG.size(); ++i)
+			{
+				HoG2D[i].x = 0.0;
+				HoG2D[i].y = 0.0;
+			}
+
+			//Compute the normalized orientation.
+			for (size_t i = 0; i < points.size(); ++i)
+			{
+				double dx = BaseData.Gradient.at<cv::Vec4d>(points[i])[GRADIENT_MAT_DX_INDEX] - BaseData.Mean[GRADIENT_MAT_DX_INDEX];
+				double dy = BaseData.Gradient.at<cv::Vec4d>(points[i])[GRADIENT_MAT_DY_INDEX] - BaseData.Mean[GRADIENT_MAT_DY_INDEX];
+
+				double orientation = std::atan2(dy, dx) - avgOrientation;
+				while (orientation < 0)
+					orientation += 2.0*3.1416;
+
+				int bin = std::ceil((orientation / increments) - 0.5);
+				if (bin >= bins)
+					bin = 0;
+
+				HoG2D[bin].x += dx / 1000.0;
+				HoG2D[bin].y += dy / 1000.0;
+			}
+
+			int index = 0;
+			for (size_t i = 0; i < HoG.size(); ++i)
+			{
+				double dx = HoG2D[i].x / 1000.0;
+				double dy = HoG2D[i].y / 1000.0;
+				HoG[i] = std::sqrt(dx*dx + dy*dy);
+			}
+
+			return calcDominantOrientationFromHoG(HoG, HoG2D);
+		}
+
+	private:
+
+		double calcDominantOrientationFromHoG(const std::vector<double> &histogram, const std::vector<cv::Point2d> &gradients)
+		{
 			double dominantDir;
 			double dominantMag = 0;
-			for (int i = 0; i < HoG.size(); ++i)
+			for (int i = 0; i < histogram.size(); ++i)
 			{
 				int p = i - 1;
 				int n = i + 1;
 				if (p < 0)
-					p = HoG.size() - 1;
-				if (n >= HoG.size())
+					p = histogram.size() - 1;
+				if (n >= histogram.size())
 					n = 0;
 
-				if (HoG[i] > HoG[p] && HoG[i] > HoG[n] && HoG[i] > dominantMag)
+				if (histogram[i] > histogram[p] && histogram[i] > histogram[n] && histogram[i] > dominantMag)
 				{
-					dominantMag = HoG[i];
+					dominantMag = histogram[i];
 
-					double dx = HoG2D[i].x;
-					double dy = HoG2D[i].y;
+					double dx = gradients[i].x;
+					double dy = gradients[i].y;
 
 					dominantDir = std::atan2(dy, dx);
 				}
@@ -169,8 +229,6 @@ namespace dune
 
 			return dominantDir;
 		}
-
-	private:
 
 	};
 

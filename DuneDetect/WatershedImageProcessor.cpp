@@ -39,7 +39,7 @@ void WatershedImageProcessor::Process(const cv::Mat &inputImg, cv::Mat &outputIm
 	//This normalizes the illumination of the image, making segmentation slightly easier.
 	cv::Mat normalizedIllumination;
 	NormalizeIllumination(filtered, normalizedIllumination);
-
+	//ComputeGradient(normalizedIllumination, k);
 	//Perform the watershed
 	WatershedSegmentationIntensityBased(normalizedIllumination, outputImg);
 
@@ -55,12 +55,19 @@ void WatershedImageProcessor::WatershedSegmentationIntensityBased(const cv::Mat 
 	double nonseedThreshold = meanIntensity[0] + Parameters.LowQ * stdDevIntensity[0];
 	double seedThreshold = meanIntensity[0] + Parameters.HighQ * stdDevIntensity[0];
 
-	cv::threshold(inputImg, sun, seedThreshold, 255, CV_THRESH_BINARY);
-	cv::threshold(inputImg, shade, nonseedThreshold, 128, CV_THRESH_BINARY_INV);
 
-	cv::erode(shade, shade, cv::Mat(), cv::Point(-1, -1), 3);
-	cv::erode(sun, sun, cv::Mat(), cv::Point(-1, -1), 1);
+	cv::adaptiveThreshold(inputImg, sun, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY, Parameters.Radius*2.0 + 1, -0.2 * Parameters.Radius);
+	cv::adaptiveThreshold(inputImg, shade, 128, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY_INV, Parameters.Radius*2.0 + 1, -0.2 * Parameters.Radius);
+
+	//cv::threshold(inputImg, sun, seedThreshold, 255, CV_THRESH_BINARY);
+	//cv::threshold(inputImg, shade, nonseedThreshold, 128, CV_THRESH_BINARY_INV);
+
+	cv::erode(shade, shade, cv::Mat(), cv::Point(-1, -1), 5);
+	cv::erode(sun, sun, cv::Mat(), cv::Point(-1, -1), 3);
 	cv::Mat seedImg = sun + shade;
+
+	cv::imshow("seedImg", seedImg);
+	cv::waitKey(0);
 
 	//cv::imwrite("shadedlabel.jpg", shade);
 	//cv::imwrite("sunnylabel.jpg", sun);

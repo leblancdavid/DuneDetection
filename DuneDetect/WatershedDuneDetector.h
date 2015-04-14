@@ -48,7 +48,7 @@ namespace dune
 	{
 	public:
 		WatershedDuneDetector();
-		WatershedDuneDetector(BasedEdgeImageProcessor* imgproc, const WatershedDuneDetectorParameters &params);
+		WatershedDuneDetector(WatershedImageProcessor* imgproc, const WatershedDuneDetectorParameters &params);
 		~WatershedDuneDetector();
 
 		std::vector<DuneSegment> Extract(const cv::Mat &img);
@@ -59,6 +59,7 @@ namespace dune
 
 		std::vector<std::vector<cv::Point>> GetContours(const cv::Mat &img);
 		std::vector<std::vector<cv::Point>> FilterSegmentsByGradients(std::vector<std::vector<cv::Point>> &contours);
+		std::vector<std::vector<cv::Point>> SplitContourToSegmentsByGradients(double domOrientation, std::vector<cv::Point> &contour);
 	};
 
 }

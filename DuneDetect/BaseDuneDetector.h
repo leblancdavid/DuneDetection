@@ -28,6 +28,16 @@ public:
 		Orientation = orient;
 	}
 
+	double DistanceFrom(cv::Point pos) const
+	{
+		double d = std::sqrt(((pos.x - Position.x) *
+			(pos.x - Position.x)) +
+			((pos.y - Position.y) *
+			(pos.y - Position.y)));
+
+		return d;
+	}
+
 	cv::Point Position;
 	double Orientation;
 };
@@ -60,10 +70,8 @@ public:
 		for(size_t i = 0; i < Data.size(); ++i)
 		{
 			//Compute Euclidean distance
-			double d = std::sqrt(((from.x-Data[i].Position.x) *
-								(from.x-Data[i].Position.x)) +
-								((from.y-Data[i].Position.y) *
-								(from.y-Data[i].Position.y)));
+			double d = Data[i].DistanceFrom(from);
+
 			if(d < dist)
 			{
 				dist = d;
@@ -89,11 +97,6 @@ public:
 		delete ImageProcess;
 	};
 	BaseDuneDetector(const BaseDuneDetector &cpy){};
-	
-	void SetImageProcess(BaseImageProcessor *imgproc)
-	{
-		ImageProcess = imgproc;
-	}
 
 	virtual std::vector<DuneSegment> Extract(const cv::Mat &img)=0;
 
