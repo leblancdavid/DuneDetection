@@ -88,7 +88,7 @@ David Leblanc
 
 \begin_layout Date
 
-\color red
+\color black
 04/9/2015
 \end_layout
 
@@ -355,12 +355,46 @@ Image Processing
 \begin_layout Subsubsection
 
 \color red
-Illumination Normalization
+Filtering
 \end_layout
 
 \begin_layout Standard
 
 \color red
+There are many common filtering approaches used in image processing and
+ computer vision applications.
+ In this application, satelite images of sand dunes may include various
+ ammounts of noise.
+ In order to improve the dune detection algorithms, the goal of filtering
+ is to filter out the noise while preserving or enhancing the necessary
+ features such as the crest-line edges.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Bilateral-filtering-gray-color-images"
+
+\end_inset
+
+, the bilateral filter is proposed, which allows flat noisy regions to be
+ filtered while preserving strong edges.
+ Bilateral filtering is a simple non-iterative algorithm for filtering out
+ noise.
+\end_layout
+
+\begin_layout Subsubsection
+
+\color black
+Illumination Normalization
+\end_layout
+
+\begin_layout Standard
+
+\color black
 Illumination normalization is a process in which the image illumation is
  made to be more evenly distributed accross the image, to make the illumination
  invariant in conditions of varying lighting.
@@ -385,7 +419,7 @@ key "Illumination_normalization_based_on_2d_gaussian_model"
 
 \begin_layout Standard
 
-\color red
+\color black
 In a similar approach 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -410,7 +444,7 @@ key "Illumination_normalization_for_image_restoration_using_modified_retinex_alg
 
 \begin_layout Standard
 
-\color red
+\color black
 In a remote sensing application, 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -655,13 +689,13 @@ Pattern Recognition
 
 \begin_layout Subsubsection
 
-\color red
+\color black
 Watershed Segmentation
 \end_layout
 
 \begin_layout Standard
 
-\color red
+\color black
 The Watershed Transform is a well know algorithm for segmenting meaningful
  regions from an image.
  The main benefit of the watershed technique as opposed to method, such
@@ -680,7 +714,7 @@ status open
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 This paper still needs to be read
 \end_layout
 
@@ -691,7 +725,7 @@ This paper still needs to be read
 
 \begin_layout Standard
 
-\color red
+\color black
 In 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -705,7 +739,7 @@ key "Image_segmentation_using_texture_gradient_based_watershed_transform"
 
 \begin_layout Standard
 
-\color red
+\color black
 Similarly, in 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -724,7 +758,7 @@ key "Watershed-based-textural-image-segmentation"
 
 \begin_layout Standard
 
-\color red
+\color black
 Another approach used in the Watershed algorithm is based on markers.
  The desired regions to segment can be extracted using some known feature
  which gets marked on the image.
@@ -745,7 +779,7 @@ key "Fingerprint-pore-extraction-based-marker-controlled-watershed-segmentation"
 
 \begin_layout Standard
 
-\color red
+\color black
 In 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -2120,7 +2154,7 @@ s of the normalization.
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -2334,13 +2368,13 @@ R
 
 \begin_layout Subsubsection
 
-\color red
+\color black
 Method #3: Watershed Segmentation
 \end_layout
 
 \begin_layout Standard
 
-\color red
+\color black
 In an approach similar to 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -2357,7 +2391,7 @@ reference "sub:Method-#1:-Adaptive"
 
 \begin_layout Standard
 
-\color red
+\color black
 In order to extract reliable regions, image illumination normalization is
  applied, to make the illumination more evenly distributed accross an image.
  After applying some pre-processing to the image (Median and Gaussian blurring
@@ -2367,7 +2401,7 @@ status open
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 The illumination normalization presented is very basic, and better normalization
  schemes should be tried.
 \end_layout
@@ -2386,7 +2420,7 @@ reference "fig:Illumination-Normalization-using"
 
 \begin_layout Standard
 
-\color red
+\color black
 The normalization process is done in a fairly simple and efficient way,
  using integral images.
  The integral images was orignially proposed in 
@@ -2419,7 +2453,7 @@ key "Robust-real-time-Object-Detection"
 
 \begin_layout Standard
 
-\color red
+\color black
 \begin_inset Formula 
 \[
 ii\left(x,y\right)=\sum_{x'\leq x,y'\leq y}i\left(x',y'\right)
@@ -2432,7 +2466,7 @@ ii\left(x,y\right)=\sum_{x'\leq x,y'\leq y}i\left(x',y'\right)
 
 \begin_layout Standard
 
-\color red
+\color black
 To normalize using integral images, the mean 
 \begin_inset Formula $\mu_{i}$
 \end_inset
@@ -2447,7 +2481,7 @@ To normalize using integral images, the mean
 
 \begin_layout Standard
 
-\color red
+\color black
 \begin_inset Formula 
 \[
 \mu_{i}=\frac{ii\left(M,N\right)}{M\cdot N}
@@ -2460,7 +2494,7 @@ To normalize using integral images, the mean
 
 \begin_layout Standard
 
-\color red
+\color black
 The goal of the illumination normalization is to bring pixel intensities
  value closer to the mean intensity of the image for a more even distribution
  of intensities.
@@ -2480,7 +2514,7 @@ The goal of the illumination normalization is to bring pixel intensities
 
 \begin_layout Standard
 
-\color red
+\color black
 \begin_inset Formula 
 \[
 \mu_{l}\left(x,y\right)=D-C-B+A
@@ -2493,7 +2527,7 @@ The goal of the illumination normalization is to bring pixel intensities
 
 \begin_layout Standard
 
-\color red
+\color black
 \begin_inset Formula 
 \[
 A=ii\left(x-\frac{w}{2},y-\frac{w}{2}\right)
@@ -2506,7 +2540,7 @@ A=ii\left(x-\frac{w}{2},y-\frac{w}{2}\right)
 
 \begin_layout Standard
 
-\color red
+\color black
 \begin_inset Formula 
 \[
 B=ii\left(x+\frac{w}{2},y-\frac{w}{2}\right)
@@ -2519,7 +2553,7 @@ B=ii\left(x+\frac{w}{2},y-\frac{w}{2}\right)
 
 \begin_layout Standard
 
-\color red
+\color black
 \begin_inset Formula 
 \[
 C=ii\left(x-\frac{w}{2},y+\frac{w}{2}\right)
@@ -2532,7 +2566,7 @@ C=ii\left(x-\frac{w}{2},y+\frac{w}{2}\right)
 
 \begin_layout Standard
 
-\color red
+\color black
 \begin_inset Formula 
 \[
 D=ii\left(x+\frac{w}{2},y+\frac{w}{2}\right)
@@ -2545,7 +2579,7 @@ D=ii\left(x+\frac{w}{2},y+\frac{w}{2}\right)
 
 \begin_layout Standard
 
-\color red
+\color black
 Then, the ratio of image intensity to local mean intensity simply is 
 \begin_inset Formula $r_{\mu_{l}\left(x,y\right)}=\frac{\mu_{i}}{\mu_{l}\left(x,y\right)}$
 \end_inset
@@ -2557,7 +2591,7 @@ Then, the ratio of image intensity to local mean intensity simply is
 
 \begin_layout Standard
 
-\color red
+\color black
 \begin_inset Formula 
 \[
 \tilde{i}\left(x,y\right)=r_{\mu_{l}\left(x,y\right)}\cdot i\left(x,y\right)
@@ -2569,13 +2603,17 @@ Then, the ratio of image intensity to local mean intensity simply is
 \end_layout
 
 \begin_layout Standard
+
+\color black
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
+
+\color black
 \begin_inset Graphics
 	filename Figures/normalizedIllumination.jpg
 	scale 20
@@ -2586,6 +2624,8 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
+
+\color black
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
@@ -2616,7 +2656,7 @@ w
 
 \begin_layout Standard
 
-\color red
+\color black
 With the image illumation normalized, the watershed transform can be used
  to segment out the brighter regions of the image which will be the dune
  sunny sides.
@@ -2636,7 +2676,7 @@ key "Color-image-segmentation"
 
 \begin_layout Standard
 
-\color red
+\color black
 The desired regions to extract are the bright and shaded areas.
  The threshold values for these can be determined from the image's mean
  and standard deviation intensity values:
@@ -2644,7 +2684,7 @@ The desired regions to extract are the bright and shaded areas.
 
 \begin_layout Standard
 
-\color red
+\color black
 \begin_inset Formula 
 \[
 T_{high}=\mu_{i}+\rho_{high}\cdot\sigma_{i}
@@ -2657,7 +2697,7 @@ T_{high}=\mu_{i}+\rho_{high}\cdot\sigma_{i}
 
 \begin_layout Standard
 
-\color red
+\color black
 \begin_inset Formula 
 \[
 T_{low}=\mu_{i}+\rho_{low}\cdot\sigma_{i}
@@ -2670,7 +2710,7 @@ T_{low}=\mu_{i}+\rho_{low}\cdot\sigma_{i}
 
 \begin_layout Standard
 
-\color red
+\color black
 Where the 
 \begin_inset Formula $\rho_{high}$
 \end_inset
@@ -2691,13 +2731,17 @@ Where the
 \end_layout
 
 \begin_layout Standard
+
+\color black
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
+
+\color black
 \begin_inset Graphics
 	filename Figures/sunnylabel.jpg
 	scale 20
@@ -2709,11 +2753,15 @@ status open
 
 \begin_layout Plain Layout
 \align center
+
+\color black
 (a)
 \end_layout
 
 \begin_layout Plain Layout
 \align center
+
+\color black
 \begin_inset Graphics
 	filename Figures/shadedlabel.jpg
 	scale 20
@@ -2725,11 +2773,15 @@ status open
 
 \begin_layout Plain Layout
 \align center
+
+\color black
 (b)
 \end_layout
 
 \begin_layout Plain Layout
 \align center
+
+\color black
 \begin_inset Graphics
 	filename Figures/watershedResultingMarkers.jpg
 	scale 20
@@ -2741,10 +2793,14 @@ status open
 
 \begin_layout Plain Layout
 \align center
+
+\color black
 (c)
 \end_layout
 
 \begin_layout Plain Layout
+
+\color black
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
@@ -2780,7 +2836,7 @@ Watershed segmentation process with
 
 \begin_layout Standard
 
-\color red
+\color black
 After computing the watershed segmentation image, the regions extracted
  from it can be retrieved using contour detection, as done in section 
 \begin_inset CommandInset ref
@@ -2795,7 +2851,7 @@ reference "sub:Method-#1:-Adaptive"
 
 \begin_layout Standard
 
-\color red
+\color black
 The contours retrieved are closed loops where one segment will be along
  the dune crest line and the other not.
  To determine which segments of the coutour belong to the dune crestline,
@@ -2815,7 +2871,7 @@ reference "sub:Method-#2:-Unsupervized"
 
 \begin_layout Standard
 
-\color red
+\color black
 The results of the filtering are shown in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -2836,7 +2892,7 @@ reference "tab:Results-of-the"
 
 \begin_layout Enumerate
 
-\color red
+\color black
 An assumption that a dune contains a bright side.
  Not all images (especially the Simpson image), have crestlines that have
  a bright edge.
@@ -2844,14 +2900,14 @@ An assumption that a dune contains a bright side.
 
 \begin_layout Enumerate
 
-\color red
+\color black
 The edges of the contours appear to be slightly noisier than edge-based
  approaches.
 \end_layout
 
 \begin_layout Enumerate
 
-\color red
+\color black
 Localization of the segments is poor.
  Some segments do not lie on an actual edge, which may be reported as a
  false positive.
@@ -2859,13 +2915,13 @@ Localization of the segments is poor.
 
 \begin_layout Standard
 
-\color red
+\color black
 On the other hand, the watershed approach appears to have some benefits:
 \end_layout
 
 \begin_layout Enumerate
 
-\color red
+\color black
 Better connectivity of dune crestline segments.
  When edges become weak between two connecting segments, the edge based
  approaches produce gaps, where the watershed is able to fill the gaps.
@@ -2873,7 +2929,7 @@ Better connectivity of dune crestline segments.
 
 \begin_layout Enumerate
 
-\color red
+\color black
 Watershed method could be further expanded to include color image processing.
 \end_layout
 
@@ -3312,7 +3368,7 @@ Method #2 (HoG)
 \begin_layout Plain Layout
 
 \series bold
-\color red
+\color black
 Method #3
 \end_layout
 
@@ -3423,7 +3479,7 @@ FP
 
 \series bold
 \emph on
-\color red
+\color black
 TP
 \end_layout
 
@@ -3436,7 +3492,7 @@ TP
 
 \series bold
 \emph on
-\color red
+\color black
 FP
 \end_layout
 
@@ -3528,7 +3584,7 @@ Kalahari
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 0.9239
 \end_layout
 
@@ -3539,7 +3595,7 @@ Kalahari
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 0.5229
 \end_layout
 
@@ -3631,7 +3687,7 @@ Namib
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 0.8591
 \end_layout
 
@@ -3642,7 +3698,7 @@ Namib
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 0.7290
 \end_layout
 
@@ -3734,7 +3790,7 @@ Simpson
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 0.4968
 \end_layout
 
@@ -3745,7 +3801,7 @@ Simpson
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 0.6979
 \end_layout
 
@@ -3838,7 +3894,7 @@ Skeleton Coast
 \begin_layout Plain Layout
 
 \series bold
-\color red
+\color black
 0.9221
 \end_layout
 
@@ -3849,7 +3905,7 @@ Skeleton Coast
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 0.4461
 \end_layout
 
@@ -3940,7 +3996,7 @@ WDC
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 0.7005
 \end_layout
 
@@ -3951,7 +4007,7 @@ WDC
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 0.5819
 \end_layout
 
@@ -4043,7 +4099,7 @@ White Sands
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 0.3889
 \end_layout
 
@@ -4054,7 +4110,7 @@ White Sands
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 0.8257
 \end_layout
 
@@ -4204,6 +4260,8 @@ Dune detection results (red) compared to the ground truth (green), overall
 \end_layout
 
 \begin_layout Standard
+
+\color black
 \begin_inset Float figure
 wide true
 sideways false
@@ -4211,6 +4269,8 @@ status open
 
 \begin_layout Plain Layout
 \align center
+
+\color black
 \begin_inset Graphics
 	filename Figures/WatershedDuneSegments.jpg
 	scale 40
@@ -4221,11 +4281,13 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
+
+\color black
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:Dune-Crestline-detection"

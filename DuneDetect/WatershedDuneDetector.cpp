@@ -37,12 +37,14 @@ std::vector<DuneSegment> WatershedDuneDetector::Extract(const cv::Mat &img)
 
 	for (size_t i = 0; i < contours.size(); ++i)
 	{
+		std::vector<DuneSegmentData> segData;
 		DuneSegment s;
 		for (size_t j = 0; j < contours[i].size(); ++j)
 		{
-			s.Data.push_back(DuneSegmentData(contours[i][j], 0));
+			segData.push_back(DuneSegmentData(contours[i][j], 0));
 			//cv::circle(colorImg, contours[i][j], 1, cv::Scalar(255, 0, 0), 2);
 		}
+		s.SetSegmentData(segData);
 		duneSegs.push_back(s);
 	}
 

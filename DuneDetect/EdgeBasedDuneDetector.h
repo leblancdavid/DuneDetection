@@ -14,9 +14,10 @@ namespace dune
 	public:
 		EdgeBasedDetectorParameters()
 		{
-			K = 7;
+			K = 9;
 			R = 0.1;
 			MinSegmentLength = 10;
+			ApplyLinking = true;
 			HistogramBins = 16;
 			AngleTolerance = 3.1416*0.5;
 		}
@@ -24,6 +25,7 @@ namespace dune
 		{
 			K = cpy.K;
 			R = cpy.R;
+			ApplyLinking = cpy.ApplyLinking;
 			MinSegmentLength = cpy.MinSegmentLength;
 			HistogramBins = cpy.HistogramBins;
 			AngleTolerance = cpy.AngleTolerance;
@@ -39,6 +41,7 @@ namespace dune
 
 		int K;
 		double R;
+		bool ApplyLinking;
 		int MinSegmentLength;
 		int HistogramBins;
 		double AngleTolerance;
@@ -49,7 +52,7 @@ namespace dune
 	{
 	public:
 		EdgeBasedDuneDetector();
-		EdgeBasedDuneDetector(BaseImageProcessor* imgproc, const EdgeBasedDetectorParameters &params);
+		EdgeBasedDuneDetector(EdgeDetectorImageProcessor* imgproc, const EdgeBasedDetectorParameters &params);
 		~EdgeBasedDuneDetector();
 
 		std::vector<DuneSegment> Extract(const cv::Mat &img);
@@ -60,9 +63,9 @@ namespace dune
 
 		double GetDominantOrientation(const cv::Mat &inputImg, const cv::Mat &edges);
 		cv::Mat FilterByDominantOrientationUsingKMeans(const cv::Mat &inputImg, const cv::Mat &edges);
-		cv::Mat FilterByDominantOrientationUsingHoG(const cv::Mat &inputImg, const cv::Mat &edges);
+		cv::Mat FilterByDominantOrientation(const cv::Mat &edges);
 
-		std::vector<std::vector<cv::Point>> GetContours(const cv::Mat &img);
+		std::vector<DuneSegment> GetDuneSegmentContours(const cv::Mat &img);
 	};
 
 }

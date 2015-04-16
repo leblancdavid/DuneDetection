@@ -74,11 +74,13 @@ std::vector<DuneSegment> DuneSegmentDetector::Extract(const cv::Mat &img)
 
 	for(size_t i = 0; i < contours.size(); ++i)
 	{
+		std::vector<DuneSegmentData> segData;
 		DuneSegment s;
-		for(size_t j = 0; j < contours[i].size(); ++j)
+		for (size_t j = 0; j < contours[i].size(); ++j)
 		{
-			s.Data.push_back(DuneSegmentData(contours[i][j], 0));
+			segData.push_back(DuneSegmentData(contours[i][j], 0));
 		}
+		s.SetSegmentData(segData);
 		duneSegs.push_back(s);
 	}
 

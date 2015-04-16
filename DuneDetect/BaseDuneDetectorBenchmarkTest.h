@@ -103,9 +103,10 @@ public:
 
 		for(size_t i = 0; i < segments.size(); ++i)
 		{
-			for(size_t j = 0; j < segments[i].Data.size(); ++j)
+			std::vector<DuneSegmentData> segData = segments[i].GetSegmentData();
+			for (size_t j = 0; j < segData.size(); ++j)
 			{
-				cv::Point p = segments[i].Data[j].Position;
+				cv::Point p = segData[j].Position;
 				colorImg.at<cv::Vec3b>(p) = cv::Vec3b(0,0,255);
 			}
 		}
@@ -117,7 +118,7 @@ public:
 		cv::waitKey(30);
 
 		BenchmarkResults results;
-		results = GetBenchmarkResults(segments, groundTruth);
+		//results = GetBenchmarkResults(segments, groundTruth);
 		return results;
 	}
 
@@ -166,12 +167,13 @@ protected:
 		double totalData = 0;
 		for (size_t i = 0; i < matchFound.size(); ++i)
 		{
-			for (size_t j = 0; j < segments[i].Data.size(); ++j)
+			std::vector<DuneSegmentData> segData = segments[i].GetSegmentData();
+			for (size_t j = 0; j < segData.size(); ++j)
 			{
 				matchFound[i].push_back(false);
 				totalData++;
 
-				resultsImg.at<cv::Vec3b>(segments[i].Data[j].Position) = cv::Vec3b(0, 0, 255);
+				resultsImg.at<cv::Vec3b>(segData[j].Position) = cv::Vec3b(0, 0, 255);
 			}
 		}
 
@@ -188,12 +190,13 @@ protected:
 			bool found = false;
 			for (size_t j = 0; j < segments.size(); ++j)
 			{
-				for (size_t k = 0; k < segments[j].Data.size(); ++k)
+				std::vector<DuneSegmentData> segData = segments[j].GetSegmentData();
+				for (size_t k = 0; k < segData.size(); ++k)
 				{
 					if (matchFound[j][k])
 						continue;
 
-					double d = segments[j].Data[k].DistanceFrom(groundTruth[i]);
+					double d = segData[k].DistanceFrom(groundTruth[i]);
 					if (d < minDist)
 					{
 						minJ = j;
@@ -211,7 +214,8 @@ protected:
 				TP++;
 
 				resultsImg.at<cv::Vec3b>(groundTruth[i]) = cv::Vec3b(0, 255, 0);
-				resultsImg.at<cv::Vec3b>(segments[minJ].Data[minK].Position) = cv::Vec3b(0, 255, 0);
+				std::vector<DuneSegmentData> segData = segments[minJ].GetSegmentData();
+				resultsImg.at<cv::Vec3b>(segData[minK].Position) = cv::Vec3b(0, 255, 0);
 			}
 
 			cv::imshow("Results Progression", resultsImg);
@@ -272,16 +276,17 @@ protected:
 		for(size_t i = 0; i < segments.size(); ++i)
 		{
 			//For each point in the segment;
-			for(size_t j = 0; j < segments[i].Data.size(); ++j)
+			std::vector<DuneSegmentData> segData = segments[i].GetSegmentData();
+			for (size_t j = 0; j < segData.size(); ++j)
 			{
 				double minDist = DBL_MAX;
 				//Find the closest ground truth to that point
 				for(size_t k = 0; k < groundTruth.size(); ++k)
 				{
-					double d = std::sqrt(((segments[i].Data[j].Position.x-groundTruth[k].x) *
-								(segments[i].Data[j].Position.x-groundTruth[k].x)) +
-								((segments[i].Data[j].Position.y-groundTruth[k].y) *
-								(segments[i].Data[j].Position.y-groundTruth[k].y)));
+					double d = std::sqrt(((segData[j].Position.x - groundTruth[k].x) *
+						(segData[j].Position.x - groundTruth[k].x)) +
+						((segData[j].Position.y - groundTruth[k].y) *
+						(segData[j].Position.y - groundTruth[k].y)));
 					if(d < minDist)
 						minDist = d;
 				}

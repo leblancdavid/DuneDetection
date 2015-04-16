@@ -1,6 +1,6 @@
 #include "WatershedImageProcessor.h"
 #include "DuneMath.h"
-#include "DuneImageProcessing.h"
+#include "GenericImageProcessing.h"
 
 namespace dune
 {

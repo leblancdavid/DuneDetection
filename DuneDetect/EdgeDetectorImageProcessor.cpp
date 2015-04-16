@@ -1,4 +1,6 @@
 #include "EdgeDetectorImageProcessor.h"
+#include "GenericImageProcessing.h"
+
 
 namespace dune
 {
@@ -27,28 +29,18 @@ namespace dune
 	void EdgeDetectorImageProcessor::Process(const cv::Mat &inputImg, cv::Mat &outputImg)
 	{
 		int k = parameters.K;
-		cv::Mat filtered, threshold, canny;
+		cv::Mat filtered, bilateral, threshold, canny;
 		cv::medianBlur(inputImg, filtered, k);
-		cv::GaussianBlur(filtered, filtered, cv::Size(k, k), (double)k / 4.7, (double)k / 4.7);
 
+		//The bilateral filter is used for computing the gradient for now, seems to work well.
+		cv::bilateralFilter(filtered, bilateral, parameters.K, 30, 30);
+		// Apparently the gaussian blurring is messing up the accuracy of the detection, so for now I will keep it commented out.
+		//cv::GaussianBlur(filtered, filtered, cv::Size(k, k), (double)k / 4.7, (double)k / 4.7);
+		//cv::imshow("BilateralFilter", bilateral);
+
+		ComputeGradient(bilateral, k);
 		//GetMultiScaleCanny(filtered, canny);
 		GetCannyImage(filtered, outputImg);
-
-		/*cv::dilate(canny, canny, cv::Mat(), cv::Point(-1, -1), 1);
-		cv::erode(canny, canny, cv::Mat(), cv::Point(-1, -1), 1);*/
-		//cv::imshow("Dilated Canny", outputImg);
-		//cv::waitKey(0);
-		
-		//cv::imshow("StableEdges", outputImg);
-		//cv::waitKey(0);
-
-		/*cv::Mat orientationImg;
-		cv::cvtColor(filtered, orientationImg, CV_GRAY2BGR);
-		cv::Point center(orientationImg.cols / 2.0, orientationImg.rows / 2.0);
-		cv::Point endPt(100.0*std::cos(orientation) + center.x, 100.0*std::sin(orientation) + center.y);
-		cv::line(orientationImg, center, endPt, cv::Scalar(0, 0, 255), 2);
-		cv::imshow("Average Orientation", orientationImg);
-		cv::waitKey(0);*/
 	}
 
 	void EdgeDetectorImageProcessor::GetMultiScaleCanny(const cv::Mat &img, cv::Mat &canny)
@@ -61,7 +53,8 @@ namespace dune
 
 			cv::resize(img, resized, cv::Size(img.cols*scale, img.rows*scale));
 
-			double stdev, average = CalcAverageGradientLaplacian(resized, parameters.K, stdev);
+			double stdev = BaseData.StdDev[GRADIENT_MAT_MAGNITUDE_INDEX];
+			double average = BaseData.Mean[GRADIENT_MAT_MAGNITUDE_INDEX];
 			double r = average / stdev;
 			if (average > maxR)
 			{
@@ -77,8 +70,9 @@ namespace dune
 
 	void EdgeDetectorImageProcessor::GetCannyImage(const cv::Mat &img, cv::Mat &canny)
 	{
-		double stdev, orientation, average = CalcAverageGradient(img, parameters.K, stdev, orientation);
-		double q = 1.5;
+		double stdev = BaseData.StdDev[GRADIENT_MAT_MAGNITUDE_INDEX];
+		double average = BaseData.Mean[GRADIENT_MAT_MAGNITUDE_INDEX];
+		double q = 0.0;
 		double cannyHighThreshold = average + q*stdev;
 		cv::Canny(img, canny, cannyHighThreshold, cannyHighThreshold / 2.0, parameters.K);
 	}
@@ -89,7 +83,8 @@ namespace dune
 		cv::Mat filtered, threshold, canny, cannySum = cv::Mat::zeros(img.rows, img.cols, CV_8UC1);
 		cv::medianBlur(img, filtered, k);
 		cv::GaussianBlur(filtered, filtered, cv::Size(k, k), (double)k / 4.7, (double)k / 4.7);
-		double stdev, orientation, average = CalcAverageGradient(filtered, k, stdev, orientation);
+		double stdev = BaseData.StdDev[GRADIENT_MAT_MAGNITUDE_INDEX];
+		double average = BaseData.Mean[GRADIENT_MAT_MAGNITUDE_INDEX];
 
 		double itQ = (maxQ - minQ) / (double)(numIterations - 1);
 		double cannyHighThreshold;
@@ -132,90 +127,6 @@ namespace dune
 		cv::divide(canny, cv::Scalar(255), canny);
 		//canny = canny / cv::Scalar(255);
 	}
-
-	double EdgeDetectorImageProcessor::CalcAverageGradient(const cv::Mat &img, int k, double &stdev, double &orientation)
-	{
-		cv::Mat sobel_x, sobel_y;
-		cv::Sobel(img, sobel_x, CV_64F, 1, 0, k);
-		cv::Sobel(img, sobel_y, CV_64F, 0, 1, k);
-
-		double average = 0;
-		double dx = 0, dy = 0;
-		stdev = 0;
-		for (int x = 0; x < sobel_x.cols; ++x)
-		{
-			for (int y = 0; y < sobel_x.rows; ++y)
-			{
-				dx += sobel_x.at<double>(y, x) / 1000.0;
-				dy += sobel_y.at<double>(y, x) / 1000.0;
-				double g = std::sqrt(sobel_x.at<double>(y, x)*sobel_x.at<double>(y, x) +
-					sobel_y.at<double>(y, x)*sobel_y.at<double>(y, x))/1000.0;
-				average += g;
-
-			}
-		}
-
-		average /= sobel_x.rows*sobel_x.cols;
-		average *= 1000.0;
-
-		orientation = std::atan2(dy, dx);
-
-		for (int x = 0; x < sobel_x.cols; ++x)
-		{
-			for (int y = 0; y < sobel_x.rows; ++y)
-			{
-				double g = std::sqrt(sobel_x.at<double>(y, x)*sobel_x.at<double>(y, x) +
-					sobel_y.at<double>(y, x)*sobel_y.at<double>(y, x));
-				stdev += (g-average)*(g-average) / 1000.0;
-			}
-		}
-
-		stdev /= sobel_x.rows*sobel_x.cols;
-		stdev *= 1000.0;
-		stdev = std::sqrt(stdev);
-
-		return average;
-	}
-
-	double EdgeDetectorImageProcessor::CalcAverageGradientLaplacian(const cv::Mat &img, int k, double &stdev)
-	{
-		cv::Mat laplacian;
-		cv::Laplacian(img, laplacian, CV_64F, k);
-
-		double average = 0;
-		stdev = 0;
-		for (int x = 0; x < laplacian.cols; ++x)
-		{
-			for (int y = 0; y < laplacian.rows; ++y)
-			{
-				average += fabs(laplacian.at<double>(y, x)) / 1000.0;
-
-			}
-		}
-
-		average /= laplacian.rows*laplacian.cols;
-		average *= 1000.0;
-
-
-		for (int x = 0; x < laplacian.cols; ++x)
-		{
-			for (int y = 0; y < laplacian.rows; ++y)
-			{
-				double g = fabs(laplacian.at<double>(y, x));
-				stdev += (g - average)*(g - average) / 1000.0;
-			}
-		}
-
-		stdev /= laplacian.rows*laplacian.cols;
-		stdev *= 1000.0;
-		stdev = std::sqrt(stdev);
-
-		return average;
-	}
-
-
-
-
 
 
 

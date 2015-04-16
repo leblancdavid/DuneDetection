@@ -1,4 +1,4 @@
-#include "DuneImageProcessing.h"
+#include "GenericImageProcessing.h"
 
 namespace dune
 {
