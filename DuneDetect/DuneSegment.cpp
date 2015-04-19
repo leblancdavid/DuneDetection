@@ -119,19 +119,6 @@ namespace dune
 		return GetEndPointDistance(src, dst, srcIndex, dstIndex);
 	}
 
-
-	DuneSegment DuneSegment::Link(const DuneSegment &seg1, const DuneSegment &seg2, LinkingMethod method, LinkType type)
-	{
-		if (method == LinkingMethod::EndPointToEndPoint)
-		{
-			return LinkUsingEndPointToEndPoint(seg1, seg2, type);
-		}
-		else //For now the only linking method that is supported is endpoint to endpoint
-		{
-			return LinkUsingEndPointToEndPoint(seg1, seg2, type);
-		}
-	}
-
 	void DuneSegment::ComputeEndPoints()
 	{
 		if (Segment.size() > 0)
@@ -163,40 +150,5 @@ namespace dune
 			}
 		}
 		
-	}
-
-	DuneSegment DuneSegment::LinkUsingEndPointToEndPoint(const DuneSegment &seg1, const DuneSegment &seg2, LinkType type)
-	{
-		int i1, i2;
-		double dist = GetEndPointDistance(seg1, seg2, i1, i2);
-
-		//Assign the seg1 segment data
-		std::vector<DuneSegmentData> joinedSegment = seg1.GetSegmentData();
-		std::vector<DuneSegmentData> sd2 = seg2.GetSegmentData();
-		std::vector<cv::Point> ep1 = seg1.EndPoints;
-		std::vector<cv::Point> ep2 = seg2.EndPoints;
-		double xIncr = (double)(ep2[i2].x - ep1[i1].x) / dist;
-		double yIncr = (double)(ep2[i2].y - ep1[i1].y) / dist;
-
-		//Add the link between the two segments
-		cv::Point2d pt = cv::Point2d((double)ep1[i1].x + xIncr, (double)ep1[i1].y + yIncr);
-		cv::Point linkPt = cv::Point(std::ceil(pt.x - 0.5), std::ceil(pt.y - 0.5));
-		while (linkPt != ep2[i2])
-		{
-			joinedSegment.push_back(DuneSegmentData(linkPt, 0));
-			pt.x += xIncr;
-			pt.y += yIncr;
-
-			linkPt = cv::Point(std::ceil(pt.x - 0.5), std::ceil(pt.y - 0.5));
-		}
-
-		//Add the remaining points from the second segment
-		for (size_t i = 0; i < sd2.size(); ++i)
-		{
-			joinedSegment.push_back(sd2[i]);
-		}
-
-		//Return the new segment
-		return DuneSegment(joinedSegment);
 	}
 }

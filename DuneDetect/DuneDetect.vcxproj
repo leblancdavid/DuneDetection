@@ -78,6 +78,7 @@
     <ClInclude Include="BaseDuneDetector.h" />
     <ClInclude Include="BaseDuneDetectorBenchmarkTest.h" />
     <ClInclude Include="DuneSegment.h" />
+    <ClInclude Include="DuneSegmentLinker.h" />
     <ClInclude Include="GenericImageProcessing.h" />
     <ClInclude Include="DuneSegmentDetector.h" />
     <ClInclude Include="BaseImageProcessor.h" />
@@ -96,6 +97,7 @@
   <ItemGroup>
     <ClCompile Include="AdaptiveImageProcessor.cpp" />
     <ClCompile Include="DuneSegment.cpp" />
+    <ClCompile Include="DuneSegmentLinker.cpp" />
     <ClCompile Include="GenericImageProcessing.cpp" />
     <ClCompile Include="DuneSegmentDetector.cpp" />
     <ClCompile Include="DuneSegmentDetectorBenchmark.cpp" />

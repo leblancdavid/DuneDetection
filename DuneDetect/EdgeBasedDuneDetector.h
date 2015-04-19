@@ -18,6 +18,7 @@ namespace dune
 			R = 0.1;
 			MinSegmentLength = 10;
 			ApplyLinking = true;
+			LinkDistance = 10.0;
 			HistogramBins = 16;
 			AngleTolerance = 3.1416*0.5;
 		}
@@ -26,6 +27,7 @@ namespace dune
 			K = cpy.K;
 			R = cpy.R;
 			ApplyLinking = cpy.ApplyLinking;
+			LinkDistance = cpy.LinkDistance;
 			MinSegmentLength = cpy.MinSegmentLength;
 			HistogramBins = cpy.HistogramBins;
 			AngleTolerance = cpy.AngleTolerance;
@@ -42,6 +44,7 @@ namespace dune
 		int K;
 		double R;
 		bool ApplyLinking;
+		double LinkDistance;
 		int MinSegmentLength;
 		int HistogramBins;
 		double AngleTolerance;
@@ -66,6 +69,7 @@ namespace dune
 		cv::Mat FilterByDominantOrientation(const cv::Mat &edges);
 
 		std::vector<DuneSegment> GetDuneSegmentContours(const cv::Mat &img);
+		std::vector<DuneSegment> LinkDuneSegments(const std::vector<DuneSegment> &unlinked);
 	};
 
 }

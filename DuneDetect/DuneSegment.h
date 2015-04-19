@@ -33,10 +33,6 @@ namespace dune
 		static double GetEndPointDistance(const DuneSegment &src, const DuneSegment &dst);
 		static double GetEndPointDistance(const DuneSegment &src, const DuneSegment &dst, int &srcIndex, int &dstIndex);
 
-		enum LinkingMethod { EndPointToEndPoint, EndPointToNearest };
-		enum LinkType { Linear, Poly, Cubic };
-		static DuneSegment Link(const DuneSegment &seg1, const DuneSegment &seg2, LinkingMethod method, LinkType type);
-
 		std::vector<cv::Point> GetEndPoints() const
 		{
 			return EndPoints;
@@ -59,7 +55,7 @@ namespace dune
 		std::vector<cv::Point> EndPoints;
 
 		void ComputeEndPoints();
-		static DuneSegment LinkUsingEndPointToEndPoint(const DuneSegment &seg1, const DuneSegment &seg2, LinkType type);
+		
 	};
 
 }

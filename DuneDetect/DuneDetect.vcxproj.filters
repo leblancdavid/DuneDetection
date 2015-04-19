@@ -111,6 +111,9 @@
     <ClInclude Include="DuneSegment.h">
       <Filter>Header Files\Base Objects</Filter>
     </ClInclude>
+    <ClInclude Include="DuneSegmentLinker.h">
+      <Filter>Header Files\Base Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DuneSegmentDetectorBenchmark.cpp">
@@ -147,6 +150,9 @@
       <Filter>Source Files\Processing</Filter>
     </ClCompile>
     <ClCompile Include="DuneSegment.cpp">
+      <Filter>Source Files\Base Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="DuneSegmentLinker.cpp">
       <Filter>Source Files\Base Objects</Filter>
     </ClCompile>
   </ItemGroup>

@@ -191,4 +191,9 @@ std::vector<DuneSegment> EdgeBasedDuneDetector::GetDuneSegmentContours(const cv:
 	return duneSegs;
 }
 
+std::vector<DuneSegment> EdgeBasedDuneDetector::LinkDuneSegments(const std::vector<DuneSegment> &unlinked)
+{
+	return std::vector<DuneSegment>();
+}
+
 }
