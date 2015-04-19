@@ -9,6 +9,7 @@ namespace dune
 	{
 		void IntegralIlluminationNormalization(const cv::Mat &inputImg, cv::Mat &outputImg, int radius);
 
+		void FindConnectedComponents(const cv::Mat &inputImg, std::vector < std::vector<cv::Point>> &components);
 	}
 
 }

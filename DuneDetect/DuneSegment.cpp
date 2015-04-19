@@ -95,12 +95,12 @@ namespace dune
 		double minDist = DBL_MAX;
 		for (size_t i = 0; i < src.EndPoints.size(); ++i)
 		{
-			for (size_t j = 0; j < dst.EndPoints.size(); ++i)
+			for (size_t j = 0; j < dst.EndPoints.size(); ++j)
 			{
-				double d = std::sqrt((src.EndPoints[i].x - src.EndPoints[j].x) *
-					(src.EndPoints[i].x - src.EndPoints[j].x) +
-					(src.EndPoints[i].y - src.EndPoints[j].y) *
-					(src.EndPoints[i].y - src.EndPoints[j].y));
+				double d = std::sqrt((src.EndPoints[i].x - dst.EndPoints[j].x) *
+					(src.EndPoints[i].x - dst.EndPoints[j].x) +
+					(src.EndPoints[i].y - dst.EndPoints[j].y) *
+					(src.EndPoints[i].y - dst.EndPoints[j].y));
 				if (d < minDist)
 				{
 					minDist = d;

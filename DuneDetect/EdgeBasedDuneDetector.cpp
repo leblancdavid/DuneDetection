@@ -1,4 +1,6 @@
 #include "EdgeBasedDuneDetector.h"
+#include "DuneSegmentLinker.h"
+#include "ConnectedComponentsExtractor.h"
 
 #include <fstream>
 
@@ -29,6 +31,11 @@ std::vector<DuneSegment> EdgeBasedDuneDetector::Extract(const cv::Mat &img)
 
 	std::vector<DuneSegment> duneSegs = GetDuneSegmentContours(crestlineImg);
 
+	if (Parameters.ApplyLinking)
+	{
+		std::vector<DuneSegment> linkedSegs = LinkDuneSegments(duneSegs);
+		return linkedSegs;
+	}
 	return duneSegs;
 }
 
@@ -172,6 +179,10 @@ cv::Mat EdgeBasedDuneDetector::FilterByDominantOrientationUsingKMeans(const cv::
 std::vector<DuneSegment> EdgeBasedDuneDetector::GetDuneSegmentContours(const cv::Mat &img)
 {
 	std::vector<std::vector<cv::Point>> contours;
+	//cv::Mat img32;
+	//img.convertTo(img32, CV_32S);
+	//cv::findContours(img32, contours, CV_RETR_FLOODFILL, CV_CHAIN_APPROX_NONE);
+
 	cv::findContours(img, contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
 
 	std::vector<DuneSegment> duneSegs;
@@ -193,6 +204,14 @@ std::vector<DuneSegment> EdgeBasedDuneDetector::GetDuneSegmentContours(const cv:
 
 std::vector<DuneSegment> EdgeBasedDuneDetector::LinkDuneSegments(const std::vector<DuneSegment> &unlinked)
 {
+	SegmentLinkParameters params;
+	params.DistanceThreshold = Parameters.LinkDistance;
+	params.Method = EndPointToEndPoint;
+	params.Type = Linear;
+	DuneSegmentLinker linker(params);
+
+	std::vector<DuneSegment> linked = linker.GetLinkedSegments(unlinked);
+
 	return std::vector<DuneSegment>();
 }
 

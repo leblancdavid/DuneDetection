@@ -138,7 +138,7 @@ namespace dune
 			{
 				if (linkTable.at<uchar>(i, j))
 				{
-					linkTable.push_back(j);
+					neighbors.push_back(j);
 				}
 			}
 
