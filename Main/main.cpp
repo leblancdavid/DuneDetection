@@ -10,6 +10,7 @@ const std::string DUNE_DATASET_BASE_PATH = "E:/Projects/Thesis/DuneDetection/Dun
 #include "DuneSegmentDetectorBenchmark.h"
 #include "EdgeBasedDetectorBenchmark.h"
 #include "WatershedDuneDetectorBenchmark.h"
+#include "FrequencySpaceDetectorBenchmark.h"
 
 int main()
 {
@@ -28,8 +29,9 @@ int main()
 	//resultsFile.close();
 
 	//dune::DuneSegmentDetectorBenchmark benchmark = dune::DuneSegmentDetectorBenchmark();
-	dune::EdgeBasedDetectorBenchmark benchmark = dune::EdgeBasedDetectorBenchmark();
+	//dune::EdgeBasedDetectorBenchmark benchmark = dune::EdgeBasedDetectorBenchmark();
 	//dune::WatershedDuneDetectorBenchmark benchmark = dune::WatershedDuneDetectorBenchmark();
+	dune::FrequencySpaceDetectorBenchmark benchmark = dune::FrequencySpaceDetectorBenchmark();
 
 	benchmark.BenchmarkParams = dune::BenchmarkTestParameters(5.0);
 	dune::BenchmarkResults results;

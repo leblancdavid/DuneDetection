@@ -80,6 +80,9 @@
     <ClInclude Include="BaseDuneDetectorBenchmarkTest.h" />
     <ClInclude Include="DuneSegment.h" />
     <ClInclude Include="DuneSegmentLinker.h" />
+    <ClInclude Include="FrequencySpaceDetectorBenchmark.h" />
+    <ClInclude Include="FrequencySpaceDuneDetector.h" />
+    <ClInclude Include="FrequencySpaceImageProcessor.h" />
     <ClInclude Include="GenericImageProcessing.h" />
     <ClInclude Include="DuneSegmentDetector.h" />
     <ClInclude Include="BaseImageProcessor.h" />
@@ -99,6 +102,9 @@
     <ClCompile Include="AdaptiveImageProcessor.cpp" />
     <ClCompile Include="DuneSegment.cpp" />
     <ClCompile Include="DuneSegmentLinker.cpp" />
+    <ClCompile Include="FrequencySpaceDetectorBenchmark.cpp" />
+    <ClCompile Include="FrequencySpaceDuneDetector.cpp" />
+    <ClCompile Include="FrequencySpaceImageProcessor.cpp" />
     <ClCompile Include="GenericImageProcessing.cpp" />
     <ClCompile Include="DuneSegmentDetector.cpp" />
     <ClCompile Include="DuneSegmentDetectorBenchmark.cpp" />
