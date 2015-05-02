@@ -47,6 +47,9 @@ namespace dune
 				std::vector<cv::Point> stack;
 				stack.push_back(seed);
 				std::vector<cv::Point> segment;
+				
+				//cv::imshow("Buffer", Buffer);
+				//cv::waitKey(0);
 
 				while (!stack.empty())
 				{
@@ -55,17 +58,21 @@ namespace dune
 					segment.push_back(anchor);
 					Buffer.at<uchar>(anchor) = 0;
 
-					for (int x = anchor.x - 1; x < anchor.x + 1; ++x)
+					for (int x = anchor.x - 1; x <= anchor.x + 1; ++x)
 					{
-						for (int y = anchor.y - 1; y < anchor.y + 1; ++y)
+						for (int y = anchor.y - 1; y <= anchor.y + 1; ++y)
 						{
 							if (x >= 0 &&
 								x < Buffer.cols &&
 								y >= 0 &&
-								y < Buffer.rows &&
-								Buffer.at<uchar>(y,x))
+								y < Buffer.rows)
 							{
-								stack.push_back(cv::Point(x, y));
+								if (Buffer.at<uchar>(y, x) > 0)
+								{
+									Buffer.at<uchar>(y, x) = 0;
+									stack.push_back(cv::Point(x, y));
+								}
+									
 							}
 						}
 					}

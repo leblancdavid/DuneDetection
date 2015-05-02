@@ -10,8 +10,8 @@ namespace dune
 	public:
 		EdgeDetectorProcParams()
 		{
-			K = 7;
-			NumScales = 20;
+			K = 9;
+			NumScales = 12;
 			MinMatch = 6;
 			DistanceThreshold = 1.0;
 		}
@@ -56,6 +56,9 @@ namespace dune
 		void GetNormalizedCanny(const cv::Mat &img, cv::Mat &canny, double minT, double maxT, int size);
 
 		EdgeDetectorProcParams parameters;
+
+		double FindOptimalScale(const cv::Mat &img);
+
 
 		//////////////////////////////////////////////////////////////////////////////////
 		//Old crap that probably won't work but you never know

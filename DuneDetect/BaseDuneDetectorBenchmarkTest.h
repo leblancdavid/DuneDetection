@@ -114,11 +114,11 @@ public:
 		//cv::dilate(colorImg, colorImg, cv::Mat(), cv::Point(-1,-1), 3);
 		
 		//cv::imwrite("WatershedDuneSegments.jpg", colorImg);
-		cv::imshow("Ground Truth Image", colorImg);
+		cv::imshow("Detected Points", colorImg);
 		cv::waitKey(30);
 
 		BenchmarkResults results;
-		//results = GetBenchmarkResults(segments, groundTruth);
+		results = GetBenchmarkResults(segments, groundTruth);
 		return results;
 	}
 

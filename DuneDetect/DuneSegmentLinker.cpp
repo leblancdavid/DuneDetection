@@ -56,16 +56,28 @@ namespace dune
 
 	DuneSegment DuneSegmentLinker::LinkUsingEndPointToEndPoint(const DuneSegment &seg1, const DuneSegment &seg2, LinkType type)
 	{
+		std::vector<cv::Point> ep1 = seg1.GetEndPoints();
+		std::vector<cv::Point> ep2 = seg2.GetEndPoints();
+
+		//If either of them don't have endpoints to link we can't link them.
+		if (ep1.empty())
+		{
+			return seg2;
+		}
+		else if (ep2.empty())
+		{
+			return seg1;
+		}
+
 		int i1, i2;
 		double dist = DuneSegment::GetEndPointDistance(seg1, seg2, i1, i2);
 
 		//Assign the seg1 segment data
 		std::vector<DuneSegmentData> joinedSegment = seg1.GetSegmentData();
 		std::vector<DuneSegmentData> sd2 = seg2.GetSegmentData();
-		std::vector<cv::Point> ep1 = seg1.GetEndPoints();
-		std::vector<cv::Point> ep2 = seg2.GetEndPoints();
-		double xIncr = (double)(ep2[i2].x - ep1[i1].x) / dist;
-		double yIncr = (double)(ep2[i2].y - ep1[i1].y) / dist;
+		
+		double xIncr = (double)(ep2[i2].x - ep1[i1].x) / fabs(dist - 1.0); //distance - 1 should never be negative, but just in case, fabs it
+		double yIncr = (double)(ep2[i2].y - ep1[i1].y) / fabs(dist - 1.0);
 
 		//Add the link between the two segments
 		cv::Point2d pt = cv::Point2d((double)ep1[i1].x + xIncr, (double)ep1[i1].y + yIncr);
@@ -177,8 +189,17 @@ namespace dune
 	{
 		//Search each segment
 		std::vector<DuneSegment> outputs;
+		std::vector<bool> isLinked(linkTable.rows);
+		for (size_t i = 0; i < isLinked.size(); ++i)
+		{
+			isLinked[i] = false;
+		}
+
 		for (int i = 0; i < linkTable.rows; ++i)
 		{
+			//if it's already been linked, we don't want to repeat this process and have duplicates
+			if (isLinked[i])
+				continue;
 			std::vector<int> toLink;
 			std::vector<int> bfs;
 			bfs.push_back(i);
@@ -198,26 +219,21 @@ namespace dune
 						linkTable.at<uchar>(row, j) = 0;
 						linkTable.at<uchar>(j, row) = 0;
 
-						if (std::find(bfs.begin(), bfs.end(), j)[0])
-						{
-							continue;
-						}
-						else
-						{
-							bfs.push_back(j);
-						}
+						bfs.push_back(j);
+						isLinked[j] = true;
 					}
 				}
 			}
 
 			DuneSegment linkedSegment = inputs[i];
 
-			for (size_t j = 0; j < toLink.size(); ++j)
+			for (size_t j = 1; j < toLink.size(); ++j)
 			{
 				linkedSegment = Link(linkedSegment, inputs[toLink[j]], Parameters.Method, Parameters.Type);
 			}
 
 			outputs.push_back(linkedSegment);
+			
 		}
 
 		return outputs;

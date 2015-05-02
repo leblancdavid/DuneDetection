@@ -127,18 +127,20 @@ namespace dune
 			{
 				//Find how many neighbors a segment has
 				int neighbors = 0;
+				std::vector<cv::Point> n;
 				for (size_t j = 0; j < Segment.size(); ++j)
 				{
 					//Don't compare it with itself
 					if (i == j)
 						continue;
 
-					if (abs(Segment[i].Position.x - Segment[i].Position.x) <= 1 &&
-						abs(Segment[i].Position.y - Segment[i].Position.y) <= 1)
+					if (abs(Segment[i].Position.x - Segment[j].Position.x) <= 1 &&
+						abs(Segment[i].Position.y - Segment[j].Position.y) <= 1)
 					{
 						neighbors++;
-						//if a point has more than 1 neighbor then we can reject it as an endpoint
-						if (neighbors > 1)
+						n.push_back(Segment[j].Position);
+						//if a point has more than 2 neighbor then we can reject it as an endpoint
+						if (neighbors > 2)
 							break;
 					}
 				}
@@ -146,6 +148,12 @@ namespace dune
 				if (neighbors < 2)
 				{
 					EndPoints.push_back(Segment[i].Position);
+				}
+				else if (neighbors == 2)
+				{
+					int d = std::abs(n[0].x - n[1].x) + std::abs(n[0].y - n[1].y);
+					if (d <= 1)
+						EndPoints.push_back(Segment[i].Position);
 				}
 			}
 		}

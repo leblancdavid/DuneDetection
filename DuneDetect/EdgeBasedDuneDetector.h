@@ -14,11 +14,11 @@ namespace dune
 	public:
 		EdgeBasedDetectorParameters()
 		{
-			K = 9;
-			R = 0.1;
+			K = 7;
+			R = 0.5;
 			MinSegmentLength = 10;
-			ApplyLinking = true;
-			LinkDistance = 10.0;
+			ApplyLinking = false;
+			LinkDistance = 40.0;
 			HistogramBins = 16;
 			AngleTolerance = 3.1416*0.5;
 		}
@@ -69,6 +69,7 @@ namespace dune
 		cv::Mat FilterByDominantOrientation(const cv::Mat &edges);
 
 		std::vector<DuneSegment> GetDuneSegmentContours(const cv::Mat &img);
+		std::vector<DuneSegment> FilterSegmentsByMagnitude(const std::vector<DuneSegment> &input);
 		std::vector<DuneSegment> LinkDuneSegments(const std::vector<DuneSegment> &unlinked);
 	};
 

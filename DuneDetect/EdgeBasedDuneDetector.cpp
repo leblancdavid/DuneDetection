@@ -29,11 +29,13 @@ std::vector<DuneSegment> EdgeBasedDuneDetector::Extract(const cv::Mat &img)
 
 	cv::Mat crestlineImg = FilterByDominantOrientation(processedImage);
 
-	std::vector<DuneSegment> duneSegs = GetDuneSegmentContours(crestlineImg);
+	std::vector<DuneSegment> duneSegs;
+	duneSegs = GetDuneSegmentContours(crestlineImg);
 
 	if (Parameters.ApplyLinking)
 	{
 		std::vector<DuneSegment> linkedSegs = LinkDuneSegments(duneSegs);
+		duneSegs = FilterSegmentsByMagnitude(duneSegs);
 		return linkedSegs;
 	}
 	return duneSegs;
@@ -182,8 +184,11 @@ std::vector<DuneSegment> EdgeBasedDuneDetector::GetDuneSegmentContours(const cv:
 	//cv::Mat img32;
 	//img.convertTo(img32, CV_32S);
 	//cv::findContours(img32, contours, CV_RETR_FLOODFILL, CV_CHAIN_APPROX_NONE);
+	//Find contour DOES NOT do what I expect it to, need to use connected components
+	//cv::findContours(img, contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
 
-	cv::findContours(img, contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
+	imgproc::ConnectedComponentsExtractor cce;
+	contours = cce.GetCC(img);
 
 	std::vector<DuneSegment> duneSegs;
 
@@ -202,6 +207,57 @@ std::vector<DuneSegment> EdgeBasedDuneDetector::GetDuneSegmentContours(const cv:
 	return duneSegs;
 }
 
+std::vector<DuneSegment> EdgeBasedDuneDetector::FilterSegmentsByMagnitude(const std::vector<DuneSegment> &input)
+{
+	EdgeDetectorImageProcessor* edgeImgProc = dynamic_cast<EdgeDetectorImageProcessor*>(ImageProcess);
+	//double meanM = edgeImgProc->BaseData.Mean[GRADIENT_MAT_MAGNITUDE_INDEX];
+	//double stdDevM = edgeImgProc->BaseData.StdDev[GRADIENT_MAT_MAGNITUDE_INDEX];
+
+	double meanM = 0.0;
+	double count = 0.0;
+	double stdDevM = 0.0;
+	for (size_t i = 0; i < input.size(); ++i)
+	{
+		std::vector<cv::Point> pts = input[i].GetEndPoints();
+		for (size_t j = 0; j < pts.size(); ++j)
+		{
+			meanM += edgeImgProc->BaseData.Gradient.at<cv::Vec4d>(pts[j])[GRADIENT_MAT_MAGNITUDE_INDEX] / 1000.0;
+			count++;
+		}
+	}
+	meanM /= count / 1000.0;
+
+	for (size_t i = 0; i < input.size(); ++i)
+	{
+		std::vector<cv::Point> pts = input[i].GetEndPoints();
+		for (size_t j = 0; j < pts.size(); ++j)
+		{
+			stdDevM += fabs(edgeImgProc->BaseData.Gradient.at<cv::Vec4d>(pts[j])[GRADIENT_MAT_MAGNITUDE_INDEX] - meanM) / 1000.0;
+		}
+	}
+	stdDevM /= count / 1000.0;
+
+	double threshold = meanM + Parameters.R * stdDevM;
+
+	std::vector<DuneSegment> output;
+	for (size_t i = 0; i < input.size(); ++i)
+	{
+		std::vector<cv::Point> pts = input[i].GetEndPoints();
+		double u = 0.0;
+		for (size_t j = 0; j < pts.size(); ++j)
+		{
+			u += edgeImgProc->BaseData.Gradient.at<cv::Vec4d>(pts[j])[GRADIENT_MAT_MAGNITUDE_INDEX] / 1000.0;
+		}
+		u /= (double)pts.size() / 1000.0;
+		if (u > threshold)
+		{
+			output.push_back(input[i]);
+		}
+	}
+
+	return output;
+}
+
 std::vector<DuneSegment> EdgeBasedDuneDetector::LinkDuneSegments(const std::vector<DuneSegment> &unlinked)
 {
 	SegmentLinkParameters params;
@@ -212,7 +268,7 @@ std::vector<DuneSegment> EdgeBasedDuneDetector::LinkDuneSegments(const std::vect
 
 	std::vector<DuneSegment> linked = linker.GetLinkedSegments(unlinked);
 
-	return std::vector<DuneSegment>();
+	return linked;
 }
 
 }

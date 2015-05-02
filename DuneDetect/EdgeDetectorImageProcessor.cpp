@@ -30,42 +30,45 @@ namespace dune
 	{
 		int k = parameters.K;
 		cv::Mat filtered, bilateral, threshold, canny;
-		cv::medianBlur(inputImg, filtered, k);
-
+		cv::medianBlur(inputImg, filtered, parameters.K);
+		//cv::GaussianBlur(filtered, filtered, cv::Size(k, k), (double)k / 5.0, (double)k / 5.0);
+		//cv::GaussianBlur(filtered, filtered, cv::Size(parameters.K, parameters.K), parameters.K / 5.0, parameters.K / 5.0);
 		//The bilateral filter is used for computing the gradient for now, seems to work well.
-		cv::bilateralFilter(filtered, bilateral, parameters.K, 30, 30);
+		cv::bilateralFilter(filtered, bilateral, parameters.K, 20, 20);
 		// Apparently the gaussian blurring is messing up the accuracy of the detection, so for now I will keep it commented out.
-		//cv::GaussianBlur(filtered, filtered, cv::Size(k, k), (double)k / 4.7, (double)k / 4.7);
-		//cv::imshow("BilateralFilter", bilateral);
+		
 
-		ComputeGradient(bilateral, k);
-		//GetMultiScaleCanny(filtered, canny);
-		GetCannyImage(filtered, outputImg);
+		ComputeGradient(filtered, k);
+		GetCannyImage(bilateral, outputImg);
+
+		imgproc::IntegralEdgeThreshold(bilateral, canny, 20, k);
+		//cv::erode(canny, canny, cv::Mat(), cv::Point(-1, -1), 6);
+		//cv::dilate(canny, canny, cv::Mat(), cv::Point(-1, -1), 4);
+
+		cv::bitwise_and(canny, outputImg, outputImg);
+		cv::imshow("Canny", canny);
+		cv::waitKey(0);
+		//This is somewhat hacky, but this basically ensures that an edge line always has only 1 or 2 neighbors.
+		//imgproc::ThinCannyEdges(canny, outputImg);
 	}
 
 	void EdgeDetectorImageProcessor::GetMultiScaleCanny(const cv::Mat &img, cv::Mat &canny)
 	{
 		cv::Mat resized, result;
-		double maxScale = 0, maxR = 0;
-		for (int i = 0; i < parameters.NumScales; ++i)
-		{
-			double scale = 1.0 - (double)i*0.05;
 
-			cv::resize(img, resized, cv::Size(img.cols*scale, img.rows*scale));
+		double scale = FindOptimalScale(img);
+		cv::resize(img, resized, cv::Size(img.cols*scale, img.rows*scale));
+		//cv::GaussianBlur(img, resized, cv::Size(scale, scale), scale / 5.0, scale / 5.0);
+		
+		ComputeGradient(resized, parameters.K);
 
-			double stdev = BaseData.StdDev[GRADIENT_MAT_MAGNITUDE_INDEX];
-			double average = BaseData.Mean[GRADIENT_MAT_MAGNITUDE_INDEX];
-			double r = average / stdev;
-			if (average > maxR)
-			{
-				maxR = average;
-				maxScale = scale;
-				canny = resized;
-			}
-		}
+		double stdev = BaseData.StdDev[GRADIENT_MAT_MAGNITUDE_INDEX];
+		double average = BaseData.Mean[GRADIENT_MAT_MAGNITUDE_INDEX];
+		double q = 1.0;
+		double cannyHighThreshold = average + q*stdev;
+		cv::Canny(resized, result, cannyHighThreshold, cannyHighThreshold / 2.0, parameters.K);
 
-
-
+		cv::resize(result, canny, cv::Size(img.cols, img.rows));
 	}
 
 	void EdgeDetectorImageProcessor::GetCannyImage(const cv::Mat &img, cv::Mat &canny)
@@ -129,7 +132,70 @@ namespace dune
 	}
 
 
+	double EdgeDetectorImageProcessor::FindOptimalScale(const cv::Mat &img)
+	{
+		cv::Mat sobel_x, sobel_y;
+		cv::Mat laplacian;
+		cv::Mat resized, result;
+		double maxScale = 0, maxR = 0;
+		int maxIndex = 0;
+		std::vector<double> scaleMagnitudes;
+		std::vector<double> scaleStdDev;
+		for (int i = 0; i < parameters.NumScales; ++i)
+		{
+			//double scale = 3.0 + (double)i*2.0;
+			double scale = 1.0 - (double)i*0.05;
+			//cv::GaussianBlur(img, resized, cv::Size(scale, scale), scale / 5.0, scale / 5.0);
+			cv::resize(img, resized, cv::Size(img.cols*scale, img.rows*scale));
+			cv::GaussianBlur(resized, resized, cv::Size(3, 3), 3.0 / 5.0, 3.0 / 5.0);
+			ComputeGradient(resized, parameters.K);
+			double stdev = BaseData.StdDev[GRADIENT_MAT_MAGNITUDE_INDEX];
+			double average = BaseData.Mean[GRADIENT_MAT_MAGNITUDE_INDEX];
+			double q = 3.0;
+			double cannyHighThreshold = average + q*stdev;
+			cv::Canny(resized, result, cannyHighThreshold, cannyHighThreshold / 2.0, parameters.K);
+			cv::imshow("Canny", result);
+			cv::waitKey(0);
+			//cv::Sobel(resized, sobel_x, CV_64F, 1, 0, parameters.K);
+			//cv::Sobel(resized, sobel_y, CV_64F, 0, 1, parameters.K);
+			//cv::Scalar u_x, u_y, sig_x, sig_y;
+			//cv::meanStdDev(sobel_x, u_x, sig_x);
+			//cv::meanStdDev(sobel_y, u_y, sig_y);
 
+			//scaleMagnitudes.push_back(std::sqrt(u_x[0] * u_x[0] + u_y[0] * u_y[0])*scale);
+			//scaleStdDev.push_back(std::sqrt(sig_x[0] * sig_x[0] + sig_y[0] * sig_y[0])*scale);
+
+
+			cv::Laplacian(resized, laplacian, CV_64F, parameters.K*2 + 1);
+			cv::Scalar u, sig;
+			cv::meanStdDev(laplacian, u, sig);
+
+			scaleMagnitudes.push_back(u[0]);
+			scaleStdDev.push_back(sig[0]);
+
+			if (scaleStdDev.back() > maxR)
+			{
+				maxR = scaleStdDev.back();
+				maxIndex = i;
+				maxScale = scale;
+
+			}
+		}
+
+		int peak = 0;
+		for (size_t i = 1; i < scaleMagnitudes.size()-1; ++i)
+		{
+			if (scaleMagnitudes[i] > scaleMagnitudes[i - 1] &&
+				scaleMagnitudes[i] > scaleMagnitudes[i + 1])
+			{
+				peak = i;
+				break;
+			}
+		}
+
+
+		return 1.0 - (double)peak * 0.05;;
+	}
 
 
 
