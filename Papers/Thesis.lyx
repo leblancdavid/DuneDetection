@@ -88,8 +88,8 @@ David Leblanc
 
 \begin_layout Date
 
-\color black
-04/9/2015
+\color red
+05/7/2015
 \end_layout
 
 \begin_layout Abstract
@@ -354,13 +354,13 @@ Image Processing
 
 \begin_layout Subsubsection
 
-\color red
+\color black
 Filtering
 \end_layout
 
 \begin_layout Standard
 
-\color red
+\color black
 There are many common filtering approaches used in image processing and
  computer vision applications.
  In this application, satelite images of sand dunes may include various
@@ -372,7 +372,7 @@ There are many common filtering approaches used in image processing and
 
 \begin_layout Standard
 
-\color red
+\color black
 In 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -940,6 +940,34 @@ key "BandeiraMarques"
  of the dunes.
  If the application requires higher localization accuracy, this type of
  surpervised learning approach may not be suitable.
+\end_layout
+
+\begin_layout Subsection
+
+\color red
+Automated Dune Detection
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Automated-mapping-linear-dunefield-morphometric-parameters"
+
+\end_inset
+
+, an automated extraction of dune features is proposed.
+ In this approach, the authors claim that the Canny edge detector provided
+ poor results, and the sobel operator generated more consistant results.
+ The gradient magnitude of the Sobel operator is used to threshold out the
+ weaker edges.
+ The use of a histogram to compute the orientations of the gradients was
+ found to have a bimodial distribution, with one of the modes being the
+ dune edges.
+ Dune candidates are determined based on their gradient magnitude which
+ filter out weaker candidates unless they are near strong candidates.
 \end_layout
 
 \begin_layout Section
@@ -2933,6 +2961,222 @@ Better connectivity of dune crestline segments.
 Watershed method could be further expanded to include color image processing.
 \end_layout
 
+\begin_layout Subsubsection
+
+\color red
+Method #4: Frequency Domain
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In this approach, we take advantage of the fact dune-field patterns seem
+ to to have some periodic pattern, which could possibly be extracted from
+ the frequency domain.
+ Converting the images into the frequency domain using the Discrete Fourier
+ Transform (DFT) (REFERENCE NEEDED) provides a method for applying some
+ processing on individual frequencies of the image.
+\end_layout
+
+\begin_layout Paragraph*
+
+\bar under
+\color red
+Feature extraction from the frequency domain
+\bar default
+:
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In this application, the features we desire to extract are the dune crest-lines,
+ which in the spacial domain are edges.
+ In the frequency domain, the crest-lines may belong to some of the higher
+ frequencies (or possibly a subset of the frequency spectrum).
+ The shifted frequency domain output of the DFT is shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Frequency-spectrum-results"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+From the frequency domain, dominant frequencies can be extracted by searching
+ for large magnitudes of frequencies 
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+
+\color red
+Determining which frequencies to extract will be key for this application.
+ More research needs to be done on how to extract features from the frequency
+ domain.
+\end_layout
+
+\end_inset
+
+.
+ Typically, from the dataset used, it can be shown that a dominant orientation
+ in the frequency appears to be present in the dune-field images.
+ From preliminary observations, the dominant orientation seems to correlate
+ exactly which the orientation of the dune crests.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In order to determine this dominant orientation, the frequency domain magnitude
+ image is thresholded based on the mean and standard deviation of the frequency
+ magnitudes, as shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Frequency-spectrum-results"
+
+\end_inset
+
+.
+ Because output of this threshold is somewhat noisy, a median filter is
+ applied to create a smooth region of for the dominant frequency.
+ The contour of the region is then extracted, which is used to fit an ellipse.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+The computed ellipse's orientation appears to match the orientation of the
+ dune gradients.
+ The information provided by the ellipse may prove useful 
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+
+\color red
+Fitting an ellipse is currently mainly used for determining the orientation
+ of the gradients of the dune crests.
+ Since I am not too familiar with the frequency domain, there may be a better
+ approach to extract this, or other features.
+\end_layout
+
+\end_inset
+
+.
+ Currently, we use this ellipse to generate the mask for high-pass filtering.
+ The mask shown in Figure
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Frequency-spectrum-results"
+
+\end_inset
+
+ simply rejects all lower frequencies (close to the center of the spectrum),
+ and allows all higher frequencies to pass through.
+ The effect produces a kind of edge detection filter, where lower values
+ could potentially be used to determine locate dune crests.
+ At first glance, the results appear to be promising.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide true
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+(a)
+\begin_inset Graphics
+	filename Figures/DFT_spectrum.jpg
+	scale 18
+
+\end_inset
+
+(b)
+\begin_inset Graphics
+	filename Figures/DFT_spectrum_threshold.jpg
+	scale 18
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+(c)
+\begin_inset Graphics
+	filename Figures/DFT_spectrum_threshold_median.jpg
+	scale 18
+
+\end_inset
+
+(d)
+\begin_inset Graphics
+	filename Figures/DFT_spectrum_ellipsefit.jpg
+	scale 18
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+(e)
+\begin_inset Graphics
+	filename Figures/DFT_mask.jpg
+	scale 18
+
+\end_inset
+
+(f)
+\begin_inset Graphics
+	filename Figures/DFT_HPF.jpg
+	scale 18
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\color red
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Frequency-spectrum-results"
+
+\end_inset
+
+Frequency spectrum processing results from the Skeleton-Coast image.
+ (a) Log-normalized shifted frequency domain, (b) Result of thresholding
+ frequency domain magnitude based on average magnitude and standard deviation
+ of the magnitudes, (c) Median filtering of the binary image of the frequency
+ domain, (d) Result of ellipse fitting of the dominant frequencies region,
+ (e) Mask used for high-pass filtering of the frequency domain, (f) Result
+ inverse DFT of the high pass filter applied on the frequency domain.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
 
 \color black
@@ -4112,6 +4356,193 @@ White Sands
 
 \color black
 0.8257
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\color black
+\begin_inset Tabular
+<lyxtabular version="3" rows="8" columns="2">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\color black
+Method #4
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\emph on
+\color black
+TP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\emph on
+\color black
+FP
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+???
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+???
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+???
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+???
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+???
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+???
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+???
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+???
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+???
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+???
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+???
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+???
 \end_layout
 
 \end_inset
