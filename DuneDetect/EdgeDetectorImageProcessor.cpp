@@ -41,13 +41,13 @@ namespace dune
 		ComputeGradient(filtered, k);
 		GetCannyImage(bilateral, outputImg);
 
-		imgproc::IntegralEdgeThreshold(bilateral, canny, 20, k);
+		//imgproc::IntegralEdgeThreshold(bilateral, canny, 20, k);
 		//cv::erode(canny, canny, cv::Mat(), cv::Point(-1, -1), 6);
 		//cv::dilate(canny, canny, cv::Mat(), cv::Point(-1, -1), 4);
 
-		cv::bitwise_and(canny, outputImg, outputImg);
-		cv::imshow("Canny", canny);
-		cv::waitKey(0);
+		//cv::bitwise_and(canny, outputImg, outputImg);
+		//cv::imshow("Canny", canny);
+		//cv::waitKey(0);
 		//This is somewhat hacky, but this basically ensures that an edge line always has only 1 or 2 neighbors.
 		//imgproc::ThinCannyEdges(canny, outputImg);
 	}

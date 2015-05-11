@@ -22,6 +22,8 @@ namespace dune
 		void ComputeDFT(const cv::Mat &inputImg, cv::Mat &outputImg);
 		void FitEllipseToDFT(const cv::Mat &dftImg, cv::RotatedRect &elipse);
 		void ApplyDFTFiltering(const cv::Mat &spectrum, cv::Mat &outputImg);
+		void ApplyHighPassFilter(const cv::Mat &spectrum, cv::Mat &outputImg);
+		void DirectionalSharpening(const cv::Mat &input, cv::Mat &output, double direction);
 
 	};
 

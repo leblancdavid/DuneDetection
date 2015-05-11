@@ -5,7 +5,7 @@
 
 namespace dune
 {
-	enum DominantOrientationMethod { HOG };
+	enum DominantOrientationMethod { HOG, K_MEANS };
 
 	const int GRADIENT_MAT_DX_INDEX = 0;
 	const int GRADIENT_MAT_DY_INDEX = 1;
@@ -86,76 +86,28 @@ namespace dune
 			cv::meanStdDev(BaseData.Gradient, BaseData.Mean, BaseData.StdDev);
 		}
 
-		double FindDominantOrientation(DominantOrientationMethod method, int param1)
-		{
-			if (method == HOG)
-				return FindDominantOrientationUsingHoG(param1);
-			else
-				return 0.0;
-
-		}
-
-		double FindDominantOrientation(DominantOrientationMethod method, const std::vector<cv::Point> &points, int param1)
-		{
-			if (method == HOG)
-				return FindDominantOrientationUsingHoG(points, param1);
-			else
-				return 0.0;
-
-		}
-
-
-		//The gradient matrix is a 4-channel matrix where 
-		//C1: dx, C2: dy, C3: magnitude, C4: direction 
-		ImageGradientData BaseData;
-
-	protected:
-	
 		//Finds the dominant orientation using HoG method
-		double FindDominantOrientationUsingHoG(int bins)
+		double FindDominantOrientation(DominantOrientationMethod method, int bins)
 		{
-			double avgOrientation = BaseData.Mean[GRADIENT_MAT_DIRECTION_INDEX];
-
-			//Init the HoG Bins
-			double increments = 2.0*3.1416 / (double)bins;
-			std::vector<double> HoG(bins);
-			std::vector<cv::Point2d> HoG2D(bins);
-			for (size_t i = 0; i < HoG.size(); ++i)
-			{
-				HoG2D[i].x = 0.0;
-				HoG2D[i].y = 0.0;
-			}
-
-			//Compute the normalized orientation.
+			std::vector<cv::Point> points;
 			for (int x = 0; x < BaseData.Gradient.cols; ++x)
 			{
 				for (int y = 0; y < BaseData.Gradient.rows; ++y)
 				{
-					double dx = BaseData.Gradient.at<cv::Vec4d>(y, x)[GRADIENT_MAT_DX_INDEX] - BaseData.Mean[GRADIENT_MAT_DX_INDEX];
-					double dy = BaseData.Gradient.at<cv::Vec4d>(y, x)[GRADIENT_MAT_DY_INDEX] - BaseData.Mean[GRADIENT_MAT_DY_INDEX];
-
-					double orientation = std::atan2(dy, dx) - avgOrientation;
-					while (orientation < 0)
-						orientation += 2.0*3.1416;
-
-					int bin = std::ceil((orientation / increments) - 0.5);
-					if (bin >= bins)
-						bin = 0;
-
-					HoG2D[bin].x += dx / 1000.0;
-					HoG2D[bin].y += dy / 1000.0;
+					points.push_back(cv::Point(x, y));
 				}
 			}
 
-			int index = 0;
-			for (size_t i = 0; i < HoG.size(); ++i)
+			if (method == HOG)
 			{
-				double dx = HoG2D[i].x / 1000.0;
-				double dy = HoG2D[i].y / 1000.0;
-				HoG[i] = std::sqrt(dx*dx + dy*dy);
+				return FindDominantOrientationUsingHoG(points, bins);
+			}
+			else if (method == K_MEANS)
+			{
+				return FindDominantOrientationUsingKMeans(points, bins);
 			}
 
-			return calcDominantOrientationFromHoG(HoG, HoG2D);
+			
 		}
 
 		double FindDominantOrientationUsingHoG(const std::vector<cv::Point> &points, int bins)
@@ -200,6 +152,49 @@ namespace dune
 
 			return calcDominantOrientationFromHoG(HoG, HoG2D);
 		}
+
+		double FindDominantOrientationUsingKMeans(const std::vector<cv::Point> &points, int bins)
+		{
+			std::vector<cv::Point2f> gradients;
+
+			double t = BaseData.Mean[GRADIENT_MAT_MAGNITUDE_INDEX] + 4.0 * BaseData.StdDev[GRADIENT_MAT_MAGNITUDE_INDEX];
+			for (size_t i = 0; i < points.size(); ++i)
+			{
+				if (BaseData.Gradient.at<cv::Vec4d>(points[i].y, points[i].x)[GRADIENT_MAT_MAGNITUDE_INDEX] > t)
+				{
+					float dx = BaseData.Gradient.at<cv::Vec4d>(points[i].y, points[i].x)[GRADIENT_MAT_DX_INDEX] / BaseData.Mean[GRADIENT_MAT_MAGNITUDE_INDEX];
+					float dy = BaseData.Gradient.at<cv::Vec4d>(points[i].y, points[i].x)[GRADIENT_MAT_DY_INDEX] / BaseData.Mean[GRADIENT_MAT_MAGNITUDE_INDEX];
+
+					gradients.push_back(cv::Point2f(dx, dy));
+				}
+				
+			}
+
+			int clusters = bins;
+			std::vector<int> labels;
+			cv::Mat centers;
+			cv::kmeans(gradients, clusters, labels, cv::TermCriteria(CV_TERMCRIT_ITER, 1000, 0.1), 5, cv::KMEANS_PP_CENTERS, centers);
+
+			double domOrientation;
+			double maxMag = 0;
+			int index = 0;
+			for (int i = 0; i < centers.rows; ++i)
+			{
+				double m = centers.at<float>(i, 0)*centers.at<float>(i, 0) + centers.at<float>(i, 1)*centers.at<float>(i, 1);
+				if (m > maxMag)
+				{
+					maxMag = m;
+					domOrientation = std::atan2(centers.at<float>(i, 1), centers.at<float>(i, 0));
+					index = i;
+				}
+			}
+
+			return domOrientation;
+		}
+
+		//The gradient matrix is a 4-channel matrix where 
+		//C1: dx, C2: dy, C3: magnitude, C4: direction 
+		ImageGradientData BaseData;
 
 	private:
 

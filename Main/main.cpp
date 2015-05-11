@@ -29,9 +29,9 @@ int main()
 	//resultsFile.close();
 
 	//dune::DuneSegmentDetectorBenchmark benchmark = dune::DuneSegmentDetectorBenchmark();
-	//dune::EdgeBasedDetectorBenchmark benchmark = dune::EdgeBasedDetectorBenchmark();
+	dune::EdgeBasedDetectorBenchmark benchmark = dune::EdgeBasedDetectorBenchmark();
 	//dune::WatershedDuneDetectorBenchmark benchmark = dune::WatershedDuneDetectorBenchmark();
-	dune::FrequencySpaceDetectorBenchmark benchmark = dune::FrequencySpaceDetectorBenchmark();
+	//dune::FrequencySpaceDetectorBenchmark benchmark = dune::FrequencySpaceDetectorBenchmark();
 
 	benchmark.BenchmarkParams = dune::BenchmarkTestParameters(5.0);
 	dune::BenchmarkResults results;

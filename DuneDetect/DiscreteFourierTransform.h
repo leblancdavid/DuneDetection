@@ -28,16 +28,36 @@ namespace dune
 				ComputeInverseDFT(ComplexDFT, output);
 			}
 
+			void MaskFilter(const cv::Mat &mask, cv::Mat &output)
+			{
+				cv::Mat shiftedMask;
+				ShiftQuadrantsForDFT(mask, shiftedMask);
+
+				cv::Mat filter;
+				shiftedMask.convertTo(filter, CV_64F);
+				cv::normalize(filter, filter, 0.0, 1.0, cv::NORM_MINMAX);
+
+				cv::Mat processedDFT = cv::Mat(ComplexDFT.size(), CV_64FC2);
+				for (int x = 0; x < processedDFT.cols; ++x)
+				{
+					for (int y = 0; y < processedDFT.rows; ++y)
+					{
+						cv::Vec2d r = ComplexDFT.at<cv::Vec2d>(y, x);
+						r[0] *= filter.at<double>(y, x);
+						r[1] *= filter.at<double>(y, x);
+						processedDFT.at<cv::Vec2d>(y, x) = r;
+					}
+				}
+
+				ComputeInverseDFT(processedDFT, output);
+			}
+
 			void HighPassFilter(const cv::RotatedRect &filter, cv::Mat &output)
 			{
 				cv::Mat mask(ComplexDFT.rows, ComplexDFT.cols, CV_8UC1);
 				mask = cv::Scalar(255);
 				cv::RotatedRect f_mask = filter;
 				DrawFilledEllipse(mask, f_mask, cv::Scalar(0));
-
-				cv::imwrite("DFT_mask.jpg", mask);
-
-				ShiftQuadrantsForDFT(mask, mask);
 
 				/*f_mask.center.x = 0.0;
 				f_mask.center.y = 0.0;
@@ -49,10 +69,11 @@ namespace dune
 				f_mask.center.x = 0.0;
 				DrawFilledEllipse(mask, f_mask, cv::Scalar(0));*/
 
-				cv::imshow("mask", mask);
-				cv::waitKey(0);
+				//cv::imshow("mask", mask);
+				//cv::waitKey(0);
 
-				cv::Mat processedDFT = cv::Mat(ComplexDFT.size(), CV_64FC2);
+				MaskFilter(mask, output);
+				/*cv::Mat processedDFT = cv::Mat(ComplexDFT.size(), CV_64FC2);
 				for (int x = 0; x < processedDFT.cols; ++x)
 				{
 					for (int y = 0; y < processedDFT.rows; ++y)
@@ -68,7 +89,7 @@ namespace dune
 					}
 				}
 
-				ComputeInverseDFT(processedDFT, output);
+				ComputeInverseDFT(processedDFT, output);*/
 			}
 
 			cv::Mat GetDFTSpectrumImage()
