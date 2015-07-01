@@ -10,7 +10,7 @@ namespace dune
 	public:
 		EdgeDetectorProcParams()
 		{
-			K = 9;
+			K = 5;
 			NumScales = 12;
 			MinMatch = 6;
 			DistanceThreshold = 1.0;

@@ -27,6 +27,9 @@ std::vector<DuneSegment> EdgeBasedDuneDetector::Extract(const cv::Mat &img)
 	cv::Mat processedImage;
 	ImageProcess->Process(img, processedImage);
 
+	//cv::imshow("processedImage", processedImage);
+	//cv::waitKey(0);
+
 	cv::Mat crestlineImg = FilterByDominantOrientation(processedImage);
 
 	std::vector<DuneSegment> duneSegs;
@@ -35,9 +38,11 @@ std::vector<DuneSegment> EdgeBasedDuneDetector::Extract(const cv::Mat &img)
 	if (Parameters.ApplyLinking)
 	{
 		std::vector<DuneSegment> linkedSegs = LinkDuneSegments(duneSegs);
-		duneSegs = FilterSegmentsByMagnitude(duneSegs);
 		return linkedSegs;
 	}
+
+	duneSegs = FilterSegmentsByMagnitude(duneSegs);
+
 	return duneSegs;
 }
 
@@ -51,6 +56,8 @@ cv::Mat EdgeBasedDuneDetector::FilterByDominantOrientation(const cv::Mat &edges)
 {
 	EdgeDetectorImageProcessor* edgeImgProc = dynamic_cast<EdgeDetectorImageProcessor*>(ImageProcess);
 	double domOrientation = edgeImgProc->FindDominantOrientation(DominantOrientationMethod::HOG, Parameters.HistogramBins);
+	//double domOrientation = edgeImgProc->FindDominantOrientation(DominantOrientationMethod::K_MEANS, 2);
+	std::cout << domOrientation << std::endl;
 	cv::Mat filtered = cv::Mat::zeros(edges.rows, edges.cols, CV_8UC1);
 	for (int x = 0; x < edges.cols; ++x)
 	{
@@ -102,40 +109,29 @@ std::vector<DuneSegment> EdgeBasedDuneDetector::FilterSegmentsByMagnitude(const 
 	//double meanM = edgeImgProc->BaseData.Mean[GRADIENT_MAT_MAGNITUDE_INDEX];
 	//double stdDevM = edgeImgProc->BaseData.StdDev[GRADIENT_MAT_MAGNITUDE_INDEX];
 
-	double meanM = 0.0;
-	double count = 0.0;
-	double stdDevM = 0.0;
+	std::vector<double> magnitudes;
 	for (size_t i = 0; i < input.size(); ++i)
 	{
-		std::vector<cv::Point> pts = input[i].GetEndPoints();
+		std::vector<DuneSegmentData> pts = input[i].GetSegmentData();
 		for (size_t j = 0; j < pts.size(); ++j)
 		{
-			meanM += edgeImgProc->BaseData.Gradient.at<cv::Vec4d>(pts[j])[GRADIENT_MAT_MAGNITUDE_INDEX] / 1000.0;
-			count++;
+			magnitudes.push_back(edgeImgProc->BaseData.Gradient.at<cv::Vec4d>(pts[j].Position)[GRADIENT_MAT_MAGNITUDE_INDEX]);
 		}
 	}
-	meanM /= count / 1000.0;
 
-	for (size_t i = 0; i < input.size(); ++i)
-	{
-		std::vector<cv::Point> pts = input[i].GetEndPoints();
-		for (size_t j = 0; j < pts.size(); ++j)
-		{
-			stdDevM += fabs(edgeImgProc->BaseData.Gradient.at<cv::Vec4d>(pts[j])[GRADIENT_MAT_MAGNITUDE_INDEX] - meanM) / 1000.0;
-		}
-	}
-	stdDevM /= count / 1000.0;
+	cv::Scalar meanM, stdDevM;
+	cv::meanStdDev(magnitudes, meanM, stdDevM);
 
-	double threshold = meanM + Parameters.R * stdDevM;
+	double threshold = meanM[0] + Parameters.R * stdDevM[0];
 
 	std::vector<DuneSegment> output;
 	for (size_t i = 0; i < input.size(); ++i)
 	{
-		std::vector<cv::Point> pts = input[i].GetEndPoints();
+		std::vector<DuneSegmentData> pts = input[i].GetSegmentData();
 		double u = 0.0;
 		for (size_t j = 0; j < pts.size(); ++j)
 		{
-			u += edgeImgProc->BaseData.Gradient.at<cv::Vec4d>(pts[j])[GRADIENT_MAT_MAGNITUDE_INDEX] / 1000.0;
+			u += edgeImgProc->BaseData.Gradient.at<cv::Vec4d>(pts[j].Position)[GRADIENT_MAT_MAGNITUDE_INDEX] / 1000.0;
 		}
 		u /= (double)pts.size() / 1000.0;
 		if (u > threshold)

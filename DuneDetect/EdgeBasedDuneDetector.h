@@ -15,8 +15,8 @@ namespace dune
 		EdgeBasedDetectorParameters()
 		{
 			K = 7;
-			R = 0.5;
-			MinSegmentLength = 10;
+			R = -0.5;
+			MinSegmentLength = 50;
 			ApplyLinking = false;
 			LinkDistance = 40.0;
 			HistogramBins = 16;

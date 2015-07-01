@@ -31,15 +31,16 @@ namespace dune
 		int k = parameters.K;
 		cv::Mat filtered, bilateral, threshold, canny;
 		cv::medianBlur(inputImg, filtered, parameters.K);
+		cv::bilateralFilter(filtered, bilateral, parameters.K, 20, 20);
 		//cv::GaussianBlur(filtered, filtered, cv::Size(k, k), (double)k / 5.0, (double)k / 5.0);
 		//cv::GaussianBlur(filtered, filtered, cv::Size(parameters.K, parameters.K), parameters.K / 5.0, parameters.K / 5.0);
 		//The bilateral filter is used for computing the gradient for now, seems to work well.
-		cv::bilateralFilter(filtered, bilateral, parameters.K, 20, 20);
+		
 		// Apparently the gaussian blurring is messing up the accuracy of the detection, so for now I will keep it commented out.
 		
-
+		cv::equalizeHist(bilateral, filtered);
 		ComputeGradient(filtered, k);
-		GetCannyImage(bilateral, outputImg);
+		GetCannyImage(filtered, outputImg);
 
 		//imgproc::IntegralEdgeThreshold(bilateral, canny, 20, k);
 		//cv::erode(canny, canny, cv::Mat(), cv::Point(-1, -1), 6);
@@ -64,7 +65,7 @@ namespace dune
 
 		double stdev = BaseData.StdDev[GRADIENT_MAT_MAGNITUDE_INDEX];
 		double average = BaseData.Mean[GRADIENT_MAT_MAGNITUDE_INDEX];
-		double q = 1.0;
+		double q = 3.0;
 		double cannyHighThreshold = average + q*stdev;
 		cv::Canny(resized, result, cannyHighThreshold, cannyHighThreshold / 2.0, parameters.K);
 
@@ -75,7 +76,7 @@ namespace dune
 	{
 		double stdev = BaseData.StdDev[GRADIENT_MAT_MAGNITUDE_INDEX];
 		double average = BaseData.Mean[GRADIENT_MAT_MAGNITUDE_INDEX];
-		double q = 0.0;
+		double q = -0.5;
 		double cannyHighThreshold = average + q*stdev;
 		cv::Canny(img, canny, cannyHighThreshold, cannyHighThreshold / 2.0, parameters.K);
 	}

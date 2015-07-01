@@ -88,7 +88,7 @@ David Leblanc
 
 \begin_layout Date
 
-\color red
+\color black
 05/7/2015
 \end_layout
 
@@ -944,13 +944,13 @@ key "BandeiraMarques"
 
 \begin_layout Subsection
 
-\color red
+\color black
 Automated Dune Detection
 \end_layout
 
 \begin_layout Standard
 
-\color red
+\color black
 In 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -1419,6 +1419,18 @@ key "Runway_detection_tracking_unmanned"
 
 \begin_layout Standard
 
+\color red
+Another important pre-processing step is to apply histogram equalization
+ (REFERENCE NEEDED) to the image.
+ Histogram equalization is important because it stretches the contrast which
+ is crucial to feature extraction in dune-field images, which tend to have
+ poor contrast.
+ This in turns also helps in the extraction of edges, and improves determination
+ of the dominant gradient orientation.
+\end_layout
+
+\begin_layout Standard
+
 \color black
 Once the image has been pre-processed, the Canny edge detector is used to
  recover the potential crestline candidates.
@@ -1543,7 +1555,11 @@ Many of the edges provided in the edge detection step are noise, shadows,
 y similar orientations.
  Dune crests typically appear to have larger gradient magnitures relative
  to other noisy edges or texture (but this may not always be the case).
- 
+
+\color red
+ To help solve this issue, as mentionned above, using histogram equalization
+ can help normalize edges and improves calculation of the dominant orientation
+ of the edges.
 \end_layout
 
 \begin_layout Standard
@@ -1592,7 +1608,7 @@ K,
 
 , to seperate the gradients into two distinct groupings
 \begin_inset Foot
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
@@ -1966,7 +1982,7 @@ reference "fig:Resuls-of-unnormalized"
 
  is used
 \begin_inset Foot
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
@@ -2347,7 +2363,8 @@ The value of
 
 \begin_layout Standard
 
-\color black
+\strikeout on
+\color blue
 In order to improve the robustness, a connected components method is used
  to find all segments from the canny image.
  For each segments if the number of points along the segment satisfy the
@@ -2358,33 +2375,24 @@ reference "eq:edge-criteria"
 
 \end_inset
 
- is greater than some ratio 
-\emph on
-R
-\emph default
-, then the segment is considered to be a dune segment, where 
+ is greater than some ratio R, then the segment is considered to be a dune
+ segment, where 
 \begin_inset Formula $0<R<1$
 \end_inset
 
 .
- Choosing a small 
-\emph on
-R
-\emph default
- generally improves the true positive detection, while increasing false
- positive rate
+ Choosing a small R generally improves the true positive detection, while
+ increasing false positive rate
 \begin_inset Foot
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
-\color black
-During initial testing, 
-\emph on
-R
-\emph default
- (~0.1) was set to a very low value, which allowed many of the true positive
- to be found at the expense of a higher false positive rate.
+\strikeout on
+\color blue
+During initial testing, R (~0.1) was set to a very low value, which allowed
+ many of the true positive to be found at the expense of a higher false
+ positive rate.
  This technique is very simplistic and does require more investigation to
  improve on.
 \end_layout
@@ -2392,6 +2400,16 @@ R
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Subsubsection*
+
+\color red
+Dune segment linking
+\end_layout
+
+\begin_layout Standard
+With the dominant orientation computed, many false positives have been rejected.
 \end_layout
 
 \begin_layout Subsubsection
@@ -2963,13 +2981,13 @@ Watershed method could be further expanded to include color image processing.
 
 \begin_layout Subsubsection
 
-\color red
+\color black
 Method #4: Frequency Domain
 \end_layout
 
 \begin_layout Standard
 
-\color red
+\color black
 In this approach, we take advantage of the fact dune-field patterns seem
  to to have some periodic pattern, which could possibly be extracted from
  the frequency domain.
@@ -2981,7 +2999,7 @@ In this approach, we take advantage of the fact dune-field patterns seem
 \begin_layout Paragraph*
 
 \bar under
-\color red
+\color black
 Feature extraction from the frequency domain
 \bar default
 :
@@ -2989,7 +3007,7 @@ Feature extraction from the frequency domain
 
 \begin_layout Standard
 
-\color red
+\color black
 In this application, the features we desire to extract are the dune crest-lines,
  which in the spacial domain are edges.
  In the frequency domain, the crest-lines may belong to some of the higher
@@ -3006,7 +3024,7 @@ reference "fig:Frequency-spectrum-results"
 
 \begin_layout Standard
 
-\color red
+\color black
 From the frequency domain, dominant frequencies can be extracted by searching
  for large magnitudes of frequencies 
 \begin_inset Foot
@@ -3014,7 +3032,7 @@ status collapsed
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 Determining which frequencies to extract will be key for this application.
  More research needs to be done on how to extract features from the frequency
  domain.
@@ -3031,7 +3049,7 @@ Determining which frequencies to extract will be key for this application.
 
 \begin_layout Standard
 
-\color red
+\color black
 In order to determine this dominant orientation, the frequency domain magnitude
  image is thresholded based on the mean and standard deviation of the frequency
  magnitudes, as shown in Figure 
@@ -3049,7 +3067,7 @@ reference "fig:Frequency-spectrum-results"
 
 \begin_layout Standard
 
-\color red
+\color black
 The computed ellipse's orientation appears to match the orientation of the
  dune gradients.
  The information provided by the ellipse may prove useful 
@@ -3058,7 +3076,7 @@ status collapsed
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 Fitting an ellipse is currently mainly used for determining the orientation
  of the gradients of the dune crests.
  Since I am not too familiar with the frequency domain, there may be a better
@@ -3084,13 +3102,17 @@ reference "fig:Frequency-spectrum-results"
 \end_layout
 
 \begin_layout Standard
+
+\color black
 \begin_inset Float figure
 wide true
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
+
+\color black
 (a)
 \begin_inset Graphics
 	filename Figures/DFT_spectrum.jpg
@@ -3110,6 +3132,8 @@ status open
 
 \begin_layout Plain Layout
 \align center
+
+\color black
 (c)
 \begin_inset Graphics
 	filename Figures/DFT_spectrum_threshold_median.jpg
@@ -3129,6 +3153,8 @@ status open
 
 \begin_layout Plain Layout
 \align center
+
+\color black
 (e)
 \begin_inset Graphics
 	filename Figures/DFT_mask.jpg
@@ -3147,11 +3173,13 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
+
+\color black
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
 
-\color red
+\color black
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:Frequency-spectrum-results"
@@ -4433,6 +4461,8 @@ FP
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\color black
 ???
 \end_layout
 
@@ -4442,6 +4472,8 @@ FP
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\color black
 ???
 \end_layout
 
@@ -4453,6 +4485,8 @@ FP
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\color black
 ???
 \end_layout
 
@@ -4462,6 +4496,8 @@ FP
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\color black
 ???
 \end_layout
 
@@ -4473,6 +4509,8 @@ FP
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\color black
 ???
 \end_layout
 
@@ -4482,6 +4520,8 @@ FP
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\color black
 ???
 \end_layout
 
@@ -4493,6 +4533,8 @@ FP
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\color black
 ???
 \end_layout
 
@@ -4502,6 +4544,8 @@ FP
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\color black
 ???
 \end_layout
 
@@ -4513,6 +4557,8 @@ FP
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\color black
 ???
 \end_layout
 
@@ -4522,6 +4568,8 @@ FP
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\color black
 ???
 \end_layout
 
@@ -4533,6 +4581,8 @@ FP
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\color black
 ???
 \end_layout
 
@@ -4542,6 +4592,8 @@ FP
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\color black
 ???
 \end_layout
 
@@ -4696,7 +4748,7 @@ Dune detection results (red) compared to the ground truth (green), overall
 \begin_inset Float figure
 wide true
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center

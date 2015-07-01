@@ -115,7 +115,7 @@ public:
 		
 		//cv::imwrite("WatershedDuneSegments.jpg", colorImg);
 		cv::imshow("Detected Points", colorImg);
-		cv::waitKey(30);
+		cv::waitKey(0);
 
 		BenchmarkResults results;
 		results = GetBenchmarkResults(segments, groundTruth);

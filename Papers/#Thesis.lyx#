@@ -689,6 +689,39 @@ Pattern Recognition
 
 \begin_layout Subsubsection
 
+\color red
+Perceptual Grouping
+\end_layout
+
+\begin_layout Standard
+The concept of tensor voting introduced in (REFERENCE NEEDED!!!).
+\end_layout
+
+\begin_layout Standard
+In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Probabilistic-tensor-voting-robust-perceptual-grouping"
+
+\end_inset
+
+, a tensor voting approach is used to perform perceptual grouping on noisy
+ data.
+ The approach extends the standard tensor voting using Bayesian probilities.
+ The Bayesian framework has added benefits of reducing the learning variance
+ of the perceptual grouping task.
+ Another contribution of this paper is the use of a 2nd order tensor and
+ two types of polarity vectors to handle both outlier and inlier noise.
+ The approach also is able to process all types of geometric structures.
+ For probabilistic tensor voting, the voting procedure uses random vector
+ with a given standard deviation.
+ It uses three layers of voting: sparse ball vote, sparse stick vote, and
+ revised stick vote, where the goal is to change the positions of each token
+ based on a random vector.
+\end_layout
+
+\begin_layout Subsubsection
+
 \color black
 Watershed Segmentation
 \end_layout
@@ -1425,6 +1458,8 @@ Another important pre-processing step is to apply histogram equalization
  Histogram equalization is important because it stretches the contrast which
  is crucial to feature extraction in dune-field images, which tend to have
  poor contrast.
+ This in turns also helps in the extraction of edges, and improves determination
+ of the dominant gradient orientation.
 \end_layout
 
 \begin_layout Standard
@@ -1553,7 +1588,11 @@ Many of the edges provided in the edge detection step are noise, shadows,
 y similar orientations.
  Dune crests typically appear to have larger gradient magnitures relative
  to other noisy edges or texture (but this may not always be the case).
- 
+
+\color red
+ To help solve this issue, as mentionned above, using histogram equalization
+ can help normalize edges and improves calculation of the dominant orientation
+ of the edges.
 \end_layout
 
 \begin_layout Standard
@@ -2357,7 +2396,8 @@ The value of
 
 \begin_layout Standard
 
-\color black
+\strikeout on
+\color blue
 In order to improve the robustness, a connected components method is used
  to find all segments from the canny image.
  For each segments if the number of points along the segment satisfy the
@@ -2368,33 +2408,24 @@ reference "eq:edge-criteria"
 
 \end_inset
 
- is greater than some ratio 
-\emph on
-R
-\emph default
-, then the segment is considered to be a dune segment, where 
+ is greater than some ratio R, then the segment is considered to be a dune
+ segment, where 
 \begin_inset Formula $0<R<1$
 \end_inset
 
 .
- Choosing a small 
-\emph on
-R
-\emph default
- generally improves the true positive detection, while increasing false
- positive rate
+ Choosing a small R generally improves the true positive detection, while
+ increasing false positive rate
 \begin_inset Foot
 status collapsed
 
 \begin_layout Plain Layout
 
-\color black
-During initial testing, 
-\emph on
-R
-\emph default
- (~0.1) was set to a very low value, which allowed many of the true positive
- to be found at the expense of a higher false positive rate.
+\strikeout on
+\color blue
+During initial testing, R (~0.1) was set to a very low value, which allowed
+ many of the true positive to be found at the expense of a higher false
+ positive rate.
  This technique is very simplistic and does require more investigation to
  improve on.
 \end_layout
@@ -2402,6 +2433,16 @@ R
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Subsubsection*
+
+\color red
+Dune segment linking
+\end_layout
+
+\begin_layout Standard
+With the dominant orientation computed, many false positives have been rejected.
 \end_layout
 
 \begin_layout Subsubsection
