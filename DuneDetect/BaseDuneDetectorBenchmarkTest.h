@@ -2,6 +2,7 @@
 #define _DUNE_DETECTOR_BENCHMARK_TEST_H_
 
 #include "BaseDuneDetector.h"
+#include "Draw.h"
 
 namespace dune
 {
@@ -101,24 +102,31 @@ public:
 
 		//cv::dilate(colorImg, colorImg, cv::Mat(), cv::Point(-1, -1), 5);
 
-		for(size_t i = 0; i < segments.size(); ++i)
-		{
-			std::vector<DuneSegmentData> segData = segments[i].GetSegmentData();
+		//for(size_t i = 0; i < segments.size(); ++i)
+		//{
+			//draw::DrawDuneSegment(colorImg, segments[i], cv::Scalar(0, 0, 255), false, cv::Scalar(0, 255, 0), 2);
+
+			/*std::vector<DuneSegmentData> segData = segments[i].GetSegmentData();
 			for (size_t j = 0; j < segData.size(); ++j)
 			{
 				cv::Point p = segData[j].Position;
 				colorImg.at<cv::Vec3b>(p) = cv::Vec3b(0,0,255);
-			}
-		}
+			}*/
+		//}
 
 		//cv::dilate(colorImg, colorImg, cv::Mat(), cv::Point(-1,-1), 3);
 		
-		//cv::imwrite("WatershedDuneSegments.jpg", colorImg);
-		cv::imshow("Detected Points", colorImg);
-		cv::waitKey(0);
+		//cv::imwrite("FilteredFitLines.jpg", colorImg);
+		//cv::imshow("Detected Points", colorImg);
+		//cv::waitKey(30);
 
 		BenchmarkResults results;
-		results = GetBenchmarkResults(segments, groundTruth);
+
+		results = GetBenchmarkResults(segments, groundTruth, colorImg);
+
+		cv::imshow("Detected Points", colorImg);
+		//cv::imwrite("Method4Results.jpg", colorImg);
+		cv::waitKey(0);
 		return results;
 	}
 
@@ -144,12 +152,12 @@ protected:
 	}
 
 	BenchmarkResults GetBenchmarkResults(const std::vector<DuneSegment> &segments,
-		const std::vector<cv::Point> &groundTruth)
+		const std::vector<cv::Point> &groundTruth, cv::Mat &plot)
 	{
 		BenchmarkResults results;
 
 		results.TP = CalcTruePositives(segments, groundTruth, results.Error);
-		results.FP = CalcFalsePositives(segments, groundTruth);
+		results.FP = CalcFalsePositives(segments, groundTruth, plot);
 
 		//CalculateResults(segments, groundTruth, results.TP, results.FP);
 		
@@ -267,7 +275,8 @@ protected:
 	}
 
 	double CalcFalsePositives(const std::vector<DuneSegment> &segments,
-									const std::vector<cv::Point> &groundTruth)
+									const std::vector<cv::Point> &groundTruth,
+									cv::Mat &plot)
 	{
 		double FP = 0;
 		//Calculate the false positives
@@ -295,6 +304,13 @@ protected:
 				if(minDist > BenchmarkParams.MinError)
 				{
 					FP++;
+					cv::circle(plot, segData[j].Position, 1, cv::Scalar(0, 0, 255), 2);
+					//plot.at<cv::Vec3b>(segData[j].Position) = cv::Vec3b(0, 0, 255);
+				}
+				else
+				{
+					cv::circle(plot, segData[j].Position, 1, cv::Scalar(0, 255, 0), 2);
+					//plot.at<cv::Vec3b>(segData[j].Position) = cv::Vec3b(0, 255, 0);
 				}
 
 				totalPoints++;

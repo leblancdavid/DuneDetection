@@ -10,7 +10,7 @@ namespace dune
 	public:
 		EdgeDetectorProcParams()
 		{
-			K = 5;
+			K = 7;
 			NumScales = 12;
 			MinMatch = 6;
 			DistanceThreshold = 1.0;
@@ -52,6 +52,8 @@ namespace dune
 		void GetMultiScaleCanny(const cv::Mat &img, cv::Mat &canny);
 		void GetCannyImage(const cv::Mat &img, cv::Mat &canny);
 
+		void GetSobelImage(const cv::Mat &img, cv::Mat &sobel);
+
 		void ComputeMaximallyStableEdges(const cv::Mat &img, cv::Mat &stable, double minQ, double maxQ, int numIterations, int t);
 		void GetNormalizedCanny(const cv::Mat &img, cv::Mat &canny, double minT, double maxT, int size);
 
@@ -59,6 +61,7 @@ namespace dune
 
 		double FindOptimalScale(const cv::Mat &img);
 
+		void ThresholdByEdgeDirection(const cv::Mat &img, cv::Mat &output, double direction);
 
 		//////////////////////////////////////////////////////////////////////////////////
 		//Old crap that probably won't work but you never know

@@ -40,7 +40,15 @@ namespace dune
 		
 		cv::equalizeHist(bilateral, filtered);
 		ComputeGradient(filtered, k);
-		GetCannyImage(filtered, outputImg);
+		
+		//GetCannyImage(filtered, outputImg);
+		double orientation = FindDominantOrientation(DominantOrientationMethod::HOG, 16);
+
+
+		ThresholdByEdgeDirection(inputImg, outputImg, orientation);
+		//GetSobelImage(bilateral, outputImg);
+		//cv::imshow("outputImg", outputImg);
+		//cv::waitKey(0);
 
 		//imgproc::IntegralEdgeThreshold(bilateral, canny, 20, k);
 		//cv::erode(canny, canny, cv::Mat(), cv::Point(-1, -1), 6);
@@ -76,10 +84,80 @@ namespace dune
 	{
 		double stdev = BaseData.StdDev[GRADIENT_MAT_MAGNITUDE_INDEX];
 		double average = BaseData.Mean[GRADIENT_MAT_MAGNITUDE_INDEX];
-		double q = -0.5;
+		double q = 2.5;
 		double cannyHighThreshold = average + q*stdev;
 		cv::Canny(img, canny, cannyHighThreshold, cannyHighThreshold / 2.0, parameters.K);
 	}
+
+	void EdgeDetectorImageProcessor::GetSobelImage(const cv::Mat &img, cv::Mat &sobel)
+	{
+		double stdev = BaseData.StdDev[GRADIENT_MAT_MAGNITUDE_INDEX];
+		double average = BaseData.Mean[GRADIENT_MAT_MAGNITUDE_INDEX];
+		double q = 0.0;
+		double threshold = average + q*stdev;
+		cv::Mat dx, dy, mag;
+
+		cv::Sobel(img, dx, CV_64F, 1, 0, parameters.K);
+		cv::Sobel(img, dy, CV_64F, 0, 1, parameters.K);
+		cv::magnitude(dx, dy, mag);
+
+		sobel = cv::Mat(mag.rows, mag.cols, CV_8U);
+		for (int x = 0; x < mag.cols; ++x)
+		{
+			for (int y = 0; y < mag.rows; ++y)
+			{
+				if (mag.at<double>(y, x) > threshold)
+				{
+					sobel.at<uchar>(y, x) = 255;
+				}
+				else
+				{
+					sobel.at<uchar>(y, x) = 0;
+				}
+			}
+		}
+
+	}
+
+	void EdgeDetectorImageProcessor::ThresholdByEdgeDirection(const cv::Mat &img, cv::Mat &output, double direction)
+	{
+		cv::Mat tempImage = img.clone();
+		output = img.clone();
+		double thresh = 3.1416 / 1.5;
+		for (int x = 0; x < img.cols; ++x)
+		{
+			for (int y = 0; y < img.rows; ++y)
+			{
+				double d = BaseData.Gradient.at<cv::Vec4d>(y, x)[GRADIENT_MAT_DIRECTION_INDEX];
+				double low = fabs(d - direction);
+				double high = fabs(d - (direction + 2.0*3.1416));
+				if (low < thresh ||
+					high < thresh)
+				{
+					output.at<uchar>(y, x) = 255;
+				}
+				else
+				{
+					output.at<uchar>(y, x) = 0;
+				}
+
+				if (low < high)
+				{
+					tempImage.at<uchar>(y, x) = (1.0 - (low / (2.0*3.1416)))*200.0;
+				}
+				else
+				{
+					tempImage.at<uchar>(y, x) = (1.0 - (high / (2.0*3.1416)))*200.0;
+				}
+				
+
+			}
+		}
+
+		cv::imwrite("NormalizedDirectionImage.jpg", tempImage);
+		cv::imwrite("ThresholdNormalizedDirectionImage.jpg", output);
+	}
+
 
 	void EdgeDetectorImageProcessor::ComputeMaximallyStableEdges(const cv::Mat &img, cv::Mat &stable, double minQ, double maxQ, int numIterations, int t)
 	{

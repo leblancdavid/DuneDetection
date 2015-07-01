@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Math">
+      <UniqueIdentifier>{648d5ba3-4751-4e05-90fd-08335c7db9f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Math">
+      <UniqueIdentifier>{aa6ada9a-d047-4989-82bb-0531b8bda877}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Curvature">
+      <UniqueIdentifier>{4cbd13f3-7141-42b9-93c1-c15f8268b5c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DataStructures">
+      <UniqueIdentifier>{765ca32b-a13f-424f-ad23-b5be7b6233ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Labelling">
+      <UniqueIdentifier>{8224e7cd-d8f8-41a2-bd70-5679e2b4b786}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Marching">
+      <UniqueIdentifier>{e9ea45c8-9396-474f-8fa2-b86f7090a755}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ProcessTools">
+      <UniqueIdentifier>{cc01a095-0760-4d44-a8c3-b7a98926a014}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Recipes">
+      <UniqueIdentifier>{8e59c8c3-5c30-4093-953d-6149302c09d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Remitters">
+      <UniqueIdentifier>{4cd5a2ba-583a-4cd3-84bb-b0eeb3b98454}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Spaces">
+      <UniqueIdentifier>{4ad6556c-c3f3-4da0-96ee-44634c39e1a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Tensors">
+      <UniqueIdentifier>{a9bcb803-f305-43fc-a9d3-0ef6add4cda6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Visitors">
+      <UniqueIdentifier>{173f456c-e25c-40b1-acbf-7e5669392d24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tensors">
+      <UniqueIdentifier>{264ec8ee-c315-444e-b5ba-cf1032b9db04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Interfaces">
+      <UniqueIdentifier>{26391c42-0855-43a3-940a-805096cdbd30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Includes">
+      <UniqueIdentifier>{2c734d26-385e-47fc-ba16-4785d98b8db1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Curvature\TVDFCurvature.h">
+      <Filter>Header Files\Curvature</Filter>
+    </ClInclude>
+    <ClInclude Include="Curvature\TVDFCurvatureBase.h">
+      <Filter>Header Files\Curvature</Filter>
+    </ClInclude>
+    <ClInclude Include="Curvature\TVRecCurvature.h">
+      <Filter>Header Files\Curvature</Filter>
+    </ClInclude>
+    <ClInclude Include="Curvature\TVRETensor2Curvature.h">
+      <Filter>Header Files\Curvature</Filter>
+    </ClInclude>
+    <ClInclude Include="DataStructures\TVDsEquivalenceSet.h">
+      <Filter>Header Files\DataStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="Labelling\TVRELabel.h">
+      <Filter>Header Files\Labelling</Filter>
+    </ClInclude>
+    <ClInclude Include="Labelling\TVRELabellingGroup.h">
+      <Filter>Header Files\Labelling</Filter>
+    </ClInclude>
+    <ClInclude Include="Labelling\TVRELabelThDecay.h">
+      <Filter>Header Files\Labelling</Filter>
+    </ClInclude>
+    <ClInclude Include="Labelling\TVRELabelThDecayMax.h">
+      <Filter>Header Files\Labelling</Filter>
+    </ClInclude>
+    <ClInclude Include="Labelling\TVRELabelThDecaySel.h">
+      <Filter>Header Files\Labelling</Filter>
+    </ClInclude>
+    <ClInclude Include="Marching\ITVCorrector.h">
+      <Filter>Header Files\Marching</Filter>
+    </ClInclude>
+    <ClInclude Include="Marching\ITVSaliencyMaximizer.h">
+      <Filter>Header Files\Marching</Filter>
+    </ClInclude>
+    <ClInclude Include="Marching\TVCorrMaximizer.h">
+      <Filter>Header Files\Marching</Filter>
+    </ClInclude>
+    <ClInclude Include="Marching\TVMarch.h">
+      <Filter>Header Files\Marching</Filter>
+    </ClInclude>
+    <ClInclude Include="Marching\TVMarchSequential.h">
+      <Filter>Header Files\Marching</Filter>
+    </ClInclude>
+    <ClInclude Include="Marching\TVObjectExpand.h">
+      <Filter>Header Files\Marching</Filter>
+    </ClInclude>
+    <ClInclude Include="Marching\TVObjectExpandCurve.h">
+      <Filter>Header Files\Marching</Filter>
+    </ClInclude>
+    <ClInclude Include="Marching\TVObjectExpandSurface.h">
+      <Filter>Header Files\Marching</Filter>
+    </ClInclude>
+    <ClInclude Include="Marching\TVSMDichotomicGradient.h">
+      <Filter>Header Files\Marching</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\TVDFComp.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\TVDFGaussian.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\TVDFOriginal.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\TVDFTensor2.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessTools\TVContainerIterator.h">
+      <Filter>Header Files\ProcessTools</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessTools\TVFacProto.h">
+      <Filter>Header Files\ProcessTools</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessTools\TVFactory.h">
+      <Filter>Header Files\ProcessTools</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessTools\TVPointsGridIterator.h">
+      <Filter>Header Files\ProcessTools</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessTools\TVProcess.h">
+      <Filter>Header Files\ProcessTools</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessTools\TVProSequential.h">
+      <Filter>Header Files\ProcessTools</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessTools\TVVectorIterator.h">
+      <Filter>Header Files\ProcessTools</Filter>
+    </ClInclude>
+    <ClInclude Include="Visitors\ITVTerminal.h">
+      <Filter>Header Files\Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="Visitors\TVTermReadMemory.h">
+      <Filter>Header Files\Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="Visitors\TVTermWriteMemory.h">
+      <Filter>Header Files\Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="Visitors\TVTermWriteMFile.h">
+      <Filter>Header Files\Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="Visitors\TVVOPositions.h">
+      <Filter>Header Files\Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="Visitors\TVVORemitters.h">
+      <Filter>Header Files\Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="Visitors\TVVORPlot.h">
+      <Filter>Header Files\Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="Visitors\TVVOSaliency.h">
+      <Filter>Header Files\Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="Visitors\TVVRPlot.h">
+      <Filter>Header Files\Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="Tensors\mathExt.h">
+      <Filter>Header Files\Tensors</Filter>
+    </ClInclude>
+    <ClInclude Include="Tensors\mathFwk.h">
+      <Filter>Header Files\Tensors</Filter>
+    </ClInclude>
+    <ClInclude Include="Tensors\mathMatrixes.h">
+      <Filter>Header Files\Tensors</Filter>
+    </ClInclude>
+    <ClInclude Include="Tensors\mathTensors.h">
+      <Filter>Header Files\Tensors</Filter>
+    </ClInclude>
+    <ClInclude Include="Spaces\TVSpFilter.h">
+      <Filter>Header Files\Spaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Spaces\TVSpFiltMaxSaliency.h">
+      <Filter>Header Files\Spaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Spaces\TVSpFiltNumVotes.h">
+      <Filter>Header Files\Spaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Spaces\TVSpImg.h">
+      <Filter>Header Files\Spaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Spaces\TVSpKdTree.h">
+      <Filter>Header Files\Spaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Spaces\TVSpVector.h">
+      <Filter>Header Files\Spaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Spaces\TVSpVoxHash.h">
+      <Filter>Header Files\Spaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Remitters\TVRETensor1.h">
+      <Filter>Header Files\Remitters</Filter>
+    </ClInclude>
+    <ClInclude Include="Remitters\TVRETensor2.h">
+      <Filter>Header Files\Remitters</Filter>
+    </ClInclude>
+    <ClInclude Include="Recipes\ITVRecipe.h">
+      <Filter>Header Files\Recipes</Filter>
+    </ClInclude>
+    <ClInclude Include="Recipes\TVRecComp.h">
+      <Filter>Header Files\Recipes</Filter>
+    </ClInclude>
+    <ClInclude Include="Recipes\TVRecPlain.h">
+      <Filter>Header Files\Recipes</Filter>
+    </ClInclude>
+    <ClInclude Include="ITVIterator.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ITVVisitObject.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ITVVisitRemitter.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ITVVotingSystem.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="TV.h">
+      <Filter>Header Files\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="TV_base.h">
+      <Filter>Header Files\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="TV_cleaning.h">
+      <Filter>Header Files\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="TV_data_structures.h">
+      <Filter>Header Files\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="TV_EXT.h">
+      <Filter>Header Files\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="TV_EXT_curvature.h">
+      <Filter>Header Files\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="TV_EXT_labelling.h">
+      <Filter>Header Files\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="TV_marching.h">
+      <Filter>Header Files\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="TV_math.h">
+      <Filter>Header Files\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="TV_process_tools.h">
+      <Filter>Header Files\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="TV_recipes.h">
+      <Filter>Header Files\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="TV_remitters.h">
+      <Filter>Header Files\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="TV_space_filters.h">
+      <Filter>Header Files\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="TV_spaces.h">
+      <Filter>Header Files\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="TV_template_tools.h">
+      <Filter>Header Files\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="TV_types_lists.h">
+      <Filter>Header Files\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="TV_visitors.h">
+      <Filter>Header Files\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="TVBitMask.h">
+      <Filter>Header Files\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="TVObject.h">
+      <Filter>Header Files\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="TVParameters.h">
+      <Filter>Header Files\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="TVRemitter.h">
+      <Filter>Header Files\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="TVSpace.h">
+      <Filter>Header Files\Includes</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Tensors\README.txt">
+      <Filter>Header Files\Tensors</Filter>
+    </Text>
+    <Text Include="README.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Tensors\mathMatrixes.cpp">
+      <Filter>Source Files\Tensors</Filter>
+    </ClCompile>
+    <ClCompile Include="Tensors\mathTensors.cpp">
+      <Filter>Source Files\Tensors</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

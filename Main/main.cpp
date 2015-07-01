@@ -33,7 +33,7 @@ int main()
 	//dune::WatershedDuneDetectorBenchmark benchmark = dune::WatershedDuneDetectorBenchmark();
 	//dune::FrequencySpaceDetectorBenchmark benchmark = dune::FrequencySpaceDetectorBenchmark();
 
-	benchmark.BenchmarkParams = dune::BenchmarkTestParameters(5.0);
+	benchmark.BenchmarkParams = dune::BenchmarkTestParameters(10.0);
 	dune::BenchmarkResults results;
 	std::string imageFile, groundTruthFile;
 

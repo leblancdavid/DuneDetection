@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{CE77E065-FF56-4A02-8BE0-57CFDC63A1DC}</ProjectGuid>
+    <RootNamespace>TensorVotingFramework</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(ProjectDir)\libs\lib\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(ProjectDir)\libs\lib\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>libs\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>libblas.lib;liblapack.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>libs\lib</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>libs\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>libblas.lib;liblapack.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>libs\lib</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Curvature\TVDFCurvature.h" />
+    <ClInclude Include="Curvature\TVDFCurvatureBase.h" />
+    <ClInclude Include="Curvature\TVRecCurvature.h" />
+    <ClInclude Include="Curvature\TVRETensor2Curvature.h" />
+    <ClInclude Include="DataStructures\TVDsEquivalenceSet.h" />
+    <ClInclude Include="ITVIterator.h" />
+    <ClInclude Include="ITVVisitObject.h" />
+    <ClInclude Include="ITVVisitRemitter.h" />
+    <ClInclude Include="ITVVotingSystem.h" />
+    <ClInclude Include="Labelling\TVRELabel.h" />
+    <ClInclude Include="Labelling\TVRELabellingGroup.h" />
+    <ClInclude Include="Labelling\TVRELabelThDecay.h" />
+    <ClInclude Include="Labelling\TVRELabelThDecayMax.h" />
+    <ClInclude Include="Labelling\TVRELabelThDecaySel.h" />
+    <ClInclude Include="Marching\ITVCorrector.h" />
+    <ClInclude Include="Marching\ITVSaliencyMaximizer.h" />
+    <ClInclude Include="Marching\TVCorrMaximizer.h" />
+    <ClInclude Include="Marching\TVMarch.h" />
+    <ClInclude Include="Marching\TVMarchSequential.h" />
+    <ClInclude Include="Marching\TVObjectExpand.h" />
+    <ClInclude Include="Marching\TVObjectExpandCurve.h" />
+    <ClInclude Include="Marching\TVObjectExpandSurface.h" />
+    <ClInclude Include="Marching\TVSMDichotomicGradient.h" />
+    <ClInclude Include="Math\TVDFComp.h" />
+    <ClInclude Include="Math\TVDFGaussian.h" />
+    <ClInclude Include="Math\TVDFOriginal.h" />
+    <ClInclude Include="Math\TVDFTensor2.h" />
+    <ClInclude Include="ProcessTools\TVContainerIterator.h" />
+    <ClInclude Include="ProcessTools\TVFacProto.h" />
+    <ClInclude Include="ProcessTools\TVFactory.h" />
+    <ClInclude Include="ProcessTools\TVPointsGridIterator.h" />
+    <ClInclude Include="ProcessTools\TVProcess.h" />
+    <ClInclude Include="ProcessTools\TVProSequential.h" />
+    <ClInclude Include="ProcessTools\TVVectorIterator.h" />
+    <ClInclude Include="Recipes\ITVRecipe.h" />
+    <ClInclude Include="Recipes\TVRecComp.h" />
+    <ClInclude Include="Recipes\TVRecPlain.h" />
+    <ClInclude Include="Remitters\TVRETensor1.h" />
+    <ClInclude Include="Remitters\TVRETensor2.h" />
+    <ClInclude Include="Spaces\TVSpFilter.h" />
+    <ClInclude Include="Spaces\TVSpFiltMaxSaliency.h" />
+    <ClInclude Include="Spaces\TVSpFiltNumVotes.h" />
+    <ClInclude Include="Spaces\TVSpImg.h" />
+    <ClInclude Include="Spaces\TVSpKdTree.h" />
+    <ClInclude Include="Spaces\TVSpVector.h" />
+    <ClInclude Include="Spaces\TVSpVoxHash.h" />
+    <ClInclude Include="Tensors\mathExt.h" />
+    <ClInclude Include="Tensors\mathFwk.h" />
+    <ClInclude Include="Tensors\mathMatrixes.h" />
+    <ClInclude Include="Tensors\mathTensors.h" />
+    <ClInclude Include="TV.h" />
+    <ClInclude Include="TVBitMask.h" />
+    <ClInclude Include="TVObject.h" />
+    <ClInclude Include="TVParameters.h" />
+    <ClInclude Include="TVRemitter.h" />
+    <ClInclude Include="TVSpace.h" />
+    <ClInclude Include="TV_base.h" />
+    <ClInclude Include="TV_cleaning.h" />
+    <ClInclude Include="TV_data_structures.h" />
+    <ClInclude Include="TV_EXT.h" />
+    <ClInclude Include="TV_EXT_curvature.h" />
+    <ClInclude Include="TV_EXT_labelling.h" />
+    <ClInclude Include="TV_marching.h" />
+    <ClInclude Include="TV_math.h" />
+    <ClInclude Include="TV_process_tools.h" />
+    <ClInclude Include="TV_recipes.h" />
+    <ClInclude Include="TV_remitters.h" />
+    <ClInclude Include="TV_spaces.h" />
+    <ClInclude Include="TV_space_filters.h" />
+    <ClInclude Include="TV_template_tools.h" />
+    <ClInclude Include="TV_types_lists.h" />
+    <ClInclude Include="TV_visitors.h" />
+    <ClInclude Include="Visitors\ITVTerminal.h" />
+    <ClInclude Include="Visitors\TVTermReadMemory.h" />
+    <ClInclude Include="Visitors\TVTermWriteMemory.h" />
+    <ClInclude Include="Visitors\TVTermWriteMFile.h" />
+    <ClInclude Include="Visitors\TVVOPositions.h" />
+    <ClInclude Include="Visitors\TVVORemitters.h" />
+    <ClInclude Include="Visitors\TVVORPlot.h" />
+    <ClInclude Include="Visitors\TVVOSaliency.h" />
+    <ClInclude Include="Visitors\TVVRPlot.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="README.txt" />
+    <Text Include="Tensors\README.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Tensors\mathMatrixes.cpp" />
+    <ClCompile Include="Tensors\mathTensors.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

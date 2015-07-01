@@ -76,11 +76,13 @@
     <ClInclude Include="BaseEdgeImageProcessor.h" />
     <ClInclude Include="ConnectedComponentsExtractor.h" />
     <ClInclude Include="DiscreteFourierTransform.h" />
+    <ClInclude Include="Draw.h" />
     <ClInclude Include="DuneDetectLibHeaders.h" />
     <ClInclude Include="BaseDuneDetector.h" />
     <ClInclude Include="BaseDuneDetectorBenchmarkTest.h" />
     <ClInclude Include="DuneSegment.h" />
-    <ClInclude Include="DuneSegmentLinker.h" />
+    <ClInclude Include="BaseSegmentLinker.h" />
+    <ClInclude Include="EndpointSegmentLinker.h" />
     <ClInclude Include="FrequencySpaceDetectorBenchmark.h" />
     <ClInclude Include="FrequencySpaceDuneDetector.h" />
     <ClInclude Include="FrequencySpaceImageProcessor.h" />
@@ -92,6 +94,7 @@
     <ClInclude Include="EdgeBasedDuneDetector.h" />
     <ClInclude Include="EdgeDetectorImageProcessor.h" />
     <ClInclude Include="DuneMath.h" />
+    <ClInclude Include="LineSegmentLinker.h" />
     <ClInclude Include="OpenCVHeaders.h" />
     <ClInclude Include="DatasetProcessor.h" />
     <ClInclude Include="RotatedKernelEdgeDetector.h" />
@@ -102,7 +105,7 @@
   <ItemGroup>
     <ClCompile Include="AdaptiveImageProcessor.cpp" />
     <ClCompile Include="DuneSegment.cpp" />
-    <ClCompile Include="DuneSegmentLinker.cpp" />
+    <ClCompile Include="EndpointSegmentLinker.cpp" />
     <ClCompile Include="FrequencySpaceDetectorBenchmark.cpp" />
     <ClCompile Include="FrequencySpaceDuneDetector.cpp" />
     <ClCompile Include="FrequencySpaceImageProcessor.cpp" />
@@ -112,6 +115,7 @@
     <ClCompile Include="EdgeBasedDetectorBenchmark.cpp" />
     <ClCompile Include="EdgeBasedDuneDetector.cpp" />
     <ClCompile Include="EdgeDetectorImageProcessor.cpp" />
+    <ClCompile Include="LineSegmentLinker.cpp" />
     <ClCompile Include="RotatedKernelEdgeDetector.cpp" />
     <ClCompile Include="WatershedDuneDetector.cpp" />
     <ClCompile Include="WatershedDuneDetectorBenchmark.cpp" />

@@ -15,7 +15,7 @@ namespace dune
 		EdgeBasedDetectorParameters()
 		{
 			K = 7;
-			R = -0.5;
+			R = 0.0;
 			MinSegmentLength = 50;
 			ApplyLinking = false;
 			LinkDistance = 40.0;
@@ -64,13 +64,24 @@ namespace dune
 
 		EdgeBasedDetectorParameters Parameters;
 
+		std::vector<DuneSegment> GetContourSegments(const cv::Mat &img);
 		double GetDominantOrientation(const cv::Mat &inputImg, const cv::Mat &edges);
 		cv::Mat FilterByDominantOrientationUsingKMeans(const cv::Mat &inputImg, const cv::Mat &edges);
 		cv::Mat FilterByDominantOrientation(const cv::Mat &edges);
 
-		std::vector<DuneSegment> GetDuneSegmentContours(const cv::Mat &img);
+		std::vector<DuneSegment> GetDuneSegments(const cv::Mat &img);
 		std::vector<DuneSegment> FilterSegmentsByMagnitude(const std::vector<DuneSegment> &input);
+		std::vector<DuneSegment> FilterSegmentsByLineOrientation(const std::vector<DuneSegment> &input);
+		std::vector<DuneSegment> FilterSegmentsByIntensityValues(const std::vector<DuneSegment> &input, const cv::Mat &img);
+		
+		std::vector<DuneSegment> SplitSegmentByIntensity(const DuneSegment &input, const cv::Mat &img, double threshold, int neighbors);
+
+		void ComputeSegmentLines(std::vector<DuneSegment> &segments);
+		std::vector<double> ComputeLineOrientationHistogram(std::vector<DuneSegment> &input);
+		
 		std::vector<DuneSegment> LinkDuneSegments(const std::vector<DuneSegment> &unlinked);
+
+
 	};
 
 }

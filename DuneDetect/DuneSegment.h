@@ -32,6 +32,7 @@ namespace dune
 
 		static double GetEndPointDistance(const DuneSegment &src, const DuneSegment &dst);
 		static double GetEndPointDistance(const DuneSegment &src, const DuneSegment &dst, int &srcIndex, int &dstIndex);
+		static double GetLineDistance(const DuneSegment &src, const DuneSegment &dst);
 
 		std::vector<cv::Point> GetEndPoints() const
 		{
@@ -43,18 +44,32 @@ namespace dune
 			return Segment;
 		}
 
+		int GetLength() const
+		{
+			return (int)Segment.size();
+		}
+
+		cv::Vec4d GetLine() const
+		{
+			return Line;
+		}
+
 		void SetSegmentData(const std::vector<DuneSegmentData> &segData)
 		{
 			Segment = segData;
 			ComputeEndPoints();
 		}
+
+		void ComputeFeatures();
 		
 	private:
 
 		std::vector<DuneSegmentData> Segment;		
 		std::vector<cv::Point> EndPoints;
+		cv::Vec4f Line;
 
 		void ComputeEndPoints();
+		void FitLine();
 		
 	};
 

@@ -689,6 +689,43 @@ Pattern Recognition
 
 \begin_layout Subsubsection
 
+\color red
+Perceptual Grouping
+\end_layout
+
+\begin_layout Standard
+
+\color red
+The concept of tensor voting introduced in (REFERENCE NEEDED!!!).
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Probabilistic-tensor-voting-robust-perceptual-grouping"
+
+\end_inset
+
+, a tensor voting approach is used to perform perceptual grouping on noisy
+ data.
+ The approach extends the standard tensor voting using Bayesian probilities.
+ The Bayesian framework has added benefits of reducing the learning variance
+ of the perceptual grouping task.
+ Another contribution of this paper is the use of a 2nd order tensor and
+ two types of polarity vectors to handle both outlier and inlier noise.
+ The approach also is able to process all types of geometric structures.
+ For probabilistic tensor voting, the voting procedure uses random vector
+ with a given standard deviation.
+ It uses three layers of voting: sparse ball vote, sparse stick vote, and
+ revised stick vote, where the goal is to change the positions of each token
+ based on a random vector.
+\end_layout
+
+\begin_layout Subsubsection
+
 \color black
 Watershed Segmentation
 \end_layout
@@ -1425,6 +1462,8 @@ Another important pre-processing step is to apply histogram equalization
  Histogram equalization is important because it stretches the contrast which
  is crucial to feature extraction in dune-field images, which tend to have
  poor contrast.
+ This in turns also helps in the extraction of edges, and improves determination
+ of the dominant gradient orientation.
 \end_layout
 
 \begin_layout Standard
@@ -1553,7 +1592,11 @@ Many of the edges provided in the edge detection step are noise, shadows,
 y similar orientations.
  Dune crests typically appear to have larger gradient magnitures relative
  to other noisy edges or texture (but this may not always be the case).
- 
+
+\color red
+ To help solve this issue, as mentionned above, using histogram equalization
+ can help normalize edges and improves calculation of the dominant orientation
+ of the edges.
 \end_layout
 
 \begin_layout Standard
@@ -2357,7 +2400,8 @@ The value of
 
 \begin_layout Standard
 
-\color black
+\strikeout on
+\color blue
 In order to improve the robustness, a connected components method is used
  to find all segments from the canny image.
  For each segments if the number of points along the segment satisfy the
@@ -2368,33 +2412,24 @@ reference "eq:edge-criteria"
 
 \end_inset
 
- is greater than some ratio 
-\emph on
-R
-\emph default
-, then the segment is considered to be a dune segment, where 
+ is greater than some ratio R, then the segment is considered to be a dune
+ segment, where 
 \begin_inset Formula $0<R<1$
 \end_inset
 
 .
- Choosing a small 
-\emph on
-R
-\emph default
- generally improves the true positive detection, while increasing false
- positive rate
+ Choosing a small R generally improves the true positive detection, while
+ increasing false positive rate
 \begin_inset Foot
 status collapsed
 
 \begin_layout Plain Layout
 
-\color black
-During initial testing, 
-\emph on
-R
-\emph default
- (~0.1) was set to a very low value, which allowed many of the true positive
- to be found at the expense of a higher false positive rate.
+\strikeout on
+\color blue
+During initial testing, R (~0.1) was set to a very low value, which allowed
+ many of the true positive to be found at the expense of a higher false
+ positive rate.
  This technique is very simplistic and does require more investigation to
  improve on.
 \end_layout
@@ -2402,6 +2437,201 @@ R
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Subsubsection*
+
+\color red
+Dune segment linking
+\end_layout
+
+\begin_layout Standard
+
+\color red
+With the dominant orientation computed, many false positives have been rejected.
+ The next step of the process is to group segments which link together.
+ Since each crestline candidate segments is a collections of two dimensional
+ points, an intuitive step is to fit a line to the candidate segments.
+ The line fitting algorithm used is from the OpenCV library 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "opencv_library"
+
+\end_inset
+
+, which aims to minimize:
+\end_layout
+
+\begin_layout Standard
+
+\color red
+\begin_inset Formula 
+\[
+\sum_{i}\rho\left(r_{i}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color red
+where 
+\begin_inset Formula $r_{i}$
+\end_inset
+
+ is the distance between a point an the line, and 
+\begin_inset Formula $\rho\left(r_{i}\right)$
+\end_inset
+
+ is the function used.
+ We use the simplest least square method,
+\begin_inset Formula $\rho\left(r\right)=\frac{r^{2}}{2}$
+\end_inset
+
+.
+ The result of the line fitting produces a vector of four values 
+\begin_inset Formula $\left\langle x,y,v_{x},v_{y}\right\rangle $
+\end_inset
+
+, where the (
+\emph on
+x
+\emph default
+, 
+\emph on
+y
+\emph default
+)
+\emph on
+ 
+\emph default
+components are the position of the line, and 
+\begin_inset Formula $(v_{x},v_{y})$
+\end_inset
+
+ is the normalized vector which is colinear to the line, encoding the orientatio
+n of the line.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+With all segments fit with a line, we can filter the segments based on the
+ orientations of the lines.
+ To get a general view of the distribution of the orientation of the lines,
+ a histogram of the line orientations can help determine dominant lines.
+ The histogram can be constructed based on the orientation of the lines,
+ weighed by segment length.
+ As shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Results-of-filtering-1"
+
+\end_inset
+
+(a), the histogram appears to have a unimodal distribution.
+ When choosing all lines which belong to the peak bin in the histogram,
+ the resulting in the output image 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Results-of-filtering-1"
+
+\end_inset
+
+(b).
+ The results show that many of the false positives have been filtered out.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Since the shown distribution appears to be unimodal, a better approach may
+ be to simply compute the mean and standard deviation of the line orientations.
+ Choosing the appropriate sigma value to filter out the noise and false
+ positives depends on the distribution.
+ In some cases, such as images with crestlines which are more curved, the
+ variation orientations may be more significant.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+(a) 
+\begin_inset Graphics
+	filename Figures/linehistogram1.png
+	scale 20
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+(b) 
+\begin_inset Graphics
+	filename Figures/FilteredFitLines.jpg
+	scale 22
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+(c) 
+\begin_inset Graphics
+	filename Figures/FilteredFitLines_lines.jpg
+	scale 22
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\color red
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Results-of-filtering-1"
+
+\end_inset
+
+Results of filtering based on the line orientation fitting, and choosing
+ the peak in the histogram.
+ (a) the histogram of line orientations weighed by segment lenght, (b) segments
+ which have orientation matching the peak in the histogram, (c) the fitted
+ lines from the dune segments.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In order to avoid the filtering of true positives, a linking algorithm should
+ be used to link segments which belong to the same crest-line.
 \end_layout
 
 \begin_layout Subsubsection
@@ -3197,6 +3427,223 @@ Frequency spectrum processing results from the Skeleton-Coast image.
 
 \end_layout
 
+\begin_layout Subsubsection
+
+\color red
+Method #4: Edge Direction Based Approach
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In this approach, we used knowledge learned from a previous edge based approach.
+ In section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Method-#2:-Unsupervized"
+
+\end_inset
+
+, we learning that the dominant orientation of the dune field could be determine
+d based on the derivative of the image.
+ In that approach, we used the gradient magnitudes to find major crest-line
+ edges, and filtered out edges which do not agree with the dominant orientation
+ of the gradients.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Using edges provides good localization but is prone to discontinuity of
+ edge segments.
+ A better alternative explored is to use the image of the gradient directions
+ and find regions which agree with the dominant orientation.
+ The regions produces by the gradient direction map have been shown to be
+ typically smooth and have good continuity in this application.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\color red
+The main reason for this is the nature of the problem itself, since dunes
+ have a bright and shaded side.
+ As gradients approach the crest-line, their direction component point towards
+ the crest line.
+ The shaded side of the dune can be seen as a color gradient ranging from
+ dark to bright as it approaches the crest-line.
+ This trend is plotted clearly in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:The-gradient-direction"
+
+\end_inset
+
+.
+ Once this pattern is identified, it is simply a matter of thresholding
+ the gradient direction map to retrieve regions which have gradients along
+ the dominant orientation.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+The main benefit of this approach is that the resulting regions have sharp
+ and defined edges along the dune crest-line, regardless of how sharp an
+ edge is in actuality.
+ In many cases, as is the case in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:The-gradient-direction"
+
+\end_inset
+
+, dunes in the same image may have some sharp edges along the crest-line
+ while others have less defined crest-lines.
+ Using gradient magnitude in areas with poorly defined crest-lines yields
+ poor results, while the gradient direction maps provides a sharper edge
+ and a better estimate of where a crest-line may be.
+ The downside of this method is that not using the gradient magnitude results
+ in poor localization of the actual crestline.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+
+\color red
+(a)
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\color red
+\begin_inset Graphics
+	filename E:/Projects/Thesis/DuneDetection/DuneDataset/WDC 1/WDC_1_image.jpg
+	scale 24
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\color red
+(b)
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\color red
+\begin_inset Graphics
+	filename Figures/NormalizedDirectionImage.jpg
+	scale 22
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\color red
+(c)
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\color red
+\begin_inset Graphics
+	filename Figures/ThresholdNormalizedDirectionImage.jpg
+	scale 22
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\color red
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\color red
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:The-gradient-direction"
+
+\end_inset
+
+The gradient direction map based on the dominant orientation calculated
+ for (a) WDC image.
+ (b) The normalized gradient direction based on the dominant orientation.
+ Brighter regions represent pixels which are along the dominant orientation,
+ while darker regions are gradients which oppose the domination orientation.
+ (c) The gradient direction map thresholded.
+ Pixels with 
+\begin_inset Formula $\left\Vert \theta_{i}-\theta_{dominant}\right\Vert \leq\frac{\pi}{2}$
+\end_inset
+
+ are said to agree with the dominatn orientation, and set to white, all
+ others to 0.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Once the gradient direction map has been thresholded, the binary image provides
+ well defined regions which allows the use of contours to determine the
+ crest-lines.
+ The contours extracted provide good continuity of the crest-lines, but
+ also contain many elements which are not part of the crest-line.
+ In order to reject false positivies, segments of the contour which are
+ on brighter regions of the image are considered to be part of the crest-lines
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+
+\color red
+The use of intensity values to determine which segments of a contour are
+ on the actual crest-line may not be an optimal solution, but has provided
+ adequate means of rejecting many false positives for the time being.
+\end_layout
+
+\end_inset
+
+
+\color inherit
+.
+ 
+\color red
+More detail about this method will be further provided later on.
+\end_layout
+
 \begin_layout Subsection
 
 \color black
@@ -3532,7 +3979,7 @@ reference "fig:Dune-detection-results"
 \begin_inset Float table
 wide true
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -4391,21 +4838,34 @@ White Sands
 \begin_layout Plain Layout
 \align center
 
-\color black
+\color red
 \begin_inset Tabular
-<lyxtabular version="3" rows="8" columns="2">
+<lyxtabular version="3" rows="8" columns="3">
 <features rotate="0" tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
 <row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\color red
+Images
+\end_layout
+
+\end_inset
+</cell>
 <cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
 \series bold
-\color black
-Method #4
+\color red
+Method #4 ***
 \end_layout
 
 \end_inset
@@ -4421,6 +4881,15 @@ Method #4
 </cell>
 </row>
 <row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
@@ -4428,7 +4897,7 @@ Method #4
 
 \series bold
 \emph on
-\color black
+\color red
 TP
 \end_layout
 
@@ -4441,7 +4910,7 @@ TP
 
 \series bold
 \emph on
-\color black
+\color red
 FP
 \end_layout
 
@@ -4454,8 +4923,19 @@ FP
 
 \begin_layout Plain Layout
 
-\color black
-???
+\color red
+Kalahari
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+0.937056
 \end_layout
 
 \end_inset
@@ -4465,8 +4945,8 @@ FP
 
 \begin_layout Plain Layout
 
-\color black
-???
+\color red
+0.367829
 \end_layout
 
 \end_inset
@@ -4478,8 +4958,19 @@ FP
 
 \begin_layout Plain Layout
 
-\color black
-???
+\color red
+Namib
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+0.988362 
 \end_layout
 
 \end_inset
@@ -4489,8 +4980,8 @@ FP
 
 \begin_layout Plain Layout
 
-\color black
-???
+\color red
+0.60665
 \end_layout
 
 \end_inset
@@ -4502,8 +4993,19 @@ FP
 
 \begin_layout Plain Layout
 
-\color black
-???
+\color red
+Simpson
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+0.569738
 \end_layout
 
 \end_inset
@@ -4513,8 +5015,8 @@ FP
 
 \begin_layout Plain Layout
 
-\color black
-???
+\color red
+0.667744
 \end_layout
 
 \end_inset
@@ -4526,8 +5028,19 @@ FP
 
 \begin_layout Plain Layout
 
-\color black
-???
+\color red
+Skeleton Coast
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+0.993523
 \end_layout
 
 \end_inset
@@ -4537,8 +5050,8 @@ FP
 
 \begin_layout Plain Layout
 
-\color black
-???
+\color red
+0.297289
 \end_layout
 
 \end_inset
@@ -4550,8 +5063,19 @@ FP
 
 \begin_layout Plain Layout
 
-\color black
-???
+\color red
+WDC
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+0.930268 
 \end_layout
 
 \end_inset
@@ -4561,8 +5085,8 @@ FP
 
 \begin_layout Plain Layout
 
-\color black
-???
+\color red
+0.295656
 \end_layout
 
 \end_inset
@@ -4574,8 +5098,19 @@ FP
 
 \begin_layout Plain Layout
 
-\color black
-???
+\color red
+White Sands
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+0.642978
 \end_layout
 
 \end_inset
@@ -4585,8 +5120,8 @@ FP
 
 \begin_layout Plain Layout
 
-\color black
-???
+\color red
+0.642087
 \end_layout
 
 \end_inset
@@ -4621,7 +5156,13 @@ e
 \begin_inset Formula $R=0.1$
 \end_inset
 
- 
+, 
+\color red
+*** Because locatization of Method #4 is not as good, we use 
+\emph on
+e
+\emph default
+ = 10 pixels
 \end_layout
 
 \end_inset
@@ -4740,15 +5281,32 @@ Dune detection results (red) compared to the ground truth (green), overall
 \begin_inset Float figure
 wide true
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
 
 \color black
+(a) 
 \begin_inset Graphics
 	filename Figures/WatershedDuneSegments.jpg
 	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\color red
+(b) 
+\color inherit
+
+\begin_inset Graphics
+	filename Figures/Method4Results.jpg
+	scale 22
 
 \end_inset
 
@@ -4769,7 +5327,14 @@ name "fig:Dune-Crestline-detection"
 
 \end_inset
 
-Dune Crestline detection using Watershed Algorithm
+(a) Dune Crestline detection using Watershed Algorithm (Method #3).
+
+\color red
+ (b) Results of the Gradient Direction approach (Method #4) with TP in green
+ and FP in red
+\color black
+.
+ 
 \end_layout
 
 \end_inset
