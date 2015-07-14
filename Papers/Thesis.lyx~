@@ -88,8 +88,8 @@ David Leblanc
 
 \begin_layout Date
 
-\color black
-05/7/2015
+\color red
+06/4/2015
 \end_layout
 
 \begin_layout Abstract
@@ -3548,7 +3548,7 @@ status open
 \color red
 \begin_inset Graphics
 	filename Figures/NormalizedDirectionImage.jpg
-	scale 22
+	scale 23
 
 \end_inset
 
@@ -3568,7 +3568,7 @@ status open
 \color red
 \begin_inset Graphics
 	filename Figures/ThresholdNormalizedDirectionImage.jpg
-	scale 22
+	scale 23
 
 \end_inset
 
@@ -3975,7 +3975,7 @@ reference "fig:Dune-detection-results"
 
 \begin_layout Standard
 
-\color black
+\color red
 \begin_inset Float table
 wide true
 sideways false
@@ -3984,7 +3984,7 @@ status open
 \begin_layout Plain Layout
 \align center
 
-\color black
+\color red
 \begin_inset Tabular
 <lyxtabular version="3" rows="8" columns="9">
 <features rotate="0" tabularvalignment="middle">
@@ -4004,7 +4004,7 @@ status open
 \begin_layout Plain Layout
 
 \series bold
-\color black
+\color red
 Images
 \end_layout
 
@@ -4016,7 +4016,7 @@ Images
 \begin_layout Plain Layout
 
 \series bold
-\color black
+\color red
 Method #1
 \end_layout
 
@@ -4037,7 +4037,7 @@ Method #1
 \begin_layout Plain Layout
 
 \series bold
-\color black
+\color red
 Method #2 (K-M)
 \end_layout
 
@@ -4058,7 +4058,7 @@ Method #2 (K-M)
 \begin_layout Plain Layout
 
 \series bold
-\color black
+\color red
 Method #2 (HoG)
 \end_layout
 
@@ -4079,7 +4079,7 @@ Method #2 (HoG)
 \begin_layout Plain Layout
 
 \series bold
-\color black
+\color red
 Method #3
 \end_layout
 
@@ -4112,7 +4112,7 @@ Method #3
 
 \series bold
 \emph on
-\color black
+\color red
 TP
 \end_layout
 
@@ -4125,7 +4125,7 @@ TP
 
 \series bold
 \emph on
-\color black
+\color red
 FP
 \end_layout
 
@@ -4138,7 +4138,7 @@ FP
 
 \series bold
 \emph on
-\color black
+\color red
 TP
 \end_layout
 
@@ -4151,7 +4151,7 @@ TP
 
 \series bold
 \emph on
-\color black
+\color red
 FP
 \end_layout
 
@@ -4164,7 +4164,7 @@ FP
 
 \series bold
 \emph on
-\color black
+\color red
 TP
 \end_layout
 
@@ -4177,7 +4177,7 @@ TP
 
 \series bold
 \emph on
-\color black
+\color red
 FP
 \end_layout
 
@@ -4190,7 +4190,7 @@ FP
 
 \series bold
 \emph on
-\color black
+\color red
 TP
 \end_layout
 
@@ -4203,7 +4203,7 @@ TP
 
 \series bold
 \emph on
-\color black
+\color red
 FP
 \end_layout
 
@@ -4216,7 +4216,7 @@ FP
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 Kalahari
 \end_layout
 
@@ -4227,7 +4227,7 @@ Kalahari
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.7094
 \end_layout
 
@@ -4239,7 +4239,7 @@ Kalahari
 \begin_layout Plain Layout
 
 \series bold
-\color black
+\color red
 0.2178
 \end_layout
 
@@ -4250,7 +4250,7 @@ Kalahari
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.9396
 \end_layout
 
@@ -4261,7 +4261,7 @@ Kalahari
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.2495
 \end_layout
 
@@ -4273,7 +4273,7 @@ Kalahari
 \begin_layout Plain Layout
 
 \series bold
-\color black
+\color red
 0.9852
 \end_layout
 
@@ -4284,7 +4284,7 @@ Kalahari
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.7155
 \end_layout
 
@@ -4295,7 +4295,7 @@ Kalahari
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.9239
 \end_layout
 
@@ -4306,7 +4306,7 @@ Kalahari
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.5229
 \end_layout
 
@@ -4319,7 +4319,7 @@ Kalahari
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 Namib
 \end_layout
 
@@ -4330,7 +4330,7 @@ Namib
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.7493
 \end_layout
 
@@ -4341,7 +4341,7 @@ Namib
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.6026
 \end_layout
 
@@ -4352,7 +4352,7 @@ Namib
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.9281
 \end_layout
 
@@ -4364,7 +4364,7 @@ Namib
 \begin_layout Plain Layout
 
 \series bold
-\color black
+\color red
 0.4924
 \end_layout
 
@@ -4376,7 +4376,7 @@ Namib
 \begin_layout Plain Layout
 
 \series bold
-\color black
+\color red
 0.9626
 \end_layout
 
@@ -4387,7 +4387,7 @@ Namib
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.6850
 \end_layout
 
@@ -4398,7 +4398,7 @@ Namib
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.8591
 \end_layout
 
@@ -4409,7 +4409,7 @@ Namib
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.7290
 \end_layout
 
@@ -4422,7 +4422,7 @@ Namib
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 Simpson
 \end_layout
 
@@ -4433,7 +4433,7 @@ Simpson
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.1364
 \end_layout
 
@@ -4444,7 +4444,7 @@ Simpson
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.6512
 \end_layout
 
@@ -4455,7 +4455,7 @@ Simpson
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.7464
 \end_layout
 
@@ -4467,7 +4467,7 @@ Simpson
 \begin_layout Plain Layout
 
 \series bold
-\color black
+\color red
 0.4979
 \end_layout
 
@@ -4479,7 +4479,7 @@ Simpson
 \begin_layout Plain Layout
 
 \series bold
-\color black
+\color red
 0.8977
 \end_layout
 
@@ -4490,7 +4490,7 @@ Simpson
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.6478
 \end_layout
 
@@ -4501,7 +4501,7 @@ Simpson
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.4968
 \end_layout
 
@@ -4512,7 +4512,7 @@ Simpson
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.6979
 \end_layout
 
@@ -4525,7 +4525,7 @@ Simpson
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 Skeleton Coast
 \end_layout
 
@@ -4537,7 +4537,7 @@ Skeleton Coast
 \begin_layout Plain Layout
 
 \series bold
-\color black
+\color red
 0.8033
 \end_layout
 
@@ -4548,7 +4548,7 @@ Skeleton Coast
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.3253
 \end_layout
 
@@ -4559,7 +4559,7 @@ Skeleton Coast
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.7605
 \end_layout
 
@@ -4571,7 +4571,7 @@ Skeleton Coast
 \begin_layout Plain Layout
 
 \series bold
-\color black
+\color red
 0.1517
 \end_layout
 
@@ -4582,7 +4582,7 @@ Skeleton Coast
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.8187
 \end_layout
 
@@ -4593,7 +4593,7 @@ Skeleton Coast
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.2178
 \end_layout
 
@@ -4605,7 +4605,7 @@ Skeleton Coast
 \begin_layout Plain Layout
 
 \series bold
-\color black
+\color red
 0.9221
 \end_layout
 
@@ -4616,7 +4616,7 @@ Skeleton Coast
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.4461
 \end_layout
 
@@ -4629,7 +4629,7 @@ Skeleton Coast
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 WDC
 \end_layout
 
@@ -4640,7 +4640,7 @@ WDC
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.5581
 \end_layout
 
@@ -4652,7 +4652,7 @@ WDC
 \begin_layout Plain Layout
 
 \series bold
-\color black
+\color red
 0.3731
 \end_layout
 
@@ -4663,7 +4663,7 @@ WDC
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.5111
 \end_layout
 
@@ -4674,7 +4674,7 @@ WDC
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.4849
 \end_layout
 
@@ -4685,7 +4685,7 @@ WDC
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.7478
 \end_layout
 
@@ -4696,7 +4696,7 @@ WDC
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.5399
 \end_layout
 
@@ -4707,7 +4707,7 @@ WDC
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.7005
 \end_layout
 
@@ -4718,7 +4718,7 @@ WDC
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.5819
 \end_layout
 
@@ -4731,7 +4731,7 @@ WDC
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 White Sands
 \end_layout
 
@@ -4742,7 +4742,7 @@ White Sands
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.2614
 \end_layout
 
@@ -4753,7 +4753,7 @@ White Sands
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.6926
 \end_layout
 
@@ -4765,7 +4765,7 @@ White Sands
 \begin_layout Plain Layout
 
 \series bold
-\color black
+\color red
 0.6231
 \end_layout
 
@@ -4777,7 +4777,7 @@ White Sands
 \begin_layout Plain Layout
 
 \series bold
-\color black
+\color red
 0.4762
 \end_layout
 
@@ -4788,7 +4788,7 @@ White Sands
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.7634
 \end_layout
 
@@ -4799,7 +4799,7 @@ White Sands
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.5740
 \end_layout
 
@@ -4810,7 +4810,7 @@ White Sands
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.3889
 \end_layout
 
@@ -4821,7 +4821,7 @@ White Sands
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 0.8257
 \end_layout
 
@@ -5136,7 +5136,7 @@ White Sands
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
@@ -5177,7 +5177,7 @@ e
 
 \begin_layout Standard
 
-\color black
+\color red
 \begin_inset Float figure
 wide false
 sideways false
@@ -5186,14 +5186,14 @@ status collapsed
 \begin_layout Plain Layout
 \align center
 
-\color black
+\color red
 (1)
 \end_layout
 
 \begin_layout Plain Layout
 \align center
 
-\color black
+\color red
 \begin_inset Graphics
 	filename Figures/Kalahari Results001.jpg
 	scale 23
@@ -5206,14 +5206,14 @@ status collapsed
 \begin_layout Plain Layout
 \align center
 
-\color black
+\color red
 (2)
 \end_layout
 
 \begin_layout Plain Layout
 \align center
 
-\color black
+\color red
 \begin_inset Graphics
 	filename Figures/Simpson Results001.jpg
 	scale 23
@@ -5226,14 +5226,14 @@ status collapsed
 \begin_layout Plain Layout
 \align center
 
-\color black
+\color red
 (3)
 \end_layout
 
 \begin_layout Plain Layout
 \align center
 
-\color black
+\color red
 \begin_inset Graphics
 	filename Figures/Skeleton Coast Results001.jpg
 	scale 21
@@ -5245,7 +5245,7 @@ status collapsed
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
@@ -5277,7 +5277,7 @@ Dune detection results (red) compared to the ground truth (green), overall
 
 \begin_layout Standard
 
-\color black
+\color red
 \begin_inset Float figure
 wide true
 sideways false
@@ -5286,11 +5286,17 @@ status open
 \begin_layout Plain Layout
 \align center
 
-\color black
-(a) 
+\color red
+(a)
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\color red
 \begin_inset Graphics
 	filename Figures/WatershedDuneSegments.jpg
-	scale 40
+	scale 30
 
 \end_inset
 
@@ -5301,12 +5307,36 @@ status open
 \align center
 
 \color red
-(b) 
-\color inherit
+(b)
+\end_layout
 
+\begin_layout Plain Layout
+\align center
+
+\color red
 \begin_inset Graphics
 	filename Figures/Method4Results.jpg
-	scale 22
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\color red
+(c)
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\color red
+\begin_inset Graphics
+	filename Figures/Method4Results_2.jpg
+	scale 30
 
 \end_inset
 
@@ -5315,7 +5345,7 @@ status open
 
 \begin_layout Plain Layout
 
-\color black
+\color red
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
@@ -5330,10 +5360,8 @@ name "fig:Dune-Crestline-detection"
 (a) Dune Crestline detection using Watershed Algorithm (Method #3).
 
 \color red
- (b) Results of the Gradient Direction approach (Method #4) with TP in green
- and FP in red
-\color black
-.
+ (b) and (c) Results of the Gradient Direction approach (Method #4) with
+ TP in green and FP in red, for Skeleton Coast and WDC.
  
 \end_layout
 

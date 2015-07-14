@@ -70,6 +70,7 @@ namespace dune
 
 		void ComputeEndPoints();
 		void FitLine();
+		void Validate();
 		
 	};
 

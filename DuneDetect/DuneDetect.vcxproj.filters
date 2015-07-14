@@ -176,9 +176,6 @@
     <ClCompile Include="RotatedKernelEdgeDetector.cpp">
       <Filter>Source Files\Edge Based Detector</Filter>
     </ClCompile>
-    <ClCompile Include="WatershedImageProcessor.cpp">
-      <Filter>Source Files\Watershed Dune Detector</Filter>
-    </ClCompile>
     <ClCompile Include="WatershedDuneDetector.cpp">
       <Filter>Source Files\Watershed Dune Detector</Filter>
     </ClCompile>
@@ -205,6 +202,9 @@
     </ClCompile>
     <ClCompile Include="LineSegmentLinker.cpp">
       <Filter>Source Files\Linkers</Filter>
+    </ClCompile>
+    <ClCompile Include="WatershedImageProcessor.cpp">
+      <Filter>Source Files\Watershed Dune Detector</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

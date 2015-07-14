@@ -287,37 +287,40 @@ std::vector<DuneSegment> EdgeBasedDuneDetector::SplitSegmentByIntensity(const Du
 
 	std::vector<DuneSegmentData> segment;
 	std::vector<DuneSegment> output;
-	//wrap around for the contour
-	int wrap = labels.size() - 1;
-	while (wrap >= 0 && labels[wrap])
-	{
-		segment.push_back(data[wrap]);
-		labels[wrap] = false;
-		wrap--;
-	}
 
-	int i = 0;
-	while (i < wrap)
+	int start = 0;
+	while (labels[start] && start < labels.size()-1)
+		start++;
+
+	int i = start+1;
+	if (i >= labels.size())
+		i = 0;
+
+	while (i != start)
 	{
-		while (i < wrap && !labels[i])
+		while (!labels[i] && i != start)
 		{
 			i++;
+
+			if (i >= labels.size())
+				i = 0;	
 		}
 
-		while (i < wrap && labels[i])
+		while (labels[i] && i != start)
 		{
 			segment.push_back(data[i]);
 			i++;
+			if (i >= labels.size())
+				i = 0;
 		}
-
 		if (segment.size() > Parameters.MinSegmentLength)
 		{
 			output.push_back(DuneSegment(segment));
-			segment.clear();
 		}
+		segment.clear();
 	}
 
-
+	//wrap around for the contour
 	return output;
 }
 

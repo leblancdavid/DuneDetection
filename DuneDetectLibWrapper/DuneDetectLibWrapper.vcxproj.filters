@@ -13,16 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Detectors">
-      <UniqueIdentifier>{5e487bf7-f552-48b8-ba6f-c94f4bf5cba1}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseDetect.h">
+    <ClInclude Include="DuneDetector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="EdgeBasedDetectorWrapper.h">
-      <Filter>Header Files\Detectors</Filter>
+    <ClInclude Include="DuneSegment.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DuneDetector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -50,6 +50,8 @@ namespace dune
 	{
 		Segment = segment;
 		//ComputeEndPoints();
+
+		//Validate();
 	}
 
 	DuneSegment::DuneSegment(const DuneSegment &cpy)
@@ -57,6 +59,8 @@ namespace dune
 		Segment = cpy.Segment;
 		EndPoints = cpy.EndPoints;
 		Line = cpy.Line;
+
+		//Validate();
 	}
 
 	cv::Point DuneSegment::FindClosestPoint(const cv::Point &from) const
@@ -223,5 +227,18 @@ namespace dune
 			cv::fitLine(input, Line, CV_DIST_L2, 0, 0.01, 0.01);
 		}
 
+	}
+
+	void DuneSegment::Validate()
+	{
+		for (size_t i = 0; i < Segment.size()-1; ++i)
+		{
+			double dist = std::fabs((double)Segment[i].Position.x - (double)Segment[i + 1].Position.x) +
+				std::fabs((double)Segment[i].Position.y - (double)Segment[i + 1].Position.y);
+			if (dist > 2.0)
+			{
+				std::string error = "An error has occurred";
+			}
+		}
 	}
 }
