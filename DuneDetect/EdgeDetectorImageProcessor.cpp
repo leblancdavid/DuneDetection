@@ -6,12 +6,13 @@ namespace dune
 {
 	EdgeDetectorImageProcessor::EdgeDetectorImageProcessor()
 	{
+		parameters = new EdgeDetectorProcParams();
 		InitDistanceKernel();
 	}
 
 	EdgeDetectorImageProcessor::~EdgeDetectorImageProcessor()
 	{
-
+		delete parameters;
 	}
 
 	EdgeDetectorImageProcessor::EdgeDetectorImageProcessor(const EdgeDetectorImageProcessor &cpy)

@@ -6,6 +6,21 @@
 
 namespace dune
 {
+	//So far this class doesn't really have any significant parameters
+	class FrequencySpaceProcParams : public BaseImageProcessParameters
+	{
+	public:
+		FrequencySpaceProcParams()
+		{
+
+		}
+		~FrequencySpaceProcParams() {}
+		FrequencySpaceProcParams(const FrequencySpaceProcParams &cpy)
+		{
+
+		}
+	};
+
 	class FrequencySpaceImageProcessor : public BasedEdgeImageProcessor
 	{
 	public:
@@ -15,9 +30,16 @@ namespace dune
 
 		void Process(const cv::Mat &inputImg, cv::Mat &outputImg);
 
+		void SetParameters(BaseImageProcessParameters *params)
+		{
+			Parameters = static_cast<FrequencySpaceProcParams*>(params);
+		}
+
 	private:
 
 		imgproc::DiscreteFourierTransform DFTProcess;
+
+		FrequencySpaceProcParams *Parameters;
 
 		void ComputeDFT(const cv::Mat &inputImg, cv::Mat &outputImg);
 		void FitEllipseToDFT(const cv::Mat &dftImg, cv::RotatedRect &elipse);

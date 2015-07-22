@@ -7,11 +7,8 @@
 
 const std::string DUNE_DATASET_BASE_PATH = "E:/Projects/Thesis/DuneDetection/DuneDataset/";
 
-#include "DuneSegmentDetectorBenchmark.h"
-#include "EdgeBasedDetectorBenchmark.h"
-#include "WatershedDuneDetectorBenchmark.h"
-#include "FrequencySpaceDetectorBenchmark.h"
-
+#include "BaseDuneDetectorBenchmark.h"
+#include "EdgeBasedDuneDetector.h"
 int main()
 {
 	time_t rawtime;
@@ -27,13 +24,10 @@ int main()
 		return -1;
 	//resultsFile << "TEST";
 	//resultsFile.close();
+	dune::BaseDuneDetector *duneDetector = new dune::EdgeBasedDuneDetector(new dune::EdgeDetectorImageProcessor(),
+		new dune::EdgeBasedDetectorParameters());
+	dune::BaseDuneDetectorBenchmark benchmark(duneDetector, dune::BenchmarkTestParameters(10.0));
 
-	//dune::DuneSegmentDetectorBenchmark benchmark = dune::DuneSegmentDetectorBenchmark();
-	dune::EdgeBasedDetectorBenchmark benchmark = dune::EdgeBasedDetectorBenchmark();
-	//dune::WatershedDuneDetectorBenchmark benchmark = dune::WatershedDuneDetectorBenchmark();
-	//dune::FrequencySpaceDetectorBenchmark benchmark = dune::FrequencySpaceDetectorBenchmark();
-
-	benchmark.BenchmarkParams = dune::BenchmarkTestParameters(10.0);
 	dune::BenchmarkResults results;
 	std::string imageFile, groundTruthFile;
 
@@ -85,6 +79,9 @@ int main()
 	//imageFile = DUNE_DATASET_BASE_PATH + "WDC 1/WDC_1_image.jpg";
 	//proc.AddImageFile(imageFile);
 	//proc.Process();
+
+	//c;ean up
+	delete duneDetector;
 
 	return 0;
 }

@@ -75,26 +75,17 @@
     <ClInclude Include="DatasetProcessor.h">
       <Filter>Header Files\Dataset</Filter>
     </ClInclude>
-    <ClInclude Include="BaseDuneDetectorBenchmarkTest.h">
-      <Filter>Header Files\Base Objects</Filter>
-    </ClInclude>
     <ClInclude Include="BaseDuneDetector.h">
       <Filter>Header Files\Base Objects</Filter>
     </ClInclude>
     <ClInclude Include="BaseImageProcessor.h">
       <Filter>Header Files\Base Objects</Filter>
     </ClInclude>
-    <ClInclude Include="DuneSegmentDetectorBenchmark.h">
-      <Filter>Header Files\Dune Segment Detector</Filter>
-    </ClInclude>
     <ClInclude Include="DuneSegmentDetector.h">
       <Filter>Header Files\Dune Segment Detector</Filter>
     </ClInclude>
     <ClInclude Include="AdaptiveImageProcessor.h">
       <Filter>Header Files\Dune Segment Detector</Filter>
-    </ClInclude>
-    <ClInclude Include="EdgeBasedDetectorBenchmark.h">
-      <Filter>Header Files\Edge Based Detector</Filter>
     </ClInclude>
     <ClInclude Include="EdgeBasedDuneDetector.h">
       <Filter>Header Files\Edge Based Detector</Filter>
@@ -112,9 +103,6 @@
       <Filter>Header Files\Watershed Dune Detector</Filter>
     </ClInclude>
     <ClInclude Include="WatershedDuneDetector.h">
-      <Filter>Header Files\Watershed Dune Detector</Filter>
-    </ClInclude>
-    <ClInclude Include="WatershedDuneDetectorBenchmark.h">
       <Filter>Header Files\Watershed Dune Detector</Filter>
     </ClInclude>
     <ClInclude Include="DuneMath.h">
@@ -135,9 +123,6 @@
     <ClInclude Include="FrequencySpaceDuneDetector.h">
       <Filter>Header Files\Frequency Space Detector</Filter>
     </ClInclude>
-    <ClInclude Include="FrequencySpaceDetectorBenchmark.h">
-      <Filter>Header Files\Frequency Space Detector</Filter>
-    </ClInclude>
     <ClInclude Include="DiscreteFourierTransform.h">
       <Filter>Header Files\Processing</Filter>
     </ClInclude>
@@ -153,19 +138,16 @@
     <ClInclude Include="Draw.h">
       <Filter>Header Files\Plotting</Filter>
     </ClInclude>
+    <ClInclude Include="BaseDuneDetectorBenchmark.h">
+      <Filter>Header Files\Base Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DuneSegmentDetectorBenchmark.cpp">
-      <Filter>Source Files\Dune Segment Detector</Filter>
-    </ClCompile>
     <ClCompile Include="AdaptiveImageProcessor.cpp">
       <Filter>Source Files\Dune Segment Detector</Filter>
     </ClCompile>
     <ClCompile Include="DuneSegmentDetector.cpp">
       <Filter>Source Files\Dune Segment Detector</Filter>
-    </ClCompile>
-    <ClCompile Include="EdgeBasedDetectorBenchmark.cpp">
-      <Filter>Source Files\Edge Based Detector</Filter>
     </ClCompile>
     <ClCompile Include="EdgeBasedDuneDetector.cpp">
       <Filter>Source Files\Edge Based Detector</Filter>
@@ -179,9 +161,6 @@
     <ClCompile Include="WatershedDuneDetector.cpp">
       <Filter>Source Files\Watershed Dune Detector</Filter>
     </ClCompile>
-    <ClCompile Include="WatershedDuneDetectorBenchmark.cpp">
-      <Filter>Source Files\Watershed Dune Detector</Filter>
-    </ClCompile>
     <ClCompile Include="GenericImageProcessing.cpp">
       <Filter>Source Files\Processing</Filter>
     </ClCompile>
@@ -192,9 +171,6 @@
       <Filter>Source Files\Frequency Space Detector</Filter>
     </ClCompile>
     <ClCompile Include="FrequencySpaceDuneDetector.cpp">
-      <Filter>Source Files\Frequency Space Detector</Filter>
-    </ClCompile>
-    <ClCompile Include="FrequencySpaceDetectorBenchmark.cpp">
       <Filter>Source Files\Frequency Space Detector</Filter>
     </ClCompile>
     <ClCompile Include="EndpointSegmentLinker.cpp">
