@@ -76,8 +76,9 @@ public:
 	{
 		BenchmarkParams = cpy.BenchmarkParams;
 	}
-	BaseDuneDetectorBenchmark(const BenchmarkTestParameters &params)
+	BaseDuneDetectorBenchmark(BaseDuneDetector* detector, const BenchmarkTestParameters &params)
 	{
+		Detector = detector;
 		BenchmarkParams = params;
 	}
 

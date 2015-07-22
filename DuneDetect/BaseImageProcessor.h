@@ -5,6 +5,11 @@
 
 namespace dune
 {
+	class BaseImageProcessParameters
+	{
+
+	};
+
 	class BaseImageProcessor
 	{
 	public:
@@ -14,6 +19,7 @@ namespace dune
 		~BaseImageProcessor() {};
 
 		virtual void Process(const cv::Mat &inputImg, cv::Mat &outputImg) = 0;
+		virtual void SetParameters(BaseImageProcessParameters *parameters) = 0;
 	};
 
 }

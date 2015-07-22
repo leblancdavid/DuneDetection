@@ -8,6 +8,16 @@
 namespace dune
 {
 
+	class BaseDetectorParameters
+	{
+	public:
+		BaseDetectorParameters() {}
+		BaseDetectorParameters(const BaseDetectorParameters &cpy) {}
+		~BaseDetectorParameters() { delete ImageProcessParameters; }
+
+		BaseImageProcessParameters *ImageProcessParameters;
+	};
+
 class BaseDuneDetector 
 {
 public:
@@ -18,7 +28,8 @@ public:
 	};
 	BaseDuneDetector(const BaseDuneDetector &cpy){};
 
-	virtual std::vector<DuneSegment> Extract(const cv::Mat &img)=0;
+	virtual std::vector<DuneSegment> Extract(const cv::Mat &img) = 0;
+	virtual void SetParameters(BaseDetectorParameters *parameters) = 0;
 
 protected:
 

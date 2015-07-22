@@ -14,12 +14,12 @@ AdaptiveImageProcessor::~AdaptiveImageProcessor()
 
 AdaptiveImageProcessor::AdaptiveImageProcessor(const AdaptiveImageProcessor &cpy)
 {
-	parameters = cpy.parameters;
+	Parameters = cpy.Parameters;
 }
 
-AdaptiveImageProcessor::AdaptiveImageProcessor(const AdaptiveImageProcParams &params)
+AdaptiveImageProcessor::AdaptiveImageProcessor(AdaptiveImageProcParams *params)
 {
-	parameters = params;
+	Parameters = params;
 }
 
 void AdaptiveImageProcessor::Process(const cv::Mat &inputImg, cv::Mat &outputImg)
@@ -72,7 +72,7 @@ void AdaptiveImageProcessor::Process(const cv::Mat &inputImg, cv::Mat &outputImg
 	
 	//cv::threshold(inputImg, thresholdImg, avgIntensity + (q*stdDevIntensity), 255, CV_THRESH_BINARY);
 
-	cv::adaptiveThreshold(equalized, outputImg, 255, parameters.Method, parameters.ThresholdType, parameters.BlockSize, parameters.C);
+	cv::adaptiveThreshold(equalized, outputImg, 255, Parameters->Method, Parameters->ThresholdType, Parameters->BlockSize, Parameters->C);
 	cv::erode(outputImg, outputImg, cv::Mat(), cv::Point(-1,-1), 1);
 	cv::dilate(outputImg, outputImg, cv::Mat(), cv::Point(-1,-1), 1);
 

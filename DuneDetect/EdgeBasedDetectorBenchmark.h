@@ -12,13 +12,13 @@ namespace dune
 	public:
 		EdgeBasedDetectorBenchmark();
 		EdgeBasedDetectorBenchmark(const EdgeBasedDetectorBenchmark &cpy);
-		EdgeBasedDetectorBenchmark(const EdgeBasedDetectorParameters &params);
+		EdgeBasedDetectorBenchmark(EdgeBasedDetectorParameters *params);
 		~EdgeBasedDetectorBenchmark();
 
-		void SetParams(const EdgeBasedDetectorParameters &params);
+		void SetParams(EdgeBasedDetectorParameters *params);
 
 	private:
-		EdgeBasedDetectorParameters DetectorParams;
+		EdgeBasedDetectorParameters *DetectorParams;
 
 		
 	};

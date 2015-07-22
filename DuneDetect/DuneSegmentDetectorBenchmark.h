@@ -12,13 +12,13 @@ class DuneSegmentDetectorBenchmark : public BaseDuneDetectorBenchmark
 public:
 	DuneSegmentDetectorBenchmark();
 	DuneSegmentDetectorBenchmark(const DuneSegmentDetectorBenchmark &cpy);
-	DuneSegmentDetectorBenchmark(const DuneSegmentDetectorParameters &params);
+	DuneSegmentDetectorBenchmark(DuneSegmentDetectorParameters *params);
 	~DuneSegmentDetectorBenchmark();
 
-	void SetParams(const DuneSegmentDetectorParameters &params);
+	void SetParams(DuneSegmentDetectorParameters *params);
 
 private:
-	DuneSegmentDetectorParameters DetectorParams;
+	DuneSegmentDetectorParameters *DetectorParams;
 
 };
 

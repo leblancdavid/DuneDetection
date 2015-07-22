@@ -20,14 +20,14 @@ WatershedImageProcessor::WatershedImageProcessor(const WatershedImageProcessor &
 
 }
 
-WatershedImageProcessor::WatershedImageProcessor(const WatershedProcessorParameters &params)
+WatershedImageProcessor::WatershedImageProcessor(WatershedProcessorParameters *params)
 {
-
+	Parameters = params;
 }
 
 void WatershedImageProcessor::Process(const cv::Mat &inputImg, cv::Mat &outputImg)
 {
-	double k = Parameters.K;
+	double k = Parameters->K;
 	//PreProcess the image
 	cv::Mat filtered;
 	cv::medianBlur(inputImg, filtered, k);
@@ -39,7 +39,7 @@ void WatershedImageProcessor::Process(const cv::Mat &inputImg, cv::Mat &outputIm
 
 	//This normalizes the illumination of the image, making segmentation slightly easier.
 	cv::Mat normalizedIllumination;
-	imgproc::IntegralIlluminationNormalization(filtered, normalizedIllumination, Parameters.Radius);
+	imgproc::IntegralIlluminationNormalization(filtered, normalizedIllumination, Parameters->Radius);
 	//ComputeGradient(normalizedIllumination, k);
 	//Perform the watershed
 	WatershedSegmentationIntensityBased(normalizedIllumination, outputImg);
@@ -53,12 +53,12 @@ void WatershedImageProcessor::WatershedSegmentationIntensityBased(const cv::Mat 
 
 	//First find the mean value
 	cv::Mat sun, shade;
-	double nonseedThreshold = meanIntensity[0] + Parameters.LowQ * stdDevIntensity[0];
-	double seedThreshold = meanIntensity[0] + Parameters.HighQ * stdDevIntensity[0];
+	double nonseedThreshold = meanIntensity[0] + Parameters->LowQ * stdDevIntensity[0];
+	double seedThreshold = meanIntensity[0] + Parameters->HighQ * stdDevIntensity[0];
 
 
-	cv::adaptiveThreshold(inputImg, sun, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY, Parameters.Radius*2.0 + 1, -0.2 * Parameters.Radius);
-	cv::adaptiveThreshold(inputImg, shade, 128, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY_INV, Parameters.Radius*2.0 + 1, -0.2 * Parameters.Radius);
+	cv::adaptiveThreshold(inputImg, sun, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY, Parameters->Radius*2.0 + 1, -0.2 * Parameters->Radius);
+	cv::adaptiveThreshold(inputImg, shade, 128, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY_INV, Parameters->Radius*2.0 + 1, -0.2 * Parameters->Radius);
 
 	//cv::threshold(inputImg, sun, seedThreshold, 255, CV_THRESH_BINARY);
 	//cv::threshold(inputImg, shade, nonseedThreshold, 128, CV_THRESH_BINARY_INV);
@@ -122,11 +122,11 @@ void WatershedImageProcessor::WatershedSegmentationIntensityBased(const cv::Mat 
 
 void WatershedImageProcessor::CannyBasedWatershedSegmentation(const cv::Mat &inputImg, cv::Mat &outputImg)
 {
-	double dominantOrientation = FindDominantOrientation(DominantOrientationMethod::HOG, Parameters.HistogramBins);
+	double dominantOrientation = FindDominantOrientation(DominantOrientationMethod::HOG, Parameters->HistogramBins);
 
 	cv::Mat canny;
 	double HighT = BaseData.Mean[GRADIENT_MAT_MAGNITUDE_INDEX];
-	cv::Canny(inputImg, canny, HighT, HighT / 2.0, Parameters.K, true);
+	cv::Canny(inputImg, canny, HighT, HighT / 2.0, Parameters->K, true);
 
 	cv::Mat dMag(canny.rows, canny.cols, CV_64F);
 	cv::Mat dDir(canny.rows, canny.cols, CV_64F);
@@ -157,8 +157,8 @@ void WatershedImageProcessor::CannyBasedWatershedSegmentation(const cv::Mat &inp
 
 	//First find the mean value
 	cv::Mat sun, shade;
-	double nonseedThreshold = Parameters.AngleTolerance / math::PI * 255.0;
-	double seedThreshold = (math::PI - Parameters.AngleTolerance) / math::PI * 255.0;
+	double nonseedThreshold = Parameters->AngleTolerance / math::PI * 255.0;
+	double seedThreshold = (math::PI - Parameters->AngleTolerance) / math::PI * 255.0;
 
 	cv::threshold(dirImg, sun, seedThreshold, 255, CV_THRESH_BINARY);
 	cv::threshold(dirImg, shade, nonseedThreshold, 128, CV_THRESH_BINARY_INV);
@@ -208,7 +208,7 @@ void WatershedImageProcessor::CannyBasedWatershedSegmentation(const cv::Mat &inp
 void WatershedImageProcessor::WatershedSegmentation(const cv::Mat &inputImg, cv::Mat &outputImg)
 {
 	//std::vector<double> orientations = FindDominantOrientations();
-	double dominantOrientation = FindDominantOrientation(DominantOrientationMethod::HOG, Parameters.HistogramBins);
+	double dominantOrientation = FindDominantOrientation(DominantOrientationMethod::HOG, Parameters->HistogramBins);
 
 	cv::Mat dMag(inputImg.rows, inputImg.cols, CV_64F);
 	cv::Mat dDir(inputImg.rows, inputImg.cols, CV_64F);
@@ -240,8 +240,8 @@ void WatershedImageProcessor::WatershedSegmentation(const cv::Mat &inputImg, cv:
 
 	//First find the mean value
 	cv::Mat sun, shade;
-	double nonseedThreshold = Parameters.AngleTolerance / math::PI * 255.0;
-	double seedThreshold = (math::PI - Parameters.AngleTolerance) / math::PI * 255.0;
+	double nonseedThreshold = Parameters->AngleTolerance / math::PI * 255.0;
+	double seedThreshold = (math::PI - Parameters->AngleTolerance) / math::PI * 255.0;
 	cv::threshold(dirImg, sun, seedThreshold, 255, CV_THRESH_BINARY);
 	cv::threshold(dirImg, shade, nonseedThreshold, 128, CV_THRESH_BINARY_INV);
 

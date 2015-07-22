@@ -5,17 +5,16 @@ namespace dune
 
 DuneSegmentDetector::DuneSegmentDetector() 
 {
-	ImageProcess = new AdaptiveImageProcessor();
-	InitCurvatureKernel(Parameters.CurvatureKernelSize, Parameters.CurvatureKernelSigma);
-	InitGaussianKernel(Parameters.GaussianKernelSize, Parameters.GaussianKernelSigma);
+	InitCurvatureKernel(Parameters->CurvatureKernelSize, Parameters->CurvatureKernelSigma);
+	InitGaussianKernel(Parameters->GaussianKernelSize, Parameters->GaussianKernelSigma);
 }
 
-DuneSegmentDetector::DuneSegmentDetector(BaseImageProcessor* imgproc, const DuneSegmentDetectorParameters &params) 
+DuneSegmentDetector::DuneSegmentDetector(BaseImageProcessor* imgproc, DuneSegmentDetectorParameters *params) 
 {
 	ImageProcess = imgproc;
 	Parameters = params;
-	InitCurvatureKernel(Parameters.CurvatureKernelSize, Parameters.CurvatureKernelSigma);
-	InitGaussianKernel(Parameters.GaussianKernelSize, Parameters.GaussianKernelSigma);
+	InitCurvatureKernel(Parameters->CurvatureKernelSize, Parameters->CurvatureKernelSigma);
+	InitGaussianKernel(Parameters->GaussianKernelSize, Parameters->GaussianKernelSigma);
 }
 
 DuneSegmentDetector::~DuneSegmentDetector() 
@@ -96,7 +95,7 @@ std::vector<std::vector<cv::Point>> DuneSegmentDetector::GetContours(const cv::M
 	std::vector<std::vector<cv::Point>>::iterator ctrIt = contours.begin();
 	while(i < (int)contours.size())
 	{
-		if((int)contours[i].size() < Parameters.MinSegmentLength)
+		if((int)contours[i].size() < Parameters->MinSegmentLength)
 		{
 			//I for some reason don't remember how to use iterators...
 			contours.erase(contours.begin()+i);
@@ -145,9 +144,9 @@ std::vector<cv::Point> DuneSegmentDetector::FilterSegmentFromDerivative(const cv
 	for(int i = 0; i < values.size(); ++i)
 	{
 		double count = 0;
-		for(int j = 0; j < Parameters.GaussianKernelSize; ++j)
+		for (int j = 0; j < Parameters->GaussianKernelSize; ++j)
 		{
-			int index = i + j - Parameters.GaussianKernelSize/2;
+			int index = i + j - Parameters->GaussianKernelSize / 2;
 			if(index < 0)
 				index = values.size()-index;
 			if(index >= values.size())
@@ -158,7 +157,7 @@ std::vector<cv::Point> DuneSegmentDetector::FilterSegmentFromDerivative(const cv
 				count++;
 			}
 		}
-		count /= (double)Parameters.GaussianKernelSize;
+		count /= (double)Parameters->GaussianKernelSize;
 		if(count > 0.8)
 		{
 			filtered.push_back(contour[i]);
@@ -171,8 +170,8 @@ std::vector<cv::Point> DuneSegmentDetector::FilterSegmentFromDerivative(const cv
 std::vector<std::vector<cv::Point>> DuneSegmentDetector::FilterSegmentsByGradients(const cv::Mat &img, std::vector<std::vector<cv::Point>> &contours)
 {
 	cv::Mat d_x, d_y;
-	cv::Sobel(img, d_x, CV_32F, 1, 0, Parameters.DerivativeSize);
-	cv::Sobel(img, d_y, CV_32F, 0, 1, Parameters.DerivativeSize);
+	cv::Sobel(img, d_x, CV_32F, 1, 0, Parameters->DerivativeSize);
+	cv::Sobel(img, d_y, CV_32F, 0, 1, Parameters->DerivativeSize);
 
 	std::vector<cv::Point2f> gradients;
 	std::vector<cv::Point> contourPoints;
@@ -380,7 +379,7 @@ std::vector<double> DuneSegmentDetector::CalcContourCurvature(const std::vector<
 		double c_y = 0;
 		for(int j = 0; j < (int)CurvatureKernel.size(); ++j)
 		{
-			int index = i + j - Parameters.CurvatureKernelSize/2;
+			int index = i + j - Parameters->CurvatureKernelSize / 2;
 			if(index < 0)
 				index = (int)CurvatureKernel.size()-index;
 			if(index >= CurvatureKernel.size())
@@ -403,9 +402,9 @@ void DuneSegmentDetector::GaussianSmoothSegment(std::vector<cv::Point> &segment)
 	for(int i = 0; i < segment.size(); ++i)
 	{
 		cv::Point2d avg(0,0);
-		for(int j = 0; j < Parameters.GaussianKernelSize; ++j)
+		for (int j = 0; j < Parameters->GaussianKernelSize; ++j)
 		{
-			int index = i + j - Parameters.GaussianKernelSize/2;
+			int index = i + j - Parameters->GaussianKernelSize / 2;
 			if(index < 0)
 				index = segment.size()-index;
 			if(index >= segment.size())

@@ -8,58 +8,67 @@
 namespace dune
 {
 
-class DuneSegmentDetectorParameters
-{
-public:
-	DuneSegmentDetectorParameters()
+	class DuneSegmentDetectorParameters : public BaseDetectorParameters
 	{
-		MinSegmentLength = 100;
-		GaussianKernelSize = 21;
-		GaussianKernelSigma = (double)GaussianKernelSigma/6.4251;
-		CurvatureKernelSize = 51;
-		CurvatureKernelSigma = (double)CurvatureKernelSize/6.4251;
-		DerivativeSize = 9;
-	}
-	DuneSegmentDetectorParameters(const DuneSegmentDetectorParameters &cpy)
-	{
-		MinSegmentLength = cpy.MinSegmentLength;
-		GaussianKernelSize = cpy.GaussianKernelSize;
-		GaussianKernelSigma = cpy.GaussianKernelSigma;
-		CurvatureKernelSize = cpy.CurvatureKernelSize;
-		CurvatureKernelSigma = cpy.CurvatureKernelSize;
-		DerivativeSize = cpy.DerivativeSize;
-	}
-	DuneSegmentDetectorParameters(int pMinContourLength, 
-		int pKernelSize, 
-		double pKernelSigma,
-		int pCurveSize,
-		double pCurveSigma,
-		int pDerivativeSize)
-	{
-		MinSegmentLength = pMinContourLength;
-		GaussianKernelSize = pKernelSize;
-		GaussianKernelSigma = pKernelSigma;
-		CurvatureKernelSize = pCurveSize;
-		CurvatureKernelSigma = pCurveSigma;
-		DerivativeSize = pDerivativeSize;
-	}
+	public:
+		DuneSegmentDetectorParameters()
+		{
+			MinSegmentLength = 100;
+			GaussianKernelSize = 21;
+			GaussianKernelSigma = (double)GaussianKernelSigma/6.4251;
+			CurvatureKernelSize = 51;
+			CurvatureKernelSigma = (double)CurvatureKernelSize/6.4251;
+			DerivativeSize = 9;
+		}
+		DuneSegmentDetectorParameters(const DuneSegmentDetectorParameters &cpy)
+		{
+			MinSegmentLength = cpy.MinSegmentLength;
+			GaussianKernelSize = cpy.GaussianKernelSize;
+			GaussianKernelSigma = cpy.GaussianKernelSigma;
+			CurvatureKernelSize = cpy.CurvatureKernelSize;
+			CurvatureKernelSigma = cpy.CurvatureKernelSize;
+			DerivativeSize = cpy.DerivativeSize;
+		}
+		DuneSegmentDetectorParameters(int pMinContourLength, 
+			int pKernelSize, 
+			double pKernelSigma,
+			int pCurveSize,
+			double pCurveSigma,
+			int pDerivativeSize)
+		{
+			MinSegmentLength = pMinContourLength;
+			GaussianKernelSize = pKernelSize;
+			GaussianKernelSigma = pKernelSigma;
+			CurvatureKernelSize = pCurveSize;
+			CurvatureKernelSigma = pCurveSigma;
+			DerivativeSize = pDerivativeSize;
+		}
 
-	int MinSegmentLength;
-	int GaussianKernelSize;
-	double GaussianKernelSigma;
-	int CurvatureKernelSize;
-	double CurvatureKernelSigma;
-	int DerivativeSize;
-};
+		int MinSegmentLength;
+		int GaussianKernelSize;
+		double GaussianKernelSigma;
+		int CurvatureKernelSize;
+		double CurvatureKernelSigma;
+		int DerivativeSize;
+	};
 
 class DuneSegmentDetector : public BaseDuneDetector
 {
 public:
 	DuneSegmentDetector();
-	DuneSegmentDetector(BaseImageProcessor* imgproc, const DuneSegmentDetectorParameters &params);
+	DuneSegmentDetector(BaseImageProcessor* imgproc, DuneSegmentDetectorParameters *params);
 	~DuneSegmentDetector();
 
 	std::vector<DuneSegment> Extract(const cv::Mat &img);
+
+	void SetParameters(BaseDetectorParameters *parameters)
+	{
+		Parameters = static_cast<DuneSegmentDetectorParameters*>(parameters);
+		if (ImageProcess != NULL)
+		{
+			ImageProcess->SetParameters(Parameters->ImageProcessParameters);
+		}
+	}
 
 private:
 
@@ -69,7 +78,7 @@ private:
 	void InitGaussianKernel(int size, double sigma);
 	void InitCurvatureKernel(int size, double sigma);
 
-	DuneSegmentDetectorParameters Parameters;
+	DuneSegmentDetectorParameters *Parameters;
 
 	std::vector<std::vector<cv::Point>> GetContours(const cv::Mat &img);
 	std::vector<cv::Point> FilterSegmentFromDerivative(const cv::Mat &deriv, const std::vector<cv::Point> &contour);

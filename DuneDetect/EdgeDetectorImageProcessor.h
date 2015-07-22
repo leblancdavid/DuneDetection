@@ -5,12 +5,16 @@
 
 namespace dune
 {
-	class EdgeDetectorProcParams
+	class EdgeDetectorProcParams : public BaseImageProcessParameters
 	{
 	public:
 		EdgeDetectorProcParams()
 		{
 			K = 7;
+			EdgeThreshold = 3.1416 / 2.0;
+			DominantOrientationBins = 16;
+
+			//Not used
 			NumScales = 12;
 			MinMatch = 6;
 			DistanceThreshold = 1.0;
@@ -19,19 +23,30 @@ namespace dune
 		EdgeDetectorProcParams(const EdgeDetectorProcParams &cpy)
 		{
 			K = cpy.K;
-			NumScales = cpy.NumScales;
-			MinMatch = cpy.MinMatch;
-			DistanceThreshold = cpy.DistanceThreshold;
+			EdgeThreshold = cpy.EdgeThreshold;
+			DominantOrientationBins = cpy.DominantOrientationBins;
+
+			//Not used
+			NumScales = 12;
+			MinMatch = 6;
+			DistanceThreshold = 1.0;
 		}
-		EdgeDetectorProcParams(int pK, int pNumScales, int pMinMatch, double pDistThresh)
+		EdgeDetectorProcParams(int pK, double edgeThresh, int dominantOrientationBins)
 		{
 			K = pK;
-			NumScales = pNumScales;
-			MinMatch = pMinMatch;
-			DistanceThreshold = pDistThresh;
+			EdgeThreshold = edgeThresh;
+			DominantOrientationBins = dominantOrientationBins;
+			
+			//Not used
+			NumScales = 12;
+			MinMatch = 6;
+			DistanceThreshold = 1.0;
 		}
 
 		int K;
+		double EdgeThreshold;
+		int DominantOrientationBins;
+		///Not currently in use.
 		int NumScales;
 		int MinMatch;
 		double DistanceThreshold;
@@ -43,9 +58,14 @@ namespace dune
 		EdgeDetectorImageProcessor();
 		~EdgeDetectorImageProcessor();
 		EdgeDetectorImageProcessor(const EdgeDetectorImageProcessor &cpy);
-		EdgeDetectorImageProcessor(const EdgeDetectorProcParams &params);
+		EdgeDetectorImageProcessor(EdgeDetectorProcParams *params);
 
 		void Process(const cv::Mat &inputImg, cv::Mat &outputImg);
+
+		void SetParameters(BaseImageProcessParameters *params)
+		{
+			parameters = static_cast<EdgeDetectorProcParams*>(params);
+		}
 
 	private:
 
@@ -57,7 +77,7 @@ namespace dune
 		void ComputeMaximallyStableEdges(const cv::Mat &img, cv::Mat &stable, double minQ, double maxQ, int numIterations, int t);
 		void GetNormalizedCanny(const cv::Mat &img, cv::Mat &canny, double minT, double maxT, int size);
 
-		EdgeDetectorProcParams parameters;
+		EdgeDetectorProcParams *parameters;
 
 		double FindOptimalScale(const cv::Mat &img);
 

@@ -9,14 +9,17 @@
 namespace dune
 {
 
-	class EdgeBasedDetectorParameters
+	class EdgeBasedDetectorParameters : public BaseDetectorParameters
 	{
 	public:
 		EdgeBasedDetectorParameters()
 		{
-			K = 7;
 			R = 0.0;
 			MinSegmentLength = 50;
+			ImageProcessParameters = new EdgeDetectorProcParams();
+
+			//Not in use
+			K = 7;
 			ApplyLinking = false;
 			LinkDistance = 40.0;
 			HistogramBins = 16;
@@ -24,28 +27,37 @@ namespace dune
 		}
 		EdgeBasedDetectorParameters(const EdgeBasedDetectorParameters &cpy)
 		{
-			K = cpy.K;
 			R = cpy.R;
+			ImageProcessParameters = cpy.ImageProcessParameters;
+			MinSegmentLength = cpy.MinSegmentLength;
+
+			//Not in use
+			K = cpy.K;
 			ApplyLinking = cpy.ApplyLinking;
 			LinkDistance = cpy.LinkDistance;
-			MinSegmentLength = cpy.MinSegmentLength;
 			HistogramBins = cpy.HistogramBins;
 			AngleTolerance = cpy.AngleTolerance;
 		}
-		EdgeBasedDetectorParameters(int pK, double pR, int pMinSegmentLength, int pHistBins, double pAngleTolerance)
+		EdgeBasedDetectorParameters(EdgeDetectorProcParams *procParams, double r, int minSegmentLength)
 		{
-			K = pK;
-			R = pR;
-			MinSegmentLength = pMinSegmentLength;
-			HistogramBins = pHistBins;
-			AngleTolerance = pAngleTolerance;
+			ImageProcessParameters = procParams;
+			R = r;
+			MinSegmentLength = minSegmentLength;
+
+			//Not in use
+			K = 7;
+			ApplyLinking = false;
+			LinkDistance = 40.0;
+			HistogramBins = 16;
+			AngleTolerance = 3.1416*0.5;
 		}
 
-		int K;
 		double R;
+		int MinSegmentLength;
+
+		int K;
 		bool ApplyLinking;
 		double LinkDistance;
-		int MinSegmentLength;
 		int HistogramBins;
 		double AngleTolerance;
 
@@ -55,14 +67,16 @@ namespace dune
 	{
 	public:
 		EdgeBasedDuneDetector();
-		EdgeBasedDuneDetector(EdgeDetectorImageProcessor* imgproc, const EdgeBasedDetectorParameters &params);
+		EdgeBasedDuneDetector(EdgeDetectorImageProcessor* imgproc, EdgeBasedDetectorParameters *params);
 		~EdgeBasedDuneDetector();
 
 		std::vector<DuneSegment> Extract(const cv::Mat &img);
 
+		void SetParameters(BaseDetectorParameters *params);
+
 	private:
 
-		EdgeBasedDetectorParameters Parameters;
+		EdgeBasedDetectorParameters *Parameters;
 
 		std::vector<DuneSegment> GetContourSegments(const cv::Mat &img);
 		double GetDominantOrientation(const cv::Mat &inputImg, const cv::Mat &edges);

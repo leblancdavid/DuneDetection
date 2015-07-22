@@ -20,7 +20,7 @@ namespace dune
 		InitDistanceKernel();
 	}
 
-	EdgeDetectorImageProcessor::EdgeDetectorImageProcessor(const EdgeDetectorProcParams &params)
+	EdgeDetectorImageProcessor::EdgeDetectorImageProcessor(EdgeDetectorProcParams *params)
 	{
 		parameters = params;
 		InitDistanceKernel();
@@ -28,10 +28,10 @@ namespace dune
 
 	void EdgeDetectorImageProcessor::Process(const cv::Mat &inputImg, cv::Mat &outputImg)
 	{
-		int k = parameters.K;
+		int k = parameters->K;
 		cv::Mat filtered, bilateral, threshold, canny;
-		cv::medianBlur(inputImg, filtered, parameters.K);
-		cv::bilateralFilter(filtered, bilateral, parameters.K, 20, 20);
+		cv::medianBlur(inputImg, filtered, parameters->K);
+		cv::bilateralFilter(filtered, bilateral, parameters->K, 20, 20);
 		//cv::GaussianBlur(filtered, filtered, cv::Size(k, k), (double)k / 5.0, (double)k / 5.0);
 		//cv::GaussianBlur(filtered, filtered, cv::Size(parameters.K, parameters.K), parameters.K / 5.0, parameters.K / 5.0);
 		//The bilateral filter is used for computing the gradient for now, seems to work well.
@@ -42,7 +42,7 @@ namespace dune
 		ComputeGradient(filtered, k);
 		
 		//GetCannyImage(filtered, outputImg);
-		double orientation = FindDominantOrientation(DominantOrientationMethod::HOG, 16);
+		double orientation = FindDominantOrientation(DominantOrientationMethod::HOG, parameters->DominantOrientationBins);
 
 
 		ThresholdByEdgeDirection(inputImg, outputImg, orientation);
@@ -69,13 +69,13 @@ namespace dune
 		cv::resize(img, resized, cv::Size(img.cols*scale, img.rows*scale));
 		//cv::GaussianBlur(img, resized, cv::Size(scale, scale), scale / 5.0, scale / 5.0);
 		
-		ComputeGradient(resized, parameters.K);
+		ComputeGradient(resized, parameters->K);
 
 		double stdev = BaseData.StdDev[GRADIENT_MAT_MAGNITUDE_INDEX];
 		double average = BaseData.Mean[GRADIENT_MAT_MAGNITUDE_INDEX];
 		double q = 3.0;
 		double cannyHighThreshold = average + q*stdev;
-		cv::Canny(resized, result, cannyHighThreshold, cannyHighThreshold / 2.0, parameters.K);
+		cv::Canny(resized, result, cannyHighThreshold, cannyHighThreshold / 2.0, parameters->K);
 
 		cv::resize(result, canny, cv::Size(img.cols, img.rows));
 	}
@@ -86,7 +86,7 @@ namespace dune
 		double average = BaseData.Mean[GRADIENT_MAT_MAGNITUDE_INDEX];
 		double q = 2.5;
 		double cannyHighThreshold = average + q*stdev;
-		cv::Canny(img, canny, cannyHighThreshold, cannyHighThreshold / 2.0, parameters.K);
+		cv::Canny(img, canny, cannyHighThreshold, cannyHighThreshold / 2.0, parameters->K);
 	}
 
 	void EdgeDetectorImageProcessor::GetSobelImage(const cv::Mat &img, cv::Mat &sobel)
@@ -97,8 +97,8 @@ namespace dune
 		double threshold = average + q*stdev;
 		cv::Mat dx, dy, mag;
 
-		cv::Sobel(img, dx, CV_64F, 1, 0, parameters.K);
-		cv::Sobel(img, dy, CV_64F, 0, 1, parameters.K);
+		cv::Sobel(img, dx, CV_64F, 1, 0, parameters->K);
+		cv::Sobel(img, dy, CV_64F, 0, 1, parameters->K);
 		cv::magnitude(dx, dy, mag);
 
 		sobel = cv::Mat(mag.rows, mag.cols, CV_8U);
@@ -220,19 +220,19 @@ namespace dune
 		int maxIndex = 0;
 		std::vector<double> scaleMagnitudes;
 		std::vector<double> scaleStdDev;
-		for (int i = 0; i < parameters.NumScales; ++i)
+		for (int i = 0; i < parameters->NumScales; ++i)
 		{
 			//double scale = 3.0 + (double)i*2.0;
 			double scale = 1.0 - (double)i*0.05;
 			//cv::GaussianBlur(img, resized, cv::Size(scale, scale), scale / 5.0, scale / 5.0);
 			cv::resize(img, resized, cv::Size(img.cols*scale, img.rows*scale));
 			cv::GaussianBlur(resized, resized, cv::Size(3, 3), 3.0 / 5.0, 3.0 / 5.0);
-			ComputeGradient(resized, parameters.K);
+			ComputeGradient(resized, parameters->K);
 			double stdev = BaseData.StdDev[GRADIENT_MAT_MAGNITUDE_INDEX];
 			double average = BaseData.Mean[GRADIENT_MAT_MAGNITUDE_INDEX];
 			double q = 3.0;
 			double cannyHighThreshold = average + q*stdev;
-			cv::Canny(resized, result, cannyHighThreshold, cannyHighThreshold / 2.0, parameters.K);
+			cv::Canny(resized, result, cannyHighThreshold, cannyHighThreshold / 2.0, parameters->K);
 			cv::imshow("Canny", result);
 			cv::waitKey(0);
 			//cv::Sobel(resized, sobel_x, CV_64F, 1, 0, parameters.K);
@@ -245,7 +245,7 @@ namespace dune
 			//scaleStdDev.push_back(std::sqrt(sig_x[0] * sig_x[0] + sig_y[0] * sig_y[0])*scale);
 
 
-			cv::Laplacian(resized, laplacian, CV_64F, parameters.K*2 + 1);
+			cv::Laplacian(resized, laplacian, CV_64F, parameters->K * 2 + 1);
 			cv::Scalar u, sig;
 			cv::meanStdDev(laplacian, u, sig);
 
@@ -323,7 +323,7 @@ namespace dune
 		{
 			cv::Point nn;
 			double dist = GetNNPixelDistanceAt(inPt, i, nn);
-			if (dist < parameters.DistanceThreshold)
+			if (dist < parameters->DistanceThreshold)
 			{
 				avgDist += dist;
 				outPt.x += nn.x;
@@ -336,7 +336,7 @@ namespace dune
 		outPt.x /= avgCount;
 		outPt.y /= avgCount;
 
-		if (avgCount > parameters.MinMatch)
+		if (avgCount > parameters->MinMatch)
 		{
 			return true;
 		}
@@ -349,7 +349,7 @@ namespace dune
 
 	double EdgeDetectorImageProcessor::GetNNPixelDistanceAt(const cv::Point &at, int edgeMapIndex, cv::Point &nn)
 	{
-		double minDist = parameters.DistanceThreshold * 2.0;
+		double minDist = parameters->DistanceThreshold * 2.0;
 		for (int x = at.x - distanceKernel.cols / 2, i = 0; x < at.x + distanceKernel.cols / 2; ++x, ++i)
 		{
 			if (x < 0 || x >= edgeMap[edgeMapIndex].cols)
@@ -376,7 +376,7 @@ namespace dune
 
 	void EdgeDetectorImageProcessor::InitDistanceKernel()
 	{
-		int size = parameters.DistanceThreshold * 2.0;
+		int size = parameters->DistanceThreshold * 2.0;
 		//Make sure the kernel size is odd
 		if (size % 2 == 0)
 		{

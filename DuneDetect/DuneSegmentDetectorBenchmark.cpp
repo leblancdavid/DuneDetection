@@ -5,7 +5,7 @@ namespace dune
 
 DuneSegmentDetectorBenchmark::DuneSegmentDetectorBenchmark()
 {
-	DetectorParams = DuneSegmentDetectorParameters();
+	DetectorParams = new DuneSegmentDetectorParameters();
 	Detector = new DuneSegmentDetector(new AdaptiveImageProcessor(), DetectorParams);
 }
 
@@ -14,8 +14,9 @@ DuneSegmentDetectorBenchmark::DuneSegmentDetectorBenchmark(const DuneSegmentDete
 	DetectorParams = cpy.DetectorParams;
 }
 
-DuneSegmentDetectorBenchmark::DuneSegmentDetectorBenchmark(const DuneSegmentDetectorParameters &params)
+DuneSegmentDetectorBenchmark::DuneSegmentDetectorBenchmark(DuneSegmentDetectorParameters *params)
 {
+	DetectorParams = params;
 	Detector = new DuneSegmentDetector(new AdaptiveImageProcessor(), DetectorParams);
 }
 
@@ -24,7 +25,7 @@ DuneSegmentDetectorBenchmark::~DuneSegmentDetectorBenchmark()
 
 }
 
-void DuneSegmentDetectorBenchmark::SetParams(const DuneSegmentDetectorParameters &params)
+void DuneSegmentDetectorBenchmark::SetParams(DuneSegmentDetectorParameters *params)
 {
 	if(Detector == nullptr)
 	{

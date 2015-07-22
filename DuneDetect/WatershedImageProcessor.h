@@ -5,7 +5,7 @@
 
 namespace dune
 {
-	class WatershedProcessorParameters
+	class WatershedProcessorParameters : public BaseImageProcessParameters
 	{
 	public:
 		WatershedProcessorParameters()
@@ -53,13 +53,18 @@ namespace dune
 		WatershedImageProcessor();
 		~WatershedImageProcessor();
 		WatershedImageProcessor(const WatershedImageProcessor &cpy);
-		WatershedImageProcessor(const WatershedProcessorParameters &params);
+		WatershedImageProcessor(WatershedProcessorParameters *params);
 
 		void Process(const cv::Mat &inputImg, cv::Mat &outputImg);
 
+		void SetParameters(BaseImageProcessParameters *params)
+		{
+			Parameters = static_cast<WatershedProcessorParameters*>(params);
+		}
+
 	private:
 
-		WatershedProcessorParameters Parameters;
+		WatershedProcessorParameters *Parameters;
 
 		void CannyBasedWatershedSegmentation(const cv::Mat &inputImg, cv::Mat &outputImg);
 		void WatershedSegmentationIntensityBased(const cv::Mat &inputImg, cv::Mat &outputImg);
