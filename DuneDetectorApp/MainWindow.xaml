@@ -1,49 +1,63 @@
 ﻿<Window x:Class="DuneDetectorApp.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Dune Detector" Height="400" Width="800" WindowState="Maximized" ResizeMode="NoResize" WindowStyle="None">
+        xmlns:controls="clr-namespace:DuneDetectorApp.Controls.Detectors"
+        xmlns:views="clr-namespace:DuneDetectorApp.Controls.Views"
+        Title="Dune Detector" Height="400" Width="800" WindowState="Maximized" ResizeMode="NoResize" WindowStyle="None"
+        Background="FloralWhite">
     <Grid>
       <DockPanel>
         <Menu DockPanel.Dock="Top">
-          <MenuItem Header="_File">
-            <MenuItem Name="LoadImage" Header="_Load" Click="LoadImage_Click"/>
-            <MenuItem Header="_Save"/>
-            <Separator/>
-            <MenuItem Name="ExitProgram" Header="_Exit" Click="ExitProgram_Click"/>
+                <MenuItem Header="File">
+                    <MenuItem Name="LoadImage" Header="_Load Image" Click="LoadImage_Click"/>
+                    <Separator/>
+                    <MenuItem Header="Save Image">
+                        <MenuItem Header="PNG Format" Click="SavePNGFormat_Click"/>
+                        <MenuItem Header="JPG Format" Click="SaveJPGFormat_Click"/>
+                        <MenuItem Header="BMP Format" Click="SaveBMPFormat_Click"/>
+                    </MenuItem>
+
+                    <MenuItem Header="Save Data">
+                        <MenuItem Header="XML Format" Click="SaveDataXMLFormat_Click"/>
+                        <MenuItem Header="TXT Format" Click="SaveDataTXTFormat_Click"/>
+                    </MenuItem>
+
+                    <MenuItem Header="Save All" Click="SaveAll_Click"/>
+                    
+                    <Separator/>
+                    <MenuItem Name="ExitProgram" Header="_Exit" Click="ExitProgram_Click"/>
           </MenuItem>
         </Menu>
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="1"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Viewbox Stretch="Uniform">
-                    <Grid x:Name="ImagePlotCanvas" 
-                        Grid.Column="0"
-                        Background="#00FFFFFF"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Top">
-                        
-                        <Image Name="ImageDisplayView" 
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Top"/>
-
-                        <Grid x:Name="DuneSegmentsPolylineGrid">
-                            <Polyline Stroke="DarkGreen" StrokeThickness="3"/>
-                        </Grid>
-                    </Grid>
-                </Viewbox>
                 
-                <TabControl Grid.Column="1">
-                    <TabItem Header="EBM">
-                        <StackPanel Margin="5">
-                            <Button x:Name="ProcessButton" Content="Process" Width="100" Click="ProcessButton_Click"/>
-                        </StackPanel>
+                <views:ImageView x:Name="ProcessImageView" 
+                                 Grid.Column="0"
+                                 Grid.ColumnSpan="3"
+                                 Grid.Row="0"
+                                 Grid.RowSpan="1"/>
+                    
+                <TabControl Grid.Column="0" Grid.Row="2" Margin="25">
+                    <TabItem Header="Gradient Based Method">
+                        <controls:EBMControl x:Name="EBMDuneDetector">
+                            
+                        </controls:EBMControl>
                     </TabItem>
                 </TabControl>
+                <GroupBox Grid.Column="1" Grid.Row="2" Header="Image Editor Controls" Margin="25">
+                    <views:ImageViewEditor x:Name="ViewEditorSettingsControl"
+                                       Grid.Row="2" Grid.Column="1" Margin="5"/>
+                </GroupBox>
+               
             </Grid>
       </DockPanel>
     </Grid>

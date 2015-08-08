@@ -122,9 +122,8 @@ namespace dune
 
 	void EdgeDetectorImageProcessor::ThresholdByEdgeDirection(const cv::Mat &img, cv::Mat &output, double direction)
 	{
-		cv::Mat tempImage = img.clone();
 		output = img.clone();
-		double thresh = 3.1416 / 1.5;
+		double thresh = parameters->EdgeThreshold;
 		for (int x = 0; x < img.cols; ++x)
 		{
 			for (int y = 0; y < img.rows; ++y)
@@ -141,22 +140,13 @@ namespace dune
 				{
 					output.at<uchar>(y, x) = 0;
 				}
-
-				if (low < high)
-				{
-					tempImage.at<uchar>(y, x) = (1.0 - (low / (2.0*3.1416)))*200.0;
-				}
-				else
-				{
-					tempImage.at<uchar>(y, x) = (1.0 - (high / (2.0*3.1416)))*200.0;
-				}
-				
-
 			}
 		}
 
-		cv::imwrite("NormalizedDirectionImage.jpg", tempImage);
-		cv::imwrite("ThresholdNormalizedDirectionImage.jpg", output);
+		//cv::imshow("threshold image", output);
+		//cv::waitKey(0);
+		//cv::imwrite("NormalizedDirectionImage.jpg", tempImage);
+		//cv::imwrite("ThresholdNormalizedDirectionImage.jpg", output);
 	}
 
 

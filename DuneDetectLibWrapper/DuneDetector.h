@@ -4,12 +4,24 @@
 public ref class DuneDetector
 {
 public:
-	DuneDetector() { _edgeBasedDetector = new dune::EdgeBasedDuneDetector(); }
+	DuneDetector() 
+	{
+		_edgeDetectorParams = new dune::EdgeBasedDetectorParameters();
+		_edgeBasedDetector = new dune::EdgeBasedDuneDetector(new dune::EdgeDetectorImageProcessor(),
+			_edgeDetectorParams);
+	}
 	~DuneDetector() { this->!DuneDetector(); }
-	!DuneDetector() { delete _edgeBasedDetector; }
+	!DuneDetector() 
+	{
+		delete _edgeDetectorParams;
+		delete _edgeBasedDetector; 
+	}
 
 	array<DuneSegment^>^ GetDuneSegments(System::String^ imageFile);
 
+	void SetParameters(double R, int minSegmentLength, int K, double edgeThreshold, int domBins);
+
 private:
+	dune::EdgeBasedDetectorParameters *_edgeDetectorParams;
 	dune::EdgeBasedDuneDetector *_edgeBasedDetector;
 };

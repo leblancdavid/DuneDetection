@@ -35,3 +35,11 @@ array<DuneSegment^>^ DuneDetector::GetDuneSegments(System::String^ imageFile)
 
 	return output;
 }
+
+void DuneDetector::SetParameters(double R, int minSegmentLength, int K, double edgeThreshold, int domBins)
+{
+	_edgeDetectorParams->R = R;
+	_edgeDetectorParams->MinSegmentLength = minSegmentLength;
+	_edgeDetectorParams->ImageProcessParameters = new dune::EdgeDetectorProcParams(K, edgeThreshold, domBins);
+	_edgeBasedDetector->SetParameters(_edgeDetectorParams);
+}
