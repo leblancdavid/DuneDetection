@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment Id="OpenCVFragment">
+    <ComponentGroup Id="OpenCVComponentGroup" Directory="INSTALLFOLDER">
+      <Component Id="OpenCVcalibComponent" Guid="c3f2b44c-7ee0-4fe9-ad07-008e9202b47f">
+        <File Id="opencv_calib3d2410"
+              Name="opencv_calib3d2410.dll"
+              DiskId="1"
+              Source="C:/OpenCV/opencv/build/x86/vc12/bin/opencv_calib3d2410.dll"/>
+      </Component>
+      <Component Id="OpenCVcontribComponent" Guid="a7b91212-e87e-4852-9fdf-26f7f3aa7305">
+        <File Id="opencv_contrib2410"
+              Name="opencv_contrib2410.dll"
+              DiskId="1"
+              Source="C:/OpenCV/opencv/build/x86/vc12/bin/opencv_contrib2410.dll"/>
+      </Component>
+      <Component Id="OpenCVcoreComponent" Guid="a312ac88-4020-4e24-af25-2506e9ab935d">
+        <File Id="opencv_core2410"
+              Name="opencv_core2410.dll"
+              DiskId="1"
+              Source="C:/OpenCV/opencv/build/x86/vc12/bin/opencv_core2410.dll"/>
+      </Component>
+      <Component Id="OpenCVfeatures2dComponent" Guid="9ea25bc0-6b42-4160-ab62-d97ff339d79f">
+        <File Id="opencv_features2d2410"
+              Name="opencv_features2d2410.dll"
+              DiskId="1"
+              Source="C:/OpenCV/opencv/build/x86/vc12/bin/opencv_features2d2410.dll"/>
+      </Component>
+      <Component Id="OpenCVffmpegComponent" Guid="b17d6464-cbb4-478b-b72e-1a2dfba5bbb9">
+        <File Id="opencv_ffmpeg2410"
+              Name="opencv_ffmpeg2410.dll"
+              DiskId="1"
+              Source="C:/OpenCV/opencv/build/x86/vc12/bin/opencv_ffmpeg2410.dll"/>
+      </Component>
+      <Component Id="OpenCVflannComponent" Guid="eeae3e74-4042-4ee6-854d-ce6c31762811">
+        <File Id="opencv_flann2410"
+              Name="opencv_flann2410.dll"
+              DiskId="1"
+              Source="C:/OpenCV/opencv/build/x86/vc12/bin/opencv_flann2410.dll"/>
+      </Component>
+      <Component Id="OpenCVgpuComponent" Guid="a38b9587-4c89-4301-b0c0-b6856b403c5b">
+        <File Id="opencv_gpu2410"
+              Name="opencv_gpu2410.dll"
+              DiskId="1"
+              Source="C:/OpenCV/opencv/build/x86/vc12/bin/opencv_gpu2410.dll"/>
+      </Component>
+      <Component Id="OpenCVhighguiComponent" Guid="af5d113d-84a2-4927-bc99-5b701141171e">
+        <File Id="opencv_highgui2410"
+              Name="opencv_highgui2410.dll"
+              DiskId="1"
+              Source="C:/OpenCV/opencv/build/x86/vc12/bin/opencv_highgui2410.dll"/>
+      </Component>
+      <Component Id="OpenCVimgprocComponent" Guid="6bfa9a11-6b2b-43bd-8710-4dbae5d4be7d">
+        <File Id="opencv_imgproc2410"
+              Name="opencv_imgproc2410.dll"
+              DiskId="1"
+              Source="C:/OpenCV/opencv/build/x86/vc12/bin/opencv_imgproc2410.dll"/>
+      </Component>
+      <Component Id="OpenCVlegacyComponent" Guid="4aff7331-bc27-4e28-aa32-947ae561600f">
+        <File Id="opencv_legacy2410"
+              Name="opencv_legacy2410.dll"
+              DiskId="1"
+              Source="C:/OpenCV/opencv/build/x86/vc12/bin/opencv_legacy2410.dll"/>
+      </Component>
+      <Component Id="OpenCVmlComponent" Guid="020f064c-a33f-46db-8d9a-37c50c8fd20a">
+        <File Id="opencv_ml2410"
+              Name="opencv_ml2410.dll"
+              DiskId="1"
+              Source="C:/OpenCV/opencv/build/x86/vc12/bin/opencv_ml2410.dll"/>
+      </Component>
+      <Component Id="OpenCVobjdetectComponent" Guid="abf7ca88-4bc5-47ea-991a-dcd00a82c22c">
+        <File Id="opencv_objdetect2410"
+              Name="opencv_objdetect2410.dll"
+              DiskId="1"
+              Source="C:/OpenCV/opencv/build/x86/vc12/bin/opencv_objdetect2410.dll"/>
+      </Component>
+      <Component Id="OpenCVvideoComponent" Guid="5c23225c-8e4f-4efd-abbe-5b0f9ccc4fb3">
+        <File Id="opencv_video2410"
+              Name="opencv_video2410.dll"
+              DiskId="1"
+              Source="C:/OpenCV/opencv/build/x86/vc12/bin/opencv_video2410.dll"/>
+      </Component>
+    </ComponentGroup>
+	</Fragment>
+</Wix>
