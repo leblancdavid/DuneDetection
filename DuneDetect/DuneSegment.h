@@ -34,6 +34,9 @@ namespace dune
 		static double GetEndPointDistance(const DuneSegment &src, const DuneSegment &dst, int &srcIndex, int &dstIndex);
 		static double GetLineDistance(const DuneSegment &src, const DuneSegment &dst);
 
+		DuneSegmentData operator [] (int i) const { return Segment[i]; }
+		DuneSegmentData& operator [] (int i) { return Segment[i]; }
+
 		std::vector<cv::Point> GetEndPoints() const
 		{
 			return EndPoints;

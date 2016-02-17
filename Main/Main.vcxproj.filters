@@ -23,5 +23,14 @@
     <ClInclude Include="DuneDataSetProcess.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DuneLibTestRun.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DuneMLTestRun.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LogFileHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

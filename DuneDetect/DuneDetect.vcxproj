@@ -23,7 +23,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -47,6 +47,8 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>C:\OpenCV\opencv\build\include;C:\OpenCV\opencv\build\include\opencv;C:\OpenCV\opencv\build\include\opencv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions />
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAsManaged>false</CompileAsManaged>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -57,7 +59,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>MinSpace</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
@@ -73,43 +75,76 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AdaptiveImageProcessor.h" />
+    <ClInclude Include="BaseDuneRegionThinner.h" />
     <ClInclude Include="BaseEdgeImageProcessor.h" />
+    <ClInclude Include="BaseFeatureClassifier.h" />
+    <ClInclude Include="BaseFeatureExtractor.h" />
+    <ClInclude Include="ClassifierOutputFiltering.h" />
     <ClInclude Include="ConnectedComponentsExtractor.h" />
+    <ClInclude Include="DFTImageEnhancement.h" />
     <ClInclude Include="DiscreteFourierTransform.h" />
     <ClInclude Include="Draw.h" />
     <ClInclude Include="DuneDetectLibHeaders.h" />
     <ClInclude Include="BaseDuneDetector.h" />
     <ClInclude Include="BaseDuneDetectorBenchmark.h" />
+    <ClInclude Include="DuneMetricCalculator.h" />
+    <ClInclude Include="DuneMLDatasetExtractor.h" />
+    <ClInclude Include="DuneOrbFeatureExtractor.h" />
+    <ClInclude Include="DuneRegionThinner.h" />
     <ClInclude Include="DuneSegment.h" />
     <ClInclude Include="BaseSegmentLinker.h" />
+    <ClInclude Include="DuneSIFTFeatureExtractor.h" />
+    <ClInclude Include="DuneSimplePixelFeatureExtractor.h" />
+    <ClInclude Include="DuneSURFFeatureExtractor.h" />
+    <ClInclude Include="EdgeDirectionImageProcessor.h" />
     <ClInclude Include="EndpointSegmentLinker.h" />
     <ClInclude Include="FrequencySpaceDuneDetector.h" />
     <ClInclude Include="FrequencySpaceImageProcessor.h" />
+    <ClInclude Include="GaborFilter.h" />
+    <ClInclude Include="GaborFilterImageEnhancement.h" />
+    <ClInclude Include="GaussianScalePyramid.h" />
     <ClInclude Include="GenericImageProcessing.h" />
     <ClInclude Include="DuneSegmentDetector.h" />
     <ClInclude Include="BaseImageProcessor.h" />
     <ClInclude Include="EdgeBasedDuneDetector.h" />
     <ClInclude Include="EdgeDetectorImageProcessor.h" />
     <ClInclude Include="DuneMath.h" />
+    <ClInclude Include="GradientBoostedTreeFeatureClassifier.h" />
+    <ClInclude Include="LaplacianScalePyramid.h" />
     <ClInclude Include="LineSegmentLinker.h" />
+    <ClInclude Include="NormalBayesFeatureClassifier.h" />
     <ClInclude Include="OpenCVHeaders.h" />
     <ClInclude Include="DatasetProcessor.h" />
+    <ClInclude Include="RandomTreeFeatureClassifier.h" />
     <ClInclude Include="RotatedKernelEdgeDetector.h" />
+    <ClInclude Include="ConnectedComponentsSorter.h" />
+    <ClInclude Include="SkeletonizationRegionThinner.h" />
+    <ClInclude Include="SuperDuperImageProcessor.h" />
+    <ClInclude Include="SVMFeatureClassifier.h" />
     <ClInclude Include="WatershedDuneDetector.h" />
     <ClInclude Include="WatershedImageProcessor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AdaptiveImageProcessor.cpp" />
+    <ClCompile Include="DuneMLDatasetExtractor.cpp" />
     <ClCompile Include="DuneSegment.cpp" />
+    <ClCompile Include="EdgeDirectionImageProcessor.cpp" />
     <ClCompile Include="EndpointSegmentLinker.cpp" />
     <ClCompile Include="FrequencySpaceDuneDetector.cpp" />
     <ClCompile Include="FrequencySpaceImageProcessor.cpp" />
+    <ClCompile Include="GaussianScalePyramid.cpp" />
     <ClCompile Include="GenericImageProcessing.cpp" />
     <ClCompile Include="DuneSegmentDetector.cpp" />
     <ClCompile Include="EdgeBasedDuneDetector.cpp" />
     <ClCompile Include="EdgeDetectorImageProcessor.cpp" />
+    <ClCompile Include="GradientBoostedTreeFeatureClassifier.cpp" />
+    <ClCompile Include="LaplacianScalePyramid.cpp" />
     <ClCompile Include="LineSegmentLinker.cpp" />
+    <ClCompile Include="NormalBayesFeatureClassifier.cpp" />
+    <ClCompile Include="RandomTreeFeatureClassifier.cpp" />
     <ClCompile Include="RotatedKernelEdgeDetector.cpp" />
+    <ClCompile Include="SuperDuperImageProcessor.cpp" />
+    <ClCompile Include="SVMFeatureClassifier.cpp" />
     <ClCompile Include="WatershedDuneDetector.cpp" />
     <ClCompile Include="WatershedImageProcessor.cpp" />
   </ItemGroup>

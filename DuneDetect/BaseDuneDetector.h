@@ -22,9 +22,13 @@ class BaseDuneDetector
 {
 public:
 	BaseDuneDetector() {};
-	~BaseDuneDetector() 
+	virtual ~BaseDuneDetector()
 	{
-		delete ImageProcess;
+		if (ImageProcess != NULL)
+		{
+			ImageProcess = NULL;
+		}
+		
 	};
 	BaseDuneDetector(const BaseDuneDetector &cpy){};
 

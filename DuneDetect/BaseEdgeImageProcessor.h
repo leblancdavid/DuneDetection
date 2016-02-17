@@ -16,7 +16,10 @@ namespace dune
 	{
 	public:
 		ImageGradientData() {}
-		~ImageGradientData() {}
+		virtual ~ImageGradientData()
+		{
+			Gradient = cv::Mat();
+		}
 		ImageGradientData(const ImageGradientData &cpy)
 		{
 			Gradient = cpy.Gradient.clone();
@@ -31,34 +34,141 @@ namespace dune
 			image.convertTo(image, CV_8UC4);
 			return image;
 		}
-		cv::Mat toImage(int prop)
+		cv::Mat toImage(int prop, const cv::Mat &scale = cv::Mat())
 		{
 			if (prop < 0 || prop > GRADIENT_MAT_DIRECTION_INDEX)
 			{
 				return toImage();
+			}
+			else if (!scale.empty() && prop == GRADIENT_MAT_DIRECTION_INDEX)
+			{
+				return toScaleDirectionImage(scale);
+			}
+			else if (!scale.empty() && prop == GRADIENT_MAT_MAGNITUDE_INDEX)
+			{
+				return toScaleMagnitudeImage(scale);
 			}
 			else
 			{
 				cv::Mat image;
 				std::vector<cv::Mat> channels;
 				cv::split(Gradient, channels);
-				cv::normalize(channels[prop], image, 0, 255, cv::NORM_MINMAX);
-				image.convertTo(image, CV_8UC1);
-				return image;
+				//cv::normalize(channels[prop], image, 0, 255, cv::NORM_MINMAX);
+				//image.convertTo(image, CV_8UC1);
+				return channels[prop];
 			}
+		}
+
+		double getMagnitudeAt(int x, int y)
+		{
+			return Gradient.at<cv::Vec4d>(y, x)[GRADIENT_MAT_MAGNITUDE_INDEX];
+		}
+		double getXDerivAt(int x, int y)
+		{
+			return Gradient.at<cv::Vec4d>(y, x)[GRADIENT_MAT_DX_INDEX];
+		}
+		double getYDerivAt(int x, int y)
+		{
+			return Gradient.at<cv::Vec4d>(y, x)[GRADIENT_MAT_DY_INDEX];
+		}
+		double getAngleAt(int x, int y)
+		{
+			return Gradient.at<cv::Vec4d>(y, x)[GRADIENT_MAT_DIRECTION_INDEX];
 		}
 
 		cv::Mat Gradient;
 		cv::Scalar Mean;
 		cv::Scalar StdDev;
+
+	private:
+		cv::Mat toScaleDirectionImage(const cv::Mat &scale)
+		{
+			std::vector<cv::Mat> channels;
+			cv::split(Gradient, channels);
+			cv::Mat normDx, normDy, inDx, inDy, output(scale.rows, scale.cols, CV_64F);
+			cv::normalize(channels[GRADIENT_MAT_DX_INDEX], normDx, 0.0, 1.0, cv::NORM_MINMAX);
+			cv::normalize(channels[GRADIENT_MAT_DY_INDEX], normDy, 0.0, 1.0, cv::NORM_MINMAX);
+			cv::integral(normDx, inDx);
+			cv::integral(normDy, inDy);
+
+			for (int x = 0; x < scale.cols; ++x)
+			{
+				for (int y = 0; y < scale.rows; ++y)
+				{
+					int radius = 2;
+					double dx = calcSumAt(x, y, inDx, radius);
+					double dy = calcSumAt(x, y, inDy, radius);
+
+					output.at<double>(y, x) = std::atan2(dy, dx);
+				}
+			}
+
+			return output;
+		}
+
+		cv::Mat toScaleMagnitudeImage(const cv::Mat &scale)
+		{
+			//TODO:
+			return cv::Mat();
+		}
+
+		double calcSumAt(int x, int y, const cv::Mat &integralImg, int radius)
+		{
+			int left = x - radius;
+			int right = x + radius;
+			int top = y - radius;
+			int bottom = y + radius;
+
+			if (left < 0)
+				left = 0;
+			if (right >= integralImg.cols)
+				right = integralImg.cols - 1;
+			if (top < 0)
+				top = 0;
+			if (bottom >= integralImg.rows)
+				bottom = integralImg.rows - 1;
+
+			int width = right - left;
+			int height = bottom - top;
+			double area = width * height;
+
+			cv::Point A, B, C, D;
+			A.x = left, A.y = top;
+			B.x = right, B.y = top;
+			C.x = left, C.y = bottom;
+			D.x = right, D.y = bottom;
+
+			return (integralImg.at<double>(D) -integralImg.at<double>(C) -integralImg.at<double>(B) +integralImg.at<double>(A))/area;
+		}
+
 	};
 
 	class BasedEdgeImageProcessor : public BaseImageProcessor
 	{
 	public:
-		BasedEdgeImageProcessor() {};
-		~BasedEdgeImageProcessor() {};
-		BasedEdgeImageProcessor(const BasedEdgeImageProcessor &cpy) {};
+		BasedEdgeImageProcessor() 
+		{
+			lastComputedDominantOrientation = 0.0;
+			dominantOrientationComputed = false;
+		};
+
+		~BasedEdgeImageProcessor() { };
+
+		BasedEdgeImageProcessor(const BasedEdgeImageProcessor &cpy) 
+		{
+			lastComputedDominantOrientation = cpy.lastComputedDominantOrientation;
+			dominantOrientationComputed = cpy.dominantOrientationComputed;
+		};
+
+		bool IsDominantOrientationComputed()
+		{
+			return dominantOrientationComputed;
+		}
+
+		double GetDominantOrientation()
+		{
+			return lastComputedDominantOrientation;
+		}
 
 		virtual void Process(const cv::Mat &inputImg, cv::Mat &outputImg) = 0;
 
@@ -87,7 +197,7 @@ namespace dune
 		}
 
 		//Finds the dominant orientation using HoG method
-		double FindDominantOrientation(DominantOrientationMethod method, int bins)
+		double ComputeDominantOrientation(DominantOrientationMethod method, int bins)
 		{
 			std::vector<cv::Point> points;
 			for (int x = 0; x < BaseData.Gradient.cols; ++x)
@@ -100,11 +210,15 @@ namespace dune
 
 			if (method == HOG)
 			{
-				return FindDominantOrientationUsingHoG(points, bins);
+				lastComputedDominantOrientation = FindDominantOrientationUsingHoG(points, bins);
+				dominantOrientationComputed = true;
+				return lastComputedDominantOrientation;
 			}
 			else if (method == K_MEANS)
 			{
-				return FindDominantOrientationUsingKMeans(points, bins);
+				lastComputedDominantOrientation = FindDominantOrientationUsingKMeans(points, bins);
+				dominantOrientationComputed = true;
+				return lastComputedDominantOrientation;
 			}
 
 			
@@ -197,6 +311,9 @@ namespace dune
 		ImageGradientData BaseData;
 
 	private:
+
+		double lastComputedDominantOrientation;
+		bool dominantOrientationComputed;
 
 		double calcDominantOrientationFromHoG(const std::vector<double> &histogram, const std::vector<cv::Point2d> &gradients)
 		{

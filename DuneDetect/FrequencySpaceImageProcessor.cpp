@@ -31,7 +31,7 @@ namespace dune
 
 		cv::Mat spectrum;
 		
-		double domDir = FindDominantOrientation(DominantOrientationMethod::K_MEANS, 2);
+		double domDir = ComputeDominantOrientation(DominantOrientationMethod::K_MEANS, 2);
 		std::cout << domDir << std::endl;
 
 		//cv::Mat threshold;

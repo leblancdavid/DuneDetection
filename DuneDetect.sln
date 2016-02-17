@@ -16,6 +16,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuneDetectorApp", "DuneDetectorApp\DuneDetectorApp.csproj", "{39828D0A-2DBC-405E-9000-95DFB3892066}"
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "DuneAppSetup", "DuneAppSetup\DuneAppSetup.wixproj", "{0918F88B-41A6-4BE2-B973-195B2EDC1AAF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{39828D0A-2DBC-405E-9000-95DFB3892066} = {39828D0A-2DBC-405E-9000-95DFB3892066}
+		{3E19BE55-85F4-4F1A-9C70-2D4CEC603817} = {3E19BE55-85F4-4F1A-9C70-2D4CEC603817}
+		{56A3765B-96D6-49C1-9DE6-DD09D88861D0} = {56A3765B-96D6-49C1-9DE6-DD09D88861D0}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TVF", "TVF", "{6DCDAF59-8FF5-416D-9F3E-D53845D882B4}"
 EndProject
@@ -30,6 +35,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DuneDetectLibWrapper", "Dun
 	ProjectSection(ProjectDependencies) = postProject
 		{3E19BE55-85F4-4F1A-9C70-2D4CEC603817} = {3E19BE55-85F4-4F1A-9C70-2D4CEC603817}
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DuneDetectML", "DuneDetectML\DuneDetectML.vcxproj", "{60CEF9A2-B09C-4374-8D2A-9CD85FB542BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -155,6 +162,20 @@ Global
 		{56A3765B-96D6-49C1-9DE6-DD09D88861D0}.Release|Win32.Build.0 = Release|Win32
 		{56A3765B-96D6-49C1-9DE6-DD09D88861D0}.Release|x86.ActiveCfg = Release|Win32
 		{56A3765B-96D6-49C1-9DE6-DD09D88861D0}.Release|x86.Build.0 = Release|Win32
+		{60CEF9A2-B09C-4374-8D2A-9CD85FB542BA}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{60CEF9A2-B09C-4374-8D2A-9CD85FB542BA}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{60CEF9A2-B09C-4374-8D2A-9CD85FB542BA}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{60CEF9A2-B09C-4374-8D2A-9CD85FB542BA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{60CEF9A2-B09C-4374-8D2A-9CD85FB542BA}.Debug|Win32.Build.0 = Debug|Win32
+		{60CEF9A2-B09C-4374-8D2A-9CD85FB542BA}.Debug|x86.ActiveCfg = Debug|Win32
+		{60CEF9A2-B09C-4374-8D2A-9CD85FB542BA}.Debug|x86.Build.0 = Debug|Win32
+		{60CEF9A2-B09C-4374-8D2A-9CD85FB542BA}.Release|Any CPU.ActiveCfg = Release|Win32
+		{60CEF9A2-B09C-4374-8D2A-9CD85FB542BA}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{60CEF9A2-B09C-4374-8D2A-9CD85FB542BA}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{60CEF9A2-B09C-4374-8D2A-9CD85FB542BA}.Release|Win32.ActiveCfg = Release|Win32
+		{60CEF9A2-B09C-4374-8D2A-9CD85FB542BA}.Release|Win32.Build.0 = Release|Win32
+		{60CEF9A2-B09C-4374-8D2A-9CD85FB542BA}.Release|x86.ActiveCfg = Release|Win32
+		{60CEF9A2-B09C-4374-8D2A-9CD85FB542BA}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

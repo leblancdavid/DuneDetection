@@ -1,87 +1,83 @@
 #define _CRT_SECURE_NO_WARNINGS
 
-#include <iostream>
-#include <fstream>
-#include <time.h>
-#include <algorithm>
+#include "DuneLibTestRun.h"
+#include "DuneMLTestRun.h"
 
-const std::string DUNE_DATASET_BASE_PATH = "E:/Projects/Thesis/DuneDetection/DuneDataset/";
+#include "GaborFilter.h"
+#include "DiscreteFourierTransform.h"
+#include "GaborFilterImageEnhancement.h"
+#include "DFTImageEnhancement.h"
+#include "GenericImageProcessing.h"
+#include "GaussianScalePyramid.h"
+#include "LaplacianScalePyramid.h"
+#include "EdgeDirectionImageProcessor.h"
+#include "SuperDuperImageProcessor.h"
 
-#include "BaseDuneDetectorBenchmark.h"
-#include "EdgeBasedDuneDetector.h"
+
 int main()
 {
-	time_t rawtime;
-	time(&rawtime);
-	std::string timestamp = ctime(&rawtime);
-	timestamp.erase(timestamp.end() - 1, timestamp.end());
-	std::replace(timestamp.begin(), timestamp.end(), ':', '-');
-	timestamp.erase(std::remove(timestamp.begin(), timestamp.end(), ' '), timestamp.end());
-	std::string filename = DUNE_DATASET_BASE_PATH + "Results/EdgeBased - " + timestamp + ".txt";
-	std::ofstream resultsFile(filename);
 
-	if (!resultsFile.good())
-		return -1;
-	//resultsFile << "TEST";
-	//resultsFile.close();
-	dune::BaseDuneDetector *duneDetector = new dune::EdgeBasedDuneDetector(new dune::EdgeDetectorImageProcessor(),
-		new dune::EdgeBasedDetectorParameters());
-	dune::BaseDuneDetectorBenchmark benchmark(duneDetector, dune::BenchmarkTestParameters(10.0));
+	//RunDuneLibTest();
+	//RunMLTest();
 
-	dune::BenchmarkResults results;
-	std::string imageFile, groundTruthFile;
+	//cv::Mat testImage = cv::imread(DUNE_ML_DATASET_BASE_PATH + "Kalahari 3/Kalahari 3 image.jpg", 0);
+	//cv::Mat testImage = cv::imread(DUNE_ML_DATASET_BASE_PATH + "WDC 1/WCD-1 test.jpg", 0);
+	cv::Mat sobel, testImage = cv::imread(DUNE_ML_DATASET_BASE_PATH + "Skeleton Coast 3/Skeleton Coast 3 test.jpg", 0);
 
-	imageFile = DUNE_DATASET_BASE_PATH;
-	imageFile += "Kalahari 3/Kalahari 3 image.jpg";
-	groundTruthFile = DUNE_DATASET_BASE_PATH + "Kalahari 3/Kalahari 3_gt.bmp";
-	results = benchmark.GetResults(imageFile, groundTruthFile);
-	resultsFile << "Kalahari\t" << results.TP << "\t" << results.FP << std::endl;
+	LaplacianScalePyramid lsp;
+	lsp.Process(testImage);
+	cv::Mat scale = lsp.GetScaleMap();
+	cv::normalize(scale, scale, 0.0, 1.0, cv::NORM_MINMAX);
+
+	cv::imshow("scale", scale);
+	cv::waitKey(0);
 
 
-	imageFile = DUNE_DATASET_BASE_PATH + "Namib 2/Namib 2 image.jpg";
-	groundTruthFile = DUNE_DATASET_BASE_PATH + "Namib 2/Namib 2_gt.bmp";
-	results = benchmark.GetResults(imageFile, groundTruthFile);
-	resultsFile << "Namib\t" << results.TP << "\t" << results.FP << std::endl;
+	//dune::EdgeDirectionImageProcessor ip;
+	//dune::SuperDuperImageProcessor ip;
 
-	imageFile = DUNE_DATASET_BASE_PATH + "Simpson 1/Simpson 1_image.jpg";
-	groundTruthFile = DUNE_DATASET_BASE_PATH + "Simpson 1/Simpson 1_gt.bmp";
-	results = benchmark.GetResults(imageFile, groundTruthFile);
-	resultsFile << "Simpson\t" << results.TP << "\t" << results.FP << std::endl;
+	//cv::Mat processed;
+	//ip.Process(testImage, processed);
+	//cv::imshow("processed", processed);
+	//cv::waitKey(0);
 
-	imageFile = DUNE_DATASET_BASE_PATH + "Skeleton Coast 3/Skeleton Coast 3_image.jpg";
-	groundTruthFile = DUNE_DATASET_BASE_PATH + "Skeleton Coast 3/Skeleton Coast 3_gt.bmp";
-	results = benchmark.GetResults(imageFile, groundTruthFile);
-	resultsFile << "Skeleton_Coast\t" << results.TP << "\t" << results.FP << std::endl;
+	////cv::Mat testImage = cv::imread(DUNE_ML_DATASET_BASE_PATH + "WDC 1/WCD-1 test.jpg", 0);
+	////cv::Mat testImage = cv::imread(DUNE_ML_DATASET_BASE_PATH + "Skeleton Coast 3/Skeleton Coast 3 test.jpg", 0);
 
-	imageFile = DUNE_DATASET_BASE_PATH + "WDC 1/WDC_1_image.jpg";
-	groundTruthFile = DUNE_DATASET_BASE_PATH + "WDC 1/WDC_1_gt.bmp";
-	results = benchmark.GetResults(imageFile, groundTruthFile);
-	resultsFile << "WDC\t" << results.TP << "\t" << results.FP << std::endl;
+	//cv::medianBlur(testImage, testImage, 5);
 
-	imageFile = DUNE_DATASET_BASE_PATH + "White Sands 2/White Sands_2_image.jpg";
-	groundTruthFile = DUNE_DATASET_BASE_PATH + "White Sands 2/White Sands_2_gt.bmp";
-	results = benchmark.GetResults(imageFile, groundTruthFile);
-	resultsFile << "White_Sands\t" << results.TP << "\t" << results.FP << std::endl;
+	////dune::imgproc::GaborFilterImageEnhancement imgEnhancer;
+	////dune::imgproc::DFTImageEnhancement imgEnhancer;
+	//cv::Mat outputImage;
+	////imgEnhancer.Process(testImage, outputImage);
+	//dune::imgproc::IntegralIlluminationNormalization(testImage, outputImage, 10);
+	//cv::imshow("testImage", testImage);
+	//cv::imshow("outputImage", outputImage);
+	//cv::waitKey(0);
 
-	resultsFile.close();
+	//dune::imgproc::DiscreteFourierTransform dft;
+	//cv::Mat spectrumImage;
+	//dft.Forward(testImage, spectrumImage);
+	////cv::imshow("Spectrum", spectrumImage);
+	////cv::waitKey(0);
 
-	//proc.AddImageFile(imageFile);
-	////imageFile = DUNE_DATASET_BASE_PATH + "Kumtagh 1/Kumtagh 1 image.jpg";
-	////proc.AddImageFile(imageFile);
-	//imageFile = DUNE_DATASET_BASE_PATH + "Namib 2/Namib 2 image.jpg";
-	//proc.AddImageFile(imageFile);
-	//imageFile = DUNE_DATASET_BASE_PATH + "Simpson 1/Simpson 1_image.jpg";
-	//proc.AddImageFile(imageFile);
-	//imageFile = DUNE_DATASET_BASE_PATH + "Skeleton Coast 3/Skeleton Coast 3_image.jpg";
-	//proc.AddImageFile(imageFile);
-	//imageFile = DUNE_DATASET_BASE_PATH + "White Sands 2/White Sands_2_image.jpg";
-	//proc.AddImageFile(imageFile);
-	//imageFile = DUNE_DATASET_BASE_PATH + "WDC 1/WDC_1_image.jpg";
-	//proc.AddImageFile(imageFile);
-	//proc.Process();
+	//cv::RotatedRect ellipse;
+	//dft.GetEllipseFit(ellipse, 1.0);
 
-	//c;ean up
-	delete duneDetector;
+	//dune::imgproc::GaborFilter gf;
+	//cv::Mat filter = gf.GetFrequencySpaceFilter(spectrumImage.rows,
+	//	spectrumImage.cols,
+	//	ellipse.size.height,
+	//	ellipse.size.width,
+	//	0.64);
+	////invert the filter
+	////filter = cv::Scalar(1.0) - filter;
 
+	//dft.MaskFilter(filter, spectrumImage);
+	//cv::imshow("GF", filter);
+	//cv::imshow("Spectrum", spectrumImage);
+	//cv::waitKey(0);
+
+	system("PAUSE");
 	return 0;
 }

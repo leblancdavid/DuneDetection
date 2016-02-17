@@ -2,6 +2,7 @@
 #define _CONNECTED_COMPONENTS_EXTRACTOR_H_
 
 #include "OpenCVHeaders.h"
+#include "ConnectedComponentsSorter.h"
 
 namespace dune
 {
@@ -35,7 +36,38 @@ namespace dune
 					}
 				}
 
-				return components;
+				ConnectedComponentsSorter sorter;
+				std::vector <std::vector<cv::Point>> output;
+
+				//cv::Mat test = cv::Mat::zeros(image.rows, image.cols, CV_8UC3);
+
+				for (size_t i = 0; i < components.size(); ++i)
+				{
+					std::vector <std::vector<cv::Point>> sortedPoints = sorter.Sort(components[i]);
+					for (size_t j = 0; j < sortedPoints.size(); ++j)
+					{
+						//random color;
+						//cv::Vec3b color;
+						//color[0] = rand() % 200 + 50;
+						//color[1] = rand() % 200 + 50;
+						//color[2] = rand() % 200 + 50;
+
+						output.push_back(std::vector<cv::Point>());
+						for (size_t k = 0; k < sortedPoints[j].size(); ++k)
+						{
+							output[output.size() - 1].push_back(sortedPoints[j][k]);
+
+							//test.at<cv::Vec3b>(sortedPoints[j][k]) = color;
+						}
+					}
+				}
+
+				//cv::dilate(test, test, cv::Mat(), cv::Point(-1, -1), 1);
+				//cv::imshow("Segment test", test);
+				//cv::imwrite("SegmentationTest.png", test);
+				//cv::waitKey(0);
+
+				return output;
 			}
 
 

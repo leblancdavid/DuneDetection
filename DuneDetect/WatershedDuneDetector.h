@@ -8,7 +8,7 @@
 namespace dune
 {
 
-	class WatershedDuneDetectorParameters
+	class WatershedDuneDetectorParameters : public BaseDetectorParameters
 	{
 	public:
 		WatershedDuneDetectorParameters()
@@ -48,14 +48,15 @@ namespace dune
 	{
 	public:
 		WatershedDuneDetector();
-		WatershedDuneDetector(WatershedImageProcessor* imgproc, const WatershedDuneDetectorParameters &params);
+		WatershedDuneDetector(WatershedImageProcessor* imgproc, WatershedDuneDetectorParameters *params);
 		~WatershedDuneDetector();
 
 		std::vector<DuneSegment> Extract(const cv::Mat &img);
+		void SetParameters(BaseDetectorParameters *parameters);
 
 	private:
 
-		WatershedDuneDetectorParameters Parameters;
+		WatershedDuneDetectorParameters *Parameters;
 
 		std::vector<std::vector<cv::Point>> GetContours(const cv::Mat &img);
 		std::vector<std::vector<cv::Point>> FilterSegmentsByGradients(std::vector<std::vector<cv::Point>> &contours);

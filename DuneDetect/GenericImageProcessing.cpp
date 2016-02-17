@@ -1,9 +1,92 @@
 #include "GenericImageProcessing.h"
+#include "GaussianScalePyramid.h"
 
 namespace dune
 {
 	namespace imgproc
 	{
+		void GetSobelImage(const cv::Mat &input, cv::Mat &output, int k)
+		{
+			cv::Mat dx, dy, mag(input.rows, input.cols, CV_64F);
+			cv::Sobel(input, dx, CV_64F, 1, 0, k);
+			cv::Sobel(input, dy, CV_64F, 0, 1, k);
+			for (int x = 0; x < dx.cols; ++x)
+			{
+				for (int y = 0; y < dx.rows; ++y)
+				{
+					mag.at<double>(y, x) = std::sqrt(dx.at<double>(y, x)*dx.at<double>(y, x) + dy.at<double>(y, x)*dy.at<double>(y, x));
+				}
+			}
+
+			cv::normalize(mag, mag, 0, 255.0, cv::NORM_MINMAX);
+			mag.convertTo(output, CV_8U);
+		}
+
+		void LocalScaleIntegralIlluminationNormalization(const cv::Mat &inputImg, cv::Mat &outputImg)
+		{
+			GaussianScalePyramid gsp;
+			gsp.Process(inputImg);
+			cv::Mat scaleMap = gsp.GetScaleMap();
+			cv::Mat scaleImage = gsp.GetScaleImage();
+			//cv::imshow("scaleImage", scaleImage);
+			//cv::waitKey(0);
+
+			cv::Mat integralImg;
+			cv::integral(scaleImage, integralImg, CV_64F);
+
+			cv::Scalar meanIntensity, stdDevIntensity;
+			cv::meanStdDev(scaleImage, meanIntensity, stdDevIntensity);
+
+			cv::Point A, B, C, D;
+			outputImg = cv::Mat(scaleImage.rows, scaleImage.cols, CV_8UC1);
+
+			cv::Mat diff(scaleImage.rows, scaleImage.cols, CV_64F);
+
+			for (int x = 0; x < inputImg.cols; ++x)
+			{
+				for (int y = 0; y < inputImg.rows; ++y)
+				{
+					int radius = scaleMap.at<double>(y, x) * 6.0;
+					int left = x - radius;
+					int right = x + radius;
+					int top = y - radius;
+					int bottom = y + radius;
+
+					if (left < 0)
+						left = 0;
+					if (right >= integralImg.cols)
+						right = integralImg.cols - 1;
+					if (top < 0)
+						top = 0;
+					if (bottom >= integralImg.rows)
+						bottom = integralImg.rows - 1;
+
+					int width = right - left;
+					int height = bottom - top;
+					double area = width * height;
+
+					A.x = left, A.y = top;
+					B.x = right, B.y = top;
+					C.x = left, C.y = bottom;
+					D.x = right, D.y = bottom;
+
+					double sum = integralImg.at<double>(D) -integralImg.at<double>(C) -integralImg.at<double>(B) +integralImg.at<double>(A);
+
+					double r = meanIntensity[0] / (sum / area);
+					double outputVal = std::ceil((double)inputImg.at<uchar>(y, x) * r - 0.5);
+					if (outputVal > 255.0)
+						outputVal = 255.0;
+					else if (outputVal < 0)
+						outputVal = 0;
+
+					//outputImg.at<uchar>(y, x) = (uchar)outputVal;
+
+					diff.at<double>(y, x) = (sum / area) - meanIntensity[0];
+				}
+			}
+			cv::normalize(diff, diff, 0, 255.0, cv::NORM_MINMAX);
+			diff.convertTo(outputImg, CV_8U);
+		}
 
 		void IntegralIlluminationNormalization(const cv::Mat &inputImg, cv::Mat &outputImg, int radius)
 		{
@@ -54,15 +137,15 @@ namespace dune
 					else if (outputVal < 0)
 						outputVal = 0;
 
-					outputImg.at<uchar>(y, x) = (uchar)outputVal;
+					//outputImg.at<uchar>(y, x) = (uchar)outputVal;
 
-					//diff.at<double>(y, x) = (sum / area) - meanIntensity[0];
+					diff.at<double>(y, x) = (sum / area) - meanIntensity[0];
 				}
 			}
 
-			//cv::normalize(diff, diff, 0, 255.0, cv::NORM_MINMAX);
+			cv::normalize(diff, diff, 0, 255.0, cv::NORM_MINMAX);
 			//cv::Mat outputVal;
-			//diff.convertTo(outputImg, CV_8U);
+			diff.convertTo(outputImg, CV_8U);
 			//cv::imshow("diffImg", outputImg);
 			//cv::waitKey(0);
 

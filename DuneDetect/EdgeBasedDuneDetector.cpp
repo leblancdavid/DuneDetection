@@ -7,6 +7,9 @@
 
 namespace dune
 {
+
+#define PI 3.14159
+
 EdgeBasedDuneDetector::EdgeBasedDuneDetector()
 {
 	ImageProcess = new EdgeDetectorImageProcessor();
@@ -20,7 +23,8 @@ EdgeBasedDuneDetector::EdgeBasedDuneDetector(EdgeDetectorImageProcessor* imgproc
 
 EdgeBasedDuneDetector::~EdgeBasedDuneDetector()
 {
-
+	delete ImageProcess;
+	delete Parameters;
 }
 
 void EdgeBasedDuneDetector::SetParameters(BaseDetectorParameters *params)
@@ -35,16 +39,14 @@ std::vector<DuneSegment> EdgeBasedDuneDetector::Extract(const cv::Mat &img)
 	ImageProcess->Process(img, processedImage);
 
 	std::vector<DuneSegment> duneSegs;
-	duneSegs = GetContourSegments(processedImage);
+	duneSegs = GetContourSegments(processedImage.clone());
 
-	if (Parameters->ApplyLinking)
-	{
-		
-		std::vector<DuneSegment> linkedSegs = LinkDuneSegments(duneSegs);
-		return linkedSegs;
-	}
+	//cv::imshow("ProcessedImage", processedImage);
+	//cv::waitKey(0);
 
-	duneSegs = FilterSegmentsByIntensityValues(duneSegs, img);
+	ShiftSegmentsToGradientPeak(duneSegs, processedImage);
+
+	duneSegs = FilterSegmentsByMagnitude(duneSegs);
 
 	return duneSegs;
 }
@@ -76,6 +78,51 @@ std::vector<DuneSegment> EdgeBasedDuneDetector::GetContourSegments(const cv::Mat
 
 }
 
+void EdgeBasedDuneDetector::ShiftSegmentsToGradientPeak(std::vector<DuneSegment> &segments, const cv::Mat &domMap)
+{
+	EdgeDetectorImageProcessor* edgeImgProc = dynamic_cast<EdgeDetectorImageProcessor*>(ImageProcess);
+	double domOrientation = 0.0;
+	if (edgeImgProc->IsDominantOrientationComputed())
+		domOrientation = edgeImgProc->GetDominantOrientation();
+	else
+		domOrientation = edgeImgProc->ComputeDominantOrientation(DominantOrientationMethod::HOG, Parameters->HistogramBins);
+
+	double searchDir = domOrientation - PI;
+	double x_incr = std::cos(searchDir);
+	double y_incr = std::sin(searchDir);
+
+	for (size_t i = 0; i < segments.size(); ++i)
+	{
+		for (int j = 0; j < segments[i].GetLength(); ++j)
+		{
+			double x = segments[i][j].Position.x;
+			double y = segments[i][j].Position.y;
+			double maxGrad = 0.0;
+
+			for (int k = 0; k < Parameters->K; ++k)
+			{
+				if (domMap.at<uchar>(y, x) == 0)
+					continue;
+
+				double mag = edgeImgProc->BaseData.getMagnitudeAt(x, y);
+				if (mag > maxGrad)
+				{
+					segments[i][j].Position.x = x;
+					segments[i][j].Position.y = y;
+					maxGrad = mag;
+				}
+				x += x_incr;
+				y += y_incr;
+				if (x < 0 || x >= edgeImgProc->BaseData.Gradient.cols ||
+					y < 0 || y >= edgeImgProc->BaseData.Gradient.rows)
+					break;
+			}
+		}
+	}
+
+
+}
+
 void EdgeBasedDuneDetector::ComputeSegmentLines(std::vector<DuneSegment> &segments)
 {
 	for (size_t i = 0; i < segments.size(); ++i)
@@ -88,7 +135,7 @@ void EdgeBasedDuneDetector::ComputeSegmentLines(std::vector<DuneSegment> &segmen
 cv::Mat EdgeBasedDuneDetector::FilterByDominantOrientation(const cv::Mat &edges)
 {
 	EdgeDetectorImageProcessor* edgeImgProc = dynamic_cast<EdgeDetectorImageProcessor*>(ImageProcess);
-	double domOrientation = edgeImgProc->FindDominantOrientation(DominantOrientationMethod::HOG, Parameters->HistogramBins);
+	double domOrientation = edgeImgProc->ComputeDominantOrientation(DominantOrientationMethod::HOG, Parameters->HistogramBins);
 	//double domOrientation = edgeImgProc->FindDominantOrientation(DominantOrientationMethod::K_MEANS, 2);
 	std::cout << domOrientation << std::endl;
 	cv::Mat filtered = cv::Mat::zeros(edges.rows, edges.cols, CV_8UC1);
@@ -139,37 +186,19 @@ std::vector<DuneSegment> EdgeBasedDuneDetector::GetDuneSegments(const cv::Mat &i
 std::vector<DuneSegment> EdgeBasedDuneDetector::FilterSegmentsByMagnitude(const std::vector<DuneSegment> &input)
 {
 	EdgeDetectorImageProcessor* edgeImgProc = dynamic_cast<EdgeDetectorImageProcessor*>(ImageProcess);
-	//double meanM = edgeImgProc->BaseData.Mean[GRADIENT_MAT_MAGNITUDE_INDEX];
-	//double stdDevM = edgeImgProc->BaseData.StdDev[GRADIENT_MAT_MAGNITUDE_INDEX];
 
-	std::vector<double> magnitudes;
-	for (size_t i = 0; i < input.size(); ++i)
-	{
-		std::vector<DuneSegmentData> pts = input[i].GetSegmentData();
-		for (size_t j = 0; j < pts.size(); ++j)
-		{
-			magnitudes.push_back(edgeImgProc->BaseData.Gradient.at<cv::Vec4d>(pts[j].Position)[GRADIENT_MAT_MAGNITUDE_INDEX]);
-		}
-	}
-
-	cv::Scalar meanM, stdDevM;
-	cv::meanStdDev(magnitudes, meanM, stdDevM);
-
-	double threshold = meanM[0] + Parameters->R * stdDevM[0];
+	double threshold = edgeImgProc->BaseData.Mean[GRADIENT_MAT_MAGNITUDE_INDEX] + Parameters->R * edgeImgProc->BaseData.StdDev[GRADIENT_MAT_MAGNITUDE_INDEX];
 
 	std::vector<DuneSegment> output;
 	for (size_t i = 0; i < input.size(); ++i)
 	{
-		std::vector<DuneSegmentData> pts = input[i].GetSegmentData();
-		double u = 0.0;
-		for (size_t j = 0; j < pts.size(); ++j)
+		if (input[i].GetLength() > Parameters->MinSegmentLength)
 		{
-			u += edgeImgProc->BaseData.Gradient.at<cv::Vec4d>(pts[j].Position)[GRADIENT_MAT_MAGNITUDE_INDEX] / 1000.0;
-		}
-		u /= (double)pts.size() / 1000.0;
-		if (u > threshold)
-		{
-			output.push_back(input[i]);
+			std::vector<DuneSegment> split = SplitSegmentByMagnitude(input[i], edgeImgProc, threshold, Parameters->MinSegmentLength);
+			for (size_t j = 0; j < split.size(); ++j)
+			{
+				output.push_back(split[j]);
+			}
 		}
 	}
 
@@ -191,14 +220,14 @@ std::vector<DuneSegment> EdgeBasedDuneDetector::FilterSegmentsByLineOrientation(
 	double avgOrientation = std::atan2(avgVec[1], avgVec[0]);
 
 	std::vector<DuneSegment> output;
-	double thresh = 3.1416 / 4.0;
+	double thresh = PI / 4.0;
 	for (size_t i = 0; i < input.size(); ++i)
 	{
 		cv::Vec4d line = input[i].GetLine();
 		double orientation = std::atan2(line[1], line[0]);
 
 		double low = fabs(orientation - avgOrientation);
-		double high = fabs(orientation - (avgOrientation + 3.1416));
+		double high = fabs(orientation - (avgOrientation + PI));
 		if (low < thresh ||
 			high < thresh)
 		{
@@ -241,6 +270,33 @@ std::vector<DuneSegment> EdgeBasedDuneDetector::FilterSegmentsByIntensityValues(
 
 std::vector<DuneSegment> EdgeBasedDuneDetector::SplitSegmentByIntensity(const DuneSegment &input, const cv::Mat &img, double threshold, int neighbors)
 {
+	return SplitSegment<uchar>(input, img, threshold, neighbors);
+}
+
+std::vector<DuneSegment> EdgeBasedDuneDetector::SplitSegmentByMagnitude(const DuneSegment &input, 
+	EdgeDetectorImageProcessor* edgeImgProc, 
+	double threshold, 
+	int neighbors)
+{
+	cv::Mat magnitudes(edgeImgProc->BaseData.Gradient.rows, edgeImgProc->BaseData.Gradient.cols, CV_64F);
+	for (int x = 0; x < magnitudes.cols; ++x)
+	{
+		for (int y = 0; y < magnitudes.rows; ++y)
+		{
+			magnitudes.at<double>(y, x) = edgeImgProc->BaseData.getMagnitudeAt(x, y);
+		}
+	}
+
+	//wrap around for the contour
+	return SplitSegment(input, magnitudes, threshold, neighbors);
+}
+
+template<typename T>
+std::vector<DuneSegment> EdgeBasedDuneDetector::SplitSegment(const DuneSegment &input, 
+	const cv::Mat &img, 
+	T threshold, 
+	int neighbors)
+{
 	std::vector<DuneSegmentData> data = input.GetSegmentData();
 	std::vector<bool> labels;
 
@@ -255,7 +311,7 @@ std::vector<DuneSegment> EdgeBasedDuneDetector::SplitSegmentByIntensity(const Du
 			else if (k >= (int)data.size())
 				k = j - 1;
 
-			if (img.at<uchar>(data[k].Position) > threshold)
+			if (img.at<T>(data[k].Position) > threshold)
 			{
 				count++;
 			}
@@ -275,10 +331,10 @@ std::vector<DuneSegment> EdgeBasedDuneDetector::SplitSegmentByIntensity(const Du
 	std::vector<DuneSegment> output;
 
 	int start = 0;
-	while (labels[start] && start < labels.size()-1)
+	while (labels[start] && start < labels.size() - 1)
 		start++;
 
-	int i = start+1;
+	int i = start + 1;
 	if (i >= labels.size())
 		i = 0;
 
@@ -289,7 +345,7 @@ std::vector<DuneSegment> EdgeBasedDuneDetector::SplitSegmentByIntensity(const Du
 			i++;
 
 			if (i >= labels.size())
-				i = 0;	
+				i = 0;
 		}
 
 		while (labels[i] && i != start)
@@ -320,7 +376,7 @@ std::vector<double> EdgeBasedDuneDetector::ComputeLineOrientationHistogram(std::
 		histogram[i] = 0.0;
 	}
 
-	double increments = 3.1416 / (double)dBins;
+	double increments = PI / (double)dBins;
 
 	for (size_t i = 0; i < input.size(); ++i)
 	{
@@ -330,7 +386,7 @@ std::vector<double> EdgeBasedDuneDetector::ComputeLineOrientationHistogram(std::
 		double orientation = std::atan2(line[1], line[0]);
 		if (orientation < 0)
 		{
-			orientation += 3.1416;
+			orientation += PI;
 		}
 
 

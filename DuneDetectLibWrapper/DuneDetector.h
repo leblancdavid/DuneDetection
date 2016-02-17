@@ -13,8 +13,6 @@ public:
 	~DuneDetector() { this->!DuneDetector(); }
 	!DuneDetector() 
 	{
-		delete _edgeDetectorParams;
-		delete _edgeBasedDetector; 
 	}
 
 	array<DuneSegment^>^ GetDuneSegments(System::String^ imageFile);

@@ -59,37 +59,7 @@ namespace dune
 				cv::RotatedRect f_mask = filter;
 				DrawFilledEllipse(mask, f_mask, cv::Scalar(0));
 
-				/*f_mask.center.x = 0.0;
-				f_mask.center.y = 0.0;
-				DrawFilledEllipse(mask, f_mask, cv::Scalar(0));
-				f_mask.center.x = ComplexDFT.cols;
-				DrawFilledEllipse(mask, f_mask, cv::Scalar(0));
-				f_mask.center.y = ComplexDFT.rows;
-				DrawFilledEllipse(mask, f_mask, cv::Scalar(0));
-				f_mask.center.x = 0.0;
-				DrawFilledEllipse(mask, f_mask, cv::Scalar(0));*/
-
-				//cv::imshow("mask", mask);
-				//cv::waitKey(0);
-
 				MaskFilter(mask, output);
-				/*cv::Mat processedDFT = cv::Mat(ComplexDFT.size(), CV_64FC2);
-				for (int x = 0; x < processedDFT.cols; ++x)
-				{
-					for (int y = 0; y < processedDFT.rows; ++y)
-					{
-						if (mask.at<uchar>(y, x))
-						{
-							processedDFT.at<cv::Vec2d>(y, x) = ComplexDFT.at<cv::Vec2d>(y, x);
-						}
-						else
-						{
-							processedDFT.at<cv::Vec2d>(y, x) = cv::Vec2d(0.0, 0.0);
-						}
-					}
-				}
-
-				ComputeInverseDFT(processedDFT, output);*/
 			}
 
 			cv::Mat GetDFTSpectrumImage()
@@ -112,6 +82,52 @@ namespace dune
 				// viewable image form (float between values 0 and 1).
 
 				return mag;
+			}
+
+			void GetEllipseFit(cv::RotatedRect &elipse, double r=1.0)
+			{
+				cv::Mat dftImg;
+				GetDFTSpectrumImage().convertTo(dftImg, CV_8U, 255.0);
+				cv::Scalar mean, stddev;
+				cv::meanStdDev(dftImg, mean, stddev);
+
+				cv::Mat threshold;
+				cv::threshold(dftImg, threshold, mean[0] + r*stddev[0], 255, CV_THRESH_BINARY);
+				//cv::threshold(dftImg, threshold, 120, 255, CV_THRESH_BINARY);
+				//cv::imshow("threshold", threshold);
+				//cv::waitKey(0);
+
+				cv::medianBlur(threshold, threshold, 11);
+
+				
+
+				std::vector<std::vector<cv::Point>> contours;
+
+				cv::findContours(threshold, contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
+				if (contours.empty())
+				{
+					elipse = cv::RotatedRect();
+					return;
+				}
+
+				int largest = 0, index;
+				for (size_t i = 0; i < contours.size(); ++i)
+				{
+					if (contours[i].size() > largest)
+					{
+						largest = contours[i].size();
+						index = i;
+					}
+				}
+
+				elipse = cv::fitEllipse(contours[index]);
+				//elipse.angle += 90;
+				//cv::Mat tempColor;
+				//cv::cvtColor(dftImg, tempColor, CV_GRAY2BGR);
+				//cv::ellipse(tempColor, elipse, cv::Scalar(0, 0, 255), 2);
+				//cv::imshow("dftImg", dftImg);
+				//cv::imshow("elipse fit", tempColor);
+				//cv::waitKey(0);
 			}
 
 		private:
@@ -144,7 +160,7 @@ namespace dune
 				//remove the border
 				output = cv::Mat(mag, cv::Rect(0, 0, SourceImageSize.width, SourceImageSize.height));
 
-				cv::normalize(output, output, 0, 1, CV_MINMAX);
+				cv::normalize(output, output, 0.0, 1.0, CV_MINMAX);
 			}
 
 			void DrawFilledEllipse(cv::Mat &image, const cv::RotatedRect &ellipse, const cv::Scalar color)

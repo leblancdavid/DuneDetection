@@ -8,7 +8,7 @@ WatershedDuneDetector::WatershedDuneDetector()
 	ImageProcess = new WatershedImageProcessor();
 }
 
-WatershedDuneDetector::WatershedDuneDetector(WatershedImageProcessor* imgproc, const WatershedDuneDetectorParameters &params)
+WatershedDuneDetector::WatershedDuneDetector(WatershedImageProcessor* imgproc, WatershedDuneDetectorParameters *params)
 {
 	ImageProcess = imgproc;
 	Parameters = params;
@@ -17,6 +17,12 @@ WatershedDuneDetector::WatershedDuneDetector(WatershedImageProcessor* imgproc, c
 WatershedDuneDetector::~WatershedDuneDetector()
 {
 
+}
+
+void WatershedDuneDetector::SetParameters(BaseDetectorParameters *params)
+{
+	Parameters = static_cast<WatershedDuneDetectorParameters*>(params);
+	ImageProcess->SetParameters(Parameters->ImageProcessParameters);
 }
 
 std::vector<DuneSegment> WatershedDuneDetector::Extract(const cv::Mat &img)
@@ -63,7 +69,7 @@ std::vector<std::vector<cv::Point>> WatershedDuneDetector::GetContours(const cv:
 	std::vector<std::vector<cv::Point>>::iterator ctrIt = contours.begin();
 	while (i < (int)contours.size())
 	{
-		if ((int)contours[i].size() < Parameters.MinSegmentLength)
+		if ((int)contours[i].size() < Parameters->MinSegmentLength)
 		{
 			//I for some reason don't remember how to use iterators...
 			contours.erase(contours.begin() + i);
@@ -91,7 +97,7 @@ std::vector<std::vector<cv::Point>> WatershedDuneDetector::FilterSegmentsByGradi
 	}
 
 	WatershedImageProcessor* wsImgProc = dynamic_cast<WatershedImageProcessor*>(ImageProcess);
-	double domOrientation = wsImgProc->FindDominantOrientation(DominantOrientationMethod::HOG, Parameters.HistogramBins);
+	double domOrientation = wsImgProc->ComputeDominantOrientation(DominantOrientationMethod::HOG, Parameters->HistogramBins);
 	//double domOrientation = wsImgProc->FindDominantOrientation(DominantOrientationMethod::HOG, allPoints, Parameters.HistogramBins);
 
 	//domOrientation = 0.0;
@@ -99,12 +105,12 @@ std::vector<std::vector<cv::Point>> WatershedDuneDetector::FilterSegmentsByGradi
 	std::vector<std::vector<cv::Point>> output;
 	for (size_t i = 0; i < contours.size(); ++i)
 	{
-		if (contours[i].size() > Parameters.MinSegmentLength)
+		if (contours[i].size() > Parameters->MinSegmentLength)
 		{
 			std::vector<std::vector<cv::Point>> filtered = SplitContourToSegmentsByGradients(domOrientation, contours[i]);
 			for (size_t j = 0; j < filtered.size(); ++j)
 			{
-				if (filtered[j].size() > Parameters.MinSegmentLength)
+				if (filtered[j].size() > Parameters->MinSegmentLength)
 				{
 					output.push_back(std::vector<cv::Point>(filtered[j]));
 				}
@@ -127,7 +133,7 @@ std::vector<std::vector<cv::Point>> WatershedDuneDetector::SplitContourToSegment
 		double dir = wsImgProc->BaseData.Gradient.at<cv::Vec4d>(contour[j])[GRADIENT_MAT_DIRECTION_INDEX];
 
 		double diff = std::fabs(dir - domOrientation);
-		if (diff < Parameters.AngleTolerance)
+		if (diff < Parameters->AngleTolerance)
 		{
 			candidate[j] = true;
 		}
@@ -142,7 +148,7 @@ std::vector<std::vector<cv::Point>> WatershedDuneDetector::SplitContourToSegment
 	for (int i = 0; i < contour.size(); ++i)
 	{
 		int count = 0;
-		for (int j = 0, k = i - Parameters.MinSegmentLength/2; j < Parameters.MinSegmentLength; ++j, ++k)
+		for (int j = 0, k = i - Parameters->MinSegmentLength / 2; j < Parameters->MinSegmentLength; ++j, ++k)
 		{
 			if (k < 0)
 				k = candidate.size() + k;
@@ -153,7 +159,7 @@ std::vector<std::vector<cv::Point>> WatershedDuneDetector::SplitContourToSegment
 				count++;
 		}
 
-		if (count > Parameters.MinSegmentLength / 2)
+		if (count > Parameters->MinSegmentLength / 2)
 		{
 			filtered[i] = true;
 		}
@@ -187,7 +193,7 @@ std::vector<std::vector<cv::Point>> WatershedDuneDetector::SplitContourToSegment
 			i++;
 		}
 
-		if (!filtered[i] && segment.size() > Parameters.MinSegmentLength)
+		if (!filtered[i] && segment.size() > Parameters->MinSegmentLength)
 		{
 			output.push_back(std::vector<cv::Point>(segment));
 			segment.clear();

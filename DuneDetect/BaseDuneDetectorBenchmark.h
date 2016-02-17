@@ -2,6 +2,7 @@
 #define _DUNE_DETECTOR_BENCHMARK_TEST_H_
 
 #include "BaseDuneDetector.h"
+#include "DuneMetricCalculator.h"
 #include "Draw.h"
 
 namespace dune
@@ -27,7 +28,23 @@ public:
 		Error = cpy.Error;
 	}
 
-	~BenchmarkResults() {}
+	virtual ~BenchmarkResults() {}
+
+	double GetPrecision()
+	{
+		if (fabs(TP + FP) <= 0.01)
+			return 0.0;
+
+		return TP / (TP + FP);
+	}
+	
+	double GetRecall()
+	{
+		if (fabs(TP + FN) <= 0.01)
+			return 0.0;
+
+		return TP / (TP + FN);
+	}
 
 
 	double TP;
@@ -35,6 +52,9 @@ public:
 	double TN;
 	double FN;
 	double Error;
+	double AngularError;
+	double SpacingError;
+	double NormSpacingError;
 
 private:
 };
@@ -95,31 +115,6 @@ public:
 
 		cv::Mat colorImg = cv::Mat::zeros(groundTruthImg.rows, groundTruthImg.cols, CV_8UC3);
 		cv::cvtColor(testImg, colorImg, CV_GRAY2BGR);
-		
-		/*for (size_t i = 0; i < groundTruth.size(); ++i)
-		{
-			colorImg.at<cv::Vec3b>(groundTruth[i]) = cv::Vec3b(0, 255, 0);
-		}*/
-
-		//cv::dilate(colorImg, colorImg, cv::Mat(), cv::Point(-1, -1), 5);
-
-		//for(size_t i = 0; i < segments.size(); ++i)
-		//{
-			//draw::DrawDuneSegment(colorImg, segments[i], cv::Scalar(0, 0, 255), false, cv::Scalar(0, 255, 0), 2);
-
-			/*std::vector<DuneSegmentData> segData = segments[i].GetSegmentData();
-			for (size_t j = 0; j < segData.size(); ++j)
-			{
-				cv::Point p = segData[j].Position;
-				colorImg.at<cv::Vec3b>(p) = cv::Vec3b(0,0,255);
-			}*/
-		//}
-
-		//cv::dilate(colorImg, colorImg, cv::Mat(), cv::Point(-1,-1), 3);
-		
-		//cv::imwrite("FilteredFitLines.jpg", colorImg);
-		//cv::imshow("Detected Points", colorImg);
-		//cv::waitKey(30);
 
 		BenchmarkResults results;
 
@@ -127,13 +122,141 @@ public:
 
 		cv::imshow("Detected Points", colorImg);
 		//cv::imwrite("Method4Results.jpg", colorImg);
-		cv::waitKey(0);
+		cv::waitKey(33);
+		return results;
+	}
+
+	BenchmarkResults GetResults(const cv::Mat & testImg,
+		const cv::Mat &groundTruthImg,
+		const std::vector<DuneSegment> &segments,
+		const std::string &resultFileName="")
+	{
+		dune::imgproc::DuneMetricCalculator metrics;
+		
+		std::vector<cv::Point> groundTruth = GetGroundTruthPoints(groundTruthImg);
+
+		BenchmarkResults results;
+		cv::Mat colorImg = cv::Mat::zeros(groundTruthImg.rows, groundTruthImg.cols, CV_8UC3);
+		cv::cvtColor(testImg, colorImg, CV_GRAY2BGR);
+
+		cv::Mat segmentMap = cv::Mat::zeros(groundTruthImg.rows, groundTruthImg.cols, CV_8U);
+		for (size_t i = 0; i < segments.size(); ++i)
+		{
+			for (size_t j = 0; j < segments[i].GetLength(); ++j)
+			{
+				segmentMap.at<uchar>(segments[i][j].Position) = 255;
+			}
+		}
+
+		
+		results = GetBenchmarkResults(segmentMap, groundTruthImg, colorImg);
+
+		dune::imgproc::DuneMetrics groundTruthMetrics = metrics.CalculateMetrics(groundTruthImg);
+		dune::imgproc::DuneMetrics detectionMetrics = metrics.CalculateMetrics(segmentMap);
+		results.AngularError = std::fabs(groundTruthMetrics.AverageOrientation - detectionMetrics.AverageOrientation);
+		results.SpacingError = std::fabs(groundTruthMetrics.AverageDuneSpacing - detectionMetrics.AverageDuneSpacing);
+		results.NormSpacingError = results.SpacingError / groundTruthMetrics.AverageDuneSpacing;
+
+		if (resultFileName != "")
+			cv::imwrite(resultFileName, colorImg);
+		
 		return results;
 	}
 
 protected:
 	BaseDuneDetector *Detector;
 	
+	BenchmarkResults GetBenchmarkResults(const cv::Mat &segmentMap, const cv::Mat &groundTruth, cv::Mat &plot)
+	{
+		BenchmarkResults results;
+		CalculateTP_FN(segmentMap, groundTruth, plot, results);
+		CalculateFP(segmentMap, groundTruth, plot, results);
+
+		return results;
+	}
+
+	void CalculateTP_FN(const cv::Mat &segmentMap, const cv::Mat &groundTruth, cv::Mat &plot, BenchmarkResults &results)
+	{
+		results.FN = 0;
+		results.TP = 0;
+
+		for (int i = 0; i < groundTruth.rows; ++i)
+		{
+			for (int j = 0; j < groundTruth.cols; ++j)
+			{
+				if (groundTruth.at<uchar>(i, j))
+				{
+					if (ContainsDetection(segmentMap, cv::Point(j, i)))
+					{
+						results.TP++;
+						//detected ground truth will be blue
+						cv::circle(plot, cv::Point(j,i), 1, cv::Scalar(255, 0, 0), 2);
+					}
+					else
+					{
+						results.FN++;
+						//false negatives are yellow
+						cv::circle(plot, cv::Point(j, i), 1, cv::Scalar(0, 255, 255), 2);
+					}
+				}
+			}
+		}
+	}
+
+	void CalculateFP(const cv::Mat &segmentMap, const cv::Mat &groundTruth, cv::Mat &plot, BenchmarkResults &results)
+	{
+		results.FP = 0;
+
+		for (int i = 0; i < segmentMap.rows; ++i)
+		{
+			for (int j = 0; j < segmentMap.cols; ++j)
+			{
+				if (segmentMap.at<uchar>(i, j))
+				{
+					if (ContainsDetection(groundTruth, cv::Point(j, i)))
+					{
+						//correctly detected points will be green
+						cv::circle(plot, cv::Point(j, i), 1, cv::Scalar(0, 255, 0), 2);
+					}
+					else
+					{
+						results.FP++;
+						//false positives are going to be red
+						cv::circle(plot, cv::Point(j, i), 1, cv::Scalar(0, 0, 255), 2);
+					}
+				}
+			}
+		}
+	}
+
+	bool ContainsDetection(const cv::Mat &map, const cv::Point &anchor)
+	{
+		int i0 = anchor.y - BenchmarkParams.MinError;
+		int i1 = anchor.y + BenchmarkParams.MinError;
+		int j0 = anchor.x - BenchmarkParams.MinError;
+		int j1 = anchor.x + BenchmarkParams.MinError;
+		if (i0 < 0)
+			i0 = 0;
+		if (i1 >= map.rows)
+			i1 = map.rows - 1;
+		if (j0 < 0)
+			j0 = 0;
+		if (j1 >= map.cols)
+			j1 = map.cols - 1;
+
+		for (int i = i0; i <= i1; ++i)
+		{
+			for (int j = j0; j <= j1; ++j)
+			{
+				if (map.at<uchar>(i, j) > 0)
+				{
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
 
 	std::vector<cv::Point> GetGroundTruthPoints(const cv::Mat &groundTruthImage)
 	{
@@ -157,11 +280,12 @@ protected:
 	{
 		BenchmarkResults results;
 
-		results.TP = CalcTruePositives(segments, groundTruth, results.Error);
+		results.TP = CalcTruePositives(segments, groundTruth, results.FN, results.Error);
 		results.FP = CalcFalsePositives(segments, groundTruth, plot);
-
 		//CalculateResults(segments, groundTruth, results.TP, results.FP);
 		
+		//std::cout << results.TP << std::endl;
+
 		return results;
 	}
 	
@@ -217,7 +341,7 @@ protected:
 				
 			}
 
-			if (minDist < BenchmarkParams.MinError)
+			if (minDist <= BenchmarkParams.MinError)
 			{
 				matchFound[minJ][minK] = true;
 				TP++;
@@ -240,9 +364,11 @@ protected:
 
 	double CalcTruePositives(const std::vector<DuneSegment> &segments,
 		const std::vector<cv::Point> &groundTruth,
+		double &FN,
 		double &error)
 	{
 		double TP = 0;
+		FN = 0;
 		error = 0;
 		//Compute the true positives;
 		for(size_t i = 0; i < groundTruth.size(); ++i)
@@ -261,17 +387,22 @@ protected:
 				}
 			}
 
-			if(minDist < BenchmarkParams.MinError)
+			//std::cout << minDist << std::endl;
+			if(minDist <= BenchmarkParams.MinError)
 			{
 				TP++;
+			}
+			else
+			{
+				FN++;
 			}
 			error += minDist;
 		}
 
 		//Calculate the True positive
 		TP /= (double)groundTruth.size();
-		error /= (double)groundTruth.size();
-
+		//error /= (double)groundTruth.size();
+		//std::cout << TP << std::endl;
 		return TP;
 	}
 

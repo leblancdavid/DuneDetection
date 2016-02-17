@@ -15,7 +15,7 @@ namespace dune
 		EdgeBasedDetectorParameters()
 		{
 			R = 0.0;
-			MinSegmentLength = 50;
+			MinSegmentLength = 30;
 			ImageProcessParameters = new EdgeDetectorProcParams();
 
 			//Not in use
@@ -79,6 +79,7 @@ namespace dune
 		EdgeBasedDetectorParameters *Parameters;
 
 		std::vector<DuneSegment> GetContourSegments(const cv::Mat &img);
+		void ShiftSegmentsToGradientPeak(std::vector<DuneSegment> &segments, const cv::Mat &domMap);
 		double GetDominantOrientation(const cv::Mat &inputImg, const cv::Mat &edges);
 		cv::Mat FilterByDominantOrientationUsingKMeans(const cv::Mat &inputImg, const cv::Mat &edges);
 		cv::Mat FilterByDominantOrientation(const cv::Mat &edges);
@@ -89,6 +90,10 @@ namespace dune
 		std::vector<DuneSegment> FilterSegmentsByIntensityValues(const std::vector<DuneSegment> &input, const cv::Mat &img);
 		
 		std::vector<DuneSegment> SplitSegmentByIntensity(const DuneSegment &input, const cv::Mat &img, double threshold, int neighbors);
+		std::vector<DuneSegment> SplitSegmentByMagnitude(const DuneSegment &input, EdgeDetectorImageProcessor* edgeImgProc, double threshold, int neighbors);
+		
+		template<typename T>
+		std::vector<DuneSegment> SplitSegment(const DuneSegment &input, const cv::Mat &img, T threshold, int neighbors);
 
 		void ComputeSegmentLines(std::vector<DuneSegment> &segments);
 		std::vector<double> ComputeLineOrientationHistogram(std::vector<DuneSegment> &input);

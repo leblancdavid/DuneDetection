@@ -122,7 +122,7 @@ void WatershedImageProcessor::WatershedSegmentationIntensityBased(const cv::Mat 
 
 void WatershedImageProcessor::CannyBasedWatershedSegmentation(const cv::Mat &inputImg, cv::Mat &outputImg)
 {
-	double dominantOrientation = FindDominantOrientation(DominantOrientationMethod::HOG, Parameters->HistogramBins);
+	double dominantOrientation = ComputeDominantOrientation(DominantOrientationMethod::HOG, Parameters->HistogramBins);
 
 	cv::Mat canny;
 	double HighT = BaseData.Mean[GRADIENT_MAT_MAGNITUDE_INDEX];
@@ -208,7 +208,7 @@ void WatershedImageProcessor::CannyBasedWatershedSegmentation(const cv::Mat &inp
 void WatershedImageProcessor::WatershedSegmentation(const cv::Mat &inputImg, cv::Mat &outputImg)
 {
 	//std::vector<double> orientations = FindDominantOrientations();
-	double dominantOrientation = FindDominantOrientation(DominantOrientationMethod::HOG, Parameters->HistogramBins);
+	double dominantOrientation = ComputeDominantOrientation(DominantOrientationMethod::HOG, Parameters->HistogramBins);
 
 	cv::Mat dMag(inputImg.rows, inputImg.cols, CV_64F);
 	cv::Mat dDir(inputImg.rows, inputImg.cols, CV_64F);

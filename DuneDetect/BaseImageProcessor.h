@@ -16,7 +16,7 @@ namespace dune
 
 		BaseImageProcessor() {};
 		BaseImageProcessor(const BaseImageProcessor &cpy) {};
-		~BaseImageProcessor() {};
+		virtual ~BaseImageProcessor() { };
 
 		virtual void Process(const cv::Mat &inputImg, cv::Mat &outputImg) = 0;
 		virtual void SetParameters(BaseImageProcessParameters *parameters) = 0;

@@ -7,6 +7,9 @@ namespace dune
 {
 	namespace imgproc
 	{
+		void GetSobelImage(const cv::Mat &input, cv::Mat &output, int k);
+
+		void LocalScaleIntegralIlluminationNormalization(const cv::Mat &inputImg, cv::Mat &outputImg);
 		void IntegralIlluminationNormalization(const cv::Mat &inputImg, cv::Mat &outputImg, int radius);
 		void IntegralEdgeThreshold(const cv::Mat &inputImg, cv::Mat &outputImg, int radius, int k);
 

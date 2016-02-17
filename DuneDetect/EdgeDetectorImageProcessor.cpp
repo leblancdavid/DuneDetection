@@ -1,6 +1,6 @@
 #include "EdgeDetectorImageProcessor.h"
 #include "GenericImageProcessing.h"
-
+#include "GaussianScalePyramid.h"
 
 namespace dune
 {
@@ -32,24 +32,29 @@ namespace dune
 		int k = parameters->K;
 		cv::Mat filtered, bilateral, threshold, canny;
 		cv::medianBlur(inputImg, filtered, parameters->K);
-		cv::bilateralFilter(filtered, bilateral, parameters->K, 20, 20);
+
+		GaussianScalePyramid gsp;
+		gsp.Process(filtered);
+		cv::Mat scaleImage = gsp.GetScaleImage();
+
+		//cv::bilateralFilter(filtered, bilateral, parameters->K, 20, 20);
 		//cv::GaussianBlur(filtered, filtered, cv::Size(k, k), (double)k / 5.0, (double)k / 5.0);
 		//cv::GaussianBlur(filtered, filtered, cv::Size(parameters.K, parameters.K), parameters.K / 5.0, parameters.K / 5.0);
 		//The bilateral filter is used for computing the gradient for now, seems to work well.
 		
 		// Apparently the gaussian blurring is messing up the accuracy of the detection, so for now I will keep it commented out.
 		
-		cv::equalizeHist(bilateral, filtered);
+		cv::equalizeHist(scaleImage, filtered);
 		ComputeGradient(filtered, k);
 		
 		//GetCannyImage(filtered, outputImg);
-		double orientation = FindDominantOrientation(DominantOrientationMethod::HOG, parameters->DominantOrientationBins);
+		double orientation = ComputeDominantOrientation(DominantOrientationMethod::HOG, parameters->DominantOrientationBins);
 
 
 		ThresholdByEdgeDirection(inputImg, outputImg, orientation);
 		//GetSobelImage(bilateral, outputImg);
-		//cv::imshow("outputImg", outputImg);
-		//cv::waitKey(0);
+		cv::imshow("outputImg", outputImg);
+		cv::waitKey(0);
 
 		//imgproc::IntegralEdgeThreshold(bilateral, canny, 20, k);
 		//cv::erode(canny, canny, cv::Mat(), cv::Point(-1, -1), 6);
