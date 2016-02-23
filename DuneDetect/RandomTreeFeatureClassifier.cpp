@@ -33,7 +33,7 @@ namespace duneML
 
 		exampleSet = NormalizeMat(exampleSet);
 
-		rt.train(exampleSet, CV_ROW_SAMPLE, responsesSet);
+		//rt.train(exampleSet, CV_ROW_SAMPLE, responsesSet);
 
 		TrainingResults results;
 		for (int row = 0; row < positiveExamples.rows; ++row)
@@ -64,6 +64,7 @@ namespace duneML
 
 	float RandomTreeFeatureClassifier::Predict(const cv::Mat& example)
 	{
-		return rt.predict(NormalizeMat(example));
+		return 0;
+		//return rt.predict(NormalizeMat(example));
 	}
 }

@@ -94,6 +94,12 @@
     <Filter Include="DuneLib\Header Files\Processing\Plotting">
       <UniqueIdentifier>{3388fc8a-33b2-46a2-9c9b-e3b538d11197}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DuneML\Header Files\Classifiers\CNN">
+      <UniqueIdentifier>{efe354c0-9b81-4021-b3dc-82b385209daa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DuneML\Source Files\Classifiers\CNN">
+      <UniqueIdentifier>{1b71d768-b153-484f-bddf-bf7d3ed13641}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OpenCVHeaders.h">
@@ -243,6 +249,39 @@
     <ClInclude Include="SuperDuperImageProcessor.h">
       <Filter>DuneLib\Header Files\Edge Based Detector</Filter>
     </ClInclude>
+    <ClInclude Include="CNN\src\channel_3.h">
+      <Filter>DuneML\Header Files\Classifiers\CNN</Filter>
+    </ClInclude>
+    <ClInclude Include="CNN\src\converter.h">
+      <Filter>DuneML\Header Files\Classifiers\CNN</Filter>
+    </ClInclude>
+    <ClInclude Include="CNN\src\data_augmentation.h">
+      <Filter>DuneML\Header Files\Classifiers\CNN</Filter>
+    </ClInclude>
+    <ClInclude Include="CNN\src\general_settings.h">
+      <Filter>DuneML\Header Files\Classifiers\CNN</Filter>
+    </ClInclude>
+    <ClInclude Include="CNN\src\gradient_checking.h">
+      <Filter>DuneML\Header Files\Classifiers\CNN</Filter>
+    </ClInclude>
+    <ClInclude Include="CNN\src\layer_bank.h">
+      <Filter>DuneML\Header Files\Classifiers\CNN</Filter>
+    </ClInclude>
+    <ClInclude Include="CNN\src\matrix_maths.h">
+      <Filter>DuneML\Header Files\Classifiers\CNN</Filter>
+    </ClInclude>
+    <ClInclude Include="CNN\src\read_config.h">
+      <Filter>DuneML\Header Files\Classifiers\CNN</Filter>
+    </ClInclude>
+    <ClInclude Include="CNN\src\read_data.h">
+      <Filter>DuneML\Header Files\Classifiers\CNN</Filter>
+    </ClInclude>
+    <ClInclude Include="CNN\src\train_network.h">
+      <Filter>DuneML\Header Files\Classifiers\CNN</Filter>
+    </ClInclude>
+    <ClInclude Include="CNN\src\weights_IO.h">
+      <Filter>DuneML\Header Files\Classifiers\CNN</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AdaptiveImageProcessor.cpp">
@@ -310,6 +349,69 @@
     </ClCompile>
     <ClCompile Include="SuperDuperImageProcessor.cpp">
       <Filter>DuneLib\Source Files\Edge Based Detector</Filter>
+    </ClCompile>
+    <ClCompile Include="CNN\src\branch_layer.cc">
+      <Filter>DuneML\Source Files\Classifiers\CNN</Filter>
+    </ClCompile>
+    <ClCompile Include="CNN\src\channel_3.cc">
+      <Filter>DuneML\Source Files\Classifiers\CNN</Filter>
+    </ClCompile>
+    <ClCompile Include="CNN\src\combine_layer.cc">
+      <Filter>DuneML\Source Files\Classifiers\CNN</Filter>
+    </ClCompile>
+    <ClCompile Include="CNN\src\converter.cc">
+      <Filter>DuneML\Source Files\Classifiers\CNN</Filter>
+    </ClCompile>
+    <ClCompile Include="CNN\src\convolutional_layer.cc">
+      <Filter>DuneML\Source Files\Classifiers\CNN</Filter>
+    </ClCompile>
+    <ClCompile Include="CNN\src\data_augmentation.cc">
+      <Filter>DuneML\Source Files\Classifiers\CNN</Filter>
+    </ClCompile>
+    <ClCompile Include="CNN\src\dropout_layer.cc">
+      <Filter>DuneML\Source Files\Classifiers\CNN</Filter>
+    </ClCompile>
+    <ClCompile Include="CNN\src\fully_connected_layer.cc">
+      <Filter>DuneML\Source Files\Classifiers\CNN</Filter>
+    </ClCompile>
+    <ClCompile Include="CNN\src\gradient_checking.cc">
+      <Filter>DuneML\Source Files\Classifiers\CNN</Filter>
+    </ClCompile>
+    <ClCompile Include="CNN\src\input_layer.cc">
+      <Filter>DuneML\Source Files\Classifiers\CNN</Filter>
+    </ClCompile>
+    <ClCompile Include="CNN\src\local_response_normalization_layer.cc">
+      <Filter>DuneML\Source Files\Classifiers\CNN</Filter>
+    </ClCompile>
+    <ClCompile Include="CNN\src\matrix_maths.cc">
+      <Filter>DuneML\Source Files\Classifiers\CNN</Filter>
+    </ClCompile>
+    <ClCompile Include="CNN\src\network_layer.cc">
+      <Filter>DuneML\Source Files\Classifiers\CNN</Filter>
+    </ClCompile>
+    <ClCompile Include="CNN\src\non_linearity_layer.cc">
+      <Filter>DuneML\Source Files\Classifiers\CNN</Filter>
+    </ClCompile>
+    <ClCompile Include="CNN\src\pooling_layer.cc">
+      <Filter>DuneML\Source Files\Classifiers\CNN</Filter>
+    </ClCompile>
+    <ClCompile Include="CNN\src\read_config.cc">
+      <Filter>DuneML\Source Files\Classifiers\CNN</Filter>
+    </ClCompile>
+    <ClCompile Include="CNN\src\read_data.cc">
+      <Filter>DuneML\Source Files\Classifiers\CNN</Filter>
+    </ClCompile>
+    <ClCompile Include="CNN\src\sample.cc">
+      <Filter>DuneML\Source Files\Classifiers\CNN</Filter>
+    </ClCompile>
+    <ClCompile Include="CNN\src\softmax_layer.cc">
+      <Filter>DuneML\Source Files\Classifiers\CNN</Filter>
+    </ClCompile>
+    <ClCompile Include="CNN\src\train_network.cc">
+      <Filter>DuneML\Source Files\Classifiers\CNN</Filter>
+    </ClCompile>
+    <ClCompile Include="CNN\src\weights_IO.cc">
+      <Filter>DuneML\Source Files\Classifiers\CNN</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

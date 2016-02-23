@@ -95,7 +95,7 @@ namespace dune
 			{
 				for (int y = 0; y < scale.rows; ++y)
 				{
-					int radius = 2;
+					int radius = scale.at<double>(y,x)*3.0;
 					double dx = calcSumAt(x, y, inDx, radius);
 					double dy = calcSumAt(x, y, inDy, radius);
 

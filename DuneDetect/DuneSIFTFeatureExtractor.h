@@ -3,11 +3,6 @@
 
 #include "BaseFeatureExtractor.h"
 
-#include <cv.h>
-#include <cxcore.h>
-#include <highgui.h>
-#include <nonfree\nonfree.hpp>
-
 namespace duneML
 {
 	class SIFTParameters
@@ -49,31 +44,31 @@ namespace duneML
 	public:
 		DuneSIFTFeatureExtractor()
 		{
-			siftDetector = cv::SIFT(parameters.NumFeatures,
+			/*siftDetector = cv::SIFT(parameters.NumFeatures,
 				parameters.NumOctaves,
 				parameters.ContrastThreshold,
 				parameters.EdgeThreshold,
-				parameters.Sigma);
+				parameters.Sigma);*/
 		}
 
 		DuneSIFTFeatureExtractor(const SIFTParameters &params)
 		{
 			parameters = params;
-			siftDetector = cv::SIFT(parameters.NumFeatures,
+			/*siftDetector = cv::SIFT(parameters.NumFeatures,
 				parameters.NumOctaves,
 				parameters.ContrastThreshold,
 				parameters.EdgeThreshold,
-				parameters.Sigma);
+				parameters.Sigma);*/
 		}
 
 		DuneSIFTFeatureExtractor(const DuneSIFTFeatureExtractor &cpy)
 		{
 			parameters = cpy.parameters;
-			siftDetector = cv::SIFT(parameters.NumFeatures,
+			/*siftDetector = cv::SIFT(parameters.NumFeatures,
 				parameters.NumOctaves,
 				parameters.ContrastThreshold,
 				parameters.EdgeThreshold,
-				parameters.Sigma);
+				parameters.Sigma);*/
 		}
 		~DuneSIFTFeatureExtractor() {}
 
@@ -102,13 +97,13 @@ namespace duneML
 				points[i].size = patchSigma;
 			}
 
-			siftDetector(img, cv::Mat(), points, descriptor, true);
+			//siftDetector(img, cv::Mat(), points, descriptor, true);
 			points = points;
 		}
 
 	private:
 		SIFTParameters parameters;
-		cv::SIFT siftDetector;
+		//cv::SIFT siftDetector;
 	};
 }
 

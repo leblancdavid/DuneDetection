@@ -21,7 +21,7 @@ namespace duneML
 		float Predict(const cv::Mat& example);
 
 	private:
-		CvNormalBayesClassifier nb;
+		//CvNormalBayesClassifier nb;
 	};
 }
 

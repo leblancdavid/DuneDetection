@@ -9,7 +9,7 @@ namespace duneML
 		cv::Mat posImg = groundTruthImage.clone();
 		cv::Mat negImg;
 		//dilate so we have a bit of buffer between positve and negative examples.
-		//cv::dilate(groundTruthImage, posImg, cv::Mat(), cv::Point(-1, -1), parameters.BufferDistancePixels/2);
+		cv::dilate(groundTruthImage, posImg, cv::Mat(), cv::Point(-1, -1), parameters.BufferDistancePixels/2);
 		cv::dilate(groundTruthImage, negImg, cv::Mat(), cv::Point(-1, -1), parameters.BufferDistancePixels);
 		
 		//cv::imshow("negImg", negImg);

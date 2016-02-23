@@ -21,7 +21,8 @@ namespace duneML
 		float Predict(const cv::Mat& example);
 
 	private:
-		CvSVM svm;
+		//CvSVM svm;
+		cv::Ptr<cv::ml::SVM> svm;
 	};
 }
 

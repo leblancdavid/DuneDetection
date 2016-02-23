@@ -2,13 +2,7 @@
 
 #include "BaseFeatureExtractor.h"
 
-#include <cv.h>
-#include <cxcore.h>
-#include <highgui.h>
-#include <nonfree\nonfree.hpp>
-#include "opencv2/features2d/features2d.hpp"
-#include "opencv2/nonfree/features2d.hpp"
-#include "opencv2/highgui/highgui.hpp"
+#include "OpenCVHeaders.h"
 
 namespace duneML
 {
@@ -22,7 +16,7 @@ namespace duneML
 
 		DuneSURFFeatureExtractor(double hessian)
 		{
-			surfDetector = cv::SurfFeatureDetector(hessian);
+			//surfDetector = cv::SurfFeatureDetector(hessian);
 		}
 
 		DuneSURFFeatureExtractor(const DuneSURFFeatureExtractor &cpy)
@@ -58,11 +52,11 @@ namespace duneML
 				points[i].size = patchSigma;
 			}
 
-			surfDetector(img, cv::Mat(), points, descriptor, true);
+			//surfDetector(img, cv::Mat(), points, descriptor, true);
 			points = points;
 		}
 
 	private:
-		cv::SurfFeatureDetector surfDetector;
+		//cv::SurfFeatureDetector surfDetector;
 	};
 }

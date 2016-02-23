@@ -5,9 +5,17 @@
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -22,7 +30,20 @@
     <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
@@ -35,7 +56,13 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -48,6 +75,23 @@
       <AdditionalIncludeDirectories>C:\OpenCV\opencv\build\include;C:\OpenCV\opencv\build\include\opencv;C:\OpenCV\opencv\build\include\opencv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions />
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAsManaged>false</CompileAsManaged>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>opencv_core2410d.lib;opencv_imgproc2410d.lib;opencv_highgui2410d.lib;opencv_ml2410d.lib;opencv_video2410d.lib;opencv_features2d2410d.lib;opencv_calib3d2410d.lib;opencv_objdetect2410d.lib;opencv_contrib2410d.lib;opencv_legacy2410d.lib;opencv_flann2410d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\OpenCV\opencv\build\x86\vc12\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\OpenCV\opencv\build\include;C:\OpenCV\opencv\build\include\opencv;C:\OpenCV\opencv\build\include\opencv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>
+      </PreprocessorDefinitions>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAsManaged>false</CompileAsManaged>
     </ClCompile>
     <Link>
@@ -73,6 +117,23 @@
       <AdditionalLibraryDirectories>C:\OpenCV\opencv\build\x86\vc12\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MinSpace</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\OpenCV\opencv\build\include;C:\OpenCV\opencv\build\include\opencv;C:\OpenCV\opencv\build\include\opencv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>opencv_core2410.lib;opencv_imgproc2410.lib;opencv_highgui2410.lib;opencv_ml2410.lib;opencv_video2410.lib;opencv_features2d2410.lib;opencv_calib3d2410.lib;opencv_objdetect2410.lib;opencv_contrib2410.lib;opencv_legacy2410.lib;opencv_flann2410.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\OpenCV\opencv\build\x86\vc12\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AdaptiveImageProcessor.h" />
     <ClInclude Include="BaseDuneRegionThinner.h" />
@@ -80,6 +141,17 @@
     <ClInclude Include="BaseFeatureClassifier.h" />
     <ClInclude Include="BaseFeatureExtractor.h" />
     <ClInclude Include="ClassifierOutputFiltering.h" />
+    <ClInclude Include="CNN\src\channel_3.h" />
+    <ClInclude Include="CNN\src\converter.h" />
+    <ClInclude Include="CNN\src\data_augmentation.h" />
+    <ClInclude Include="CNN\src\general_settings.h" />
+    <ClInclude Include="CNN\src\gradient_checking.h" />
+    <ClInclude Include="CNN\src\layer_bank.h" />
+    <ClInclude Include="CNN\src\matrix_maths.h" />
+    <ClInclude Include="CNN\src\read_config.h" />
+    <ClInclude Include="CNN\src\read_data.h" />
+    <ClInclude Include="CNN\src\train_network.h" />
+    <ClInclude Include="CNN\src\weights_IO.h" />
     <ClInclude Include="ConnectedComponentsExtractor.h" />
     <ClInclude Include="DFTImageEnhancement.h" />
     <ClInclude Include="DiscreteFourierTransform.h" />
@@ -126,6 +198,27 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AdaptiveImageProcessor.cpp" />
+    <ClCompile Include="CNN\src\branch_layer.cc" />
+    <ClCompile Include="CNN\src\channel_3.cc" />
+    <ClCompile Include="CNN\src\combine_layer.cc" />
+    <ClCompile Include="CNN\src\converter.cc" />
+    <ClCompile Include="CNN\src\convolutional_layer.cc" />
+    <ClCompile Include="CNN\src\data_augmentation.cc" />
+    <ClCompile Include="CNN\src\dropout_layer.cc" />
+    <ClCompile Include="CNN\src\fully_connected_layer.cc" />
+    <ClCompile Include="CNN\src\gradient_checking.cc" />
+    <ClCompile Include="CNN\src\input_layer.cc" />
+    <ClCompile Include="CNN\src\local_response_normalization_layer.cc" />
+    <ClCompile Include="CNN\src\matrix_maths.cc" />
+    <ClCompile Include="CNN\src\network_layer.cc" />
+    <ClCompile Include="CNN\src\non_linearity_layer.cc" />
+    <ClCompile Include="CNN\src\pooling_layer.cc" />
+    <ClCompile Include="CNN\src\read_config.cc" />
+    <ClCompile Include="CNN\src\read_data.cc" />
+    <ClCompile Include="CNN\src\sample.cc" />
+    <ClCompile Include="CNN\src\softmax_layer.cc" />
+    <ClCompile Include="CNN\src\train_network.cc" />
+    <ClCompile Include="CNN\src\weights_IO.cc" />
     <ClCompile Include="DuneMLDatasetExtractor.cpp" />
     <ClCompile Include="DuneSegment.cpp" />
     <ClCompile Include="EdgeDirectionImageProcessor.cpp" />

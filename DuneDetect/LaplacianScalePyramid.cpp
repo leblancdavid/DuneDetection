@@ -54,8 +54,8 @@ void LaplacianScalePyramid::Process(const cv::Mat &img)
 
 		sigma += 1.4142;
 
-		cv::imshow("laplace", laplace);
-		cv::waitKey(30);
+		//cv::imshow("laplace", laplace);
+		//cv::waitKey(30);
 		
 	}
 
@@ -112,7 +112,7 @@ void LaplacianScalePyramid::computeScaleMap()
 		}
 	}
 
-	double min = 0.0, max = 0.0;
+	/*double min = 0.0, max = 0.0;
 	cv::minMaxIdx(_scaleMap, &min, &max);
 
 	for (int y = 0; y < _scaleMap.rows; ++y)
@@ -121,7 +121,7 @@ void LaplacianScalePyramid::computeScaleMap()
 		{
 			_scaleMap.at<double>(y, x) = min + max - _scaleMap.at<double>(y, x);
 		}
-	}
+	}*/
 
 	/*cv::Mat norm;
 	cv::normalize(_scaleMap, norm, 0.0, 1.0, cv::NORM_MINMAX);

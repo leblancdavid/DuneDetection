@@ -33,7 +33,9 @@ namespace duneML
 
 		exampleSet = NormalizeMat(exampleSet);
 
-		gbt.train(exampleSet, CV_ROW_SAMPLE, responsesSet);
+		cv::Ptr<cv::ml::TrainData> inputData = cv::ml::TrainData::create(exampleSet, cv::ml::ROW_SAMPLE, responsesSet);
+		boost = cv::ml::StatModel::train<cv::ml::Boost>(inputData, cv::ml::Boost::REAL);
+		//gbt.train(exampleSet, CV_ROW_SAMPLE, responsesSet);
 
 		TrainingResults results;
 		for (int row = 0; row < positiveExamples.rows; ++row)
@@ -64,6 +66,6 @@ namespace duneML
 
 	float GradientBoostedTreeFeatureClassifier::Predict(const cv::Mat& example)
 	{
-		return gbt.predict(NormalizeMat(example));
+		return boost->predict(NormalizeMat(example));
 	}
 }

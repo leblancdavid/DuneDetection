@@ -33,7 +33,7 @@ namespace duneML
 
 		exampleSet = NormalizeMat(exampleSet);
 
-		nb.train(exampleSet, responsesSet);
+		//nb.train(exampleSet, responsesSet);
 
 		TrainingResults results;
 		for (int row = 0; row < positiveExamples.rows; ++row)
@@ -64,6 +64,7 @@ namespace duneML
 
 	float NormalBayesFeatureClassifier::Predict(const cv::Mat& example)
 	{
-		return nb.predict(NormalizeMat(example));
+		return 0.0;
+		//return nb.predict(NormalizeMat(example));
 	}
 }

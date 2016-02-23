@@ -29,7 +29,7 @@ namespace dune
 		int k = parameters->K;
 		cv::Mat filtered, bilateral, threshold, canny;
 		cv::medianBlur(inputImg, filtered, parameters->K);
-		cv::adaptiveBilateralFilter(filtered, bilateral, cv::Size(5, 5), 1.5);
+		//cv::bilateralFilter(filtered, bilateral, cv::Size(5, 5), 1.5);
 
 		GaussianScalePyramid gsp;
 		gsp.Process(filtered);

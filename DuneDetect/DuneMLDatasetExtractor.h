@@ -1,9 +1,7 @@
 #ifndef _DUNE_ML_DATASET_EXTRACTOR_H_
 #define _DUNE_ML_DATASET_EXTRACTOR_H_
 
-#include <cv.h>
-#include <cxcore.h>
-#include <highgui.h>
+#include "OpenCVHeaders.h"
 
 namespace duneML
 {

@@ -21,7 +21,8 @@ namespace duneML
 		float Predict(const cv::Mat& example);
 
 	private:
-		CvGBTrees gbt;
+		//CvGBTrees gbt;
+		cv::Ptr<cv::ml::Boost> boost;
 	};
 }
 

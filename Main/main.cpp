@@ -18,19 +18,27 @@ int main()
 {
 
 	//RunDuneLibTest();
-	//RunMLTest();
+	RunMLTest();
 
 	//cv::Mat testImage = cv::imread(DUNE_ML_DATASET_BASE_PATH + "Kalahari 3/Kalahari 3 image.jpg", 0);
-	//cv::Mat testImage = cv::imread(DUNE_ML_DATASET_BASE_PATH + "WDC 1/WCD-1 test.jpg", 0);
-	cv::Mat sobel, testImage = cv::imread(DUNE_ML_DATASET_BASE_PATH + "Skeleton Coast 3/Skeleton Coast 3 test.jpg", 0);
+	////cv::Mat testImage = cv::imread(DUNE_ML_DATASET_BASE_PATH + "WDC 1/WCD-1 test.jpg", 0);
+	////cv::Mat sobel, testImage = cv::imread(DUNE_ML_DATASET_BASE_PATH + "Skeleton Coast 3/Skeleton Coast 3 test.jpg", 0);
 
-	LaplacianScalePyramid lsp;
-	lsp.Process(testImage);
-	cv::Mat scale = lsp.GetScaleMap();
-	cv::normalize(scale, scale, 0.0, 1.0, cv::NORM_MINMAX);
+	//LaplacianScalePyramid lsp;
+	//GaussianScalePyramid gsp;
+	//gsp.Process(testImage);
+	//cv::Mat scaleMap = gsp.GetScaleMap();
+	//cv::normalize(scaleMap, scaleMap, 255.0, 0.0, cv::NORM_MINMAX);
+	//cv::Mat scale;
+	//scaleMap.convertTo(scale, CV_8U);
+	//cv::imshow("scale", scale);
+	//cv::Mat scaleImage = gsp.GetScaleImage();
+	//cv::imshow("scaleImage", scaleImage);
 
-	cv::imshow("scale", scale);
-	cv::waitKey(0);
+	//cv::imwrite("Kal_scale.jpg", scale);
+	//cv::imwrite("Kal_scaleImg.jpg", scaleImage);
+
+	//cv::waitKey(0);
 
 
 	//dune::EdgeDirectionImageProcessor ip;
@@ -78,6 +86,6 @@ int main()
 	//cv::imshow("Spectrum", spectrumImage);
 	//cv::waitKey(0);
 
-	system("PAUSE");
+	//system("PAUSE");
 	return 0;
 }

@@ -30,7 +30,7 @@ namespace dune
 		cv::Mat filtered, bilateral, threshold, canny;
 		cv::medianBlur(inputImg, filtered, parameters->K);
 
-		cv::adaptiveBilateralFilter(filtered, bilateral, cv::Size(5, 5), 1.5);
+		//cv::adaptiveBilateralFilter(filtered, bilateral, cv::Size(5, 5), 1.5);
 		//cv::GaussianBlur(filtered, filtered, cv::Size(5, 5), 1.5, 1.5);
 
 
@@ -45,7 +45,8 @@ namespace dune
 		//cv::equalizeHist(scaleImage, filtered);
 		ComputeGradient(scaleImg, parameters->K * 2 + 1);
 
-		double dominantOrientation = ComputeDominantOrientation(DominantOrientationMethod::HOG, parameters->DominantOrientationBins);
+		//double dominantOrientation = ComputeDominantOrientation(DominantOrientationMethod::HOG, parameters->DominantOrientationBins);
+		double dominantOrientation = -0.6;
 
 		ComputeDirectionImage(outputImg, dominantOrientation, scale);
 
@@ -96,7 +97,7 @@ namespace dune
 				}
 				output.at<uchar>(y, x) = pixelVal;*/
 
-				double val = 1.0 - (std::min(low, high) / 3.1416); /**normGrad.at<double>(y,x)*/;
+				double val = (std::min(low, high) / 3.1416); /**normGrad.at<double>(y,x)*/;
 				direction.at<double>(y, x) = val;
 			}
 		}

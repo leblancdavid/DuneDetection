@@ -55,7 +55,7 @@ void GaussianScalePyramid::computeScaleMap()
 	_scaleMap = cv::Scalar(1.0);
 	_scaleImage = _pyramid[0].clone();
 
-	int k = 5;
+	int k = 9;
 	for (int y = 0; y < _pyramid[0].rows; ++y)
 	{
 		for (int x = 0; x < _pyramid[0].cols; ++x)

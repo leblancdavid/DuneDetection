@@ -2,13 +2,7 @@
 
 #include "BaseFeatureExtractor.h"
 
-#include <cv.h>
-#include <cxcore.h>
-#include <highgui.h>
-#include <nonfree\nonfree.hpp>
-#include "opencv2/features2d/features2d.hpp"
-#include "opencv2/nonfree/features2d.hpp"
-#include "opencv2/highgui/highgui.hpp"
+#include "OpenCVHeaders.h"
 
 namespace duneML
 {
@@ -50,13 +44,13 @@ namespace duneML
 			}
 
 			cv::Mat orbDescriptors;
-			orbDetector(img, cv::Mat(), points, orbDescriptors, true);
+			//orbDetector(img, cv::Mat(), points, orbDescriptors, true);
 			descriptor = convertOrbDescriptors(orbDescriptors);
 			points = points;
 		}
 
 	private:
-		cv::OrbFeatureDetector orbDetector;
+		//cv::OrbFeatureDetector orbDetector;
 
 		cv::Mat convertOrbDescriptors(const cv::Mat &orbDescriptors) const
 		{

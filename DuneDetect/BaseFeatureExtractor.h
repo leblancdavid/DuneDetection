@@ -1,9 +1,7 @@
 #ifndef _BASE_FEATURE_EXTRACTOR_H_
 #define _BASE_FEATURE_EXTRACTOR_H_
 
-#include <cv.h>
-#include <cxcore.h>
-#include <highgui.h>
+#include "OpenCVHeaders.h"
 
 namespace duneML
 {

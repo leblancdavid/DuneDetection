@@ -2,11 +2,7 @@
 #define _DUNE_SIMPLE_PIXEL_FEATURE_EXTRACTOR_H_
 
 #include "BaseFeatureExtractor.h"
-
-#include <cv.h>
-#include <cxcore.h>
-#include <highgui.h>
-#include <nonfree\nonfree.hpp>
+#include "OpenCVHeaders.h"
 
 namespace duneML
 {
@@ -51,7 +47,7 @@ namespace duneML
 		}
 		~DuneSimplePixelFeatureExtractor() {}
 
-		void Process(const cv::Mat &img, std::vector<cv::KeyPoint> &points, cv::Mat &descriptor) const
+		void Process(const cv::Mat &img, std::vector<cv::KeyPoint> &points, cv::Mat &descriptor, const cv::Mat &scaleMat = cv::Mat()) const
 		{
 			cv::Mat dx, dy;
 			cv::Sobel(img, dx, CV_64F, 1, 0, parameters.K);
@@ -79,6 +75,9 @@ namespace duneML
 					filteredPoints[i].pt.y - rotImgHalf,
 					rotImgSize, rotImgSize);
 				double angle = getDominantOrientation(dx, dy, region);
+				//hardcode the angle
+				angle = 0.0;
+
 				filteredPoints[i].angle = angle;
 				
 				double rotAngle = angle * 180.0 / 3.1416;
