@@ -14,7 +14,7 @@ namespace duneML
 		{
 			C = -4.0;
 			upperThreshold = 0.5;
-			smoothing = 15;
+			smoothing = 7;
 			minSegmentLength = 25;
 		}
 		~SkeletonizationRegionThinner() {}
@@ -42,8 +42,9 @@ namespace duneML
 			}
 
 			cv::Mat binaryImage;
-			//cv::adaptiveThreshold(img8u, binaryImage, 255.0, cv::ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY, smoothing*9, C);
-			cv::threshold(img8u, binaryImage, 127, 1, CV_THRESH_BINARY);
+			cv::adaptiveThreshold(img8u, binaryImage, 1, cv::ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY, smoothing*9, C);
+			cv::medianBlur(binaryImage, binaryImage, smoothing);
+			//cv::threshold(img8u, binaryImage, 127, 1, CV_THRESH_BINARY);
 
 			if (saveFileName != "")
 			{

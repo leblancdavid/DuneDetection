@@ -1,12 +1,12 @@
-#include "RandomTreeFeatureClassifier.h"
+#include "DecisionTreesFeatureClassifier.h"
 
 using namespace cv::ml;
 
 namespace duneML
 {
-	TrainingResults RandomTreeFeatureClassifier::Train(const cv::Mat& positiveExamples, const cv::Mat& negativeExamples)
+	TrainingResults DecisionTreeFeatureClassifier::Train(const cv::Mat& positiveExamples, const cv::Mat& negativeExamples)
 	{
-		normType = MINMAX;
+		normType = MEANSCALE;
 
 		cv::Mat exampleSet(positiveExamples.rows + negativeExamples.rows, positiveExamples.cols, CV_32F);
 		cv::Mat responsesSet(exampleSet.rows, 1, CV_32F);
@@ -38,8 +38,13 @@ namespace duneML
 		exampleSet = NormalizeMat(exampleSet);
 
 		cv::Ptr<cv::ml::TrainData> inputData = cv::ml::TrainData::create(exampleSet, cv::ml::ROW_SAMPLE, responsesSet);
-		rt = RTrees::create();
-		rt->train(inputData);
+		dt = DTrees::create();
+		dt->setMaxDepth(1024);
+		dt->setMaxCategories(2);
+		dt->setUse1SERule(true);
+		dt->setTruncatePrunedTree(true);
+		dt->setMinSampleCount(10);
+		dt->train(inputData);
 		//rt.train(exampleSet, CV_ROW_SAMPLE, responsesSet);
 
 		TrainingResults results;
@@ -70,11 +75,11 @@ namespace duneML
 		return results;
 	}
 
-	float RandomTreeFeatureClassifier::Predict(const cv::Mat& example, bool normalize)
+	float DecisionTreeFeatureClassifier::Predict(const cv::Mat& example, bool normalize)
 	{
 		if (normalize)
-			return rt->predict(NormalizeMat(example));
+			return dt->predict(NormalizeMat(example));
 		else
-			return rt->predict(example);
+			return dt->predict(example);
 	}
 }

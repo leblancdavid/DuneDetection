@@ -24,29 +24,50 @@ namespace dune
 
 		void LocalScaleIntegralIlluminationNormalization(const cv::Mat &inputImg, cv::Mat &outputImg)
 		{
-			GaussianScalePyramid gsp;
+			int k = 31;
+			cv::Mat derivX, derivY, sobelImage(inputImg.rows, inputImg.cols, CV_64F);
+			cv::Sobel(inputImg, derivX, CV_64F, 1, 0, k);
+			cv::Sobel(inputImg, derivY, CV_64F, 0, 1, k);
+
+			for (int y = 0; y < inputImg.rows; ++y)
+			{
+				for (int x = 0; x < inputImg.cols; ++x)
+				{
+					sobelImage.at<double>(y, x) = derivX.at<double>(y, x)*derivX.at<double>(y, x) + derivY.at<double>(y, x)*derivY.at<double>(y, x);
+				}
+			}
+			double normVal = 1.0;
+			cv::normalize(sobelImage, sobelImage, 0.0, normVal, cv::NORM_MINMAX);
+			sobelImage = normVal - sobelImage;
+
+			/*GaussianScalePyramid gsp;
 			gsp.Process(inputImg);
 			cv::Mat scaleMap = gsp.GetScaleMap();
-			cv::Mat scaleImage = gsp.GetScaleImage();
-			//cv::imshow("scaleImage", scaleImage);
-			//cv::waitKey(0);
+
+			double minScale, maxScale;
+			cv::minMaxIdx(scaleMap, &minScale, &maxScale);
+			double averageScale = (minScale + maxScale) / 2.0;
+			scaleMap = maxScale + 1.0 - scaleMap;
+			cv::GaussianBlur(scaleMap, scaleMap, cv::Size(15, 15), 3.0, 3.0);*/
 
 			cv::Mat integralImg;
-			cv::integral(scaleImage, integralImg, CV_64F);
+			cv::integral(inputImg, integralImg, CV_64F);
 
 			cv::Scalar meanIntensity, stdDevIntensity;
-			cv::meanStdDev(scaleImage, meanIntensity, stdDevIntensity);
+			cv::meanStdDev(inputImg, meanIntensity, stdDevIntensity);
 
 			cv::Point A, B, C, D;
-			outputImg = cv::Mat(scaleImage.rows, scaleImage.cols, CV_8UC1);
+			outputImg = cv::Mat(inputImg.rows, inputImg.cols, CV_8UC1);
 
-			cv::Mat diff(scaleImage.rows, scaleImage.cols, CV_64F);
+			cv::Mat diff(inputImg.rows, inputImg.cols, CV_64F);
 
 			for (int x = 0; x < inputImg.cols; ++x)
 			{
 				for (int y = 0; y < inputImg.rows; ++y)
 				{
-					int radius = scaleMap.at<double>(y, x) * 6.0;
+					int radius = sobelImage.at<double>(y, x)*3.0 + 1;
+					//int radius = scaleMap.at<double>(y, x)*3.0;
+					//int radius = averageScale * 3.0;
 					int left = x - radius;
 					int right = x + radius;
 					int top = y - radius;
@@ -70,21 +91,21 @@ namespace dune
 					C.x = left, C.y = bottom;
 					D.x = right, D.y = bottom;
 
-					double sum = integralImg.at<double>(D) -integralImg.at<double>(C) -integralImg.at<double>(B) +integralImg.at<double>(A);
+					double sum = integralImg.at<double>(D) -
+						integralImg.at<double>(C) -
+						integralImg.at<double>(B) +
+						integralImg.at<double>(A);
 
-					double r = meanIntensity[0] / (sum / area);
-					double outputVal = std::ceil((double)inputImg.at<uchar>(y, x) * r - 0.5);
-					if (outputVal > 255.0)
-						outputVal = 255.0;
-					else if (outputVal < 0)
-						outputVal = 0;
+					sum /= area;
 
-					//outputImg.at<uchar>(y, x) = (uchar)outputVal;
-
-					diff.at<double>(y, x) = (sum / area) - meanIntensity[0];
+					double scaleFactor = sum / meanIntensity[0];
+					double meanVal = ((double)inputImg.at<uchar>(y, x)) / scaleFactor;
+					//diff.at<double>(y, x) = meanVal;
+					diff.at<double>(y, x) = sum;
+					//diff.at<double>(y, x) = scaleFactor;
 				}
 			}
-			cv::normalize(diff, diff, 0, 255.0, cv::NORM_MINMAX);
+			cv::normalize(diff, diff, 100.0, 255.0, cv::NORM_MINMAX);
 			diff.convertTo(outputImg, CV_8U);
 		}
 

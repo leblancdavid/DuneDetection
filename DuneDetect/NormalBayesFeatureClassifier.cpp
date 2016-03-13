@@ -1,5 +1,7 @@
 #include "NormalBayesFeatureClassifier.h"
 
+using namespace cv::ml;
+
 namespace duneML
 {
 	TrainingResults NormalBayesFeatureClassifier::Train(const cv::Mat& positiveExamples, const cv::Mat& negativeExamples)
@@ -33,12 +35,16 @@ namespace duneML
 
 		exampleSet = NormalizeMat(exampleSet);
 
-		//nb.train(exampleSet, responsesSet);
+		cv::Ptr<cv::ml::TrainData> inputData = cv::ml::TrainData::create(exampleSet, cv::ml::ROW_SAMPLE, responsesSet);
+		//svm = cv::ml::StatModel::train<cv::ml::SVM>(inputData);
+
+		nbc = NormalBayesClassifier::create();
+		nbc->train(inputData);
 
 		TrainingResults results;
 		for (int row = 0; row < positiveExamples.rows; ++row)
 		{
-			float val = Predict(positiveExamples.row(row));
+			float val = Predict(positiveExamples.row(row), false);
 			if (val > 0.0f)
 				results.TruePositiveRate++;
 			else
@@ -47,7 +53,8 @@ namespace duneML
 
 		for (int row = 0; row < negativeExamples.rows; ++row)
 		{
-			float val = Predict(negativeExamples.row(row));
+			float val = Predict(negativeExamples.row(row), false);
+			std::cout << val << std::endl;
 			if (val < 0.0f)
 				results.TrueNegativeRate++;
 			else
@@ -62,9 +69,11 @@ namespace duneML
 		return results;
 	}
 
-	float NormalBayesFeatureClassifier::Predict(const cv::Mat& example)
+	float NormalBayesFeatureClassifier::Predict(const cv::Mat& example, bool normalize)
 	{
-		return 0.0;
-		//return nb.predict(NormalizeMat(example));
+		if (normalize)
+			return nbc->predict(NormalizeMat(example));
+		else
+			return nbc->predict(example);
 	}
 }

@@ -12,7 +12,7 @@ namespace duneML
 
 		SimplePixelParameters()
 		{
-			WindowSize = 11;
+			WindowSize = 13;
 			K = 5;
 		}
 		~SimplePixelParameters() {}
@@ -53,9 +53,11 @@ namespace duneML
 			cv::Sobel(img, dx, CV_64F, 1, 0, parameters.K);
 			cv::Sobel(img, dy, CV_64F, 0, 1, parameters.K);
 
-			std::vector<cv::KeyPoint> filteredPoints;
+			
 			double rotImgSize = parameters.WindowSize*1.5;
 			double rotImgHalf = rotImgSize / 2.0;
+			
+			std::vector<cv::KeyPoint> filteredPoints;
 			for (size_t i = 0; i < points.size(); ++i)
 			{
 				if (points[i].pt.x - rotImgHalf < 0 ||

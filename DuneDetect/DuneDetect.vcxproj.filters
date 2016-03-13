@@ -282,6 +282,18 @@
     <ClInclude Include="CNN\src\weights_IO.h">
       <Filter>DuneML\Header Files\Classifiers\CNN</Filter>
     </ClInclude>
+    <ClInclude Include="DuneMLData.h">
+      <Filter>DuneML\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EdgeDirectionDuneDetector.h">
+      <Filter>DuneLib\Header Files\Edge Based Detector</Filter>
+    </ClInclude>
+    <ClInclude Include="MLDuneFiltering.h">
+      <Filter>DuneML\Header Files\Filters</Filter>
+    </ClInclude>
+    <ClInclude Include="DecisionTreesFeatureClassifier.h">
+      <Filter>DuneML\Header Files\Classifiers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AdaptiveImageProcessor.cpp">
@@ -412,6 +424,12 @@
     </ClCompile>
     <ClCompile Include="CNN\src\weights_IO.cc">
       <Filter>DuneML\Source Files\Classifiers\CNN</Filter>
+    </ClCompile>
+    <ClCompile Include="EdgeDirectionDuneDetector.cpp">
+      <Filter>DuneLib\Source Files\Edge Based Detector</Filter>
+    </ClCompile>
+    <ClCompile Include="DecisionTreeFeatureClassifier.cpp">
+      <Filter>DuneML\Source Files\Classifiers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

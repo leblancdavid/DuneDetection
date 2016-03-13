@@ -1,11 +1,7 @@
 #ifndef _OPENCV_HEADERS_H_
 #define _OPENCV_HEADERS_H_
 
-#include <cv.h>
-#include <cxcore.h>
-#include <highgui.h>
 #include "opencv2\core.hpp"
-#include "opencv2\world.hpp"
 #include "opencv2\imgproc.hpp"
 #include "opencv2\ml.hpp"
 #include "opencv2\highgui.hpp"
@@ -20,6 +16,6 @@
 #include "opencv2\shape.hpp"
 #include "opencv2\superres.hpp"
 #include "opencv2\video.hpp"
-
+#include "opencv2\xfeatures2d.hpp"
 
 #endif

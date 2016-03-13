@@ -1,11 +1,15 @@
 #include "SVMFeatureClassifier.h"
 
+using namespace cv::ml;
+
 namespace duneML
 {
 	TrainingResults SVMFeatureClassifier::Train(const cv::Mat& positiveExamples, const cv::Mat& negativeExamples)
 	{
+		normType = MINMAX;
+
 		cv::Mat exampleSet(positiveExamples.rows + negativeExamples.rows, positiveExamples.cols, CV_32F);
-		cv::Mat responsesSet(exampleSet.rows, 1, CV_32S);
+		cv::Mat responsesSet(exampleSet.rows, 1, CV_32F);
 
 		for (int row = 0; row < positiveExamples.rows; ++row)
 		{
@@ -13,7 +17,7 @@ namespace duneML
 			{
 				exampleSet.at<float>(row, col) = positiveExamples.at<float>(row, col);
 			}
-			responsesSet.at<int>(row, 0) = 1;
+			responsesSet.at<float>(row, 0) = 1.0f;
 		}
 
 		for (int row = positiveExamples.rows; row < exampleSet.rows; ++row)
@@ -22,7 +26,7 @@ namespace duneML
 			{
 				exampleSet.at<float>(row, col) = negativeExamples.at<float>(row - positiveExamples.rows, col);
 			}
-			responsesSet.at<int>(row, 0) = -1;
+			responsesSet.at<float>(row, 0) = -1.0f;
 		}
 
 		cv::Scalar mean, stdDev;
@@ -40,7 +44,17 @@ namespace duneML
 		params.nu = 0.5;
 		svm.train_auto(exampleSet, responsesSet, cv::Mat(), cv::Mat(), params);*/
 		cv::Ptr<cv::ml::TrainData> inputData = cv::ml::TrainData::create(exampleSet, cv::ml::ROW_SAMPLE, responsesSet);
-		svm = cv::ml::StatModel::train<cv::ml::SVM>(inputData);
+		//svm = cv::ml::StatModel::train<cv::ml::SVM>(inputData);
+
+		svm = SVM::create();
+		svm->setType(SVM::NU_SVR);
+		svm->setKernel(SVM::RBF);
+		svm->setNu(0.5);
+		svm->setDegree(2.0);
+		svm->setP(0.5);
+		svm->setTermCriteria(cv::TermCriteria(cv::TermCriteria::MAX_ITER, 100, 1e-6));
+		svm->trainAuto(inputData);
+		//svm->train(inputData);
 
 		TrainingResults results;
 		for (int row = 0; row < positiveExamples.rows; ++row)
@@ -70,10 +84,13 @@ namespace duneML
 		return results;
 	}
 
-	float SVMFeatureClassifier::Predict(const cv::Mat& example)
+	float SVMFeatureClassifier::Predict(const cv::Mat& example, bool normalize)
 	{
 		//return 0.0;
-		return svm->predict(NormalizeMat(example));
+		if (normalize)
+			return svm->predict(NormalizeMat(example));
+		else
+			return svm->predict(example);
 	}
 
 }

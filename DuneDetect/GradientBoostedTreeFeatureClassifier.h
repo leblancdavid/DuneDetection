@@ -2,7 +2,6 @@
 #define _GRADIENT_BOOSTED_TREE_FEATURE_CLASSIFER_H_
 
 #include "BaseFeatureClassifier.h"
-#include <ml.h>
 
 namespace duneML
 {

@@ -17,6 +17,8 @@ namespace duneML
 			K = 5;
 			EdgeThreshold = 10.0;
 			Sigma = 1.6;
+			FixedOrientation = false;
+			Orientation = 0.0;
 		}
 		~SIFTParameters() {}
 		SIFTParameters(const SIFTParameters &cpy)
@@ -27,6 +29,8 @@ namespace duneML
 			K = cpy.K;
 			EdgeThreshold = cpy.EdgeThreshold;
 			Sigma = cpy.Sigma;
+			FixedOrientation = cpy.FixedOrientation;
+			Orientation = cpy.Orientation;
 		}
 
 		int NumFeatures;
@@ -35,6 +39,8 @@ namespace duneML
 		double ContrastThreshold;
 		double EdgeThreshold;
 		double Sigma;
+		bool FixedOrientation;
+		double Orientation;
 	};
 
 
@@ -44,31 +50,31 @@ namespace duneML
 	public:
 		DuneSIFTFeatureExtractor()
 		{
-			/*siftDetector = cv::SIFT(parameters.NumFeatures,
+			siftDetector = cv::xfeatures2d::SIFT::create(parameters.NumFeatures,
 				parameters.NumOctaves,
 				parameters.ContrastThreshold,
 				parameters.EdgeThreshold,
-				parameters.Sigma);*/
+				parameters.Sigma);
 		}
 
 		DuneSIFTFeatureExtractor(const SIFTParameters &params)
 		{
 			parameters = params;
-			/*siftDetector = cv::SIFT(parameters.NumFeatures,
+			siftDetector = cv::xfeatures2d::SIFT::create(parameters.NumFeatures,
 				parameters.NumOctaves,
 				parameters.ContrastThreshold,
 				parameters.EdgeThreshold,
-				parameters.Sigma);*/
+				parameters.Sigma);
 		}
 
 		DuneSIFTFeatureExtractor(const DuneSIFTFeatureExtractor &cpy)
 		{
 			parameters = cpy.parameters;
-			/*siftDetector = cv::SIFT(parameters.NumFeatures,
+			siftDetector = cv::xfeatures2d::SIFT::create(parameters.NumFeatures,
 				parameters.NumOctaves,
 				parameters.ContrastThreshold,
 				parameters.EdgeThreshold,
-				parameters.Sigma);*/
+				parameters.Sigma);
 		}
 		~DuneSIFTFeatureExtractor() {}
 
@@ -85,18 +91,32 @@ namespace duneML
 				scaleVals = cv::Scalar(parameters.Sigma);
 			}
 
-			for (size_t i = 0; i < points.size(); ++i)
+			if (parameters.FixedOrientation)
 			{
-				double patchSigma = scaleVals.at<double>(points[i].pt)*3.0;
-				double patchHalf = patchSigma / 2.0;
-				cv::Rect region = cv::Rect(points[i].pt.x - patchHalf,
-					points[i].pt.y - patchHalf,
-					patchSigma, patchSigma);
-				double angle = getDominantOrientation(dx, dy, region);
-				points[i].angle = angle;
-				points[i].size = patchSigma;
+				for (size_t i = 0; i < points.size(); ++i)
+				{
+					double patchSigma = scaleVals.at<double>(points[i].pt)*3.0;
+					points[i].angle = parameters.Orientation;
+					points[i].size = patchSigma;
+				}
 			}
+			else
+			{
+				for (size_t i = 0; i < points.size(); ++i)
+				{
+					double patchSigma = scaleVals.at<double>(points[i].pt)*3.0;
+					double patchHalf = patchSigma / 2.0;
+					cv::Rect region = cv::Rect(points[i].pt.x - patchHalf,
+						points[i].pt.y - patchHalf,
+						patchSigma, patchSigma);
+					double angle = getDominantOrientation(dx, dy, region);
+					points[i].angle = angle;
+					points[i].size = patchSigma;
+				}
+			}
+			
 
+			siftDetector->compute(img, points, descriptor);
 			//siftDetector(img, cv::Mat(), points, descriptor, true);
 			points = points;
 		}
@@ -104,6 +124,7 @@ namespace duneML
 	private:
 		SIFTParameters parameters;
 		//cv::SIFT siftDetector;
+		cv::Ptr<cv::xfeatures2d::SIFT> siftDetector;
 	};
 }
 

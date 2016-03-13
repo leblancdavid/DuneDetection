@@ -2,7 +2,6 @@
 #define _NORMAL_BAYES_FEATURE_CLASSIFER_H_
 
 #include "BaseFeatureClassifier.h"
-#include <ml.h>
 
 namespace duneML
 {
@@ -18,10 +17,11 @@ namespace duneML
 
 		TrainingResults Train(const cv::Mat& positiveExamples, const cv::Mat& negativeExamples);
 
-		float Predict(const cv::Mat& example);
+		float Predict(const cv::Mat& example, bool normalize=true);
 
 	private:
 		//CvNormalBayesClassifier nb;
+		cv::Ptr<cv::ml::NormalBayesClassifier> nbc;
 	};
 }
 

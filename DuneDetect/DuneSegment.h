@@ -57,6 +57,38 @@ namespace dune
 			return Line;
 		}
 
+		void GaussianSmooth(int kSize)
+		{
+			std::vector<DuneSegmentData> smoothed(Segment.size());
+			if (smoothed.size() < kSize)
+				return;
+
+			cv::Mat gausK = cv::getGaussianKernel(kSize, kSize / 5.0);
+
+			for (int i = 0; i < Segment.size(); ++i)
+			{
+				int count = 0;
+				double x = 0.0;
+				double y = 0.0;
+				for (int j = 0; j < kSize; ++j)
+				{
+					int k = i - kSize / 2 + j;
+					if (k < 0)
+						k = Segment.size() + k;
+					else if (k >= (int)Segment.size())
+						k = j - 1;
+
+					x += Segment[k].Position.x * gausK.at<double>(j, 0);
+					y += Segment[k].Position.y * gausK.at<double>(j, 0);
+				}
+
+				smoothed[i].Position.x = x;
+				smoothed[i].Position.y = y;
+			}
+
+			Segment = smoothed;
+		}
+
 		void SetSegmentData(const std::vector<DuneSegmentData> &segData)
 		{
 			Segment = segData;

@@ -42,7 +42,8 @@ namespace dune
 			}
 			else if (!scale.empty() && prop == GRADIENT_MAT_DIRECTION_INDEX)
 			{
-				return toScaleDirectionImage(scale);
+				//return toScaleDirectionImage_Gaussian(scale);
+				return toScaleDirectionImage_Integral(scale);
 			}
 			else if (!scale.empty() && prop == GRADIENT_MAT_MAGNITUDE_INDEX)
 			{
@@ -81,13 +82,45 @@ namespace dune
 		cv::Scalar StdDev;
 
 	private:
-		cv::Mat toScaleDirectionImage(const cv::Mat &scale)
+
+		cv::Mat toScaleDirectionImage_Gaussian(const cv::Mat &scale)
+		{
+			std::vector<cv::Mat> channels;
+			cv::split(Gradient, channels);
+			cv::Mat dx, dy, output(scale.rows, scale.cols, CV_64F);
+			dx = channels[GRADIENT_MAT_DX_INDEX];
+			dy = channels[GRADIENT_MAT_DY_INDEX];
+
+			for (int x = 0; x < scale.cols; ++x)
+			{
+				for (int y = 0; y < scale.rows; ++y)
+				{
+					double dxVal = calcGaussianAt(x, y, dx, scale.at<double>(y, x));
+					double dyVal = calcGaussianAt(x, y, dy, scale.at<double>(y, x));
+
+					output.at<double>(y, x) = std::atan2(dyVal, dxVal);
+				}
+			}
+
+			return output;
+		}
+
+		cv::Mat toScaleDirectionImage_Integral(const cv::Mat &scale)
 		{
 			std::vector<cv::Mat> channels;
 			cv::split(Gradient, channels);
 			cv::Mat normDx, normDy, inDx, inDy, output(scale.rows, scale.cols, CV_64F);
-			cv::normalize(channels[GRADIENT_MAT_DX_INDEX], normDx, 0.0, 1.0, cv::NORM_MINMAX);
-			cv::normalize(channels[GRADIENT_MAT_DY_INDEX], normDy, 0.0, 1.0, cv::NORM_MINMAX);
+
+			double min, maxx, maxy;
+			cv::minMaxLoc(channels[GRADIENT_MAT_DX_INDEX], &min, &maxx);
+			cv::minMaxLoc(channels[GRADIENT_MAT_DY_INDEX], &min, &maxy);
+			double max = std::max(maxx, maxy);
+
+			normDx = channels[GRADIENT_MAT_DX_INDEX] / max;
+			normDy = channels[GRADIENT_MAT_DY_INDEX] / max;
+			//cv::normalize(channels[GRADIENT_MAT_DX_INDEX], normDx, 0.0, 1.0, cv::NORM_MINMAX);
+			//cv::normalize(channels[GRADIENT_MAT_DY_INDEX], normDy, 0.0, 1.0, cv::NORM_MINMAX);
+			
 			cv::integral(normDx, inDx);
 			cv::integral(normDy, inDy);
 
@@ -95,7 +128,8 @@ namespace dune
 			{
 				for (int y = 0; y < scale.rows; ++y)
 				{
-					int radius = scale.at<double>(y,x)*3.0;
+					//int radius = 3.0;
+					int radius = scale.at<double>(y, x)*5.0;
 					double dx = calcSumAt(x, y, inDx, radius);
 					double dy = calcSumAt(x, y, inDy, radius);
 
@@ -141,6 +175,31 @@ namespace dune
 			return (integralImg.at<double>(D) -integralImg.at<double>(C) -integralImg.at<double>(B) +integralImg.at<double>(A))/area;
 		}
 
+		double calcGaussianAt(int x, int y, const cv::Mat& img, double sigma)
+		{
+			int k = sigma * 6.0;
+			if (k % 2 == 0)
+				k++;
+
+			cv::Mat gausK = cv::getGaussianKernel(k, sigma);
+
+			double val = 0.0;
+			for (int i = 0; i < k; ++i)
+			{
+				int ii = y - k / 2 + i;
+				if (ii < 0 || ii >= img.rows)
+					continue;
+				for (int j = 0; j < k; ++j)
+				{
+					int ij = x - k / 2 + j;
+					if (ij < 0 || ij >= img.cols)
+						continue;
+
+					val += gausK.at<double>(i, j)*img.at<double>(ii, ij);
+				}
+			}
+			return val;
+		}
 	};
 
 	class BasedEdgeImageProcessor : public BaseImageProcessor
