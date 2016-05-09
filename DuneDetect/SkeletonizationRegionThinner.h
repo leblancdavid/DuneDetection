@@ -19,6 +19,25 @@ namespace duneML
 		}
 		~SkeletonizationRegionThinner() {}
 
+		cv::Mat Thin(const cv::Mat &input)
+		{
+			cv::Mat binaryImage;
+			cv::threshold(input, binaryImage, 127, 1, CV_THRESH_BINARY);
+			cv::Mat prev = cv::Mat::zeros(input.size(), CV_8UC1);
+			cv::Mat diff;
+
+			do {
+				thinningIteration(binaryImage, 0);
+				thinningIteration(binaryImage, 1);
+				cv::absdiff(binaryImage, prev, diff);
+				binaryImage.copyTo(prev);
+			} while (cv::countNonZero(diff) > 0);
+
+			binaryImage *= 255;
+
+			return binaryImage;
+		}
+
 		//Expects a CV_32F Mat
 		std::vector<dune::DuneSegment> GetDuneSegments(const cv::Mat &input, const std::string &saveFileName = "")
 		{
@@ -46,6 +65,8 @@ namespace duneML
 			cv::medianBlur(binaryImage, binaryImage, smoothing);
 			//cv::threshold(img8u, binaryImage, 127, 1, CV_THRESH_BINARY);
 
+			binaryImage = Thin(binaryImage);
+
 			if (saveFileName != "")
 			{
 				cv::Mat scaled = binaryImage * 255;
@@ -56,17 +77,7 @@ namespace duneML
 			//cv::imshow("threshold results", binaryImage);
 			//cv::waitKey(0);
 
-			cv::Mat prev = cv::Mat::zeros(input.size(), CV_8UC1);
-			cv::Mat diff;
-
-			do {
-				thinningIteration(binaryImage, 0);
-				thinningIteration(binaryImage, 1);
-				cv::absdiff(binaryImage, prev, diff);
-				binaryImage.copyTo(prev);
-			} while (cv::countNonZero(diff) > 0);
-
-			binaryImage *= 255;
+			
 			//cv::imshow("adaptive threshold results", binaryImage);
 			//cv::waitKey(0);
 

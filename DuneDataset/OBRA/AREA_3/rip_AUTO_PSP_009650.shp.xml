@@ -1,0 +1,3 @@
+<?xml version="1.0"?>
+<!--<!DOCTYPE metadata SYSTEM "http://www.esri.com/metadata/esriprof80.dtd">-->
+<metadata xml:lang="pt"><Esri><MetaID>{A0832AFF-4A9F-44DB-B8AC-53A825B3E549}</MetaID><CreaDate>20150130</CreaDate><CreaTime>17471400</CreaTime><SyncOnce>TRUE</SyncOnce><DataProperties><lineage><Process Name="DeleteField_3" ToolSource="C:\Program Files (x86)\ArcGIS\ArcToolbox\Toolboxes\Data Management Tools.tbx\DeleteField" Date="20150130" Time="174714">DeleteField C:\Users\DAV\Desktop\Vaz&amp;Silvestro_2014\AREA_3\rip_AUTO_PSP_009650.shp CLASS;SHEAR C:\Users\DAV\Desktop\Vaz&amp;Silvestro_2014\AREA_3\rip_AUTO_PSP_009650.shp</Process></lineage></DataProperties></Esri></metadata>

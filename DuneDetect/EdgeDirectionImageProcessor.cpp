@@ -73,31 +73,52 @@ namespace dune
 
 		cv::Mat direction(BaseData.Gradient.rows, BaseData.Gradient.cols, CV_8U);
 
-		cv::Mat normGrad;
+		/*cv::Mat normGrad;
 		BaseData.toImage(GRADIENT_MAT_MAGNITUDE_INDEX).convertTo(normGrad, CV_64F);
-		cv::normalize(normGrad, normGrad, 0.5, 1.0, cv::NORM_MINMAX);
+		cv::normalize(normGrad, normGrad, 0.5, 1.0, cv::NORM_MINMAX);*/
 		
-		cv::Mat directionMap = BaseData.toImage(GRADIENT_MAT_DIRECTION_INDEX);
+		//cv::Mat directionMap = BaseData.toImage(GRADIENT_MAT_DIRECTION_INDEX);
 
-		output = cv::Mat(directionMap.rows, directionMap.cols, CV_8U);
+		output = cv::Mat(BaseData.Gradient.rows, BaseData.Gradient.cols, CV_8U);
 
-		for (int x = 0; x < directionMap.cols; ++x)
+		cv::Vec2d directionVector;
+		directionVector[0] = std::cos(dominantOrientation);
+		directionVector[1] = std::sin(dominantOrientation);
+
+		for (int x = 0; x < output.cols; ++x)
 		{
-			for (int y = 0; y < directionMap.rows; ++y)
+			for (int y = 0; y < output.rows; ++y)
 			{
-				double d = directionMap.at<double>(y, x);
-				double low = fabs(d - dominantOrientation);
-				double high = fabs(d - (dominantOrientation + 2.0*3.1416));
+				//double d = directionMap.at<double>(y, x);
+				//double low = fabs(d - dominantOrientation);
+				//double high = fabs(d - (dominantOrientation + 2.0*3.1416));
+				//double val = (std::min(low, high) / 3.1416); /**normGrad.at<double>(y,x)*/;
+				//direction.at<uchar>(y, x) = (uchar)(val * 255.0);
+				//if (val >= 0.5)
+				//	output.at<uchar>(y, x) = 0;
+				//else
+				//	output.at<uchar>(y, x) = 255;
 
-				double val = (std::min(low, high) / 3.1416); /**normGrad.at<double>(y,x)*/;
-				direction.at<uchar>(y, x) = (uchar)(val * 255.0);
-				if (val >= 0.5)
-					output.at<uchar>(y, x) = 0;
-				else
+				cv::Vec2d d;
+				d[0] = BaseData.getXDerivAt(x, y);
+				d[1] = BaseData.getYDerivAt(x, y);
+				
+				double norm = std::sqrt(d[0] * d[0] + d[1] * d[1]);
+				if (norm <= 0.00001)
+					norm = 1.0;
+				d[0] /= norm;
+				d[1] /= norm;
+
+				double dot = directionVector.dot(d);
+				//std::cout << dot << std::endl;
+				if (dot >= 0.0)
 					output.at<uchar>(y, x) = 255;
+				else
+					output.at<uchar>(y, x) = 0;
 			}
 		}
 
+		//output = direction;
 		//cv::erode(output, output, cv::Mat(), cv::Point(-1, -1), 2);
 		//cv::medianBlur(output, output, parameters->K);
 	}

@@ -57,7 +57,7 @@ namespace dune
 			return Line;
 		}
 
-		void GaussianSmooth(int kSize)
+		void GaussianSmooth(int kSize, bool wrap=false)
 		{
 			std::vector<DuneSegmentData> smoothed(Segment.size());
 			if (smoothed.size() < kSize)
@@ -73,10 +73,20 @@ namespace dune
 				for (int j = 0; j < kSize; ++j)
 				{
 					int k = i - kSize / 2 + j;
-					if (k < 0)
-						k = Segment.size() + k;
-					else if (k >= (int)Segment.size())
-						k = j - 1;
+					if (wrap)
+					{
+						if (k < 0)
+							k = Segment.size() + k;
+						else if (k >= (int)Segment.size())
+							k = j - 1;
+					}
+					else
+					{
+						if (k < 0)
+							k = 0;
+						else if (k >= (int)Segment.size())
+							k = Segment.size()-1;
+					}
 
 					x += Segment[k].Position.x * gausK.at<double>(j, 0);
 					y += Segment[k].Position.y * gausK.at<double>(j, 0);
@@ -87,6 +97,38 @@ namespace dune
 			}
 
 			Segment = smoothed;
+			Fill();
+		}
+
+		void Fill(bool wrap = false)
+		{
+			for (int i = 1; i < Segment.size(); ++i)
+			{
+				int distance = (int)std::sqrt((Segment[i].Position.x - Segment[i - 1].Position.x)*(Segment[i].Position.x - Segment[i - 1].Position.x) +
+					(Segment[i].Position.y - Segment[i - 1].Position.y)*(Segment[i].Position.y - Segment[i - 1].Position.y));
+				if (distance > 1)
+				{
+					double direction = std::atan2(Segment[i].Position.y - Segment[i - 1].Position.y, Segment[i].Position.x - Segment[i - 1].Position.x);
+					double dx = std::cos(direction);
+					double dy = std::sin(direction);
+					std::vector<DuneSegmentData>::iterator it = Segment.begin() + i - 1;
+					for (int d = 1.0; d < distance; ++d)
+					{
+						it++; 
+						it = Segment.insert(it,
+							DuneSegmentData(cv::Point(Segment[i - 1].Position.x + std::ceil((double)d*dx - 0.5), 
+													Segment[i - 1].Position.y + std::ceil((double)d*dy - 0.5)), 0.0));
+					}
+					i += (int)distance;
+
+				}
+				else if (distance == 0.0)
+				{
+					std::vector<DuneSegmentData>::iterator it = Segment.begin() + i;
+					Segment.erase(it);
+					i--;
+				}
+			}
 		}
 
 		void SetSegmentData(const std::vector<DuneSegmentData> &segData)

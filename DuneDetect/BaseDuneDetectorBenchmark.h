@@ -147,11 +147,13 @@ public:
 				segmentMap.at<uchar>(segments[i][j].Position) = 255;
 			}
 		}
-
+		duneML::SkeletonizationRegionThinner thinner;
+		cv::Mat thinnedGroundTruth = thinner.Thin(groundTruthImg);
+		segmentMap = thinner.Thin(segmentMap);
 		
-		results = GetBenchmarkResults(segmentMap, groundTruthImg, colorImg);
+		results = GetBenchmarkResults(segmentMap, thinnedGroundTruth, colorImg);
 
-		dune::imgproc::DuneMetrics groundTruthMetrics = metrics.CalculateMetrics(groundTruthImg);
+		dune::imgproc::DuneMetrics groundTruthMetrics = metrics.CalculateMetrics(thinnedGroundTruth);
 		dune::imgproc::DuneMetrics detectionMetrics = metrics.CalculateMetrics(segmentMap);
 		results.AngularError = std::fabs(groundTruthMetrics.AverageOrientation - detectionMetrics.AverageOrientation);
 		results.SpacingError = std::fabs(groundTruthMetrics.AverageDuneSpacing - detectionMetrics.AverageDuneSpacing);
@@ -191,12 +193,14 @@ protected:
 						results.TP++;
 						//detected ground truth will be blue
 						cv::circle(plot, cv::Point(j,i), 1, cv::Scalar(255, 0, 0), 2);
+						//plot.at<cv::Vec3b>(cv::Point(j, i)) = cv::Vec3b(255, 0, 0);
 					}
 					else
 					{
 						results.FN++;
 						//false negatives are yellow
 						cv::circle(plot, cv::Point(j, i), 1, cv::Scalar(0, 255, 255), 2);
+						//plot.at<cv::Vec3b>(cv::Point(j, i)) = cv::Vec3b(0, 255, 255);
 					}
 				}
 			}
@@ -217,12 +221,14 @@ protected:
 					{
 						//correctly detected points will be green
 						cv::circle(plot, cv::Point(j, i), 1, cv::Scalar(0, 255, 0), 2);
+						//plot.at<cv::Vec3b>(cv::Point(j, i)) = cv::Vec3b(0, 255, 0);
 					}
 					else
 					{
 						results.FP++;
 						//false positives are going to be red
 						cv::circle(plot, cv::Point(j, i), 1, cv::Scalar(0, 0, 255), 2);
+						//plot.at<cv::Vec3b>(cv::Point(j, i)) = cv::Vec3b(0, 0, 255);
 					}
 				}
 			}
@@ -436,13 +442,13 @@ protected:
 				if(minDist > BenchmarkParams.MinError)
 				{
 					FP++;
-					cv::circle(plot, segData[j].Position, 1, cv::Scalar(0, 0, 255), 2);
-					//plot.at<cv::Vec3b>(segData[j].Position) = cv::Vec3b(0, 0, 255);
+					//cv::circle(plot, segData[j].Position, 1, cv::Scalar(0, 0, 255), 2);
+					plot.at<cv::Vec3b>(segData[j].Position) = cv::Vec3b(0, 0, 255);
 				}
 				else
 				{
-					cv::circle(plot, segData[j].Position, 1, cv::Scalar(0, 255, 0), 2);
-					//plot.at<cv::Vec3b>(segData[j].Position) = cv::Vec3b(0, 255, 0);
+					//cv::circle(plot, segData[j].Position, 1, cv::Scalar(0, 255, 0), 2);
+					plot.at<cv::Vec3b>(segData[j].Position) = cv::Vec3b(0, 255, 0);
 				}
 
 				totalPoints++;

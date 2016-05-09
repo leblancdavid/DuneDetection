@@ -19,6 +19,7 @@ namespace duneML
 			Sigma = 1.6;
 			FixedOrientation = false;
 			Orientation = 0.0;
+
 		}
 		~SIFTParameters() {}
 		SIFTParameters(const SIFTParameters &cpy)
@@ -104,7 +105,7 @@ namespace duneML
 			{
 				for (size_t i = 0; i < points.size(); ++i)
 				{
-					double patchSigma = scaleVals.at<double>(points[i].pt)*3.0;
+					double patchSigma = scaleVals.at<double>(points[i].pt)*2.0;
 					double patchHalf = patchSigma / 2.0;
 					cv::Rect region = cv::Rect(points[i].pt.x - patchHalf,
 						points[i].pt.y - patchHalf,

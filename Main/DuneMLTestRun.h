@@ -7,6 +7,7 @@
 #include "DuneOrbFeatureExtractor.h"
 #include "DuneSURFFeatureExtractor.h"
 #include "DuneSimplePixelFeatureExtractor.h"
+#include "DuneDirectionalFeatureExtractor.h"
 #include "SVMFeatureClassifier.h"
 #include "NormalBayesFeatureClassifier.h"
 #include "RandomTreeFeatureClassifier.h"
@@ -45,10 +46,11 @@ void PreProcessImage(const cv::Mat &input, cv::Mat &output)
 {
 	//cv::imwrite("image_unprocessed.jpg", input);
 	cv::Mat processed;
-	int k = 7;
-	//cv::medianBlur(input, output, k);
-
-	output = input;
+	int k = 5;
+	cv::medianBlur(input, processed, k);
+	cv::GaussianBlur(processed, output, cv::Size(k, k), (double)k / 5.0, (double)k / 5.0);
+	//cv::equalizeHist(processed, output);
+	//output = input;
 
 	//cv::GaussianBlur(processed, processed, cv::Size(k, k), (double)k / 5.0, (double)k / 5.0);
 	//cv::equalizeHist(processed, processed);
@@ -109,27 +111,28 @@ void ExtractFeatureSet(const std::vector<duneML::DuneMLData> data,
 
 		GaussianScalePyramid gsp;
 		////LaplacianScalePyramid lsp;
-		gsp.Process(processedImage);
-		cv::Mat scaleMap = gsp.GetScaleMap();
+		//gsp.Process(processedImage);
+		//cv::Mat scaleMap = gsp.GetScaleMap();
 
-		cv::Scalar meanScale, stdevScale;
-		cv::meanStdDev(scaleMap, meanScale, stdevScale);
+		//cv::Scalar meanScale, stdevScale;
+		//cv::meanStdDev(scaleMap, meanScale, stdevScale);
 
-		std::cout << "Mean Scale Sigma: " << meanScale[0] << std::endl;
-		std::cout << "Stdev Scale Sigma: " << stdevScale[0] << std::endl;
+		//std::cout << "Mean Scale Sigma: " << meanScale[0] << std::endl;
+		//std::cout << "Stdev Scale Sigma: " << stdevScale[0] << std::endl;
 		cv::Mat positiveDescriptors, negativeDescriptors;
 		duneML::SIFTParameters siftParams;
 		siftParams.FixedOrientation = false;
-		siftParams.Sigma = meanScale[0] - stdevScale[0];
+		siftParams.Sigma = 2.5;// meanScale[0] - stdevScale[0];
 		siftParams.Orientation = data[i].SunOrientation;
 		duneML::DuneSIFTFeatureExtractor features(siftParams);
+		//duneML::DuneDirectionFeatureExtractor features;
 		//duneML::DuneORBFeatureExtractor features;
 		//duneML::DuneSURFFeatureExtractor features;
 		//duneML::DuneSimplePixelFeatureExtractor features;
 		logFile << "Computing features from data points..." << std::endl;
 
-		features.Process(processedImage, positiveExamples, positiveDescriptors/*, scaleMap*/);
-		features.Process(processedImage, negativeExamples, negativeDescriptors/*, scaleMap*/);
+		features.Process(processedImage, positiveExamples, positiveDescriptors);
+		features.Process(processedImage, negativeExamples, negativeDescriptors);
 
 		for (int i = 0; i < positiveDescriptors.rows; ++i)
 		{
@@ -194,20 +197,21 @@ void ValidateImageClassifier(duneML::DuneMLData data,
 	std::vector<dune::DuneSegment> segments(1);
 	std::vector<dune::DuneSegmentData> segmentData;
 
-	GaussianScalePyramid gsp;
+	//GaussianScalePyramid gsp;
 	////LaplacianScalePyramid lsp;
-	gsp.Process(processedImage);
-	cv::Mat scaleMap = gsp.GetScaleMap();
+	//gsp.Process(processedImage);
+	//cv::Mat scaleMap = gsp.GetScaleMap();
 
-	cv::Scalar meanScale, stdevScale;
-	cv::meanStdDev(scaleMap, meanScale, stdevScale);
+	//cv::Scalar meanScale, stdevScale;
+	//cv::meanStdDev(scaleMap, meanScale, stdevScale);
 
 	//int border = 0;
 	duneML::SIFTParameters siftParams;
 	siftParams.FixedOrientation = false;
 	siftParams.Orientation = data.SunOrientation;
-	siftParams.Sigma = meanScale[0] - stdevScale[0];
+	siftParams.Sigma = 2.5;// meanScale[0] - stdevScale[0];
 	duneML::DuneSIFTFeatureExtractor features(siftParams);
+	//duneML::DuneDirectionFeatureExtractor features;
 	////duneML::DuneORBFeatureExtractor features;
 	////duneML::DuneSURFFeatureExtractor features;
 	//duneML::DuneSimplePixelFeatureExtractor features;
@@ -269,13 +273,23 @@ void ValidateImageClassifier(duneML::DuneMLData data,
 	mlFilter.SetFeatureClassifier(classifier);
 	mlFilter.SetFeatureDetector(&features);
 
-	std::vector<dune::DuneSegment> classifiedSegments = mlFilter.Filter(processedImage, segments);
-	//std::vector<dune::DuneSegment> classifiedSegments = mlFilter.FilterByResponse(processedImage, segments, data.SunOrientation);
+	//std::vector<dune::DuneSegment> classifiedSegments = mlFilter.Filter(processedImage, segments);
+	std::vector<dune::DuneSegment> classifiedSegments = mlFilter.FilterByResponse(processedImage, segments, data.SunOrientation);
+	classifiedSegments = mlFilter.RemoveOverlappingSegments(processedImage, classifiedSegments, 10);
 
+	std::ofstream resultsDatFile(data.ImageFileName + "_results_.dat");
+	for (int i = 2; i <= 50; i += 2)
+	{
+		dune::BaseDuneDetectorBenchmark benchmark;
+		benchmark.BenchmarkParams.MinError = i;
+		dune::BenchmarkResults benchmarkResults = benchmark.GetResults(image, gtImg, classifiedSegments, data.ImageFileName + "_results_.png");
+		resultsDatFile << i << '\t' << benchmarkResults.GetPrecision() << '\t' << benchmarkResults.GetRecall() << std::endl;
+	}
+	resultsDatFile.close();
+	
 	dune::BaseDuneDetectorBenchmark benchmark;
-	benchmark.BenchmarkParams.MinError = 10.0;
-	dune::BenchmarkResults benchmarkResults = benchmark.GetResults(image, gtImg, classifiedSegments, data.ImageFileName + "_results_.jpg");
-
+	benchmark.BenchmarkParams.MinError = 10;
+	dune::BenchmarkResults benchmarkResults = benchmark.GetResults(image, gtImg, classifiedSegments, data.ImageFileName + "_results_.png");
 	logFile << "Benchmark results: " << std::endl
 		<< "\tTP: " << benchmarkResults.TP << std::endl
 		<< "\tFP: " << benchmarkResults.FP << std::endl
@@ -283,7 +297,7 @@ void ValidateImageClassifier(duneML::DuneMLData data,
 		<< "\tFN: " << benchmarkResults.FN << std::endl*/
 		<< "\tPrecision: " << benchmarkResults.GetPrecision() << std::endl
 		<< "\tRecall: " << benchmarkResults.GetRecall() << std::endl
-		<< "\tAngular Error: " << benchmarkResults.AngularError * 180.0 / 3.1416 << std::endl
+		<< "\tAngular Error: " << benchmarkResults.AngularError << std::endl
 		<< "\tSpacing Error: " << benchmarkResults.SpacingError << std::endl
 		<< "\tNormalized Spacing Error: " << benchmarkResults.NormSpacingError << std::endl;
 }
@@ -367,57 +381,122 @@ void RunMLTest()
 {
 	logFile = GetTimeStampedFileStream(DUNE_ML_DATASET_BASE_PATH + "Results/", "log_file");
 
-	std::vector<duneML::DuneMLData> trainingData(1), testData(1);
-	std::vector<double> trainingImageOrientations(1), testImagesOrientations(1);
+	//std::vector<duneML::DuneMLData> trainingData(1), testData(1);
 	//logFile.open(DUNE_ML_DATASET_BASE_PATH + "Results/log_file.txt");
 
-	trainingData[0].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Kalahari 3/Kalahari 3 image.jpg";
-	trainingData[0].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Kalahari 3/Kalahari 3_gt.bmp";
-	trainingData[0].SunOrientation = -0.2979;
-	testData[0].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Kalahari 3/Kalahari 3 test.jpg";
-	testData[0].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Kalahari 3/Kalahari 3 test_gt.png";
-	testData[0].SunOrientation = -0.4595;
+	//trainingData[0].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Kalahari 3/Kalahari 3 image.jpg";
+	//trainingData[0].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Kalahari 3/Kalahari 3_gt.bmp";
+	//trainingData[0].SunOrientation = -0.2979;
+	//testData[0].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Kalahari 3/Kalahari 3 test.jpg";
+	//testData[0].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Kalahari 3/Kalahari 3 test_gt.png";
+	//testData[0].SunOrientation = -0.4595;
+	//RunMLTest(trainingData, testData, 1000, 1000, 10);
+
+	//trainingData[0].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Namib 2/Namib 2 image.jpg";
+	//trainingData[0].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Namib 2/Namib 2_gt.bmp";
+	//trainingData[0].SunOrientation = -0.5461;
+	//testData[0].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Namib 2/Namib 2 test.jpg";
+	//testData[0].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Namib 2/Namib 2 test gt.png";
+	//testData[0].SunOrientation = -0.5782;
+	//RunMLTest(trainingData, testData, 1000, 1000, 10);
+
+	//trainingData[0].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Simpson 1/Simpson 1_image.jpg";
+	//trainingData[0].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Simpson 1/Simpson 1_gt.bmp";
+	//trainingData[0].SunOrientation = -0.4859;
+	//testData[0].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Simpson 1/Simpson 1 test.jpg";
+	//testData[0].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Simpson 1/Simpson 1 test_gt.png";
+	//testData[0].SunOrientation = -0.5086;
+	//RunMLTest(trainingData, testData, 1000, 1000, 10);
+
+	//trainingData[0].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Skeleton Coast 3/Skeleton Coast 3_image.jpg";
+	//trainingData[0].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Skeleton Coast 3/Skeleton Coast 3_gt.bmp";
+	//trainingData[0].SunOrientation = -0.6931;
+	//testData[0].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Skeleton Coast 3/Skeleton Coast 3 test.jpg";
+	//testData[0].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Skeleton Coast 3/Skeleton Coast 3 test_gt.png";
+	//testData[0].SunOrientation = -0.7182;
+	//RunMLTest(trainingData, testData, 1000, 1000, 10);
+
+	//trainingData[0].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "WDC 1/WDC_1_image.jpg";
+	//trainingData[0].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "WDC 1/WDC_1_gt.bmp";
+	//trainingData[0].SunOrientation = 0.3285 + 3.1416;//-2.8131;//0.3285;
+	//testData[0].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "WDC 1/WCD-1 test.jpg";
+	//testData[0].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "WDC 1/WCD-1 test_gt.png";
+	//testData[0].SunOrientation = 0.3041 + 3.1416;//-2.8375;//0.3041;
+	//RunMLTest(trainingData, testData, 1000, 1000, 10);
+
+	//trainingData[0].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "White Sands 2/White Sands_2_image.jpg";
+	//trainingData[0].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "White Sands 2/White Sands_2_gt.bmp";
+	//trainingData[0].SunOrientation = -0.3755 + 3.1416;; //approx
+	//testData[0].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "White Sands 2/White Sands 2 test.jpg";
+	//testData[0].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "White Sands 2/White Sands 2 test-gt.png";
+	//testData[0].SunOrientation = -0.4875 + 3.1416;
+	//RunMLTest(trainingData, testData, 1000, 1000, 10);
+
+	std::vector<duneML::DuneMLData> trainingData(7), testData(7);
+
+	trainingData[0].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 1.png";
+	trainingData[0].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 1 gt.png";
+	trainingData[0].SunOrientation = 0.3378;//-2.8131;//0.3285;
+	trainingData[1].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 3.png";
+	trainingData[1].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 3 gt.png";
+	trainingData[1].SunOrientation = 0.5090;//-2.8131;//0.3285;
+	trainingData[2].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 5.png";
+	trainingData[2].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 5 gt.png";
+	trainingData[2].SunOrientation = 0.1809;//-2.8131;//0.3285;
+	trainingData[3].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 7.png";
+	trainingData[3].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 7 gt.png";
+	trainingData[3].SunOrientation = 0.3534;//-2.8131;//0.3285;
+	trainingData[4].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 9.png";
+	trainingData[4].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 9 gt.png";
+	trainingData[4].SunOrientation = 0.2653;//-2.8131;//0.3285;
+	trainingData[5].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 11.png";
+	trainingData[5].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 11 gt.png";
+	trainingData[5].SunOrientation = 0.3375;//-2.8131;//0.3285;
+	trainingData[6].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 13.png";
+	trainingData[6].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 13 gt.png";
+	trainingData[6].SunOrientation = -0.6765;//-2.8131;//0.3285;
+
+
+	testData[0].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 2.png";
+	testData[0].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 2 gt.png";
+	testData[0].SunOrientation = 0.2847;//-2.8375;//0.3041;
+	testData[1].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 4.png";
+	testData[1].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 4 gt.png";
+	testData[1].SunOrientation = 0.3312;//-2.8375;//0.3041;
+	testData[2].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 6.png";
+	testData[2].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 6 gt.png";
+	testData[2].SunOrientation = -0.0890;//-2.8375;//0.3041;
+	testData[3].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 8.png";
+	testData[3].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 8 gt.png";
+	testData[3].SunOrientation = 0.1898;//-2.8375;//0.3041;
+	testData[4].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 10.png";
+	testData[4].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 10 gt.png";
+	testData[4].SunOrientation = 0.4829;//-2.8375;//0.3041;
+	testData[5].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 12.png";
+	testData[5].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 12 gt.png";
+	testData[5].SunOrientation = 0.3302;//-2.8375;//0.3041;
+	testData[6].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 15.png";
+	testData[6].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 15 gt.png";
+	testData[6].SunOrientation = -0.6973;//-2.8375;//0.3041;
+
 	RunMLTest(trainingData, testData, 1000, 1000, 10);
 
-	trainingData[0].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Namib 2/Namib 2 image.jpg";
-	trainingData[0].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Namib 2/Namib 2_gt.bmp";
-	trainingData[0].SunOrientation = -0.5461;
-	testData[0].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Namib 2/Namib 2 test.jpg";
-	testData[0].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Namib 2/Namib 2 test gt.png";
-	testData[0].SunOrientation = -0.5782;
-	RunMLTest(trainingData, testData, 1000, 1000, 10);
 
-	trainingData[0].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Simpson 1/Simpson 1_image.jpg";
-	trainingData[0].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Simpson 1/Simpson 1_gt.bmp";
-	trainingData[0].SunOrientation = -0.4859;
-	testData[0].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Simpson 1/Simpson 1 test.jpg";
-	testData[0].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Simpson 1/Simpson 1 test_gt.png";
-	testData[0].SunOrientation = -0.5086;
-	RunMLTest(trainingData, testData, 1000, 1000, 10);
 
-	trainingData[0].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Skeleton Coast 3/Skeleton Coast 3_image.jpg";
-	trainingData[0].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Skeleton Coast 3/Skeleton Coast 3_gt.bmp";
-	trainingData[0].SunOrientation = -0.6931;
-	testData[0].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Skeleton Coast 3/Skeleton Coast 3 test.jpg";
-	testData[0].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Skeleton Coast 3/Skeleton Coast 3 test_gt.png";
-	testData[0].SunOrientation = -0.7182;
-	RunMLTest(trainingData, testData, 1000, 1000, 10);
 
-	trainingData[0].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "WDC 1/WDC_1_image.jpg";
-	trainingData[0].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "WDC 1/WDC_1_gt.bmp";
-	trainingData[0].SunOrientation = 0.3285;//-2.8131;//0.3285;
-	testData[0].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "WDC 1/WCD-1 test.jpg";
-	testData[0].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "WDC 1/WCD-1 test_gt.png";
-	testData[0].SunOrientation = 0.3041;//-2.8375;//0.3041;
-	RunMLTest(trainingData, testData, 1000, 1000, 10);
 
-	trainingData[0].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "White Sands 2/White Sands_2_image.jpg";
-	trainingData[0].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "White Sands 2/White Sands_2_gt.bmp";
-	trainingData[0].SunOrientation = -1.1150; //approx
-	testData[0].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "White Sands 2/White Sands 2 test.jpg";
-	testData[0].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "White Sands 2/White Sands 2 test-gt.png";
-	testData[0].SunOrientation = -1.1675;
-	RunMLTest(trainingData, testData, 1000, 1000, 10);
+
+
+
+
+
+
+
+
+
+
+
+
 
 	//std::vector<duneML::DuneMLData> trainingData(6), testData(6);
 	//trainingData[0].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Kalahari 3/Kalahari 3 image.jpg";
@@ -450,16 +529,16 @@ void RunMLTest()
 
 	//trainingData[4].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "WDC 1/WDC_1_image.jpg";
 	//trainingData[4].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "WDC 1/WDC_1_gt.bmp";
-	//trainingData[4].SunOrientation = 0.3285;//-2.8131;//0.3285;
+	//trainingData[4].SunOrientation = 0.3285 + 3.1416;;//-2.8131;//0.3285;
 	//testData[4].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "WDC 1/WCD-1 test.jpg";
 	//testData[4].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "WDC 1/WCD-1 test_gt.png";
-	//testData[4].SunOrientation = 0.3041;//-2.8375;//0.3041;
+	//testData[4].SunOrientation = 0.3041 + 3.1416;;//-2.8375;//0.3041;
 
 	//trainingData[5].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "White Sands 2/White Sands_2_image.jpg";
 	//trainingData[5].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "White Sands 2/White Sands_2_gt.bmp";
-	//trainingData[5].SunOrientation = -1.1150; //approx
+	//trainingData[5].SunOrientation = -0.3755; //approx
 	//testData[5].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "White Sands 2/White Sands 2 test.jpg";
 	//testData[5].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "White Sands 2/White Sands 2 test-gt.png";
-	//testData[5].SunOrientation = -1.1675;
+	//testData[5].SunOrientation = -0.4875;
 	//RunMLTest(trainingData, testData, 5000, 5000, 10);	
 }

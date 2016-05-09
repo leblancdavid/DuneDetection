@@ -46,18 +46,23 @@ namespace duneML
 			K = k;
 		}
 
+		void SetThreshold(double t)
+		{
+			threshold = t;
+		}
+
 		std::vector<dune::DuneSegment> Filter(const cv::Mat &image, const std::vector<dune::DuneSegment> &segments)
 		{
-			//GaussianScalePyramid gsp;
+			GaussianScalePyramid gsp;
 			//////LaplacianScalePyramid lsp;
-			//gsp.Process(image);
-			//cv::Mat scaleMap = gsp.GetScaleMap();
+			gsp.Process(image);
+			cv::Mat scaleMap = gsp.GetScaleMap();
 
 			std::vector<dune::DuneSegment> output;
 			for (int i = 0; i < segments.size(); ++i)
 			{
 				std::vector<dune::DuneSegmentData> points = segments[i].GetSegmentData();
-				std::vector<float> responses(points.size());
+				std::vector<double> responses(points.size());
 				std::vector<cv::KeyPoint> keypoints;
 				for (int j = 0; j < points.size(); ++j)
 				{
@@ -65,11 +70,11 @@ namespace duneML
 				}
 
 				cv::Mat descriptors;
-				detector->Process(image, keypoints, descriptors/*, scaleMap*/);
+				detector->Process(image, keypoints, descriptors, scaleMap);
 
 				for (int row = 0; row < descriptors.rows; ++row)
 				{
-					float val = classifier->Predict(descriptors.row(row));
+					double val = classifier->Predict(descriptors.row(row));
 					responses[row] = val;
 				}
 
@@ -88,24 +93,67 @@ namespace duneML
 			cv::Mat responseMap = computeResponseMap(image);
 
 			std::vector<dune::DuneSegment> shifted = segments;
-			ShiftSegmentsByResponse(responseMap, shifted, responseMap, domOrientation);
+			//ShiftSegmentsByResponse2(responseMap, shifted, domOrientation);
+			ShiftSegmentsByResponse(responseMap, shifted, domOrientation);
 
 			std::vector<dune::DuneSegment> output;
 			for (int i = 0; i < shifted.size(); ++i)
 			{
+				//output.push_back(shifted[i]);
+
 				std::vector<dune::DuneSegmentData> points = shifted[i].GetSegmentData();
-				std::vector<float> responses(points.size());
+				std::vector<double> responses(points.size());
 
 				for (int j = 0; j < responses.size(); ++j)
 				{
-					responses[j] = responseMap.at<float>(points[j].Position);
+					responses[j] = responseMap.at<double>(points[j].Position);
 				}
 
 				std::vector<dune::DuneSegment> filteredSegments = FilterByResponses(shifted[i], responses);
+
 				for (int j = 0; j < filteredSegments.size(); ++j)
 				{
 					output.push_back(filteredSegments[j]);
 				}
+			}
+
+			return output;
+		}
+
+		std::vector<dune::DuneSegment> RemoveOverlappingSegments(const cv::Mat &image, const std::vector<dune::DuneSegment> &segments, int distance)
+		{
+			cv::Mat segmentsMap(image.rows, image.cols, CV_32S);
+			segmentsMap = cv::Scalar(0);
+
+			std::vector<dune::DuneSegment> output;
+			//labels
+			for (int i = 0; i < segments.size(); ++i)
+			{
+				for (int j = 0; j < segments[i].GetLength(); ++j)
+				{
+					segmentsMap.at<int>(segments[i][j].Position) += i + 1;
+				}
+			}
+
+			double ratio = 0.9;
+			for (int i = 0; i < segments.size(); ++i)
+			{
+				int count = 0;
+				int length = segments[i].GetLength();
+				for (int j = 0; j < length; ++j)
+				{
+					if (overlaps(segmentsMap, segments[i][j].Position, i + 1, distance))
+					{
+						count++;
+					}
+				}
+
+				double r = (double)count / (double)length;
+				if (r < ratio)
+				{
+					output.push_back(dune::DuneSegment(segments[i]));
+				}
+
 			}
 
 			return output;
@@ -117,9 +165,28 @@ namespace duneML
 
 		int minSegmentLength;
 		int K = 9;
+		double threshold = 0.25;
+
+		bool overlaps(const cv::Mat &map, const cv::Point &center, int label, int distance)
+		{
+			for (int i = center.y - distance; i < center.y + distance; ++i)
+			{
+				for (int j = center.x - distance; j < center.x + distance; ++j)
+				{
+					if (i < 0 || i >= map.rows || j < 0 || j >= map.cols)
+						continue;
+
+					if (map.at<int>(i, j) != 0 && map.at<int>(i, j) != label)
+						return true;
+				}
+			}
+			return false;
+		}
 
 
-		std::vector<dune::DuneSegment> FilterByResponses(const dune::DuneSegment &input, const std::vector<float> responses)
+
+
+		std::vector<dune::DuneSegment> FilterByResponses(const dune::DuneSegment &input, const std::vector<double> responses)
 		{
 			std::vector<dune::DuneSegmentData> data = input.GetSegmentData();
 			std::vector<dune::DuneSegment> output;
@@ -147,7 +214,7 @@ namespace duneML
 					r += responses[k] * gaussian.at<double>(j, 0);
 				}
 
-				if (r >= 0)
+				if (r >= threshold)
 				{
 					labels.push_back(true);
 				}
@@ -201,8 +268,8 @@ namespace duneML
 			cv::Mat responseMap = cv::Mat(image.rows, image.cols, CV_64F);
 			GaussianScalePyramid gsp;
 			//LaplacianScalePyramid lsp;
-			gsp.Process(image);
-			cv::Mat scaleMap = gsp.GetScaleMap();
+			//gsp.Process(image);
+			//cv::Mat scaleMap = gsp.GetScaleMap();
 			for (int y = 0; y < image.rows; ++y)
 			{
 				std::vector<cv::KeyPoint> allPoints;
@@ -215,19 +282,100 @@ namespace duneML
 					allPoints.push_back(keypoint);
 				}
 
-				detector->Process(image, allPoints, allDescriptors/*, scaleMap*/);
+				detector->Process(image, allPoints, allDescriptors);
 				for (size_t i = 0; i < allPoints.size(); ++i)
 				{
 					double val = (double)classifier->Predict(allDescriptors.row(i));
 					//std::cout << val << std::endl;
 					responseMap.at<double>(allPoints[i].pt) = val;
 				}
+
+				
 			}
+
+			cv::normalize(responseMap, responseMap, -1.0, 1.0, cv::NORM_MINMAX);
+
+			cv::imshow("responseMap", responseMap);
+			cv::waitKey(30);
 
 			return responseMap;
 		}
 
-		void ShiftSegmentsByResponse(const cv::Mat& responseMap, std::vector<dune::DuneSegment> &segments, const cv::Mat &domMap, double domOrientation)
+		void ShiftSegmentsByResponse2(const cv::Mat& responseMap, std::vector<dune::DuneSegment> &segments, double domOrientation)
+		{
+			double searchDir = domOrientation - 3.1416;
+			double x_incr = std::cos(searchDir);
+			double y_incr = std::sin(searchDir);
+
+			for (size_t i = 0; i < segments.size(); ++i)
+			{
+				ShiftSegmentToOptimalResponse(responseMap, segments[i], K, searchDir);
+				segments[i].GaussianSmooth(K);
+			}
+		}
+
+		void ShiftSegmentToOptimalResponse(const cv::Mat& responseMap, dune::DuneSegment &segment, int kSize, double dir)
+		{
+			double searchDir = dir - 3.1416;
+			double x_incr = std::cos(searchDir);
+			double y_incr = std::sin(searchDir);
+
+			double optimalMag = 0.0;
+			int peakK = 0;
+			//Find the optimal shift
+			for (int k = 0; k < kSize; ++k)
+			{
+				double totalMag = 0.0;
+				double magCount = 0.0;
+				int length = segment.GetLength();
+				for (int i = 0; i < length; ++i)
+				{
+					double x = k * x_incr + segment[i].Position.x;
+					double y = k * y_incr + segment[i].Position.y;
+					if (x < 0 || x >= responseMap.cols ||
+						y < 0 || y >= responseMap.rows)
+						continue;
+
+					magCount++;
+					totalMag += responseMap.at<double>(y, x);
+				}
+				totalMag /= magCount;
+				if (totalMag > optimalMag)
+				{
+					peakK = k;
+					optimalMag = totalMag;
+				}
+			}
+
+			//apply the shift
+			for (int i = 0; i < segment.GetLength(); ++i)
+			{
+				segment[i].Position.x = std::ceil((double)peakK * x_incr + (double)segment[i].Position.x - 0.5);
+				segment[i].Position.y = std::ceil((double)peakK * y_incr + (double)segment[i].Position.y - 0.5);
+
+				if (segment[i].Position.x < 0.0)
+					segment[i].Position.x = 0.0;
+				else if (segment[i].Position.x >= responseMap.cols)
+					segment[i].Position.x = responseMap.cols - 1;
+				if (segment[i].Position.y < 0.0)
+					segment[i].Position.y = 0.0;
+				else if (segment[i].Position.y >= responseMap.rows)
+					segment[i].Position.y = responseMap.rows - 1;
+			}
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+		void ShiftSegmentsByResponse(const cv::Mat& responseMap, std::vector<dune::DuneSegment> &segments, double domOrientation)
 		{
 			double searchDir = domOrientation - 3.1416;
 			double x_incr = std::cos(searchDir);

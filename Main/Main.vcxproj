@@ -146,12 +146,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ImageVectorDraw.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DuneDataSetProcess.h" />
     <ClInclude Include="DuneLibTestRun.h" />
     <ClInclude Include="DuneMLTestRun.h" />
+    <ClInclude Include="ImageVectorDraw.h" />
     <ClInclude Include="LogFileHelper.h" />
   </ItemGroup>
   <ItemGroup>

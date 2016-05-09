@@ -294,6 +294,9 @@
     <ClInclude Include="DecisionTreesFeatureClassifier.h">
       <Filter>DuneML\Header Files\Classifiers</Filter>
     </ClInclude>
+    <ClInclude Include="DuneDirectionalFeatureExtractor.h">
+      <Filter>DuneML\Header Files\Feature Detectors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AdaptiveImageProcessor.cpp">

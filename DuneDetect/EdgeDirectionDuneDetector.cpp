@@ -1,4 +1,5 @@
 #include "EdgeDirectionDuneDetector.h"
+#include "ConnectedComponentsExtractor.h"
 
 namespace dune
 {
@@ -34,16 +35,66 @@ namespace dune
 		ImageProcess->Process(img, processedImage);
 		cv::imshow("processedImage", processedImage);
 		cv::waitKey(33);
-		std::vector<DuneSegment> duneSegs;
-		duneSegs = GetContourSegments(processedImage.clone());
 
-		FilterByEdgeDirection(processedImage, duneSegs);
+		//std::vector<DuneSegment> duneSegs = GetCannySegments(processedImage);
 
-		ShiftSegmentsToGradientPeak(duneSegs, processedImage);
-
-		//ShiftSegmentsToGradientPeak2(duneSegs, processedImage);
+		std::vector<DuneSegment> duneSegs = GetContourSegments(processedImage.clone());
+		//FilterByEdgeDirection(processedImage, duneSegs);
+		//ShiftSegmentsToGradientPeak(duneSegs, processedImage);
+		ShiftSegmentsToGradientPeak2(duneSegs, processedImage);
+		//ShiftSegmentsToIntensityPeak(duneSegs, img);
 		return duneSegs;
 	}
+
+	std::vector<DuneSegment> EdgeDirectionDuneDetector::GetCannySegments(const cv::Mat &img)
+	{
+		int k = 3;
+		cv::Mat dx, dy, mag(img.rows, img.cols, CV_64F);
+		cv::Sobel(img, dx, CV_64F, 1, 0, k);
+		cv::Sobel(img, dy, CV_64F, 0, 1, k);
+
+		for (int i = 0; i < img.rows; ++i)
+		{
+			for (int j = 0; j < img.cols; ++j)
+			{
+				mag.at<double>(i, j) = std::sqrt(dx.at<double>(i, j)*dx.at<double>(i, j) + dy.at<double>(i, j)*dy.at<double>(i, j));
+			}
+		}
+		
+		cv::Scalar mean, stddev;
+		cv::meanStdDev(mag, mean, stddev);
+
+		cv::Mat canny;
+		cv::Canny(img, canny, mean[0]*2.0, mean[0]*6.0, k);
+
+		std::cout << mean[0] << std::endl;
+		cv::imshow("cannyImage", canny);
+		cv::waitKey(100);
+
+		imgproc::ConnectedComponentsExtractor cce;
+		
+		std::vector<std::vector<cv::Point>> connectedComponents = cce.GetCC(canny);
+
+		std::vector<DuneSegment> output;
+		for (int i = 0; i < connectedComponents.size(); ++i)
+		{
+			DuneSegment segment;
+			std::vector<DuneSegmentData> segData;
+			for (int j = 0; j < connectedComponents[i].size(); ++j)
+			{
+				segData.push_back(DuneSegmentData(connectedComponents[i][j], 0.0));
+			}
+			segment.SetSegmentData(segData);
+			output.push_back(segment);
+		}
+
+		return output;
+	}
+
+
+
+
+
 
 	std::vector<DuneSegment> EdgeDirectionDuneDetector::GetContourSegments(const cv::Mat &img)
 	{
@@ -97,6 +148,8 @@ namespace dune
 		else
 			domOrientation = imgProcParams->Orientation;
 
+		domOrientation += 3.1416;
+
 		std::vector<dune::DuneSegmentData> data = segment.GetSegmentData();
 		std::vector<DuneSegment> output;
 		std::vector<bool> labels;
@@ -129,7 +182,7 @@ namespace dune
 
 			double d = std::atan2(r[1], r[0]);
 			double low = fabs(d - domOrientation);
-			double high = fabs(d - (domOrientation + 2.0*3.1416));
+			double high = fabs(d - (domOrientation + 3.1416));
 
 			double val = (std::min(low, high) / 3.1416);
 			if (val >= 0.5)
@@ -177,6 +230,97 @@ namespace dune
 		return output;
 	}
 
+	void EdgeDirectionDuneDetector::ShiftSegmentsToIntensityPeak(std::vector<DuneSegment> &segments, const cv::Mat &image)
+	{
+		EdgeDirectionImageProcessor* edgeImgProc = dynamic_cast<EdgeDirectionImageProcessor*>(ImageProcess);
+		EdgeDirectionProcParams* imgProcParams = edgeImgProc->GetParameters();
+		double domOrientation = 0.0;
+		if (edgeImgProc->IsDominantOrientationComputed())
+			domOrientation = edgeImgProc->GetDominantOrientation();
+		else
+			domOrientation = imgProcParams->Orientation;
+
+		double searchDir = domOrientation - PI;
+
+		for (size_t i = 0; i < segments.size(); ++i)
+		{
+			ShiftSegmentToOptimalGradientPeak(segments[i], imgProcParams->K, searchDir, image);
+			segments[i].GaussianSmooth(imgProcParams->K);
+		}
+	}
+
+	void EdgeDirectionDuneDetector::ShiftSegmentToOptimalIntensityPeak(DuneSegment &segment, int kSize, double dir, const cv::Mat &image)
+	{
+		bool found = false;
+		double x_incr = std::cos(dir);
+		double y_incr = std::sin(dir);
+
+		double optimalIntensity = 0.0;
+		int peakK = 0;
+		//Find the optimal shift
+		for (int k = -1; k < kSize; ++k)
+		{
+			double totalIntensity = 0.0;
+			double count = 0.0;
+			int length = segment.GetLength();
+			for (int i = 0; i < length; ++i)
+			{
+				double x = k * x_incr + segment[i].Position.x;
+				double y = k * y_incr + segment[i].Position.y;
+				if (x < 0 || x >= image.cols ||
+					y < 0 || y >= image.rows)
+					continue;
+
+				totalIntensity += (double)image.at<uchar>(y, x);
+				count++;
+			}
+			totalIntensity /= count;
+			if (totalIntensity > optimalIntensity)
+			{
+				peakK = k;
+				optimalIntensity = totalIntensity;
+			}
+		}
+
+		//apply the shift
+		for (int i = 0; i < segment.GetLength(); ++i)
+		{
+			segment[i].Position.x = peakK * x_incr + segment[i].Position.x;
+			segment[i].Position.y = peakK * y_incr + segment[i].Position.y;
+
+			if (segment[i].Position.x < 0.0)
+				segment[i].Position.x = 0.0;
+			else if (segment[i].Position.x >= image.cols)
+				segment[i].Position.x = image.cols - 1;
+			if (segment[i].Position.y < 0.0)
+				segment[i].Position.y = 0.0;
+			else if (segment[i].Position.y >= image.rows)
+				segment[i].Position.y = image.rows - 1;
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	void EdgeDirectionDuneDetector::ShiftSegmentsToGradientPeak(std::vector<DuneSegment> &segments, const cv::Mat &domMap)
 	{
 		EdgeDirectionImageProcessor* edgeImgProc = dynamic_cast<EdgeDirectionImageProcessor*>(ImageProcess);
@@ -200,40 +344,14 @@ namespace dune
 				Get2dShiftMagnitudeAt(segments[i][j].Position.x,
 					segments[i][j].Position.y, imgProcParams->K,
 					searchDir,
-					shiftValues[j]);
-				//cv::Vec2d shift1, shift2;
-				////Search both directions
-				//bool found1 = Get2dShiftPeakAt(segments[i][j].Position.x,
-				//	segments[i][j].Position.y, imgProcParams->K * 2,
-				//	searchDir,
-				//	shift1);
-				//bool found2 = Get2dShiftPeakAt(segments[i][j].Position.x,
-				//	segments[i][j].Position.y, imgProcParams->K * 0.3,
-				//	searchDir - PI,
-				//	shift2);
-
-				//if (found1 && found2)
-				//{
-				//	if (fabs(shift1[0]) < fabs(shift2[0]))
-				//		shiftValues[j] = shift1;
-				//	else
-				//		shiftValues[j] = shift2;
-				//}
-				//else if (found1)
-				//{
-				//	shiftValues[j] = shift1;
-				//}
-				//else
-				//{
-				//	shiftValues[j] = shift2;
-				//}
-				
+					shiftValues[j],
+					domMap);
 			}
 			SmoothShifts(shiftValues, imgProcParams->K);
 			for (int j = 0; j < segments[i].GetLength(); ++j)
 			{
-				segments[i][j].Position.x += shiftValues[j][0];
-				segments[i][j].Position.y += shiftValues[j][1];
+				segments[i][j].Position.x += std::ceil(shiftValues[j][0] - 0.5);
+				segments[i][j].Position.y += std::ceil(shiftValues[j][1] - 0.5);
 
 				if (segments[i][j].Position.x < 0)
 					segments[i][j].Position.x = 0;
@@ -264,12 +382,12 @@ namespace dune
 
 		for (size_t i = 0; i < segments.size(); ++i)
 		{
-			ShiftSegmentToOptimalGradientPeak(segments[i], imgProcParams->K, searchDir);
+			ShiftSegmentToOptimalGradientPeak(segments[i], imgProcParams->K*2, searchDir, domMap);
 			segments[i].GaussianSmooth(imgProcParams->K);
 		}
 	}
 
-	void EdgeDirectionDuneDetector::ShiftSegmentToOptimalGradientPeak(DuneSegment &segment, int kSize, double dir)
+	void EdgeDirectionDuneDetector::ShiftSegmentToOptimalGradientPeak(DuneSegment &segment, int kSize, double dir, const cv::Mat &domMap)
 	{
 		EdgeDirectionImageProcessor* edgeImgProc = dynamic_cast<EdgeDirectionImageProcessor*>(ImageProcess);
 		bool found = false;
@@ -292,8 +410,13 @@ namespace dune
 					y < 0 || y >= edgeImgProc->BaseData.Gradient.rows)
 					continue;
 				
+				/*if (domMap.at<uchar>(y, x) > 0){
+					magCount++;
+					totalMag += edgeImgProc->BaseData.getMagnitudeAt(x, y) / 1000.0;
+				}*/
 				magCount++;
 				totalMag += edgeImgProc->BaseData.getMagnitudeAt(x, y) / 1000.0;
+			
 			}
 			totalMag /= magCount;
 			if (totalMag > optimalMag)
@@ -389,7 +512,7 @@ namespace dune
 		return found;
 	}
 
-	bool EdgeDirectionDuneDetector::Get2dShiftMagnitudeAt(double x, double y, int sizeK, double dir, cv::Vec2d &shift)
+	bool EdgeDirectionDuneDetector::Get2dShiftMagnitudeAt(double x, double y, int sizeK, double dir, cv::Vec2d &shift, const cv::Mat &domMap)
 	{
 		EdgeDirectionImageProcessor* edgeImgProc = dynamic_cast<EdgeDirectionImageProcessor*>(ImageProcess);
 		bool found = false;
@@ -408,7 +531,8 @@ namespace dune
 				continue;
 
 			double mag = edgeImgProc->BaseData.getMagnitudeAt(xshift, yshift);
-			if (mag > maxMag)
+
+			if (mag > maxMag && domMap.at<uchar>(yshift, xshift) > 0)
 			{
 				maxMag = mag;
 				shift[0] = k * x_incr;
