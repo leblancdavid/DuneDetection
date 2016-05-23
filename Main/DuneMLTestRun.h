@@ -272,6 +272,8 @@ void ValidateImageClassifier(duneML::DuneMLData data,
 	duneML::MLDuneFiltering mlFilter;
 	mlFilter.SetFeatureClassifier(classifier);
 	mlFilter.SetFeatureDetector(&features);
+	mlFilter.SetMinSegmentLength(50);
+	mlFilter.SetThreshold(0.5);
 
 	//std::vector<dune::DuneSegment> classifiedSegments = mlFilter.Filter(processedImage, segments);
 	std::vector<dune::DuneSegment> classifiedSegments = mlFilter.FilterByResponse(processedImage, segments, data.SunOrientation);
@@ -477,7 +479,7 @@ void RunMLTest()
 	testData[5].SunOrientation = 0.3302;//-2.8375;//0.3041;
 	testData[6].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 15.png";
 	testData[6].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 15 gt.png";
-	testData[6].SunOrientation = -0.6973;//-2.8375;//0.3041;
+	testData[6].SunOrientation = -0.6973 + 3.1416;//-2.8375;//0.3041;
 
 	RunMLTest(trainingData, testData, 1000, 1000, 10);
 
