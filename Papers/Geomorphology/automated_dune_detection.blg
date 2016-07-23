@@ -1,0 +1,65 @@
+This is BibTeX, Version 0.99dThe top-level auxiliary file: automated_dune_detection.aux
+The style file: elsarticle-num.bst
+Database file #1: references.bib
+I was expecting a `,' or a `}'---line 19 of file references.bib
+ :  
+ :  booktitle   = {Geomorphological Landscapes of the World},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 57 of file references.bib
+ :  
+ :  booktitle   = {Australian Landscapes},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 77 of file references.bib
+ :  
+ :  booktitle   = {The Geology of Mars: Evidence from Earth-based Analogs},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 89 of file references.bib
+ :  
+ :  year        = {2015},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 115 of file references.bib
+ :  
+ :  author  = {T. Huang, G. Yang, G. Tang}
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 122 of file references.bib
+ :  
+ :  edition = {Third Edition}
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You're missing a field part---line 155 of file references.bib
+ :     title = 
+ :             ,
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 397 of file references.bib
+ :   year =         "2012"
+ :                        ",
+I'm skipping whatever remains of this entry
+Too many commas in name 1 of "David Vaz, Pedro Sarmento, Maria Barata, Lori Fenton, Timothy Michaels" for entry vaz_object_based_dune_analysis
+while executing---line 1507 of file elsarticle-num.bst
+Too many commas in name 1 of "David Vaz, Pedro Sarmento, Maria Barata, Lori Fenton, Timothy Michaels" for entry vaz_object_based_dune_analysis
+while executing---line 1507 of file elsarticle-num.bst
+Warning--there's a number but no volume in vaz_object_based_dune_analysis
+Warning--empty journal in goudie_desert_landforms_namibia
+Warning--empty booktitle in goodie_namib_sand_sea_ancient_desert
+Warning--empty publisher in goodie_namib_sand_sea_ancient_desert
+Warning--empty year in goodie_namib_sand_sea_ancient_desert
+Warning--empty pages in goodie_namib_sand_sea_ancient_desert
+Warning--empty booktitle in hesse_australian_desert_dunefields
+Warning--empty publisher in hesse_australian_desert_dunefields
+Warning--empty year in hesse_australian_desert_dunefields
+Warning--empty pages in hesse_australian_desert_dunefields
+Warning--empty booktitle in zimbelman_eolian_deposits_western_united_states
+Warning--empty publisher in zimbelman_eolian_deposits_western_united_states
+Warning--empty year in zimbelman_eolian_deposits_western_united_states
+Warning--empty pages in zimbelman_eolian_deposits_western_united_states
+Warning--empty year in pepe_winnemucca_dune_complex
+Warning--empty booktitle in fenton_aeolian_sediment_ganges_chasma_mars
+Warning--empty pages in fenton_aeolian_sediment_ganges_chasma_mars
+Warning--empty author in huang_median_filtering_algorithm
+Warning--empty publisher in digital_image_processing_book
+(There were 10 error messages)

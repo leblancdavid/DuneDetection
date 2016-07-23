@@ -1,0 +1,108 @@
+\section{Results}
+
+\subsection{Study Areas}
+
+As part of this research project, two datasets were used in order to prove the robustness of this method. The datasets include a wide range of dune types with varying morphological properties.
+
+The data provided in each set are satellite images of dune field regions available through Google Earth and NASA datasets. Included with the images is the ground truth which has been manually labeled by experts in the research field. The ground truth consists of crest-lines for each positive dune detection.
+
+In each case, the scales of the satellite images were chosen such that the inter-dune distance appeared roughly normalized across the entire dataset. Scale selection of the images is important process for even comparison of the methods for different regions. The images are resized to an appropriate resolution for processing and even across the entire dataset.
+
+The method described in this paper was tested on two distinct datasets: an terrestrial dataset which includes dune fields of various regions on Earth, along with the dataset provided in \cite{vaz_object_based_dune_analysis} which is located on Mars in the Ganges crater region. The same method was applied on both datasets.
+
+\subsubsection{Terrestrial Dataset}
+\label{subsec:terrestrial_dataset}
+The first dataset is a small sample of a dozen satellite images from six separate desert regions on Earth (shown in Figure \ref{fig:terrestrial_dataset}). Included are the Kalahari, Namib and Skeleton Coast sand sea regions in Namibia (\cite{goudie_desert_landforms_namibia}). Also represented in this dataset are the Simpson dune field in Australia, the Winnemucca Dune Complex in Nevada, and the White Sands National Monument. A wide range of landform types are contained within each of these regions which provides a broad study for an automated crest-line detection method. 
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{\textwidth}
+		\centering
+		\includegraphics[width=0.45\linewidth]{figures/kalahari}
+		\includegraphics[width=0.45\linewidth]{figures/kalahari_gt}
+		\caption{}
+		\label{fig:kalahari_image}
+	\end{subfigure}
+	\begin{subfigure}{\textwidth}
+		\centering
+		\includegraphics[width=0.45\linewidth]{figures/namib}
+		\includegraphics[width=0.45\linewidth]{figures/namib_gt}
+		\caption{}
+		\label{fig:namib_image}
+	\end{subfigure}
+	\begin{subfigure}{\textwidth}
+		\centering
+		\includegraphics[width=0.45\linewidth]{figures/simpson}
+		\includegraphics[width=0.45\linewidth]{figures/simpson_gt}
+		\caption{}
+		\label{fig:simpson_image}
+	\end{subfigure}
+\end{figure}
+\begin{figure}[H]
+	\ContinuedFloat
+	\centering
+	\begin{subfigure}{\textwidth}
+		\centering
+		\includegraphics[width=0.45\linewidth]{figures/skeletoncoast}
+		\includegraphics[width=0.45\linewidth]{figures/skeletoncoast_gt}
+		\caption{}
+		\label{fig:skeleton_coast_image}
+	\end{subfigure}
+	\begin{subfigure}{\textwidth}
+		\centering
+		\includegraphics[width=0.45\linewidth]{figures/wdc}
+		\includegraphics[width=0.45\linewidth]{figures/wdc_gt}
+		\caption{}
+		\label{fig:wdc_image}
+	\end{subfigure}
+	\begin{subfigure}{\textwidth}
+		\centering
+		\includegraphics[width=0.45\linewidth]{figures/whitesands}
+		\includegraphics[width=0.45\linewidth]{figures/whitesands_gt}
+		\caption{}
+		\label{fig:white_sands_image}
+	\end{subfigure}
+	
+	\caption{Terrestrial dataset of six regions with respective labeled ground truth: (\ref{fig:kalahari_image}) Kalahari (Namibia), (\ref{fig:namib_image}) Namib (Namibia), (\ref{fig:simpson_image}) Simpson (Australia), (\ref{fig:skeleton_coast_image}) Skeleton Coast (Namibia), (\ref{fig:wdc_image}) Winnemucca Dune Complex (USA), and (\ref{fig:white_sands_image}) White Sands (USA)}
+	\label{fig:terrestrial_dataset}
+\end{figure}
+
+
+The Kalahari (fig. \ref{fig:kalahari_image})sands span from the southeastern region of Namibia to South Africa. The region is a 100-200 km wide and is composed of mostly fixed dunes \cite{lancaster_linear_dunes_kalahari}. Most of the area is comprised of simple linear form dunes, although some small areas contain some compound linear dunes as well. Unlike other desert regions, the Kalahari contains areas which are well vegetated. On average, the dunes range from 2m to 15m in height, with a 150m to 250m width, and spaced from 200m to 240m. These measurements may be useful for determining the reliability of our metric calculations.
+
+The Namib Sand Sea (fig. \ref{fig:namib_image}) region spans approximately 34,000 km of the Altantic coast of Namibia, contains some of the largest and oldest sand dunes in the world according to \cite{goodie_namib_sand_sea_ancient_desert}. High energy unimodal, bimodal and complex wind regimes create interesting dune field patterns in the Namib Sand Sea region of Namibia \cite{lancaster_winds_sand_movement_namib_sea}. These wind patterns characterize the spatial variability of the dune types, sizes, and other morphological properties of the region, making it an interesting case study for this research.
+
+The Skeleton Coast (fig. \ref{fig:skeleton_coast_image}) dune field contains simple, locally compound, transverse and barchanoid dunes over its 2000 km\textsuperscript{2} span according to \cite{lancaster_dunes_skeleton_coast}. The dunes pattern in this region are formed due to onshore winds and surface roughness changes between the dunes and coastal plains. The dune field is roughly aligned with the coast and is characterized with a large slip face in which dunes range from 20m to 80m in height.
+
+Another region represented in the dataset is the Simpson (fig. \ref{fig:simpson_image}) dune field in Australia. Much like the Kalahari sands in southern Africa, the Simpson dune fields contains many similar features. The areas are home to lush vegetation, and the dune field follow a mostly simple linear pattern where the dunes tend to be broad crested \cite{hesse_australian_desert_dunefields}. According to \cite{twidale_simpson_desert_australia}, some of the ridges continue unbroken for up to 200 km, where each crest measures 15m to 38m in height. The spacing between each crest varies depending on the height of the ridges. Areas with larger ridges may have one or two dunes per kilometer, while smaller ridges may have five or six dunes per kilometer. These factor make this area an interesting addition to the dataset because the scale of the images is much larger.
+
+Also present is the Winnemucca Dune Complex (WDC, fig. \ref{fig:wdc_image}) found in western United States, in Nevada. The WDC covers an area of roughly 900 km\textsuperscript{2} north of Winnemucca, Nevada. The most common dune type present are stabilized parabolic dunes, but barchans and transverse ridges can also be found scattered throughout the area \cite{zimbelman_eolian_deposits_western_united_states}. In fact, according to \cite{pepe_winnemucca_dune_complex}, the WDC is primarily covered by six crescentic complexes, a large sand sheet, and discontinuous sets of compound barchanbolic-parabolic dune fields. The WDC contains a complex set of repetitive sequences of dunes which varying shapes and scales, which makes it an ideal candidate for this dataset.
+
+Finally, the last area in the dataset is the White Sands National Monument (fig. \ref{fig:white_sands_image}), located in the state of New Mexico, USA. This area boasts an interesting pattern of crescentric aeolian dunes which are formed in a systematically similar fashion to wind ripples and subaqueous dunes \cite{ewing_aeolian_dune_interaction_white_sands}. There are a wide range of features and properties in the White Sands dune field that merit study, such as described in \cite{ewing_aeolian_dune_interaction_white_sands}. These interactions include merging, lateral linking, defect repulsion, bedform repulsion, off-center collision, defect creation and dune splitting. The details of these interactions are outside the scope of this research but crest-line detection may be an essential preliminary step towards extracting those features. Measuring the number of dunes, crest lengths, defect density, dune spacing, and dune height are all done manually by experts in the field. A move towards an automated process would greatly improve research efforts, and would be a helpful tool for scientist in the field.
+
+\subsubsection{Mars Dataset}
+\label{subsec:mars_dataset}
+To verify the robustness of this approach, the method was also tested on another dataset which was used in \cite{vaz_object_based_dune_analysis}. The dataset provided is from the Ganges chasma on Mars, and includes satellite images, manually labeled crest-lines, and the results of the original author's method. The provided results lay a baseline benchmark for measuring quality and accuracy of crest-line detection algorithms. In order to more easily process the dataset, the Ganges region was split into sixteen areas of equal size, as shown in Figure \ref{fig:mars_ganges_dataset}. The ground truth included was not validated for correctness, the labeled data was used as-is, which may account for some errors (see Sections \ref{sec:results} and \ref{sec:discussion}).
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{\textwidth}
+		\centering
+		\includegraphics[width=0.7\linewidth]{figures/ganges_regions}
+		\caption{}
+		\label{fig:ganges_regions}
+	\end{subfigure}
+	\begin{subfigure}{\textwidth}
+		\centering
+		\includegraphics[width=0.45\linewidth]{figures/ganges1}
+		\includegraphics[width=0.45\linewidth]{figures/ganges1_gt}
+		\caption{}
+		\label{fig:ganges1_image}
+	\end{subfigure}
+	
+	\caption{Ganges chasma Mars dataset from \cite{vaz_object_based_dune_analysis} which includes (\ref{fig:ganges_regions}) 16 regions extracted, (\ref{fig:ganges1_image}) sample image from region 1 with corresponding labeled ground truth}
+	\label{fig:mars_ganges_dataset}
+\end{figure}
+
+
+The dataset is essentially a CTX mosaic of the Ganges chasma, which spans an area of 500 km\textsuperscript{2}, and includes a wide variety of dune types and morphologies. According to \cite{fenton_aeolian_sediment_ganges_chasma_mars}, many aeolian fatures can be found in the Ganges Chasma. Sand sheets, dune fields, unidirectional features such as barchan dunes were all identified within this region.overall structure of the Ganges dune field is a complex set of many diverging dunes, which makes it a challenging and appropriate area for testing this method. 

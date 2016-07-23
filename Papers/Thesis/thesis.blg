@@ -1,0 +1,124 @@
+This is BibTeX, Version 0.99dThe top-level auxiliary file: thesis.aux
+A level-1 auxiliary file: introduction.aux
+A level-1 auxiliary file: background.aux
+A level-1 auxiliary file: methodology.aux
+A level-1 auxiliary file: results.aux
+A level-1 auxiliary file: conclusion.aux
+The style file: plain.bst
+Database file #1: references.bib
+I was expecting a `,' or a `}'---line 19 of file references.bib
+ :  
+ :  booktitle   = {Geomorphological Landscapes of the World},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 57 of file references.bib
+ :  
+ :  booktitle   = {Australian Landscapes},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 77 of file references.bib
+ :  
+ :  booktitle   = {The Geology of Mars: Evidence from Earth-based Analogs},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 89 of file references.bib
+ :  
+ :  year        = {2015},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 115 of file references.bib
+ :  
+ :  author  = {T. Huang, G. Yang, G. Tang}
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 122 of file references.bib
+ :  
+ :  edition = {Third Edition}
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You're missing a field part---line 155 of file references.bib
+ :     title = 
+ :             ,
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 397 of file references.bib
+ :   year =         "2012"
+ :                        ",
+I'm skipping whatever remains of this entry
+Too many commas in name 1 of "David Vaz, Pedro Sarmento, Maria Barata, Lori Fenton, Timothy Michaels" for entry vaz_object_based_dune_analysis
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "David Vaz, Pedro Sarmento, Maria Barata, Lori Fenton, Timothy Michaels" for entry vaz_object_based_dune_analysis
+while executing---line 1049 of file plain.bst
+Name 1 in "Ryan C. Ewing, Aymeric-Pierre B. Peyret, Gary Kocurek, and Mary Bourke" has a comma at the end for entry Ewing_Peyret_Kocurek_Bourke
+while executing---line 1049 of file plain.bst
+Name 1 in "Garret P. Duffy, and John E. Hughes-Clarke" has a comma at the end for entry Application_spatial_cross_correlation_detection_submarine_dunes
+while executing---line 1049 of file plain.bst
+Name 1 in "Yu Cheng, Zhigang Jin, and Cunming Hao" has a comma at the end for entry Illumination_normalization_based_on_2d_gaussian_model
+while executing---line 1049 of file plain.bst
+Name 1 in "Guoji Zhang, Qiang Chen, and Quansen Sun" has a comma at the end for entry Illumination_normalization_among_multiple_remote_senging_images
+while executing---line 1049 of file plain.bst
+Name 1 in "Paul Bao, Lei Zhang, and Xiaolin Wu" has a comma at the end for entry Canny_edge_detection_enhancement_scale_multiplication
+while executing---line 1049 of file plain.bst
+Name 1 in "Weibin Rong, Zhanjing Li, Wei Zhang, and Lining Sun" has a comma at the end for entry Improved_Canny_Edge_Detection
+while executing---line 1049 of file plain.bst
+Name 1 in "Shuai Wanh, Shuifa Sun, Qing Guo, Fangmin Dong, and Chunyan Zhou" has a comma at the end for entry Image_Edge_detection_Rotating_Kernel_Transformation
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Shuai Wanh, Shuifa Sun, Qing Guo, Fangmin Dong, and Chunyan Zhou" for entry Image_Edge_detection_Rotating_Kernel_Transformation
+while executing---line 1049 of file plain.bst
+Name 1 in "Jos B.T.M. Roerdink, and Arnold Meijster" has a comma at the end for entry Watershed-transform-definition-algorithms-parallelization-strategies
+while executing---line 1049 of file plain.bst
+Name 1 in "Paul R. Hill, C. Nishan Canagarajah, and David R. Bull" has a comma at the end for entry Image_segmentation_using_texture_gradient_based_watershed_transform
+while executing---line 1049 of file plain.bst
+Name 1 in "Shuang Wang, Xuili Ma, Xiangrong Zhang, and Licheng Jiao" has a comma at the end for entry Watershed-based-textural-image-segmentation
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Chih-Chung Kao, Liang-Hwei Lee, Chih-Chiang Tai, Yung-Chung Wei" for entry Extracting_ocean_surface_feature_modis
+while executing---line 1049 of file plain.bst
+Name 1 in "Lourenco Bandeira, Jorge S. Marques, Jose Saraiva, and Pedro Pina" has a comma at the end for entry BandeiraMarques
+while executing---line 1049 of file plain.bst
+Warning--to sort, need author or key in huang_median_filtering_algorithm
+Warning--empty author in huang_median_filtering_algorithm
+Too many commas in name 1 of "Chih-Chung Kao, Liang-Hwei Lee, Chih-Chiang Tai, Yung-Chung Wei" for entry Extracting_ocean_surface_feature_modis
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "David Vaz, Pedro Sarmento, Maria Barata, Lori Fenton, Timothy Michaels" for entry vaz_object_based_dune_analysis
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "David Vaz, Pedro Sarmento, Maria Barata, Lori Fenton, Timothy Michaels" for entry vaz_object_based_dune_analysis
+while executing---line 1090 of file plain.bst
+Warning--there's a number but no volume in vaz_object_based_dune_analysis
+Name 1 in "Garret P. Duffy, and John E. Hughes-Clarke" has a comma at the end for entry Application_spatial_cross_correlation_detection_submarine_dunes
+while executing---line 1090 of file plain.bst
+Warning--empty journal in goudie_desert_landforms_namibia
+Warning--empty year in goudie_desert_landforms_namibia
+Warning--empty booktitle in goodie_namib_sand_sea_ancient_desert
+Warning--empty publisher in goodie_namib_sand_sea_ancient_desert
+Warning--empty year in goodie_namib_sand_sea_ancient_desert
+Name 1 in "Guoji Zhang, Qiang Chen, and Quansen Sun" has a comma at the end for entry Illumination_normalization_among_multiple_remote_senging_images
+while executing---line 1090 of file plain.bst
+Warning--empty booktitle in hesse_australian_desert_dunefields
+Warning--empty publisher in hesse_australian_desert_dunefields
+Warning--empty year in hesse_australian_desert_dunefields
+Warning--empty booktitle in zimbelman_eolian_deposits_western_united_states
+Warning--empty publisher in zimbelman_eolian_deposits_western_united_states
+Warning--empty year in zimbelman_eolian_deposits_western_united_states
+Warning--empty booktitle in fenton_aeolian_sediment_ganges_chasma_mars
+Name 1 in "Lourenco Bandeira, Jorge S. Marques, Jose Saraiva, and Pedro Pina" has a comma at the end for entry BandeiraMarques
+while executing---line 1090 of file plain.bst
+Name 1 in "Paul Bao, Lei Zhang, and Xiaolin Wu" has a comma at the end for entry Canny_edge_detection_enhancement_scale_multiplication
+while executing---line 1090 of file plain.bst
+Name 1 in "Paul R. Hill, C. Nishan Canagarajah, and David R. Bull" has a comma at the end for entry Image_segmentation_using_texture_gradient_based_watershed_transform
+while executing---line 1090 of file plain.bst
+Warning--empty year in pepe_winnemucca_dune_complex
+Warning--empty publisher in digital_image_processing_book
+Name 1 in "Jos B.T.M. Roerdink, and Arnold Meijster" has a comma at the end for entry Watershed-transform-definition-algorithms-parallelization-strategies
+while executing---line 1090 of file plain.bst
+Name 1 in "Ryan C. Ewing, Aymeric-Pierre B. Peyret, Gary Kocurek, and Mary Bourke" has a comma at the end for entry Ewing_Peyret_Kocurek_Bourke
+while executing---line 1090 of file plain.bst
+Name 1 in "Shuai Wanh, Shuifa Sun, Qing Guo, Fangmin Dong, and Chunyan Zhou" has a comma at the end for entry Image_Edge_detection_Rotating_Kernel_Transformation
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Shuai Wanh, Shuifa Sun, Qing Guo, Fangmin Dong, and Chunyan Zhou" for entry Image_Edge_detection_Rotating_Kernel_Transformation
+while executing---line 1090 of file plain.bst
+Name 1 in "Shuang Wang, Xuili Ma, Xiangrong Zhang, and Licheng Jiao" has a comma at the end for entry Watershed-based-textural-image-segmentation
+while executing---line 1090 of file plain.bst
+Name 1 in "Weibin Rong, Zhanjing Li, Wei Zhang, and Lining Sun" has a comma at the end for entry Improved_Canny_Edge_Detection
+while executing---line 1090 of file plain.bst
+Name 1 in "Yu Cheng, Zhigang Jin, and Cunming Hao" has a comma at the end for entry Illumination_normalization_based_on_2d_gaussian_model
+while executing---line 1090 of file plain.bst
+(There were 38 error messages)

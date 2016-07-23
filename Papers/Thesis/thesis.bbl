@@ -1,0 +1,241 @@
+\begin{thebibliography}{10}
+
+\bibitem{huang_median_filtering_algorithm}
+A fast two-dimensional median filtering algorithm.
+\newblock {\em IEEE Transactions on Acoustics, Speech, Signal Processing},
+  27(1):13--18, 1979.
+
+\bibitem{Bilateral-filtering-gray-color-images}
+R.~Manduchi C.~Tomasi.
+\newblock Bilateral filtering for gray and color images.
+\newblock {\em Proceedings of the 1998 IEEE International Conference on
+  Computer Vision}, 1998.
+
+\bibitem{Extracting_ocean_surface_feature_modis}
+Chih-Chiang Tai Yung-Chung~Wei Chih-Chung~Kao, Liang-Hwei~Lee.
+\newblock Extracting the ocean surface feature of non-linear internal solitary
+  waves in modis satellite images.
+\newblock {\em ???????????????}, ???????????????
+
+\bibitem{vaz_object_based_dune_analysis}
+Maria Barata Lori Fenton Timothy~Michaels David~Vaz, Pedro~Sarmento.
+\newblock Object-based dune analysis: Automated dune mapping and pattern
+  characterization for ganges chasma and gale crater, mars.
+\newblock {\em Geomorphology}, (250):128--139, 2015.
+
+\bibitem{Application_spatial_cross_correlation_detection_submarine_dunes}
+Garret~P. Duffy and John~E. Hughes-Clarke.
+\newblock Application of spatial cross correlation to detection of migration of
+  submarine sand dunes.
+\newblock {\em Journal of Geophysical Research}, 2005.
+
+\bibitem{Kocurek_Ewing}
+Ryan C.~Ewing Gary~Kocurek.
+\newblock Aeolian dune field self-organization - implications for the formation
+  of simple versus complex dune-field patterns.
+\newblock {\em Geomorphology}, 2005.
+
+\bibitem{Robust_Faint_Line_Detection_Enhancement_Algorithm}
+Mrinmoy Ghorai and Bhabatosh Chanda.
+\newblock A robust faint line detection and enhancement algorithm for mural
+  images.
+\newblock {\em Fourth National Conference on Computer Vision, Pattern
+  Recognition, Image Processing and Graphics}, 2013.
+
+\bibitem{Illumination_normalization_for_image_restoration_using_modified_retinex_algorithm}
+Maheshkumar H.~Kolekar G.Lloyds~Raja.
+\newblock Illumination normalization for image restoration using modified
+  retinex algorithm.
+\newblock {\em IEEE ???}, 2012.
+
+\bibitem{Probabilistic-tensor-voting-robust-perceptual-grouping}
+Dian Gong and Gerard Medioni.
+\newblock Probabilistic tensor voting for robust perceptual grouping.
+\newblock {\em ???}, 2012.
+
+\bibitem{goudie_desert_landforms_namibia}
+Andrew~S. Goudie.
+\newblock Desert landforms in namibia - a landsat interpretation.
+
+\bibitem{goodie_namib_sand_sea_ancient_desert}
+Andrew~S. Goudie.
+\newblock Namib sand sea: Large dunes in an ancient desert.
+
+\bibitem{Illumination_normalization_among_multiple_remote_senging_images}
+Qiang~Chen Guoji~Zhang and Quansen Sun.
+\newblock Illumination normalization among multiple remote-sensing images.
+\newblock {\em IEEE Geoscience and Remote Sensing Letters}, 2014.
+
+\bibitem{hesse_australian_desert_dunefields}
+Paul~P. Hesse.
+\newblock The australian desert dunefields: formation and evolution in an old,
+  flat, dry continent.
+
+\bibitem{Automated_cable_tracking_sonar_imagery}
+Jason~C. Isaacs and Ross Goroshin.
+\newblock Automated cable tracking in sonar imagery.
+\newblock {\em ???????????????????}, ???????????????????
+
+\bibitem{zimbelman_eolian_deposits_western_united_states}
+Steven H.~Williams James R.~Zimbelman.
+\newblock Eolian dunes and deposits in the western united states as analogs to
+  wind-related features on mars.
+
+\bibitem{fenton_aeolian_sediment_ganges_chasma_mars}
+R.~A.~Beyer L.~K.~Fenton, T. I.~Michaels.
+\newblock Aeolian sediment sources and transport in ganges chasma, mars:
+  Morphology and atmospheric modeling.
+\newblock 2012.
+
+\bibitem{lancaster_dunes_skeleton_coast}
+N.~Lancaster.
+\newblock Dunes on the skeleton coast, namibia (south west africa):
+  Geomorphology and grain size relationships.
+\newblock {\em Earth Surface Processes and Landforms}, 7:575--587, 1982.
+
+\bibitem{lancaster_winds_sand_movement_namib_sea}
+N.~Lancaster.
+\newblock Winds and sand movements in the namib sand sea.
+\newblock {\em Earth Surface Processes and Landforms}, 10:607--–619, 1985.
+
+\bibitem{lancaster_linear_dunes_kalahari}
+N.~Lancaster.
+\newblock Development of linear dunes in the southwestern kalahari southern
+  africa.
+\newblock {\em Journal of Arid Environments}, pages 233--244, 1987.
+
+\bibitem{Detection-breast-tumor-candidates-using-marker-controlled-watershed-segmentation}
+Samual~H. Lewis and Aijuan Dong.
+\newblock Detection of breast tumor candidates using marker-controlled
+  watershed segmentation and morphological analysis.
+\newblock {\em IEEE ???}, 2012.
+
+\bibitem{BandeiraMarques}
+Jose~Saraiva Lourenco~Bandeira, Jorge S.~Marques and Pedro Pina.
+\newblock Advances in automated detection of sand dunes on mars.
+\newblock {\em Earth Surface Processes and Landforms}, 2013.
+
+\bibitem{lowe_sift_paper}
+David~G. Lowe.
+\newblock Distinctive image features from scale-invariant keypoints.
+\newblock {\em International Journal of Computer Vision}, 2004.
+
+\bibitem{Automated-mapping-linear-dunefield-morphometric-parameters}
+S.~Lewin M.W.~Telfer, RM.~Fyfe.
+\newblock Automated mapping of linear dunefield morphometric parameters from
+  remotely-sensed data.
+\newblock {\em Aeolian Research}, 2015.
+
+\bibitem{dalal_histogram_oriented_gradients_human_detection}
+B.~Triggs N.~Dalal.
+\newblock Histograms of oriented gradients for human detection.
+\newblock {\em CVPR}, pages 886--893, 2005.
+
+\bibitem{Canny_edge_detection_enhancement_scale_multiplication}
+Lei~Zhang Paul~Bao and Xiaolin Wu.
+\newblock Canny edge detection enhancement by scale multiplication.
+\newblock {\em IEEE Transaction on Pattern Analysis and Machine Intelligence},
+  2005.
+
+\bibitem{Image_segmentation_using_texture_gradient_based_watershed_transform}
+C.~Nishan~Canagarajah Paul R.~Hill and David~R. Bull.
+\newblock Image segmentation using a texture gradient based watershed
+  transform.
+\newblock {\em IEEE Transactions on Image Processing}, 2003.
+
+\bibitem{pepe_winnemucca_dune_complex}
+Nathaniel Pepe.
+\newblock {\em The Geomorphology, Eolian Activity, and Petrology of the
+  Winnemucca Dune Complex, Humboldt County, Nevada, USA}.
+\newblock PhD thesis, University of Nevada, Reno.
+
+\bibitem{digital_image_processing_book}
+R.~E.~Woods R.~C.~Gonzalez.
+\newblock {\em Digital Image Processing}.
+\newblock 2008.
+
+\bibitem{Watershed-transform-definition-algorithms-parallelization-strategies}
+Jos~B.T.M. Roerdink and Arnold Meijster.
+\newblock The watershed transform: Definitions, algorithms and parallelization
+  strategies.
+\newblock {\em Fundamenta Informaticae}, 2001.
+
+\bibitem{hu_gradient_field_descriptor}
+John~Collomosse Rui~Hu, Mark~Barnard.
+\newblock Gradient field descriptor for sketch based retrieval and
+  localization.
+\newblock {\em 2010 IEEE International Conference on Image Processing}, pages
+  1025--1028, 2010.
+
+\bibitem{Multi_spatial_analysis_aeolian_dune_field_patterns}
+Alex G.~Hayes Ryan C.~Ewing, George D.~McDonald.
+\newblock Multi-spatial analysis of aeolian dune-field patterns.
+\newblock {\em Journal of Geomorphology}, 2014.
+
+\bibitem{ewing_aeolian_dune_interaction_white_sands}
+Gary A.~Kocurek Ryan C.~Ewing.
+\newblock Aeolian dune interactions and dune-field pattern formation: White
+  sands dune field, new mexico.
+\newblock {\em Sedimentology}, 57:1199--1219, 2010.
+
+\bibitem{Ewing_Peyret_Kocurek_Bourke}
+Gary~Kocurek Ryan C.~Ewing, Aymeric-Pierre B.~Peyret and Mary Bourke.
+\newblock Dune field pattern formation and recent transporting winds in the
+  olympia undae dune field, north polar region of mars.
+\newblock {\em Journal of Geophysical Research}, 2010.
+
+\bibitem{Fingerprint-pore-extraction-based-marker-controlled-watershed-segmentation}
+C.~Meena S.~Malathi, S. Uma~Maheswari.
+\newblock Fingerprint pore extraction based on marker controlled watershed
+  segmentation.
+\newblock {\em IEEE}, 2010.
+
+\bibitem{Image_Edge_detection_Rotating_Kernel_Transformation}
+Qing Guo Fangmin~Dong Shuai~Wanh, Shuifa~Sun and Chunyan Zhou.
+\newblock Image edge detection based on rotating kernel transformation.
+\newblock {\em 7th International Congress on Image and Signal Processing},
+  2014.
+
+\bibitem{Watershed-based-textural-image-segmentation}
+Xiangrong~Zhang Shuang~Wang, Xuili~Ma and Licheng Jiao.
+\newblock Watershged-based textural image segmentation.
+\newblock {\em International Symposium on Intelligent Signal Processing and
+  Communications Systems}, 2007.
+
+\bibitem{Extraction_roads_multispectral_imagery}
+Jeffrey~Brokish Trish~Keaton.
+\newblock A level set method for the extraction of roads from multispectral
+  imagery.
+\newblock {\em Applied Imagery Pattern Recognition Workshop}, 2002.
+
+\bibitem{twidale_simpson_desert_australia}
+C.~R. Twidale.
+\newblock The simpson desert, central australia.
+\newblock {\em South African Geographic Journal}, 65:3--17, 1980.
+
+\bibitem{Improved_Canny_Edge_Detection}
+Wei~Zhang Weibin~Rong, Zhanjing~Li and Lining Sun.
+\newblock An improved canny edge detection algorithm.
+\newblock {\em IEEE International Conference on Mechatronics and Automation},
+  2014.
+
+\bibitem{Runway_detection_tracking_unmanned}
+Qingbo~Geng Xiaobing~Wang, Baokui~Li.
+\newblock Runway detection and tracking for unmanned aerial vehicle based on an
+  improved canny edge detection algorithm.
+\newblock {\em 4th International Conference on Intelligent Human-Machine
+  Systems and Cybernetics}, 2012.
+
+\bibitem{Illumination_normalization_based_on_2d_gaussian_model}
+Zhigang~Jin Yu~Cheng and Cunming Hao.
+\newblock Illumination normalization based on 2d gaussian illumination model.
+\newblock {\em International Conference on Advanced Computer Theory and
+  Engineering (ICACTE)}, 2010.
+
+\bibitem{Edge_linking_using_geodesic_distance_neighborhood_information}
+Hong~Zhang Zhijie~Wang.
+\newblock Edge linking using geodesic distance and neighborhood information.
+\newblock {\em International Conference on Advanced Intelligent Mechatronics},
+  2008.
+
+\end{thebibliography}

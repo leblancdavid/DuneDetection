@@ -1,0 +1,78 @@
+\begin{thebibliography}{10}
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{\texttt{#1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+\expandafter\ifx\csname href\endcsname\relax
+  \def\href#1#2{#2} \def\path#1{#1}\fi
+
+\bibitem{vaz_object_based_dune_analysis}
+M.~B. L. F. T.~M. David~Vaz, Pedro~Sarmento, Object-based dune analysis:
+  Automated dune mapping and pattern characterization for ganges chasma and
+  gale crater, mars, Geomorphology~(250) (2015) 128--139.
+
+\bibitem{goudie_desert_landforms_namibia}
+A.~S. Goudie, Desert landforms in namibia - a landsat interpretation.
+
+\bibitem{lancaster_linear_dunes_kalahari}
+N.~Lancaster, Development of linear dunes in the southwestern kalahari southern
+  africa, Journal of Arid Environments (1987) 233--244.
+
+\bibitem{goodie_namib_sand_sea_ancient_desert}
+A.~S. Goudie, Namib sand sea: Large dunes in an ancient desert.
+
+\bibitem{lancaster_winds_sand_movement_namib_sea}
+N.~Lancaster, Winds and sand movements in the namib sand sea, Earth Surface
+  Processes and Landforms 10 (1985) 607--–619.
+
+\bibitem{lancaster_dunes_skeleton_coast}
+N.~Lancaster, Dunes on the skeleton coast, namibia (south west africa):
+  Geomorphology and grain size relationships, Earth Surface Processes and
+  Landforms 7 (1982) 575--587.
+
+\bibitem{hesse_australian_desert_dunefields}
+P.~P. Hesse, The australian desert dunefields: formation and evolution in an
+  old, flat, dry continent.
+
+\bibitem{twidale_simpson_desert_australia}
+C.~R. Twidale, The simpson desert, central australia, South African Geographic
+  Journal 65 (1980) 3--17.
+
+\bibitem{zimbelman_eolian_deposits_western_united_states}
+S.~H.~W. James R.~Zimbelman, Eolian dunes and deposits in the western united
+  states as analogs to wind-related features on mars.
+
+\bibitem{pepe_winnemucca_dune_complex}
+N.~Pepe, The geomorphology, eolian activity, and petrology of the winnemucca
+  dune complex, humboldt county, nevada, usa, Ph.D. thesis, University of
+  Nevada, Reno.
+
+\bibitem{ewing_aeolian_dune_interaction_white_sands}
+G.~A.~K. Ryan C.~Ewing, Aeolian dune interactions and dune-field pattern
+  formation: White sands dune field, new mexico, Sedimentology 57 (2010)
+  1199--1219.
+
+\bibitem{fenton_aeolian_sediment_ganges_chasma_mars}
+R.~A.~B. L.~K.~Fenton, T. I.~Michaels, Aeolian sediment sources and transport
+  in ganges chasma, mars: Morphology and atmospheric modeling, 2012.
+
+\bibitem{huang_median_filtering_algorithm}
+A fast two-dimensional median filtering algorithm, IEEE Transactions on
+  Acoustics, Speech, Signal Processing 27~(1) (1979) 13--18.
+
+\bibitem{digital_image_processing_book}
+R.~E.~W. R.~C.~Gonzalez, Digital Image Processing, 2008.
+
+\bibitem{lowe_sift_paper}
+D.~G. Lowe, Distinctive image features from scale-invariant keypoints,
+  International Journal of Computer Vision.
+
+\bibitem{dalal_histogram_oriented_gradients_human_detection}
+B.~T. N.~Dalal, Histograms of oriented gradients for human detection, CVPR
+  (2005) 886--893.
+
+\bibitem{hu_gradient_field_descriptor}
+J.~C. Rui~Hu, Mark~Barnard, Gradient field descriptor for sketch based
+  retrieval and localization, 2010 IEEE International Conference on Image
+  Processing (2010) 1025--1028.
+
+\end{thebibliography}
