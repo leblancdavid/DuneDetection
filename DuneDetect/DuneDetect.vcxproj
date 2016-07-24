@@ -197,6 +197,9 @@
     <ClInclude Include="RandomTreeFeatureClassifier.h" />
     <ClInclude Include="RotatedKernelEdgeDetector.h" />
     <ClInclude Include="ConnectedComponentsSorter.h" />
+    <ClInclude Include="ShapeFromShading.h" />
+    <ClInclude Include="ShapeFromShadingDuneDetector.h" />
+    <ClInclude Include="ShapeFromShadingProcessor.h" />
     <ClInclude Include="SkeletonizationRegionThinner.h" />
     <ClInclude Include="SuperDuperImageProcessor.h" />
     <ClInclude Include="SVMFeatureClassifier.h" />
@@ -245,6 +248,8 @@
     <ClCompile Include="NormalBayesFeatureClassifier.cpp" />
     <ClCompile Include="RandomTreeFeatureClassifier.cpp" />
     <ClCompile Include="RotatedKernelEdgeDetector.cpp" />
+    <ClCompile Include="ShadeFromShadingProcessor.cpp" />
+    <ClCompile Include="ShapeFromShading.cpp" />
     <ClCompile Include="SuperDuperImageProcessor.cpp" />
     <ClCompile Include="SVMFeatureClassifier.cpp" />
     <ClCompile Include="WatershedDuneDetector.cpp" />

@@ -5,9 +5,17 @@
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -30,6 +38,18 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <PlatformToolset>v120</PlatformToolset>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <PlatformToolset>v120</PlatformToolset>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -82,16 +102,51 @@
       <AdditionalDependencies>opencv_aruco310.lib;opencv_bgsegm310.lib;opencv_calib3d310.lib;opencv_ccalib310.lib;opencv_core310.lib;opencv_datasets310.lib;opencv_dnn310.lib;opencv_dpm310.lib;opencv_face310.lib;opencv_features2d310.lib;opencv_flann310.lib;opencv_fuzzy310.lib;opencv_highgui310.lib;opencv_imgcodecs310.lib;opencv_imgproc310.lib;opencv_line_descriptor310.lib;opencv_ml310.lib;opencv_objdetect310.lib;opencv_optflow310.lib;opencv_photo310.lib;opencv_plot310.lib;opencv_reg310.lib;opencv_rgbd310.lib;opencv_saliency310.lib;opencv_shape310.lib;opencv_stereo310.lib;opencv_stitching310.lib;opencv_structured_light310.lib;opencv_superres310.lib;opencv_surface_matching310.lib;opencv_text310.lib;opencv_tracking310.lib;opencv_ts310.lib;opencv_video310.lib;opencv_videoio310.lib;opencv_videostab310.lib;opencv_xfeatures2d310.lib;opencv_ximgproc310.lib;opencv_xobjdetect310.lib;opencv_xphoto310.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(OPENCV_BIN)\..\..\..\include;..\DuneDetect\;$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(OPENCV_BIN)\..\lib;$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_aruco310.lib;opencv_bgsegm310.lib;opencv_calib3d310.lib;opencv_ccalib310.lib;opencv_core310.lib;opencv_datasets310.lib;opencv_dnn310.lib;opencv_dpm310.lib;opencv_face310.lib;opencv_features2d310.lib;opencv_flann310.lib;opencv_fuzzy310.lib;opencv_highgui310.lib;opencv_imgcodecs310.lib;opencv_imgproc310.lib;opencv_line_descriptor310.lib;opencv_ml310.lib;opencv_objdetect310.lib;opencv_optflow310.lib;opencv_photo310.lib;opencv_plot310.lib;opencv_reg310.lib;opencv_rgbd310.lib;opencv_saliency310.lib;opencv_shape310.lib;opencv_stereo310.lib;opencv_stitching310.lib;opencv_structured_light310.lib;opencv_superres310.lib;opencv_surface_matching310.lib;opencv_text310.lib;opencv_tracking310.lib;opencv_ts310.lib;opencv_video310.lib;opencv_videoio310.lib;opencv_videostab310.lib;opencv_xfeatures2d310.lib;opencv_ximgproc310.lib;opencv_xobjdetect310.lib;opencv_xphoto310.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;$(OPENCV_BIN)\..\..\..\include;..\DuneDetect\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Disabled</Optimization>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+      <UseFullPaths>true</UseFullPaths>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;$(OPENCV_BIN)\..\lib;$(SolutionDir)$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_aruco310d.lib;opencv_bgsegm310d.lib;opencv_calib3d310d.lib;opencv_ccalib310d.lib;opencv_core310d.lib;opencv_datasets310d.lib;opencv_dnn310d.lib;opencv_dpm310d.lib;opencv_face310d.lib;opencv_features2d310d.lib;opencv_flann310d.lib;opencv_fuzzy310d.lib;opencv_highgui310d.lib;opencv_imgcodecs310d.lib;opencv_imgproc310d.lib;opencv_line_descriptor310d.lib;opencv_ml310d.lib;opencv_objdetect310d.lib;opencv_optflow310d.lib;opencv_photo310d.lib;opencv_plot310d.lib;opencv_reg310d.lib;opencv_rgbd310d.lib;opencv_saliency310d.lib;opencv_shape310d.lib;opencv_stereo310d.lib;opencv_stitching310d.lib;opencv_structured_light310d.lib;opencv_superres310d.lib;opencv_surface_matching310d.lib;opencv_text310d.lib;opencv_tracking310d.lib;opencv_ts310d.lib;opencv_video310d.lib;opencv_videoio310d.lib;opencv_videostab310d.lib;opencv_xfeatures2d310d.lib;opencv_ximgproc310d.lib;opencv_xobjdetect310d.lib;opencv_xphoto310d.lib;DuneDetectLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="DuneDatasetHelpers.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TestCaseHelpers.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SFSDetectionTests.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="unittest1.cpp" />
+    <ClCompile Include="TestCaseHelpers.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DuneDetect\DuneDetect.vcxproj">
+      <Project>{3e19be55-85f4-4f1a-9c70-2d4cec603817}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
