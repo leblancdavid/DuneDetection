@@ -15,7 +15,6 @@ namespace dune
 			OpticalAxis.y = 0.0f;
 			LightVector[0] = 0.0f;
 			LightVector[1] = 0.0f;
-			LightVector[2] = 0.0f;
 
 			MaxDepth = 400.0f;
 			Iterations = 12;
@@ -29,7 +28,7 @@ namespace dune
 			LightVector = cpy.LightVector;
 			MaxDepth = cpy.MaxDepth;
 		}
-		SFSProcessParameters(float albedo, float maxDepth, float f, const cv::Point2f &opticalAxis, const cv::Vec3f &light)
+		SFSProcessParameters(float albedo, float maxDepth, float f, const cv::Point2f &opticalAxis, const cv::Vec2f &light)
 		{
 			Albedo = albedo;
 			F = f;
@@ -41,7 +40,7 @@ namespace dune
 		float Albedo;
 		float F;
 		cv::Point2f OpticalAxis;
-		cv::Vec3f LightVector;
+		cv::Vec2f LightVector;
 		float MaxDepth;
 		int Iterations;
 	};

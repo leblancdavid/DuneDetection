@@ -26,6 +26,6 @@ namespace dune
 	void SFSImageProcessor::Process(const cv::Mat &inputImg, cv::Mat &outputImg)
 	{
 		imgproc::ShapeFromShadingTsaiShah sfs;
-		outputImg = sfs.Process(inputImg, cv::Vec2f(parameters->LightVector[0], parameters->LightVector[1]), parameters->Iterations);
+		outputImg = sfs.Process(inputImg, parameters->Iterations);
 	}
 }
