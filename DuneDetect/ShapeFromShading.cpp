@@ -22,7 +22,7 @@ namespace dune
 
 		}
 
-		cv::Mat ShapeFromShadingTsaiShah::Process(const cv::Mat &image, int iterations)
+		cv::Mat ShapeFromShadingTsaiShah::Process(const cv::Mat &image, int iterations, int kSize)
 		{
 			double albedo, tilt, slant;
 			cv::Vec3d illumination;
@@ -77,30 +77,32 @@ namespace dune
 
 				//compute the surface derivatives with respect to x and y
 				//using the updated surface, compute new surface normals
-				for (int i = 0; i < image.rows; ++i)
-				{
-					for (int j = 0; j < image.cols; ++j)
-					{
-						float zx, zy;
-						if (j - 1 < 0)
-							zx = 0.0f;
-						else
-							zx = Z.at<float>(i, j) - Z.at<float>(i, j - 1);
+				cv::Sobel(Z, p, CV_32F, 1, 0, kSize);
+				cv::Sobel(Z, q, CV_32F, 0, 1, kSize);
 
-						if (i - 1 < 0)
-							zy = 0.0;
-						else
-							zy = Z.at<float>(i, j) - Z.at<float>(i - 1, j);
+				cv::normalize(p, p, 0.0, 1.0, cv::NORM_MINMAX);
+				cv::normalize(q, q, 0.0, 1.0, cv::NORM_MINMAX);
+				//for (int i = 0; i < image.rows; ++i)
+				//{
+				//	for (int j = 0; j < image.cols; ++j)
+				//	{
+				//		float zx, zy;
+				//		zx = derivX.at<float>(i, j);
+				//		zy = derivY.at<float>(i, j);
 
-						p.at<float>(i, j) = Z.at<float>(i, j) - zx;
-						q.at<float>(i, j) = Z.at<float>(i, j) - zy;
-					}
-				}
+				//		//float mag = std::sqrt(zx*zx + zy*zy);
+				//		//zx /= mag;
+				//		//zy /= mag;
+
+				//		p.at<float>(i, j) = Z.at<float>(i, j) - zx;
+				//		q.at<float>(i, j) = Z.at<float>(i, j) - zy;
+				//	}
+				//}
 			}
 
-			cv::normalize(Z, Z, 0.0, 1.0, cv::NORM_MINMAX);
+			cv::normalize(p, p, 0.0, 1.0, cv::NORM_MINMAX);
 
-			return Z;
+			return p;
 		}
 
 		void ShapeFromShadingTsaiShah::estimateAlbedoIllumination(const cv::Mat &image, double &albedo, cv::Vec3d &illumination, double &tilt, double &slant)
@@ -109,21 +111,20 @@ namespace dune
 			double mu2 = 0.0;
 			double muDx = 0.0;
 			double muDy = 0.0;
+
+			int k = 7;
+			cv::Mat derivX, derivY;
+			cv::Sobel(image, derivX, CV_64F, 1, 0, k);
+			cv::Sobel(image, derivY, CV_64F, 0, 1, k);
+
 			for (int i = 0; i < image.rows; ++i)
 			{
 				for (int j = 0; j < image.cols; ++j)
 				{
 					double e = (double)image.at<uchar>(i, j) / 255.0;
 					double dx, dy;
-					if (j - 1 < 0)
-						dx = 0.0;
-					else
-						dx = e - (double)image.at<uchar>(i, j-1) / 255.0;
-
-					if (i - 1 < 0)
-						dy = 0.0;
-					else
-						dy = e - (double)image.at<uchar>(i-1, j) / 255.0;
+					dx = derivX.at<double>(i, j);
+					dy = derivY.at<double>(i, j);
 
 					mu1 += e;
 					mu2 += e*e;
@@ -219,6 +220,43 @@ namespace dune
 
 		//	return Si;
 		//}
+
+		ShapeFromShadingGradient::ShapeFromShadingGradient()
+		{
+
+		}
+
+		ShapeFromShadingGradient::~ShapeFromShadingGradient()
+		{
+
+		}
+
+		ShapeFromShadingGradient::ShapeFromShadingGradient(const ShapeFromShadingGradient &cpy)
+		{
+
+		}
+
+		cv::Mat ShapeFromShadingGradient::Process(const cv::Mat &image, int K, cv::Mat &P, cv::Mat &Q)
+		{
+			cv::Sobel(image, P, CV_32F, 1, 0, K);
+			cv::Sobel(image, Q, CV_32F, 0, 1, K);
+
+			for (int i = 0; i < image.rows; ++i)
+			{
+				for (int j = 0; j < image.cols; ++j)
+				{
+					//make all the gradients unit length;
+					float dx = P.at<float>(i, j);
+					float dy = Q.at<float>(i, j);
+					float mag = std::sqrt(dx*dx + dy*dy);
+
+					P.at<float>(i, j) = dx / mag;
+					Q.at<float>(i, j) = dy / mag;
+				}
+			}
+
+			return cv::Mat();
+		}
 
 	}
 }

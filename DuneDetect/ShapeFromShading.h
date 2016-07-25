@@ -86,10 +86,22 @@ namespace dune
 			~ShapeFromShadingTsaiShah();
 			ShapeFromShadingTsaiShah(const ShapeFromShadingTsaiShah &cpy);
 
-			cv::Mat Process(const cv::Mat &image, int iterations);
+			cv::Mat Process(const cv::Mat &image, int iterations, int k);
 
 		private:
 			void estimateAlbedoIllumination(const cv::Mat &image, double &albedo, cv::Vec3d &illumination, double &tilt, double &slant);
+		};
+
+		class ShapeFromShadingGradient
+		{
+		public:
+			ShapeFromShadingGradient();
+			~ShapeFromShadingGradient();
+			ShapeFromShadingGradient(const ShapeFromShadingGradient &cpy);
+
+			cv::Mat Process(const cv::Mat &image, int K, cv::Mat &P, cv::Mat &Q);
+
+		private:
 		};
 	}
 }

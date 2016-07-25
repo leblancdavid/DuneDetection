@@ -9,40 +9,23 @@ namespace dune
 	public:
 		SFSProcessParameters()
 		{
-			Albedo = 1.0f;
-			F = 100.0f;
-			OpticalAxis.x = 0.0f;
-			OpticalAxis.y = 0.0f;
-			LightVector[0] = 0.0f;
-			LightVector[1] = 0.0f;
-
-			MaxDepth = 400.0f;
-			Iterations = 12;
+			K = 7;
+			Iterations = 20;
 		}
 		~SFSProcessParameters() {}
 		SFSProcessParameters(const SFSProcessParameters &cpy)
 		{
-			Albedo = cpy.Albedo;
-			F = cpy.F;
-			OpticalAxis = cpy.OpticalAxis;
-			LightVector = cpy.LightVector;
-			MaxDepth = cpy.MaxDepth;
+			K = cpy.K;
+			Iterations = cpy.Iterations;
 		}
-		SFSProcessParameters(float albedo, float maxDepth, float f, const cv::Point2f &opticalAxis, const cv::Vec2f &light)
+		SFSProcessParameters(int k, int it)
 		{
-			Albedo = albedo;
-			F = f;
-			OpticalAxis = opticalAxis;
-			LightVector = light;
-			MaxDepth = maxDepth;
+			K = k;
+			Iterations = it;
 		}
 
-		float Albedo;
-		float F;
-		cv::Point2f OpticalAxis;
-		cv::Vec2f LightVector;
-		float MaxDepth;
 		int Iterations;
+		int K;
 	};
 
 	class SFSImageProcessor : public BasedEdgeImageProcessor
