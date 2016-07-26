@@ -22,15 +22,15 @@ namespace dune
 
 		}
 
-		cv::Mat ShapeFromShadingTsaiShah::Process(const cv::Mat &image, int iterations, int kSize)
+		cv::Mat ShapeFromShadingTsaiShah::Process(const cv::Mat &image, int iterations, int kSize, cv::Mat &P, cv::Mat &Q)
 		{
 			double albedo, tilt, slant;
 			cv::Vec3d illumination;
 
 			estimateAlbedoIllumination(image, albedo, illumination, tilt, slant);
 			//surface normals
-			cv::Mat p = cv::Mat::zeros(image.size(), CV_32F);
-			cv::Mat q = cv::Mat::zeros(image.size(), CV_32F);
+			P = cv::Mat::zeros(image.size(), CV_32F);
+			Q = cv::Mat::zeros(image.size(), CV_32F);
 			//the surface;
 			cv::Mat Z = cv::Mat::zeros(image.size(), CV_32F);
 
@@ -44,8 +44,8 @@ namespace dune
 					for (int j = 0; j < image.cols; ++j)
 					{
 						float E = (float)image.at<uchar>(i, j) / 255.0f;
-						float pVal = p.at<float>(i, j);
-						float qVal = q.at<float>(i, j);
+						float pVal = P.at<float>(i, j);
+						float qVal = Q.at<float>(i, j);
 						// using the illumination direction and the currently estimate
 						// surface normals, compute the corresponding reflectance map.
 						float R = (illumination[2] + pVal * illumination[0] + qVal * illumination[1]) /
@@ -77,32 +77,38 @@ namespace dune
 
 				//compute the surface derivatives with respect to x and y
 				//using the updated surface, compute new surface normals
-				cv::Sobel(Z, p, CV_32F, 1, 0, kSize);
-				cv::Sobel(Z, q, CV_32F, 0, 1, kSize);
+				cv::Sobel(Z, P, CV_32F, 1, 0, kSize);
+				cv::Sobel(Z, Q, CV_32F, 0, 1, kSize);
 
-				cv::normalize(p, p, 0.0, 1.0, cv::NORM_MINMAX);
-				cv::normalize(q, q, 0.0, 1.0, cv::NORM_MINMAX);
-				//for (int i = 0; i < image.rows; ++i)
-				//{
-				//	for (int j = 0; j < image.cols; ++j)
-				//	{
-				//		float zx, zy;
-				//		zx = derivX.at<float>(i, j);
-				//		zy = derivY.at<float>(i, j);
+				float maxMag = 0.0f;
+				for (int i = 0; i < image.rows; ++i)
+				{
+					for (int j = 0; j < image.cols; ++j)
+					{
+						float dx, dy;
+						dx = P.at<float>(i, j);
+						dy = Q.at<float>(i, j);
 
-				//		//float mag = std::sqrt(zx*zx + zy*zy);
-				//		//zx /= mag;
-				//		//zy /= mag;
+						float mag = std::sqrt(dx*dx + dy*dy) + 0.01; //to avoid dividing by 0
+						dx /= mag;
+						dy /= mag;
 
-				//		p.at<float>(i, j) = Z.at<float>(i, j) - zx;
-				//		q.at<float>(i, j) = Z.at<float>(i, j) - zy;
-				//	}
-				//}
+						if (mag > maxMag)
+							maxMag = mag;
+					}
+				}
+				for (int i = 0; i < image.rows; ++i)
+				{
+					for (int j = 0; j < image.cols; ++j)
+					{
+						P.at<float>(i, j) /= maxMag;
+						Q.at<float>(i, j) /= maxMag;
+					}
+				}
 			}
 
-			cv::normalize(p, p, 0.0, 1.0, cv::NORM_MINMAX);
-
-			return p;
+			cv::normalize(Z, Z, 0.0, 1.0, cv::NORM_MINMAX);
+			return Z;
 		}
 
 		void ShapeFromShadingTsaiShah::estimateAlbedoIllumination(const cv::Mat &image, double &albedo, cv::Vec3d &illumination, double &tilt, double &slant)
@@ -143,7 +149,7 @@ namespace dune
 
 			double gamma = std::sqrt((6.0 * CV_PI*CV_PI * mu2) - (48.0 * mu1*mu1));
 			albedo = gamma / CV_PI;
-			slant = std::acos(3.5 * mu1 / gamma); //should be 4.0 but range for acos is -1 to 1, so 4.0 caused undefines.
+			slant = std::acos(2.0 * mu1 / gamma); //should be 4.0 but range for acos is -1 to 1, so 4.0 caused undefines.
 			tilt = atan2(muDy, muDx);
 			if (tilt < 0)
 				tilt += CV_PI;
@@ -264,10 +270,10 @@ namespace dune
 				}
 			}
 
-			return depthFromGradients(P, Q);
+			return DepthFromGradients(P, Q);
 		}
 
-		cv::Mat ShapeFromShadingGradient::depthFromGradients(const cv::Mat &P, const cv::Mat &Q)
+		cv::Mat DepthFromGradients(const cv::Mat &P, const cv::Mat &Q)
 		{
 			int N = P.rows;
 			int M = P.cols;
@@ -288,7 +294,7 @@ namespace dune
 				{
 					ii = P_period.rows - i - 1;
 					ui = ii + 1.0f;  //-1.0f * ii - 1.0f; //N - i - 1;//
-					//signQ = -1.0f;
+					signQ = -1.0f;
 				}
 					
 
@@ -301,7 +307,7 @@ namespace dune
 					{
 						jj = P_period.cols - j - 1;
 						vj = jj + 1.0f; //-1.0f * jj - 1.0f; //M - j - 1;// 
-						//signP = -1.0f;
+						signP = -1.0f;
 					}	
 
 					P_period.at<float>(i, j) = signP * P.at<float>(ii, jj);
@@ -363,7 +369,8 @@ namespace dune
 			{
 				for (int j = 0; j < M; ++j)
 				{
-					Z.at<float>(i, j) = q_y[0].at<float>(q_y[0].rows - i - 1, q_y[0].cols - j - 1);
+					//Z.at<float>(i, j) = q_y[0].at<float>(q_y[0].rows - i - 1, j);
+					Z.at<float>(i, j) = q_y[0].at<float>(i, q_y[0].cols - j - 1);
 				}
 			}
 

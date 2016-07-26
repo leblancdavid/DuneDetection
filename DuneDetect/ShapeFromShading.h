@@ -79,6 +79,8 @@ namespace dune
 {
 	namespace imgproc
 	{
+		cv::Mat DepthFromGradients(const cv::Mat &P, const cv::Mat &Q);
+
 		class ShapeFromShadingTsaiShah
 		{
 		public:
@@ -86,7 +88,7 @@ namespace dune
 			~ShapeFromShadingTsaiShah();
 			ShapeFromShadingTsaiShah(const ShapeFromShadingTsaiShah &cpy);
 
-			cv::Mat Process(const cv::Mat &image, int iterations, int k);
+			cv::Mat Process(const cv::Mat &image, int iterations, int k, cv::Mat &P, cv::Mat &Q);
 
 		private:
 			void estimateAlbedoIllumination(const cv::Mat &image, double &albedo, cv::Vec3d &illumination, double &tilt, double &slant);
@@ -102,7 +104,7 @@ namespace dune
 			cv::Mat Process(const cv::Mat &image, int K, cv::Mat &P, cv::Mat &Q);
 
 		private:
-			cv::Mat depthFromGradients(const cv::Mat &P, const cv::Mat &Q);
+			
 		};
 	}
 }
