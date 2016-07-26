@@ -248,14 +248,129 @@ namespace dune
 					//make all the gradients unit length;
 					float dx = P.at<float>(i, j);
 					float dy = Q.at<float>(i, j);
-					float mag = std::sqrt(dx*dx + dy*dy);
+					float mag = std::sqrt(dx*dx + dy*dy); 
 
-					P.at<float>(i, j) = dx / mag;
-					Q.at<float>(i, j) = dy / mag;
+					if (mag < 0.01) //avoid div by 0
+					{
+						P.at<float>(i, j) = 0.0f;
+						Q.at<float>(i, j) = 0.0f;
+					}
+					else 
+					{
+						P.at<float>(i, j) = dx / mag;
+						Q.at<float>(i, j) = dy / mag;
+					}
+
 				}
 			}
 
-			return cv::Mat();
+			return depthFromGradients(P, Q);
+		}
+
+		cv::Mat ShapeFromShadingGradient::depthFromGradients(const cv::Mat &P, const cv::Mat &Q)
+		{
+			int N = P.rows;
+			int M = P.cols;
+			cv::Mat P_period(N * 2, M * 2, CV_32F);
+			cv::Mat Q_period(N * 2, M * 2, CV_32F);
+			cv::Mat u(N * 2, M * 2, CV_32F);
+			cv::Mat v(N * 2, M * 2, CV_32F);
+
+			int ii, jj;
+			int ui, vj;
+			float signP, signQ;
+			for (int i = 0; i < P_period.rows; ++i)
+			{
+				ii = i;
+				ui = i + 1;
+				signQ = 1.0f;
+				if (ii >= N)
+				{
+					ii = P_period.rows - i - 1;
+					ui = ii + 1.0f;  //-1.0f * ii - 1.0f; //N - i - 1;//
+					//signQ = -1.0f;
+				}
+					
+
+				for (int j = 0; j < P_period.cols; ++j)
+				{
+					jj = j;
+					vj = j + 1;
+					signP = 1.0f;
+					if (jj >= M)
+					{
+						jj = P_period.cols - j - 1;
+						vj = jj + 1.0f; //-1.0f * jj - 1.0f; //M - j - 1;// 
+						//signP = -1.0f;
+					}	
+
+					P_period.at<float>(i, j) = signP * P.at<float>(ii, jj);
+					Q_period.at<float>(i, j) = signQ * Q.at<float>(ii, jj);
+					u.at<float>(i, j) = (float)ui;
+					v.at<float>(i, j) = (float)vj;
+				}
+			}
+
+			//cv::normalize(u, u, 0.0, 1.0, cv::NORM_MINMAX);
+			//cv::imshow("P_period", P_period);
+			//cv::waitKey(0);
+
+			cv::Mat p_x[] = { cv::Mat::zeros(P_period.size(), CV_32F), cv::Mat_<float>(P_period) };
+			cv::Mat q_y[] = { cv::Mat::zeros(Q_period.size(), CV_32F), cv::Mat_<float>(Q_period) };
+			cv::Mat Fp, Fq;
+			cv::merge(p_x, 2, Fp);
+			cv::merge(q_y, 2, Fq);
+
+			//compute the forward DFT
+			cv::dft(Fp, Fp);
+			cv::dft(Fq, Fq);
+
+			//split(Fp, p_x);
+			//split(Fq, q_y);
+			//cv::magnitude(p_x[0], p_x[1], Fp);
+			//cv::magnitude(q_y[0], q_y[1], Fq);
+
+			cv::Mat Fz = cv::Mat::zeros(Fp.rows, Fp.cols, CV_32FC2);
+
+			//Apply the math to the complex
+			float c = -1.0f / (CV_2PI);
+			for (int i = 0; i < Fz.rows; ++i)
+			{
+				for (int j = 0; j < Fz.cols; ++j)
+				{
+					float u_n = u.at<float>(i, j) / (float)N;
+					float v_m = v.at<float>(i, j) / (float)M;
+					float val = c * (u_n * Fp.at<cv::Vec2f>(i, j)[0] +
+									 v_m * Fq.at<cv::Vec2f>(i, j)[0]) /
+											(u_n*u_n + v_m*v_m);
+
+					/*float val = c * (u_n * Fp.at<float>(i, j) +
+						v_m * Fq.at<float>(i, j)) /
+						(u_n*u_n + v_m*v_m);*/
+
+					Fz.at<cv::Vec2f>(i, j)[1] = val;
+				}
+			}
+
+			//do the inverse DFT
+			cv::dft(Fz, Fz, cv::DFT_INVERSE);
+
+			//get the real component of the inverse
+			cv::split(Fz, q_y);
+			//we will want to keep only quadrant 1 (remove the periodic part).
+			cv::Mat Z(N, M, CV_32F);
+			for (int i = 0; i < N; ++i)
+			{
+				for (int j = 0; j < M; ++j)
+				{
+					Z.at<float>(i, j) = q_y[0].at<float>(q_y[0].rows - i - 1, q_y[0].cols - j - 1);
+				}
+			}
+
+			//Z = q_y[0];
+			cv::normalize(Z, Z, 0.0, 1.0, cv::NORM_MINMAX);
+
+			return Z;
 		}
 
 	}

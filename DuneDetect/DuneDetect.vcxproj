@@ -250,6 +250,7 @@
     <ClCompile Include="RotatedKernelEdgeDetector.cpp" />
     <ClCompile Include="ShadeFromShadingProcessor.cpp" />
     <ClCompile Include="ShapeFromShading.cpp" />
+    <ClCompile Include="ShapeFromShadingDuneDetector.cpp" />
     <ClCompile Include="SuperDuperImageProcessor.cpp" />
     <ClCompile Include="SVMFeatureClassifier.cpp" />
     <ClCompile Include="WatershedDuneDetector.cpp" />

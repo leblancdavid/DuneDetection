@@ -455,5 +455,8 @@
     <ClCompile Include="ShadeFromShadingProcessor.cpp">
       <Filter>DuneLib\Source Files\Shading Shape Detector</Filter>
     </ClCompile>
+    <ClCompile Include="ShapeFromShadingDuneDetector.cpp">
+      <Filter>DuneLib\Source Files\Shading Shape Detector</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

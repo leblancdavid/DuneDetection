@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BaseEdgeImageProcessor.h"
+#include "BaseDuneDetector.h"
 
 namespace dune
 {

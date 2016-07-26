@@ -102,6 +102,7 @@ namespace dune
 			cv::Mat Process(const cv::Mat &image, int K, cv::Mat &P, cv::Mat &Q);
 
 		private:
+			cv::Mat depthFromGradients(const cv::Mat &P, const cv::Mat &Q);
 		};
 	}
 }

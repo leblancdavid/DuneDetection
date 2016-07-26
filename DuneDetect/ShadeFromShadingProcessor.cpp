@@ -30,9 +30,9 @@ namespace dune
 
 		imgproc::ShapeFromShadingGradient sfs;
 		cv::Mat P, Q;
-		sfs.Process(inputImg, parameters->K, P, Q);
 		
-		cv::normalize(P, outputImg, 0.0, 1.0, cv::NORM_MINMAX);
-		//outputImg = cv::abs(Q);
+		P *= -1.0f;
+		Q *= -1.0f;
+		outputImg = sfs.Process(inputImg, parameters->K, P, Q);
 	}
 }
