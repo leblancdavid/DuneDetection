@@ -88,10 +88,11 @@ namespace dune
 			~ShapeFromShadingTsaiShah();
 			ShapeFromShadingTsaiShah(const ShapeFromShadingTsaiShah &cpy);
 
-			cv::Mat Process(const cv::Mat &image, int iterations, int k, cv::Mat &P, cv::Mat &Q);
+			cv::Mat Process(const cv::Mat &image, int iterations, int k, cv::Mat &P, cv::Mat &Q, int maskThreshold=0, int erode=0);
+			cv::Mat Process(const cv::Mat &image, int iterations, int kSize, cv::Mat &P, cv::Mat &Q, float tilt, float slant);
 
 		private:
-			void estimateAlbedoIllumination(const cv::Mat &image, double &albedo, cv::Vec3d &illumination, double &tilt, double &slant);
+			void estimateAlbedoIllumination(const cv::Mat &image, int k, double &albedo, double &tilt, double &slant, const cv::Mat &mask = cv::Mat());
 		};
 
 		class ShapeFromShadingGradient
@@ -101,10 +102,12 @@ namespace dune
 			~ShapeFromShadingGradient();
 			ShapeFromShadingGradient(const ShapeFromShadingGradient &cpy);
 
-			cv::Mat Process(const cv::Mat &image, int K, cv::Mat &P, cv::Mat &Q);
+			cv::Mat Process(const cv::Mat &image, int K, const cv::Vec3f &illumination, cv::Mat &P, cv::Mat &Q);
 
 		private:
-			
+			void GetDerivs(const cv::Mat &image, cv::Mat &dx, cv::Mat &dy, int k);
+			cv::Mat computeSurfaceNormals(const cv::Mat &imagesMat, const cv::Mat &lightSourcesMat);
+			void estimateAlbedoIllumination(const cv::Mat &image, int k, double &albedo, double &tilt, double &slant, const cv::Mat &mask = cv::Mat());
 		};
 	}
 }

@@ -1,32 +1,364 @@
 \relax 
-\@writefile{toc}{\contentsline {section}{\numberline {3}Methodology}{12}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Machine Learning Approach}{12}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}Image Preprocessing}{12}}
+\citation{ewing-kocurek-lake-2006}
+\citation{ewing-peyret-kocurek-bourke-2010}
+\citation{2015_automated_mapping_of_linear_dunefield}
+\citation{2015_automated_mapping_of_linear_dunefield}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Cross-section of a dune slope with the sun's orientation effect on shaded and sunlit portions of the dune.\relax }}{10}}
+\newlabel{fig:dune_cross_section}{{5}{10}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Methodology}{10}}
+\newlabel{sec:methodology}{{3}{10}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Challenges}{10}}
+\newlabel{subsec:challenges}{{3.1}{10}}
+\citation{2015_automated_mapping_of_linear_dunefield}
+\newlabel{fig:difference_between_dune_field_types_kalahari}{{6(a)}{11}}
+\newlabel{sub@fig:difference_between_dune_field_types_kalahari}{{(a)}{11}}
+\newlabel{fig:difference_between_dune_field_types_whitesands}{{6(b)}{11}}
+\newlabel{sub@fig:difference_between_dune_field_types_whitesands}{{(b)}{11}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces The variation in dune patterns such as \subref  {fig:difference_between_dune_field_types_kalahari} linear, or \subref  {fig:difference_between_dune_field_types_whitesands} complex, and the sun orientation and illumination effects on the resulting satellite images.\relax }}{11}}
+\newlabel{fig:difference_between_dune_field_types}{{6}{11}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Overall Process Flow}{11}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces The overall process flow for general dune detection. The five steps include image processing, dominant orientation computation, crest-line candidate detection, calculations of dune metrics, validation of crest-line candidates.\relax }}{11}}
+\newlabel{fig:main_flow}{{8}{11}}
+\newlabel{fig:kalahari_patch}{{7(a)}{12}}
+\newlabel{sub@fig:kalahari_patch}{{(a)}{12}}
+\newlabel{fig:kalahari_patch_arrow}{{7(b)}{12}}
+\newlabel{sub@fig:kalahari_patch_arrow}{{(b)}{12}}
+\newlabel{fig:kalahari_patch_plot}{{7(c)}{12}}
+\newlabel{sub@fig:kalahari_patch_plot}{{(c)}{12}}
+\newlabel{fig:skeletoncoast_patch}{{7(d)}{12}}
+\newlabel{sub@fig:skeletoncoast_patch}{{(d)}{12}}
+\newlabel{fig:skeletoncoast_patch_arrow}{{7(e)}{12}}
+\newlabel{sub@fig:skeletoncoast_patch_arrow}{{(e)}{12}}
+\newlabel{fig:skeletoncoast_patch_plot}{{7(f)}{12}}
+\newlabel{sub@fig:skeletoncoast_patch_plot}{{(f)}{12}}
+\newlabel{fig:wdc_patch}{{7(g)}{12}}
+\newlabel{sub@fig:wdc_patch}{{(g)}{12}}
+\newlabel{fig:wdc_patch_arrow}{{7(h)}{12}}
+\newlabel{sub@fig:wdc_patch_arrow}{{(h)}{12}}
+\newlabel{fig:wdc_patch_plot}{{7(i)}{12}}
+\newlabel{sub@fig:wdc_patch_plot}{{(i)}{12}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Illustration of the intensity, gradient magnitudes, and gradient orientations, plotted along a path crossing a dune crest-line: \subref  {fig:kalahari_patch}, \subref  {fig:skeletoncoast_patch},\subref  {fig:wdc_patch} a sample image patch from Kalahari, Skeleton Coast, and White Sands regions, \subref  {fig:kalahari_patch_arrow}, \subref  {fig:skeletoncoast_patch_arrow}, \subref  {fig:wdc_patch_arrow} the direction of the pixel samples plotted in \subref  {fig:kalahari_patch_plot}, \subref  {fig:skeletoncoast_patch_plot}, \subref  {fig:wdc_patch_plot} containing the intensity, gradient magnitude and orientations values along the sampled direction. \relax }}{12}}
+\newlabel{fig:patches}{{7}{12}}
 \citation{huang_median_filtering_algorithm}
 \citation{digital_image_processing_book}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}Dominant Orientation Determination}{14}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Appearance-Based Approach}{14}}
+\newlabel{subsection:appearance_based_approach}{{3.3}{14}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces The process flow of the appearance-based approach. The images are first preprocessed, then an adaptive threshold is applied to binarize the image. Contours are extracted from the resulting binary regions. The contour segments are smoothed and filtered by gradient magnitude, resulting in the detected crest-lines.\relax }}{14}}
+\newlabel{fig:flow_appearance_based}{{9}{14}}
+\citation{digital_image_processing_book}
+\citation{1990_comparative_performance_study_thresholding}
+\citation{1979_threshold_selection_method_gray_level_histogram}
+\citation{2004_survey_over_image_thresholding_techniques}
+\citation{opencv_library}
+\newlabel{fig:kalahari_adaptive_threshold_input}{{10(a)}{15}}
+\newlabel{sub@fig:kalahari_adaptive_threshold_input}{{(a)}{15}}
+\newlabel{fig:kalahari_adaptive_threshold}{{10(b)}{15}}
+\newlabel{sub@fig:kalahari_adaptive_threshold}{{(b)}{15}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Adaptive Threshold applied to the Kalahari dune field satellite image. In \subref  {fig:kalahari_adaptive_threshold_input} the Kalahari input image, \subref  {fig:kalahari_adaptive_threshold} the adaptive threshold process applied to produce the binary image. \relax }}{15}}
+\newlabel{fig:adaptive_threshold}{{10}{15}}
+\citation{1986_canny_edge_detection}
+\citation{Improved_Canny_Edge_Detection}
+\citation{Runway_detection_tracking_unmanned}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Edge-based Approach}{16}}
+\newlabel{subsec:edge_based_detection}{{3.4}{16}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces The process flow of the gradient-based approach. The images are first preprocessed, then the Canny edge detection algorithm is applied to the image. The dominant orientation computation (3.4\hbox {}), which enables many of the detected Canny edges to be filtered out based on orientation. The remaining edges are linked and post filtered based on length and shape.\relax }}{16}}
+\newlabel{fig:flow_gradient_based}{{11}{16}}
+\citation{2014_history_sobel_operator}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Canny edge detector after median and Gaussian filtering of the Kalahari dune image.\relax }}{17}}
+\newlabel{fig:canny_edges}{{12}{17}}
+\newlabel{subsec:dominant_orientation}{{3.4}{17}}
+\citation{1965_Cluster_analysis_multivariate_data}
+\citation{1982_least_square_quantization_pcm}
+\citation{1967_method_classification_analysis_multivariate_observations}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Results of K-Means clustering algorithm with $K=2$ on the edge gradients detected using Canny, from Kalahari. The blue cluster represents the dune crest-line gradient vectors, and the red points represents all other non-crest-line edges. The cluster centers of blue is $(0.8958, -0.5496)$, and the cluster center of the red is $(-0.4111, 0.2705)$. The cluster centers are used to determine the dominant orientation.\relax }}{18}}
+\newlabel{fig:kmeans_results}{{13}{18}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.1}Dominant Orientation From K-Means Clustering}{18}}
+\newlabel{subsec:dominant_orientation_k_means}{{3.4.1}{18}}
 \citation{lowe_sift_paper}
 \citation{dalal_histogram_oriented_gradients_human_detection}
 \citation{hu_gradient_field_descriptor}
-\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{fig:false_dominant_orientation_image}{{1a}{16}}
-\newlabel{sub@fig:false_dominant_orientation_image}{{a}{16}}
-\newlabel{fig:true_dominant_orientation_image}{{1b}{16}}
-\newlabel{sub@fig:true_dominant_orientation_image}{{b}{16}}
-\newlabel{fig:dominant_orientation_histogram}{{1c}{16}}
-\newlabel{sub@fig:dominant_orientation_histogram}{{c}{16}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Results of unnormalized (red) and normalized (green) histograms of gradients ($N=18$). The histogram contains two major peaks, but the crest-line is the weaker of the two peaks. (a) Edges which belong to the dominant orientation which are invalid crest-lines. (b) With normalization, the true crest-lines now have the higher overall magnitude. (c) The 18 bin histogram of gradients with and without normalization.\relax }}{16}}
-\newlabel{fig:computing_dominant_orientation}{{1}{16}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.3}Crest-line Candidate Detection}{18}}
-\newlabel{fig:gradient_direction_image}{{2a}{19}}
-\newlabel{sub@fig:gradient_direction_image}{{a}{19}}
-\newlabel{fig:gradient_direction_thresholded_image}{{2b}{19}}
-\newlabel{sub@fig:gradient_direction_thresholded_image}{{b}{19}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces \relax }}{19}}
-\newlabel{fig:gradient_direction_image_transformation}{{2}{19}}
+\citation{2015_automated_mapping_of_linear_dunefield}
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Results of filtering out edges which are not part of the dominant orientation (in red), while preserving edges which agree (in green) with the dominant orientation computed by the K-Means clustering method.\relax }}{19}}
+\newlabel{fig:kmeans_edge_results}{{14}{19}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.2}Dominant Orientation From Histogram of Gradients}{19}}
+\newlabel{subsec:dominant_orientation_histogram_of_gradients}{{3.4.2}{19}}
+\newlabel{fig:false_dominant_orientation_image}{{15(a)}{20}}
+\newlabel{sub@fig:false_dominant_orientation_image}{{(a)}{20}}
+\newlabel{fig:true_dominant_orientation_image}{{15(b)}{20}}
+\newlabel{sub@fig:true_dominant_orientation_image}{{(b)}{20}}
+\newlabel{fig:dominant_orientation_histogram}{{15(c)}{20}}
+\newlabel{sub@fig:dominant_orientation_histogram}{{(c)}{20}}
+\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces Results of unnormalized (red) and normalized (green) histograms of gradients orientations ($N=18$), where each represents a $20\degree  $ slice. The histogram contains two major peaks, but the crest-line is the weaker of the two peaks. \subref  {fig:false_dominant_orientation_image} Edges which belong to the dominant orientation which are invalid crest-lines. \subref  {fig:true_dominant_orientation_image} With normalization, the true crest-lines now have the higher overall magnitude. \subref  {fig:dominant_orientation_histogram} The 18 bin histogram of gradients with and without normalization.\relax }}{20}}
+\newlabel{fig:computing_dominant_orientation}{{15}{20}}
+\citation{opencv_library}
+\newlabel{fig:filtered_edges_lines}{{16(a)}{21}}
+\newlabel{sub@fig:filtered_edges_lines}{{(a)}{21}}
+\newlabel{fig:filtered_edges}{{16(b)}{21}}
+\newlabel{sub@fig:filtered_edges}{{(b)}{21}}
+\newlabel{fig:linehistogram}{{16(c)}{21}}
+\newlabel{sub@fig:linehistogram}{{(c)}{21}}
+\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces Results of filtering based on the line orientation fitting, and choosing the peak in the histogram. In \subref  {fig:filtered_edges_lines} the fitted lines from the dune segments, \subref  {fig:filtered_edges} segments which have orientation matching the peak in the histogram, \subref  {fig:linehistogram} the histogram of line orientations weighed by segment length. \relax }}{21}}
+\newlabel{fig:dune_segment_linking_line_fitting}{{16}{21}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.3}Dune Segment Linking}{21}}
+\citation{2014_priority_flood}
+\citation{1979_workshop_image_processing}
+\citation{1994_watershed_continuous_function}
+\citation{Summed-area-tables-for-texture-mapping}
+\citation{Robust-real-time-Object-Detection}
+\citation{Robust-real-time-Object-Detection}
+\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces Simple illumination normalization algorithm applied to the Skeleton Coast image.\relax }}{22}}
+\newlabel{fig:illumination_normalization}{{18}{22}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Watershed Transform Segmentation Approach}{22}}
+\newlabel{subsec:watershed_transform_segmentation_approach}{{3.5}{22}}
+\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces The process flow of the Watershed Transform dune detection approach. The images are first preprocessed, then some illumination normalization is applied to the image in order to improve the results of the Watershed transform. Contours are then extracted from the resulting regions which are filtered using the gradients, based on the dominant orientation. \relax }}{22}}
+\newlabel{fig:flow_watershed}{{17}{22}}
+\citation{Color-image-segmentation}
+\citation{1988_fast_fourier_transform_applications}
+\citation{1969_finite_fourier_transform}
+\newlabel{fig:watershed_shaded_side}{{19(a)}{24}}
+\newlabel{sub@fig:watershed_shaded_side}{{(a)}{24}}
+\newlabel{fig:watershed_sunlit_side}{{19(b)}{24}}
+\newlabel{sub@fig:watershed_sunlit_side}{{(b)}{24}}
+\newlabel{fig:watershed_segmentation}{{19(c)}{24}}
+\newlabel{sub@fig:watershed_segmentation}{{(c)}{24}}
+\newlabel{fig:watershed_dune_detection}{{19(d)}{24}}
+\newlabel{sub@fig:watershed_dune_detection}{{(d)}{24}}
+\@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces Watershed Transform results example applied to the Skeleton Coast. In \subref  {fig:watershed_shaded_side}, the pixels labeled as \emph  {shaded}, \subref  {fig:watershed_sunlit_side} the pixels labeled as \emph  {sunlit}, \subref  {fig:watershed_segmentation} the output of the Watershed Transform, and \subref  {fig:watershed_dune_detection} crest-line detection results from the Watershed Transform. \relax }}{24}}
+\newlabel{fig:watershed_results}{{19}{24}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Frequency Domain Approach}{24}}
+\newlabel{subsec:frequency_domain_approach}{{3.6}{24}}
+\@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces The process flow of the frequency domain approach. The images are first preprocessed, then translated into the frequency domain using the standard 2D discrete Fourier Transform. A high-pass filter is applied to the frequency domain to extract highest frequencies (which are assumed to contain dune crest-lines), and the inverse DFT is applied to return to the spacial domain. Crest-line detection can then be applied to the resulting image. \relax }}{24}}
+\newlabel{fig:flow_dft}{{20}{24}}
+\newlabel{fig:dft_spectrum}{{21(a)}{25}}
+\newlabel{sub@fig:dft_spectrum}{{(a)}{25}}
+\newlabel{fig:DFT_spectrum_threshold}{{21(b)}{25}}
+\newlabel{sub@fig:DFT_spectrum_threshold}{{(b)}{25}}
+\newlabel{fig:DFT_spectrum_threshold_median}{{21(c)}{25}}
+\newlabel{sub@fig:DFT_spectrum_threshold_median}{{(c)}{25}}
+\newlabel{fig:DFT_spectrum_ellipsefit}{{21(d)}{25}}
+\newlabel{sub@fig:DFT_spectrum_ellipsefit}{{(d)}{25}}
+\newlabel{fig:DFT_mask}{{21(e)}{25}}
+\newlabel{sub@fig:DFT_mask}{{(e)}{25}}
+\newlabel{fig:DFT_HPF}{{21(f)}{25}}
+\newlabel{sub@fig:DFT_HPF}{{(f)}{25}}
+\@writefile{lof}{\contentsline {figure}{\numberline {21}{\ignorespaces Frequency spectrum processing results from the Skeleton-Coast image. \subref  {fig:dft_spectrum} Log-normalized shifted frequency domain, \subref  {fig:DFT_spectrum_threshold} Result of thresholding frequency domain magnitude based on average magnitude and standard deviation of the magnitudes, \subref  {fig:DFT_spectrum_threshold_median} Median filtering of the binary image of the frequency domain, \subref  {fig:DFT_spectrum_ellipsefit} Result of ellipse fitting of the dominant frequencies region, \subref  {fig:DFT_mask} Mask used for high-pass filtering of the frequency domain, \subref  {fig:DFT_HPF} Result inverse DFT of the high pass filter applied on the frequency domain. \relax }}{25}}
+\newlabel{fig:DFT_processing}{{21}{25}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7}Gradient Orientation-Based Approach}{26}}
+\newlabel{subsec:gradient_orientation_based}{{3.7}{26}}
+\@writefile{lof}{\contentsline {figure}{\numberline {22}{\ignorespaces The process flow of the gradient orientation-based approach. The image is first preprocessed for optimal gradient computation, and the dominant orientation is computed. The gradient direction map is then computed and thresholded to preserve all gradients which \emph  {agree} with the dominant orientation. The resulting binary image is a good candidate for contour extraction, which are subsequently filtered based on gradient orientation and magnitude. The resulting output is the detected crest-lines segments. \relax }}{26}}
+\newlabel{fig:flow_gradient_orientation}{{22}{26}}
+\newlabel{fig:orientation_based_wdc}{{23(a)}{27}}
+\newlabel{sub@fig:orientation_based_wdc}{{(a)}{27}}
+\newlabel{fig:orientation_based_dot_product}{{23(b)}{27}}
+\newlabel{sub@fig:orientation_based_dot_product}{{(b)}{27}}
+\newlabel{fig:orientation_based_threshold_dot_product}{{23(c)}{27}}
+\newlabel{sub@fig:orientation_based_threshold_dot_product}{{(c)}{27}}
+\newlabel{fig:orientation_based_results}{{23(d)}{27}}
+\newlabel{sub@fig:orientation_based_results}{{(d)}{27}}
+\@writefile{lof}{\contentsline {figure}{\numberline {23}{\ignorespaces The gradient orientation-based approach illustrated: \subref  {fig:orientation_based_wdc} The input image WDC, \subref  {fig:orientation_based_dot_product} The gradient direction map \emph  {D} computed by taking the dot product of the gradients at each pixel with the dominant orientation, \subref  {fig:orientation_based_threshold_dot_product} thresholding the gradient direction map for all dot products greater than 0, \subref  {fig:orientation_based_results} the results of crest-line detection using the gradient-orientation based method, where green lines are true positives, and red lines are false positives. \relax }}{27}}
+\newlabel{fig:orientation_based_process}{{23}{27}}
+\@writefile{lof}{\contentsline {figure}{\numberline {24}{\ignorespaces The cause of the shift in localization when computing the gradient direction map. The transition from gradients which \emph  {agree} ($D_{ij} > 0$) with the dominant orientation almost always happens after the true crest-line due to the size of the kernel \emph  {K}.\relax }}{28}}
+\newlabel{fig:orientation_transition_shift}{{24}{28}}
+\newlabel{subsubsec:gradient_magnitude_based_shift}{{3.7}{28}}
+\citation{2006_automated_classification_landform_elements}
+\citation{2007_Machine_Learning_tools_automatic_mapping_mars}
+\citation{2013_sar_image_automated_detection_dune_area}
+\citation{BandeiraMarques}
+\citation{2011_neural_network_based_dunal_landform_mapping}
+\citation{vaz_object_based_dune_analysis}
+\newlabel{fig:shift_k_9}{{25(a)}{29}}
+\newlabel{sub@fig:shift_k_9}{{(a)}{29}}
+\newlabel{fig:shift_k_21}{{25(b)}{29}}
+\newlabel{sub@fig:shift_k_21}{{(b)}{29}}
+\@writefile{lof}{\contentsline {figure}{\numberline {25}{\ignorespaces Effects of \emph  {K} on the orientation-based approach. In \subref  {fig:shift_k_9} a \emph  {K} value of 9 is used, which results in better localization at the cost of noisier results, \subref  {fig:shift_k_21} a \emph  {K} value of 21 produces much smoother results but poor localization. \relax }}{29}}
+\newlabel{fig:effect_k}{{25}{29}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.8}Machine Learning Approach}{29}}
+\newlabel{subsec:machine_learning_approach}{{3.8}{29}}
+\@writefile{lof}{\contentsline {figure}{\numberline {26}{\ignorespaces The process flow of the machine learning approach. The image is first preprocessed, and some training data (samples of crest-lines and non-crest-lines) is reserved to construct the machine learning model. SIFT features are extracted from the training data to train the model to recognize crest-lines. With the model trained, SIFT feature descriptors are computed at each pixel of the remaining test images and are inputted into the trained model to generate the response map. Finally, the local maxima of the response map are detected in order to extract the crest-lines. \relax }}{29}}
+\newlabel{fig:flow_ml}{{26}{29}}
+\citation{foundations_machine_learning_book}
+\citation{machine_learning_book}
+\citation{lowe_sift_paper}
+\citation{1994_good_features_to_track}
+\citation{1998_feature_detection}
+\citation{2007_invariant_features_survey}
+\citation{2007_hog_human_detection}
+\citation{1994_lbp_paper}
+\citation{1996_lbp_paper}
+\citation{2001_viola_jones_paper}
+\citation{2006_surf}
+\citation{lowe_sift_paper}
+\citation{lowe_sift_paper}
+\@writefile{lof}{\contentsline {figure}{\numberline {27}{\ignorespaces The SIFT descriptor explained. The image patch is split into a 4 by 4 grid, where each cell contains a histogram of gradients of eight directions. The result is a single vector of 128 floating point values. Source of the image: \relax $\@@underline {\hbox {http://www.vlfeat.org/api/sift.html}}\mathsurround \z@ $\relax \relax }}{30}}
+\newlabel{fig:sift_descriptor}{{27}{30}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.8.1}Dataset Creation}{30}}
+\newlabel{subsubsec:dataset_creation}{{3.8.1}{30}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.8.2}Feature Descriptor Extraction}{30}}
+\newlabel{subsubsec:feature_descriptor_extraction}{{3.8.2}{30}}
+\citation{book_artificial_intelligence_modern_approach}
+\citation{2003_tackling_poor_assumptions_naive_bayes}
+\citation{1987_simplifying_decision_trees}
+\citation{1943_logical_calculus_ideas_immanent_nervous_activity}
+\citation{book_organization_of_behavior}
+\citation{1975_beyond_regression_prediction_analysis}
+\citation{1995_support_vector_networks}
+\citation{1995_support_vector_clustering}
+\citation{1999_gradient_boosting_machine}
+\citation{1999_stochastic_gradient_boosting}
+\citation{the-problem-of-overfitting}
+\citation{neural-network-studies-overfitting-overtraining}
+\citation{over-fitting-model-selection-bias}
+\citation{opencv_library}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.8.3}Supervised Learning of the Crest-line Classifier Model}{31}}
+\newlabel{subsubsec:supervised_learning_classifiers}{{3.8.3}{31}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.8.4}Response Maps}{31}}
+\newlabel{subsubsec:response_maps}{{3.8.4}{31}}
+\newlabel{fig:kalahari_SVM_response}{{28(a)}{32}}
+\newlabel{sub@fig:kalahari_SVM_response}{{(a)}{32}}
+\newlabel{fig:kalahari_SVM_response_overlay}{{28(b)}{32}}
+\newlabel{sub@fig:kalahari_SVM_response_overlay}{{(b)}{32}}
+\newlabel{fig:namib_SVM_response}{{28(c)}{32}}
+\newlabel{sub@fig:namib_SVM_response}{{(c)}{32}}
+\newlabel{fig:namib_SVM_response_overlay}{{28(d)}{32}}
+\newlabel{sub@fig:namib_SVM_response_overlay}{{(d)}{32}}
+\newlabel{fig:simpson_SVM_response}{{28(e)}{32}}
+\newlabel{sub@fig:simpson_SVM_response}{{(e)}{32}}
+\newlabel{fig:simpson_SVM_response_overlay}{{28(f)}{32}}
+\newlabel{sub@fig:simpson_SVM_response_overlay}{{(f)}{32}}
+\newlabel{fig:SkeletonCoast_SVM_response}{{28(g)}{32}}
+\newlabel{sub@fig:SkeletonCoast_SVM_response}{{(g)}{32}}
+\newlabel{fig:SkeletonCoast_SVM_response_overlay}{{28(h)}{32}}
+\newlabel{sub@fig:SkeletonCoast_SVM_response_overlay}{{(h)}{32}}
+\newlabel{fig:WDC_SVM_response}{{28(i)}{33}}
+\newlabel{sub@fig:WDC_SVM_response}{{(i)}{33}}
+\newlabel{fig:WDC_SVM_response_overlay}{{28(j)}{33}}
+\newlabel{sub@fig:WDC_SVM_response_overlay}{{(j)}{33}}
+\newlabel{fig:WhiteSands_SVM_response}{{28(k)}{33}}
+\newlabel{sub@fig:WhiteSands_SVM_response}{{(k)}{33}}
+\newlabel{fig:WhiteSands_SVM_response_overlay}{{28(l)}{33}}
+\newlabel{sub@fig:WhiteSands_SVM_response_overlay}{{(l)}{33}}
+\@writefile{lof}{\contentsline {figure}{\numberline {28}{\ignorespaces Results of the Support Vector Machine classifier training for crest-line identification for the Terrestrial dataset shown in Figure 39\hbox {}. On the left is the response map (the output response of the SVM classifier using the SIFT features at each pixel). On the right, the thresholded the crest-line responses ($R_{i,j} > 0$) of the response map are overlapped on the original image. \relax }}{33}}
+\newlabel{fig:SVM_response_results}{{28}{33}}
+\newlabel{fig:kalahari_gbt_response}{{29(a)}{33}}
+\newlabel{sub@fig:kalahari_gbt_response}{{(a)}{33}}
+\newlabel{fig:kalahari_gbt_response_overlay}{{29(b)}{33}}
+\newlabel{sub@fig:kalahari_gbt_response_overlay}{{(b)}{33}}
+\newlabel{fig:namib_gbt_response}{{29(c)}{34}}
+\newlabel{sub@fig:namib_gbt_response}{{(c)}{34}}
+\newlabel{fig:namib_gbt_response_overlay}{{29(d)}{34}}
+\newlabel{sub@fig:namib_gbt_response_overlay}{{(d)}{34}}
+\newlabel{fig:simpson_gbt_response}{{29(e)}{34}}
+\newlabel{sub@fig:simpson_gbt_response}{{(e)}{34}}
+\newlabel{fig:simpson_gbt_response_overlay}{{29(f)}{34}}
+\newlabel{sub@fig:simpson_gbt_response_overlay}{{(f)}{34}}
+\newlabel{fig:SkeletonCoast_gbt_response}{{29(g)}{34}}
+\newlabel{sub@fig:SkeletonCoast_gbt_response}{{(g)}{34}}
+\newlabel{fig:SkeletonCoast_gbt_response_overlay}{{29(h)}{34}}
+\newlabel{sub@fig:SkeletonCoast_gbt_response_overlay}{{(h)}{34}}
+\newlabel{fig:WDC_gbt_response}{{29(i)}{34}}
+\newlabel{sub@fig:WDC_gbt_response}{{(i)}{34}}
+\newlabel{fig:WDC_gbt_response_overlay}{{29(j)}{34}}
+\newlabel{sub@fig:WDC_gbt_response_overlay}{{(j)}{34}}
+\citation{thinning-algorithms}
+\citation{performance-characterization-thinning}
+\citation{susan-new-approach-low-level-image-processing}
+\citation{1986_canny_edge_detection}
+\@writefile{lof}{\contentsline {figure}{\numberline {30}{\ignorespaces A recursive algorithm for ridge following: On the first iteration, the algorithm is initialized using the detected anchor pixels, and begin search for each neighbor. Neighbors which are peaks along the ridge are used as anchors for the iteration. This algorithm recursively follows the ridge of the response images.\relax }}{35}}
+\newlabel{fig:recursive_ridge_follow}{{30}{35}}
+\newlabel{fig:WhiteSands_gbt_response}{{29(k)}{35}}
+\newlabel{sub@fig:WhiteSands_gbt_response}{{(k)}{35}}
+\newlabel{fig:WhiteSands_gbt_response_overlay}{{29(l)}{35}}
+\newlabel{sub@fig:WhiteSands_gbt_response_overlay}{{(l)}{35}}
+\@writefile{lof}{\contentsline {figure}{\numberline {29}{\ignorespaces Results of the Gradient Boosted Tree classifier training for crest-line identification for the Terrestrial dataset shown in Figure 39\hbox {}. On the left is the response map (the output response of the GBT classifier using the SIFT features at each pixel). On the right, the thresholded the crest-line responses ($R_{i,j} > 0$) of the response map are overlapped on the original image. \relax }}{35}}
+\newlabel{fig:gbt_response_results}{{29}{35}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.8.5}Crest-line Extraction: Thinning And Skeletonization}{35}}
+\newlabel{fig:thinning_kalahari}{{31(a)}{36}}
+\newlabel{sub@fig:thinning_kalahari}{{(a)}{36}}
+\newlabel{fig:thinning_kalahari_response}{{31(b)}{36}}
+\newlabel{sub@fig:thinning_kalahari_response}{{(b)}{36}}
+\newlabel{fig:thinning1_kalahari}{{31(c)}{36}}
+\newlabel{sub@fig:thinning1_kalahari}{{(c)}{36}}
+\newlabel{fig:thinning1_kalahari_smooth}{{31(d)}{36}}
+\newlabel{sub@fig:thinning1_kalahari_smooth}{{(d)}{36}}
+\@writefile{lof}{\contentsline {figure}{\numberline {31}{\ignorespaces The results of the recursive ridge following algorithm applied on the response map of the Kalahari image trained with the SIFT-GBT classifier. The results produced appear noisy and disjoint even with smoothing applied. \relax }}{36}}
+\newlabel{fig:ridge_follow_results}{{31}{36}}
+\citation{segmentation-free-skeletonization-grayscale-volumes}
+\citation{skeleton-pruning-contour-partitioning-discrete-curve-evolution}
+\citation{automatic-medial-axis-pruning-mapping-characteristics}
+\citation{fast-parallel-algorithm-thinning}
+\citation{fast-parallel-algorithm-thinning}
+\citation{fast-parallel-algorithm-thinning}
+\citation{fast-parallel-algorithm-thinning}
+\citation{fast-parallel-algorithm-thinning}
+\citation{fast-parallel-algorithm-thinning}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.9}Machine Learning and Gradient-Based Mixed Approach}{37}}
+\newlabel{subsec:mixed_ml_gradient_approach}{{3.9}{37}}
+\@writefile{lof}{\contentsline {figure}{\numberline {33}{\ignorespaces The process flow of the machine learning and gradient-based mixed approach. The image is first preprocessed, and the machine learning model training is identical to the approach presented in 3.8\hbox {}. Simultaneously, the dominant orientation is computed on the images, the gradient direction map is extracted, which is thresholded based on the dot product, and contours are extracted (in similar fashion to the approach explained in 3.7\hbox {}). Finally, the contours are filtered based on the response map, resulting in the detected crest-lines. \relax }}{37}}
+\newlabel{fig:flow_mixed}{{33}{37}}
+\newlabel{fig:thinning2_kalahari_input}{{32(a)}{38}}
+\newlabel{sub@fig:thinning2_kalahari_input}{{(a)}{38}}
+\newlabel{fig:thinning2_kalahari_response}{{32(b)}{38}}
+\newlabel{sub@fig:thinning2_kalahari_response}{{(b)}{38}}
+\newlabel{fig:thinning2_kalahari_threshold}{{32(c)}{38}}
+\newlabel{sub@fig:thinning2_kalahari_threshold}{{(c)}{38}}
+\newlabel{fig:thinning2_kalahari}{{32(d)}{38}}
+\newlabel{sub@fig:thinning2_kalahari}{{(d)}{38}}
+\@writefile{lof}{\contentsline {figure}{\numberline {32}{\ignorespaces The results of Zhang/Suen Thinning \cite  {fast-parallel-algorithm-thinning} algorithm applied on the response map of the Kalahari image trained with the SIFT-GBT classifier. The output is much smoother and contiguous segments than the recursive ridge following method shown in Figure 30\hbox {}. \relax }}{38}}
+\newlabel{fig:zhang_suen_results}{{32}{38}}
+\newlabel{fig:gradient_orientation_kalahari_input}{{34(a)}{39}}
+\newlabel{sub@fig:gradient_orientation_kalahari_input}{{(a)}{39}}
+\newlabel{fig:gradient_orientation_map_kalahari}{{34(b)}{39}}
+\newlabel{sub@fig:gradient_orientation_map_kalahari}{{(b)}{39}}
+\newlabel{fig:threshold_gradient_orientation_map_kalahari}{{34(c)}{39}}
+\newlabel{sub@fig:threshold_gradient_orientation_map_kalahari}{{(c)}{39}}
+\@writefile{lof}{\contentsline {figure}{\numberline {34}{\ignorespaces  Computing the Gradient Orientation Map \subref  {fig:gradient_orientation_map_kalahari} ($D_{i,j}$) for the Kalahari image \subref  {fig:gradient_orientation_kalahari_input}. The map is thresholded for all gradients which agree with the dominant orientation ($D_{ij} > 0$) in \subref  {fig:threshold_gradient_orientation_map_kalahari}. The result produces smooth contiguous regions which contain candidate crest-lines. \relax }}{39}}
+\newlabel{fig:gradient_orientation_map}{{34}{39}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.9.1}Gradient Orientation Crest-line Extraction}{39}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.9.2}Localization Improvement of Crest-line Segments}{39}}
+\citation{vaz_object_based_dune_analysis}
+\newlabel{fig:kalahari_shift_overlap}{{35(a)}{40}}
+\newlabel{sub@fig:kalahari_shift_overlap}{{(a)}{40}}
+\newlabel{fig:contour_location_shift}{{35(b)}{40}}
+\newlabel{sub@fig:contour_location_shift}{{(b)}{40}}
+\@writefile{lof}{\contentsline {figure}{\numberline {35}{\ignorespaces  Illustration of the issue of poor localization of the extracted contours. In \subref  {fig:kalahari_shift_overlap}, the binary image shown in Figure 34(c)\hbox {} is overlapped on top of the Kalahari image 34(a)\hbox {}. In \subref  {fig:contour_location_shift}, a zoomed in image patch reveals the localization issue with the contours (shown in red) from the actual crest-line (shown in green). In order to improve the localization, the contour segments must be shifted towards crest-line. The shift is applied in the direction opposite to the computed dominant orientation. \relax }}{40}}
+\newlabel{fig:shifting_contours_to_crest_lines}{{35}{40}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.10}Dune Field Morphology Metrics}{40}}
+\newlabel{subsec:dune-field-metrics}{{3.10}{40}}
+\newlabel{fig:kalahari_image_2}{{36(a)}{41}}
+\newlabel{sub@fig:kalahari_image_2}{{(a)}{41}}
+\newlabel{fig:gradient_direction_results_no_shift_no_filter}{{36(b)}{41}}
+\newlabel{sub@fig:gradient_direction_results_no_shift_no_filter}{{(b)}{41}}
+\newlabel{fig:gradient_direction_results_no_filter}{{36(c)}{41}}
+\newlabel{sub@fig:gradient_direction_results_no_filter}{{(c)}{41}}
+\newlabel{fig:gradient_direction_shift_results}{{36(d)}{41}}
+\newlabel{sub@fig:gradient_direction_shift_results}{{(d)}{41}}
+\@writefile{lof}{\contentsline {figure}{\numberline {36}{\ignorespaces  The process of extracting candidate crest-lines using the gradient orientation map, and the machine learning approach. The Kalahari input image shown in (a), is processed to extract contours shown in (b). A shift towards the nearest peak in response values is applied (c), and all segments which have low responses are filtered out in (d). The color scheme shown in (b-d) is true positive crest-lines detections (green), the positive identified ground truth (blue), false negatives (yellow), and false positives (red).\relax }}{41}}
+\newlabel{fig:shifting_contours_results}{{36}{41}}
+\citation{hough-1959-paper}
+\citation{hough-1962-patent}
+\citation{hough-duda-1972-paper}
+\citation{ramer-1972-paper}
+\citation{douglas-peucker-1973-paper}
+\citation{douglas-hershberger-snoeyink-1992-paper}
+\citation{opencv_library}
+\citation{connected-components-samet-tamminen-1988-paper}
+\citation{connected-components-dillencourt-1992-paper}
+\citation{ramer-1972-paper}
+\citation{computing-average-orientation-of-vectors}
+\citation{computing-average-orientation-of-vectors}
+\newlabel{fig:connected_component_test_image}{{37(a)}{42}}
+\newlabel{sub@fig:connected_component_test_image}{{(a)}{42}}
+\newlabel{fig:connected_component_test_results}{{37(b)}{42}}
+\newlabel{sub@fig:connected_component_test_results}{{(b)}{42}}
+\@writefile{lof}{\contentsline {figure}{\numberline {37}{\ignorespaces  The connected component algorithm applied a sample test image \subref  {fig:connected_component_test_image}. The results \subref  {fig:connected_component_test_results} show that segments can be extracted correctly. \relax }}{42}}
+\newlabel{fig:connected_component_test}{{37}{42}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.10.1}Dune Field Orientation Computation}{42}}
+\@writefile{lof}{\contentsline {figure}{\numberline {38}{\ignorespaces  Computing the inter-dune distance using the average orientation. Once the average orientation has been computed, the inter-dune distance can be computed by measuring the distance between segments along an orthogonal axis to the average orientation.\relax }}{43}}
+\newlabel{fig:inter-dune-distance-computation}{{38}{43}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.10.2}Inter-Dune Distance Computation}{43}}
 \@setckpt{methodology}{
-\setcounter{page}{20}
-\setcounter{equation}{0}
+\setcounter{page}{44}
+\setcounter{equation}{24}
 \setcounter{enumi}{4}
 \setcounter{enumii}{0}
 \setcounter{enumiii}{0}
@@ -35,15 +367,16 @@
 \setcounter{mpfootnote}{0}
 \setcounter{part}{0}
 \setcounter{section}{3}
-\setcounter{subsection}{1}
-\setcounter{subsubsection}{3}
+\setcounter{subsection}{10}
+\setcounter{subsubsection}{2}
 \setcounter{paragraph}{0}
 \setcounter{subparagraph}{0}
-\setcounter{figure}{2}
+\setcounter{figure}{38}
 \setcounter{table}{0}
 \setcounter{ContinuedFloat}{0}
-\setcounter{subfigure}{2}
+\setcounter{subfigure}{0}
 \setcounter{subtable}{0}
 \setcounter{float@type}{4}
 \setcounter{parentequation}{0}
+\setcounter{AM@survey}{0}
 }

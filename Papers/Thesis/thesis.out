@@ -1,0 +1,43 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{Challenges}{section.1}% 2
+\BOOKMARK [2][-]{subsection.1.2}{Contributions}{section.1}% 3
+\BOOKMARK [1][-]{section.2}{Background and Previous Work}{}% 4
+\BOOKMARK [2][-]{subsection.2.1}{Dune Pattern Studies}{section.2}% 5
+\BOOKMARK [2][-]{subsection.2.2}{Image Processing and Computer Vision}{section.2}% 6
+\BOOKMARK [3][-]{subsubsection.2.2.1}{Preprocessing}{subsection.2.2}% 7
+\BOOKMARK [3][-]{subsubsection.2.2.2}{Feature Detection}{subsection.2.2}% 8
+\BOOKMARK [2][-]{subsection.2.3}{Dune Detection}{section.2}% 9
+\BOOKMARK [3][-]{subsubsection.2.3.1}{Appearance-Based Methods}{subsection.2.3}% 10
+\BOOKMARK [3][-]{subsubsection.2.3.2}{Machine Learning Methods}{subsection.2.3}% 11
+\BOOKMARK [1][-]{section.3}{Methodology}{}% 12
+\BOOKMARK [2][-]{subsection.3.1}{Challenges}{section.3}% 13
+\BOOKMARK [2][-]{subsection.3.2}{Overall Process Flow}{section.3}% 14
+\BOOKMARK [2][-]{subsection.3.3}{Appearance-Based Approach}{section.3}% 15
+\BOOKMARK [2][-]{subsection.3.4}{Edge-based Approach}{section.3}% 16
+\BOOKMARK [3][-]{subsubsection.3.4.1}{Dominant Orientation From K-Means Clustering}{subsection.3.4}% 17
+\BOOKMARK [3][-]{subsubsection.3.4.2}{Dominant Orientation From Histogram of Gradients}{subsection.3.4}% 18
+\BOOKMARK [3][-]{subsubsection.3.4.3}{Dune Segment Linking}{subsection.3.4}% 19
+\BOOKMARK [2][-]{subsection.3.5}{Watershed Transform Segmentation Approach}{section.3}% 20
+\BOOKMARK [2][-]{subsection.3.6}{Frequency Domain Approach}{section.3}% 21
+\BOOKMARK [2][-]{subsection.3.7}{Gradient Orientation-Based Approach}{section.3}% 22
+\BOOKMARK [2][-]{subsection.3.8}{Machine Learning Approach}{section.3}% 23
+\BOOKMARK [3][-]{subsubsection.3.8.1}{Dataset Creation}{subsection.3.8}% 24
+\BOOKMARK [3][-]{subsubsection.3.8.2}{Feature Descriptor Extraction}{subsection.3.8}% 25
+\BOOKMARK [3][-]{subsubsection.3.8.3}{Supervised Learning of the Crest-line Classifier Model}{subsection.3.8}% 26
+\BOOKMARK [3][-]{subsubsection.3.8.4}{Response Maps}{subsection.3.8}% 27
+\BOOKMARK [3][-]{subsubsection.3.8.5}{Crest-line Extraction: Thinning And Skeletonization}{subsection.3.8}% 28
+\BOOKMARK [2][-]{subsection.3.9}{Machine Learning and Gradient-Based Mixed Approach}{section.3}% 29
+\BOOKMARK [3][-]{subsubsection.3.9.1}{Gradient Orientation Crest-line Extraction}{subsection.3.9}% 30
+\BOOKMARK [3][-]{subsubsection.3.9.2}{Localization Improvement of Crest-line Segments}{subsection.3.9}% 31
+\BOOKMARK [2][-]{subsection.3.10}{Dune Field Morphology Metrics}{section.3}% 32
+\BOOKMARK [3][-]{subsubsection.3.10.1}{Dune Field Orientation Computation}{subsection.3.10}% 33
+\BOOKMARK [3][-]{subsubsection.3.10.2}{Inter-Dune Distance Computation}{subsection.3.10}% 34
+\BOOKMARK [1][-]{section.4}{Experimental Evaluation}{}% 35
+\BOOKMARK [2][-]{subsection.4.1}{Study Areas}{section.4}% 36
+\BOOKMARK [3][-]{subsubsection.4.1.1}{Terrestrial Dataset}{subsection.4.1}% 37
+\BOOKMARK [3][-]{subsubsection.4.1.2}{Mars Dataset}{subsection.4.1}% 38
+\BOOKMARK [2][-]{subsection.4.2}{Evaluation}{section.4}% 39
+\BOOKMARK [2][-]{subsection.4.3}{Results}{section.4}% 40
+\BOOKMARK [1][-]{section.5}{Conclusion}{}% 41
+\BOOKMARK [2][-]{subsection.5.1}{Discussion}{section.5}% 42
+\BOOKMARK [2][-]{subsection.5.2}{Future Work}{section.5}% 43

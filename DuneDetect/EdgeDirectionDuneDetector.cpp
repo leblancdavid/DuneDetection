@@ -37,11 +37,10 @@ namespace dune
 		cv::waitKey(33);
 
 		//std::vector<DuneSegment> duneSegs = GetCannySegments(processedImage);
-
 		std::vector<DuneSegment> duneSegs = GetContourSegments(processedImage.clone());
-		//FilterByEdgeDirection(processedImage, duneSegs);
+		FilterByEdgeDirection(processedImage, duneSegs);
 		//ShiftSegmentsToGradientPeak(duneSegs, processedImage);
-		ShiftSegmentsToGradientPeak2(duneSegs, processedImage);
+		//ShiftSegmentsToGradientPeak2(duneSegs, processedImage);
 		//ShiftSegmentsToIntensityPeak(duneSegs, img);
 		return duneSegs;
 	}
@@ -148,7 +147,8 @@ namespace dune
 		else
 			domOrientation = imgProcParams->Orientation;
 
-		domOrientation += 3.1416;
+		//domOrientation += 3.1416;
+		cv::Vec2d domVec(std::cos(domOrientation), std::sin(domOrientation));
 
 		std::vector<dune::DuneSegmentData> data = segment.GetSegmentData();
 		std::vector<DuneSegment> output;
@@ -180,15 +180,32 @@ namespace dune
 				r[1] += dy.at<double>(data[k].Position) * gaussian.at<double>(j, 0);
 			}
 
-			double d = std::atan2(r[1], r[0]);
-			double low = fabs(d - domOrientation);
-			double high = fabs(d - (domOrientation + 3.1416));
-
-			double val = (std::min(low, high) / 3.1416);
-			if (val >= 0.5)
+			r /= cv::norm(r);
+			double d = r[0] * domVec[0] + r[1] * domVec[1];
+			if (d >= -0.4)
 				labels.push_back(true);
 			else
 				labels.push_back(false);
+
+			//double d = std::atan2(r[1], r[0]);
+			//double low = fabs(d - domOrientation);
+			//double high = fabs(d - (domOrientation + 3.1416));
+
+			//double val = (std::min(low, high) / 3.1416);
+			//if (val >= 0.5)
+			//	labels.push_back(true);
+			//else
+			//	labels.push_back(false);
+
+			
+			//double low = fabs(d - domOrientation);
+			//double high = fabs(d - (domOrientation + 3.1416));
+
+			//double val = (std::min(low, high) / 3.1416);
+			//if (val >= 0.5)
+			//	labels.push_back(true);
+			//else
+			//	labels.push_back(false);
 		}
 
 		std::vector<dune::DuneSegmentData> segments;

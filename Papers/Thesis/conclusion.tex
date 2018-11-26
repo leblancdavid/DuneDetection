@@ -1,3 +1,122 @@
-\section{Conclusion}
+\section{Conclusion} \label{sec:conclusion}
 
-This is the Conclusion
+Detecting dune crest-lines in satellite images is a challenging application of computer vision. Although there have been many computer vision methods used to solve similar problems, the space of research in this particular application is relatively sparse. The main goal of the research presented is to widen the understanding of the challenges in crest-line detection, and to propose candidate solution. Ultimately, crest-line detection is used as a stepping stone for extracting higher level information and dune metrics such as orientation, spacing, length, bifurcations, dune movement, and many other properties inherent to dune fields.  
+
+\subsection{Discussion}
+
+The most obvious and main challenge discovered during this research lies in the bimodal distribution of the gradient histograms of the images. That is to say, the transitions from darker areas to brighter and making the determination of which gradients belong to the crest-lines. Additionally, we discovered that often gradient magnitudes are not necessarily a sure way to determine crest-lines. 
+
+In this research, many approaches were tried with varying levels of success. Approaches varied from appearance-based, to gradient-based, to machine learning methods. Although individually many of the approaches had poor performance, valuable information about the problem space was extracted. 
+
+The main contribution of the gradient-based methods was the computation of the dominant orientation, which turned out to be a key piece of information in determining the crest-lines. Although the results are not perfect, computing the normalized histogram of gradients proved to provide consistent results in computing the dominant orientation of the dune field.
+
+Another important contribution is the use of the gradient direction map, which enabled good segmentation of regions in the image, in order to determine the crest-line. A drawback of this method is that the computation of the gradient direction map is heavily dependent on a reliable computation of the dominant orientation. For simpler linear dune fields, the dominant orientation is typically accurate. However, in complex dune field structures, the dominant orientation computation may not be as accurate, which can affect the gradient direction map.
+
+The approaches with the most promising results are without doubt the machine learning based methods. Machine learning techniques enable us to automatically create an accurate model representation which characterizes the problem space. The drawback of the machine learning methods is the need for large datasets for accurate model representation. The datasets used in this research were relatively small, including a terrestrial dataset spanning six distinct regions, and a Martian dataset, which included images of a specific region on Mars. In order to construct a more fool-proof model, more data would need to be collected.
+
+Fortunately, we were able to successfully train models to recognize the difference between crest-line, and non-crest-line image patches with our limited dataset, as a proof of concept. When the model is applied to each pixel in the image, a response map could be generated. The response map could then be used as a filter for detecting crest-lines. 
+
+Two main approaches utilized the response maps. The first simply thresholded the response maps and applied non-maxima suppression or skeletonization in order to recover the crest-lines. The second combined the gradient direction map segmentation concept with the response maps to filter out crest-line candidates from the detected contours.
+
+Along with the crest-line detection algorithms presented in this research, an attempt at computing dune metrics was also proposed. The two main metrics computed were the dune field orientation and the inter-dune spacing. These two were chosen mainly for their simplicity of computation. Although the proposed methods to compute these metrics may not be the most optimal, the results generated were sufficient enough for evaluating the approaches presented.
+
+Section \ref{subsec:results-and-discussion} presented the results of each approach applied on both the terrestrial and Martian datasets. Table \ref{tab:approach_comparison} presents a summary of the results of each approach on both linear and complex dune patterns. The most promising approaches clearly are the machine learning-based approaches, which yielded much better precision, recall, and dune metric calculation results. The mixed machine learning and gradient based approach presented in section \ref{subsec:mixed_ml_gradient_approach} provides the best overall results for dune detection. 
+
+\begin{table}
+	\centering
+	\caption{ Summary of the precision and recall results for each approach applied to the Kalahari, Namibia, Skeleton Coast, and WDC terrestrial images. }
+	\label{tab:approach_comparison}
+	\begin{subtable}{0.98\textwidth}
+		\centering
+		\begin{tabu} to 0.8\textwidth { | X[3,c] || X[1,c] | X[1,c] | }
+			\hline
+			\textbf{Kalahari} & \textbf{Precision} & \textbf{Recall} \\
+			\hline\hline
+			Appearance-Based & 0.7651 & 0.7094 \\
+			Edge-Based & 0.5793 & 0.9852 \\
+			Watershed Transform & 0.9087 & 0.8093 \\
+			Frequency Domain & 0.6329 & 0.9730 \\
+			Gradient Orientation & 0.7181 & 0.9370 \\
+			Machine Learning & 0.9379 & 0.9726 \\
+			Mixed ML-Gradient &  \textbf{0.9523} &  \textbf{0.9904} \\
+			\hline
+		\end{tabu}
+		\caption{Kalahari Results}
+		\label{tab:kalahari_approach_comparison}
+	\end{subtable}
+	\begin{subtable}{0.98\textwidth}
+		\centering
+		\begin{tabu} to 0.8\textwidth { | X[3,c] || X[1,c] | X[1,c] | }
+			\hline
+			\textbf{Namibia} & \textbf{Precision} & \textbf{Recall} \\
+			\hline\hline
+			Appearance-Based & 0.5543 & 0.7493 \\
+			Edge-Based & 0.5842 & 0.9626 \\
+			Watershed Transform &  0.6115 & 0.6617 \\
+			Frequency Domain & 0.5835 & 0.9811 \\
+			Gradient Orientation & 0.6297 & 0.9883 \\
+			Machine Learning & 0.8491 & 0.9676 \\
+			Mixed ML-Gradient &  \textbf{0.9512} &  \textbf{0.9831} \\
+			\hline
+		\end{tabu}
+		\caption{Namibian Results}
+		\label{tab:namibia_approach_comparison}
+	\end{subtable}
+\end{table}
+
+\begin{table}
+	\ContinuedFloat
+	\centering
+	\begin{subtable}{0.98\textwidth}
+		\centering
+		\begin{tabu} to 0.8\textwidth { | X[3,c] || X[1,c] | X[1,c] | }
+			\hline
+			\textbf{Skeleton Coast} & \textbf{Precision} & \textbf{Recall} \\
+			\hline\hline
+			Appearance-Based & 0.7117 & 0.8033 \\
+			Edge-Based & 0.7899 & 0.8187 \\
+			Watershed Transform & 0.5700 & 0.7489 \\
+			Frequency Domain & 0.6448 & 0.7767 \\
+			Gradient Orientation & 0.7697 & 0.9935 \\
+			Machine Learning & 0.7632 & 0.9536 \\
+			Mixed ML-Gradient &  \textbf{0.9356} &  \textbf{0.9806} \\
+			\hline
+		\end{tabu}
+		\caption{Skeleton Coast Results}
+		\label{tab:skeleton_coast_approach_comparison}
+	\end{subtable}
+	\begin{subtable}{0.98\textwidth}
+		\centering
+		\begin{tabu} to 0.8\textwidth { | X[3,c] || X[1,c] | X[1,c] | }
+			\hline
+			\textbf{WDC} & \textbf{Precision} & \textbf{Recall} \\
+			\hline\hline
+			Appearance-Based & 0.5993 & 0.5581 \\
+			Edge-Based & 0.5807 & 0.7478 \\
+			Watershed Transform & 0.6279 & 0.2532 \\
+			Frequency Domain & 0.7221 & 0.6571 \\
+			Gradient Orientation & 0.7589 & \textbf{0.9302} \\
+			Machine Learning & 0.8981 & 0.8554 \\
+			Mixed ML-Gradient &  \textbf{0.9711} &  0.7996 \\
+			\hline
+		\end{tabu}
+		\caption{WDC Results}
+		\label{tab:WDC_approach_comparison}
+	\end{subtable}
+\end{table}
+
+Since the results presented in \cite{vaz_object_based_dune_analysis} were made available, we were able to compare side-by-side their results with ours. It is clear that our results are superior than the method proposed in \cite{vaz_object_based_dune_analysis}, not only in precision and recall, but also in dune metric calculation and in overall quality of crest-line extraction. 
+
+The crest-lines extracted by \cite{vaz_object_based_dune_analysis} tended to be noisy, duplicated, and have poor localization. On the other hand, our results provide much smoother, contiguous, and better localized crest-lines. In many of the case where the results appeared lower were due to poor quality of the labeled ground truth. Often, in the ground truth of the Martian dataset, many of the crest-lines were incorrectly localized, or simply absent, in locations where our approach did in fact correctly detect a crest-line. Correcting the ground truth would most likely yield higher precision and recall for our reported results. We decided against attempting to correct the ground truth for two main reasons: it is a very tedious and error prone task, and tampering with the data would not produce a fair comparison of the Vaz \cite{vaz_object_based_dune_analysis} and our approach.
+
+Overall, the research presented offers many different approaches and many more avenues to explore. The results are very promising, however there are still many improvements and more research to be done. 
+
+\subsection{Future Work}
+
+There is a multitude of potential methods to be tried and a fair amount of future work to be done in this application to make it a reliable tool for researchers. Obvious improvements can be made in the computation of the dune metrics. The current methods used to compute the metrics are somewhat minimal and simplistic. 
+
+Additionally, many of the metrics desired by scientist in the field of dune research are absent. Computing bifurcation and studying the movement of dunes is an interesting problem, but would require a large amount of data to be further studied. Using temporal data could provide valuable insight on the formation and complex patterns inherent to dune fields.
+
+Another area which requires further study is the computation of the dominant orientation of the dune field. The bimodal distribution of the gradients still poses problems in complex dune structures. There may be options for computing the orientation in a more optimal way. Alternatively, computing the local dominant orientation may provide more useful information and could be a solution to the problem. Computing the local orientation has merit but poses other problems in the computation of the gradient direction map. Also, determining the optimal local scale then becomes a crucial task for determining the local orientation of dunes.
+
+Other approaches have been discussed but were not included in this research. Namely, the use of Tensor Voting methods to determine and trace dune crest-lines. Another interesting approach is to use the sun's orientation relative to the dune field to generate a pseudo elevation map using shape-from-shading techniques. If the light source is known, it may be possible to reconstruct a 3D model of the dune field, which in turn could facilitate the detection of crest-lines.

@@ -165,7 +165,7 @@ namespace duneML
 
 		int minSegmentLength;
 		int K = 9;
-		double threshold = 0.25;
+		double threshold = -5.75;
 
 		bool overlaps(const cv::Mat &map, const cv::Point &center, int label, int distance)
 		{
@@ -377,7 +377,7 @@ namespace duneML
 
 		void ShiftSegmentsByResponse(const cv::Mat& responseMap, std::vector<dune::DuneSegment> &segments, double domOrientation)
 		{
-			double searchDir = domOrientation - 3.1416;
+			double searchDir = domOrientation -3.1416;
 			double x_incr = std::cos(searchDir);
 			double y_incr = std::sin(searchDir);
 
@@ -455,7 +455,7 @@ namespace duneML
 
 			shift = cv::Vec2d(0.0, 0.0);
 			double maxMag = -999999.9;
-			for (int k = -1*K; k < K; ++k)
+			for (int k = -2*K; k < 2*K; ++k)
 			{
 				double xshift = x + k * x_incr;
 				double yshift = y + k * y_incr;

@@ -1,23 +1,43 @@
 \contentsline {section}{\numberline {1}Introduction}{1}
-\contentsline {section}{\numberline {2}Background}{2}
-\contentsline {subsection}{\numberline {2.1}Dune Pattern Studies}{2}
-\contentsline {subsection}{\numberline {2.2}Image Processing}{4}
-\contentsline {subsubsection}{\numberline {2.2.1}Filtering}{4}
-\contentsline {subsubsection}{\numberline {2.2.2}Illumination Normalization}{4}
-\contentsline {subsubsection}{\numberline {2.2.3}Edge and Line Detection}{5}
-\contentsline {subsubsection}{\numberline {2.2.4}Edge Linking}{7}
-\contentsline {subsection}{\numberline {2.3}Pattern Recognition}{8}
-\contentsline {subsubsection}{\numberline {2.3.1}Perceptual Grouping}{8}
-\contentsline {subsubsection}{\numberline {2.3.2}Watershed Segmentation}{8}
-\contentsline {subsection}{\numberline {2.4}Automated Feature Detection}{9}
-\contentsline {subsection}{\numberline {2.5}Automated Dune Detection}{11}
-\contentsline {section}{\numberline {3}Methodology}{12}
-\contentsline {subsection}{\numberline {3.1}Machine Learning Approach}{12}
-\contentsline {subsubsection}{\numberline {3.1.1}Image Preprocessing}{12}
-\contentsline {subsubsection}{\numberline {3.1.2}Dominant Orientation Determination}{14}
-\contentsline {subsubsection}{\numberline {3.1.3}Crest-line Candidate Detection}{18}
-\contentsline {section}{\numberline {4}Results}{20}
-\contentsline {subsection}{\numberline {4.1}Study Areas}{20}
-\contentsline {subsubsection}{\numberline {4.1.1}Terrestrial Dataset}{20}
-\contentsline {subsubsection}{\numberline {4.1.2}Mars Dataset}{24}
-\contentsline {section}{\numberline {5}Conclusion}{27}
+\contentsline {subsection}{\numberline {1.1}Challenges}{1}
+\contentsline {subsection}{\numberline {1.2}Contributions}{3}
+\contentsline {section}{\numberline {2}Background and Previous Work}{4}
+\contentsline {subsection}{\numberline {2.1}Dune Pattern Studies}{4}
+\contentsline {subsection}{\numberline {2.2}Image Processing and Computer Vision}{5}
+\contentsline {subsubsection}{\numberline {2.2.1}Preprocessing}{5}
+\contentsline {subsubsection}{\numberline {2.2.2}Feature Detection}{6}
+\contentsline {subsection}{\numberline {2.3}Dune Detection}{8}
+\contentsline {subsubsection}{\numberline {2.3.1}Appearance-Based Methods}{8}
+\contentsline {subsubsection}{\numberline {2.3.2}Machine Learning Methods}{8}
+\contentsline {section}{\numberline {3}Methodology}{10}
+\contentsline {subsection}{\numberline {3.1}Challenges}{10}
+\contentsline {subsection}{\numberline {3.2}Overall Process Flow}{11}
+\contentsline {subsection}{\numberline {3.3}Appearance-Based Approach}{14}
+\contentsline {subsection}{\numberline {3.4}Edge-based Approach}{16}
+\contentsline {subsubsection}{\numberline {3.4.1}Dominant Orientation From K-Means Clustering}{18}
+\contentsline {subsubsection}{\numberline {3.4.2}Dominant Orientation From Histogram of Gradients}{19}
+\contentsline {subsubsection}{\numberline {3.4.3}Dune Segment Linking}{21}
+\contentsline {subsection}{\numberline {3.5}Watershed Transform Segmentation Approach}{22}
+\contentsline {subsection}{\numberline {3.6}Frequency Domain Approach}{24}
+\contentsline {subsection}{\numberline {3.7}Gradient Orientation-Based Approach}{26}
+\contentsline {subsection}{\numberline {3.8}Machine Learning Approach}{29}
+\contentsline {subsubsection}{\numberline {3.8.1}Dataset Creation}{30}
+\contentsline {subsubsection}{\numberline {3.8.2}Feature Descriptor Extraction}{30}
+\contentsline {subsubsection}{\numberline {3.8.3}Supervised Learning of the Crest-line Classifier Model}{31}
+\contentsline {subsubsection}{\numberline {3.8.4}Response Maps}{31}
+\contentsline {subsubsection}{\numberline {3.8.5}Crest-line Extraction: Thinning And Skeletonization}{35}
+\contentsline {subsection}{\numberline {3.9}Machine Learning and Gradient-Based Mixed Approach}{37}
+\contentsline {subsubsection}{\numberline {3.9.1}Gradient Orientation Crest-line Extraction}{39}
+\contentsline {subsubsection}{\numberline {3.9.2}Localization Improvement of Crest-line Segments}{39}
+\contentsline {subsection}{\numberline {3.10}Dune Field Morphology Metrics}{40}
+\contentsline {subsubsection}{\numberline {3.10.1}Dune Field Orientation Computation}{42}
+\contentsline {subsubsection}{\numberline {3.10.2}Inter-Dune Distance Computation}{43}
+\contentsline {section}{\numberline {4}Experimental Evaluation}{44}
+\contentsline {subsection}{\numberline {4.1}Study Areas}{44}
+\contentsline {subsubsection}{\numberline {4.1.1}Terrestrial Dataset}{44}
+\contentsline {subsubsection}{\numberline {4.1.2}Mars Dataset}{47}
+\contentsline {subsection}{\numberline {4.2}Evaluation}{47}
+\contentsline {subsection}{\numberline {4.3}Results}{49}
+\contentsline {section}{\numberline {5}Conclusion}{68}
+\contentsline {subsection}{\numberline {5.1}Discussion}{68}
+\contentsline {subsection}{\numberline {5.2}Future Work}{70}

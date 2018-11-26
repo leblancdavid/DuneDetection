@@ -1,4 +1,4 @@
-\documentclass[12pt]{article}
+\documentclass[11pt]{article}
 \usepackage[T1]{fontenc}
 \usepackage{tgtermes}
 \usepackage{subcaption}
@@ -7,16 +7,32 @@
 \usepackage{float}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{tabu}
+\usepackage{multirow}
+\usepackage{textcomp}
+\usepackage{gensymb}
+\usepackage{pdfpages}
+	
+	
+\DeclareCaptionSubType[alph]{figure}
+\captionsetup[subfigure]{labelformat=simple,justification=centerlast}
+
+\renewcommand\thesubfigure{(\alph{subfigure})}
+\makeatletter
+\renewcommand\p@subfigure{\thefigure}
+\makeatother
 
 \geometry{
 	a4paper, 
 	total={8.5in,11in},
-	left=1.0in,
-	right=1in,
-	top=1in,
-	bottom=1in,
+	left=0.5in,
+	right=0.5in,
+	top=0.5in,
+	bottom=0.5in,
 }
-\linespread{2.0}
+\linespread{1.0}
 
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -24,42 +40,60 @@
 \renewcommand{\headrulewidth}{0pt}
 \fancyhead[R]{\thepage}
 
+
+
 \begin{document}
 
 %%% Title Page %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{titlepage}
 	\centering
-	{\scshape\LARGE Columbidae University \par}
-	\vspace{1cm}
-	{\scshape\Large Final year project\par}
-	\vspace{1.5cm}
-	{\huge\bfseries Pigeons love doves\par}
-	\vspace{2cm}
-	{\Large\itshape John Birdwatch\par}
+	{\scshape\LARGE University of Nevada, Reno \par}
+	\vspace{2.5cm}
+	{\Large\bfseries Automated detection of dune crest-lines in planetary satellite images\par}
+	\vspace{2.5cm}
+	{\large A thesis submitted in partial fulfillment of the requirements for the degree of Master of Science in Computer Science and Engineering\par}
+	\vspace{1.5cm}	
+	{\Large by\par}
+	{\Large David Leblanc\par}
 	\vfill
-	supervised by\par
-	Dr.~Mark \textsc{Brown}
-	
+	{\large Dr. George Bebis/Thesis Advisor
+		 
+		Dr. Mircea Nicolescu/Thesis Co-Advisor}
 	\vfill
 	% Bottom of the page
-	{\large \today\par}
+	{\large May 2017\par}
 \end{titlepage}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \pagenumbering{gobble}
 %%% Copyright Page %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section*{Copyright}
+\begin{center}
+\vspace*{\fill}
+{~\textcopyright~by David Leblanc 2017 \par}
+{All Rights Reserved}
+\vspace*{\fill}
+\end{center}
+
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%% Commitee Approval Page %%%%%%%%%%%%%%%%%%%%%%%
-\section*{Committee Approval Page}
+\includepdf[pages={1}]{committee-page.pdf}
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \pagenumbering{roman}
 %%% Abstract Page %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Abstract}
+
+Dune-field patterns are believed to behave as self-organizing systems, but what causes the patterns to form is still poorly understood. The most obvious (and in many cases the most significant) aspect of a dune system is the pattern of dune crest lines. Extracting meaningful features such as crest length, orientation, spacing, bifurcations, and merging of crests from image data can reveal important information about the specific dune-field morphological properties, development, and response to changes in boundary conditions. However manual methods are labor-intensive and time-consuming. 
+
+In this research, we are developing the capability automatically detect crest-lines and computing the geomorphological properties of dune fields, using satellite images on planetary surfaces. Our goal is to develop a robust methodology and the necessary algorithms for automated or semi-automated extraction of dune morphometric information from image data.
+
+We investigated multiple different approaches to solve the problem, ranging from appearance-based, gradient-based, and machine learning methods. We strive to solve the problem caused by the inherent bimodal distribution of the histogram of the gradients by computing the overall dominant orientation of the dune field gradients. The concept of the gradient direction map is also introduced as a method to segment areas of the image which agree with the dominant orientation of the dune fields. Crest-line candidates can be extracted from the segmented areas which are in turn filtered using the responses of a train machine learning model. Once candidate crest-lines have been detected, the morphological properties of the dune field can be computed.
+
+Our approach has been tested on two distinct dataset including satellite images of six terrestrial regions and from Mars. The results reported perform well on both linear and complex dune structures, and have relatively high precision and recall rates and low error in computation of the morphological properties, indicating that our approach generally robust.
+
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -91,8 +125,7 @@
 \newpage
 \include{conclusion}
 
-\section*{References}
+\bibliography{references}{}
 \bibliographystyle{plain}
-\bibliography{references}
 	
 \end{document}

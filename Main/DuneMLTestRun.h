@@ -46,7 +46,7 @@ void PreProcessImage(const cv::Mat &input, cv::Mat &output)
 {
 	//cv::imwrite("image_unprocessed.jpg", input);
 	cv::Mat processed;
-	int k = 5;
+	int k = 11;
 	cv::medianBlur(input, processed, k);
 	cv::GaussianBlur(processed, output, cv::Size(k, k), (double)k / 5.0, (double)k / 5.0);
 	//cv::equalizeHist(processed, output);
@@ -122,7 +122,7 @@ void ExtractFeatureSet(const std::vector<duneML::DuneMLData> data,
 		cv::Mat positiveDescriptors, negativeDescriptors;
 		duneML::SIFTParameters siftParams;
 		siftParams.FixedOrientation = false;
-		siftParams.Sigma = 2.5;// meanScale[0] - stdevScale[0];
+		siftParams.Sigma = 3.5;// meanScale[0] - stdevScale[0];
 		siftParams.Orientation = data[i].SunOrientation;
 		duneML::DuneSIFTFeatureExtractor features(siftParams);
 		//duneML::DuneDirectionFeatureExtractor features;
@@ -209,7 +209,7 @@ void ValidateImageClassifier(duneML::DuneMLData data,
 	duneML::SIFTParameters siftParams;
 	siftParams.FixedOrientation = false;
 	siftParams.Orientation = data.SunOrientation;
-	siftParams.Sigma = 2.5;// meanScale[0] - stdevScale[0];
+	siftParams.Sigma = 3.5;// meanScale[0] - stdevScale[0];
 	duneML::DuneSIFTFeatureExtractor features(siftParams);
 	//duneML::DuneDirectionFeatureExtractor features;
 	////duneML::DuneORBFeatureExtractor features;
@@ -265,7 +265,7 @@ void ValidateImageClassifier(duneML::DuneMLData data,
 	logFile << "Validating image..." << std::endl;
 
 	dune::EdgeDirectionDuneDetector detector(
-		new dune::EdgeDirectionImageProcessor(new dune::EdgeDirectionProcParams(9, 16, true, data.SunOrientation)),
+		new dune::EdgeDirectionImageProcessor(new dune::EdgeDirectionProcParams(9, 16, false, data.SunOrientation)),
 		new dune::EdgeDirectionDetectorParameters());
 
 	segments = detector.Extract(processedImage);
@@ -273,12 +273,12 @@ void ValidateImageClassifier(duneML::DuneMLData data,
 	mlFilter.SetFeatureClassifier(classifier);
 	mlFilter.SetFeatureDetector(&features);
 	mlFilter.SetMinSegmentLength(50);
-	mlFilter.SetThreshold(0.5);
+	mlFilter.SetThreshold(0.0);
 
 	//std::vector<dune::DuneSegment> classifiedSegments = mlFilter.Filter(processedImage, segments);
 	std::vector<dune::DuneSegment> classifiedSegments = mlFilter.FilterByResponse(processedImage, segments, data.SunOrientation);
-	classifiedSegments = mlFilter.RemoveOverlappingSegments(processedImage, classifiedSegments, 10);
-
+	//classifiedSegments = mlFilter.RemoveOverlappingSegments(processedImage, classifiedSegments, 10);
+	
 	std::ofstream resultsDatFile(data.ImageFileName + "_results_.dat");
 	for (int i = 2; i <= 50; i += 2)
 	{
@@ -322,7 +322,7 @@ void RunMLTest(const std::vector<duneML::DuneMLData> trainingData,
 	//duneML::NormalBayesFeatureClassifier *classifier = new duneML::NormalBayesFeatureClassifier();
 	duneML::BaseFeatureClassifier *classifier = new duneML::RandomTreeFeatureClassifier();
 	//duneML::BaseFeatureClassifier *classifier = new duneML::DecisionTreeFeatureClassifier();
-	//duneML::GradientBoostedTreeFeatureClassifier classifier;
+	//duneML::BaseFeatureClassifier *classifier = new duneML::GradientBoostedTreeFeatureClassifier();
 	duneML::TrainingResults results = classifier->Train(posTrain, negTrain);
 
 	logFile << "Training set results: " << std::endl
@@ -438,10 +438,10 @@ void RunMLTest()
 
 	trainingData[0].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 1.png";
 	trainingData[0].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 1 gt.png";
-	trainingData[0].SunOrientation = 0.3378;//-2.8131;//0.3285;
+	trainingData[0].SunOrientation = 0.3378 - 3.1415;//-2.8131;//0.3285;
 	trainingData[1].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 3.png";
 	trainingData[1].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 3 gt.png";
-	trainingData[1].SunOrientation = 0.5090;//-2.8131;//0.3285;
+	trainingData[1].SunOrientation = 0.5090 - 3.1415;//-2.8131;//0.3285;
 	trainingData[2].ImageFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 5.png";
 	trainingData[2].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 5 gt.png";
 	trainingData[2].SunOrientation = 0.1809;//-2.8131;//0.3285;
@@ -481,7 +481,7 @@ void RunMLTest()
 	testData[6].GroundTruthFileName = DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 15 gt.png";
 	testData[6].SunOrientation = -0.6973 + 3.1416;//-2.8375;//0.3041;
 
-	RunMLTest(trainingData, testData, 1000, 1000, 10);
+	RunMLTest(trainingData, testData, 5000, 5000, 10);
 
 
 

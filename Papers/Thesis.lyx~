@@ -1186,7 +1186,7 @@ reference "fig:Contour-extraction-from"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -3435,6 +3435,17 @@ Frequency spectrum processing results from the Skeleton-Coast image.
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\hat{\delta_{i,j}}=
+\]
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsubsection
 
 \color black
@@ -3499,7 +3510,7 @@ reference "fig:The-gradient-direction"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -6947,7 +6958,7 @@ reference "fig:Dune-detection-results"
 \color black
 \begin_inset Float table
 wide true
-sideways false
+sideways true
 status open
 
 \begin_layout Plain Layout
@@ -12224,7 +12235,7 @@ The normalized inter-dune distance error:
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -12324,7 +12335,7 @@ Dune detection results (red) compared to the ground truth (green), overall
 \begin_inset Float figure
 wide true
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -12426,7 +12437,7 @@ name "fig:Dune-Crestline-detection"
 \begin_inset Float figure
 wide true
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -12539,7 +12550,7 @@ Results of crestline detection using machine learning approach (Method #5),
 \begin_inset Float figure
 wide true
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -12644,7 +12655,7 @@ Continued results of crestline detection using machine learning approach:
 \begin_inset Float figure
 wide true
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -12739,7 +12750,7 @@ Precision=\frac{TP}{TP+FP}
 \begin_inset Float figure
 wide true
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center

@@ -9,7 +9,7 @@ namespace duneML
 		normType = MINMAX;
 
 		cv::Mat exampleSet(positiveExamples.rows + negativeExamples.rows, positiveExamples.cols, CV_32F);
-		cv::Mat responsesSet(exampleSet.rows, 1, CV_32F);
+		cv::Mat responsesSet(exampleSet.rows, 1, CV_32S);
 
 		for (int row = 0; row < positiveExamples.rows; ++row)
 		{
@@ -17,7 +17,7 @@ namespace duneML
 			{
 				exampleSet.at<float>(row, col) = positiveExamples.at<float>(row, col);
 			}
-			responsesSet.at<float>(row, 0) = 1.0f;
+			responsesSet.at<int>(row, 0) = 1;
 		}
 
 		for (int row = positiveExamples.rows; row < exampleSet.rows; ++row)
@@ -26,7 +26,7 @@ namespace duneML
 			{
 				exampleSet.at<float>(row, col) = negativeExamples.at<float>(row - positiveExamples.rows, col);
 			}
-			responsesSet.at<float>(row, 0) = -1.0f;
+			responsesSet.at<int>(row, 0) = -1;
 		}
 
 		cv::Scalar mean, stdDev;
@@ -47,7 +47,7 @@ namespace duneML
 		//svm = cv::ml::StatModel::train<cv::ml::SVM>(inputData);
 
 		svm = SVM::create();
-		svm->setType(SVM::NU_SVR);
+		svm->setType(SVM::NU_SVC);
 		svm->setKernel(SVM::RBF);
 		svm->setNu(0.5);
 		svm->setDegree(2.0);

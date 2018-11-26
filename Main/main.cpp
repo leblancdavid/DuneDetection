@@ -18,68 +18,65 @@ int main()
 {
 
 	//RunDuneLibTest();
-	RunMLTest();
+	//RunMLTest();
+	std::vector<std::string> images;
+	images.push_back("Area 1");
+	images.push_back("Area 2");
+	images.push_back("Area 3");
+	images.push_back("Area 4");
+	images.push_back("Area 5");
+	images.push_back("Area 6");
+	images.push_back("Area 7");
+	images.push_back("Area 8");
+	images.push_back("Area 9");
+	images.push_back("Area 10");
+	images.push_back("Area 11");
+	images.push_back("Area 12");
+	images.push_back("Area 13");
+	images.push_back("Area 15");
 
-	//cv::Mat dx, dy;
-	//cv::getDerivKernels(dx, dy, 2, 2, 7);
-	////cv::getDerivKernels(dy, dy, 0, 2, 7);
-	//dx = -1.0 * dx;
-	//dy = -1.0 * dy;
-	//cv::normalize(dx, dx, 0.0, 1.0, cv::NORM_MINMAX);
-	//cv::normalize(dy, dy, 0.0, 1.0, cv::NORM_MINMAX);
-	//cv::Mat dx_r, dy_r;
-	//cv::resize(dy, dy_r, cv::Size(500, 500));
-	//cv::resize(dx, dx_r, cv::Size(500, 500));
-	//dx_r = dx_r.t();
-	//cv::imshow("dy", dy_r);
-	//cv::imshow("dx", dx_r);
-	//cv::waitKey(0);
-
-	cv::Mat gtImg = cv::imread(DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 1 gt.png", 0);
-	//cv::Mat gtImg = cv::imread(DUNE_ML_DATASET_BASE_PATH + "Vaz 1/test.png", 0);
-	cv::Mat image = cv::imread(DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 1.png", 0);
-	cv::Mat vazImg = cv::imread(DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 1 vaz.png", 0);
-
-	std::vector<dune::DuneSegment> segments;
-	segments.push_back(dune::DuneSegment());
-
-	std::vector<dune::DuneSegmentData> data;
-	for (int i = 0; i < vazImg.rows; ++i)
+	std::ofstream logFile = GetTimeStampedFileStream(DUNE_ML_DATASET_BASE_PATH + "Results/", "vaz_log_file");
+	for (size_t i = 0; i < images.size(); ++i) 
 	{
-		for (int j = 0; j < vazImg.cols; ++j)
+		cv::Mat gtImg = cv::imread(DUNE_ML_DATASET_BASE_PATH + "Vaz 1/" + images[i] + " gt.png", 0);
+		cv::Mat image = cv::imread(DUNE_ML_DATASET_BASE_PATH + "Vaz 1/" + images[i] + ".png", 0);
+		cv::Mat vazImg = cv::imread(DUNE_ML_DATASET_BASE_PATH + "Vaz 1/" + images[i] + " vaz.png", 0);
+
+		std::vector<dune::DuneSegment> segments;
+		segments.push_back(dune::DuneSegment());
+
+		std::vector<dune::DuneSegmentData> data;
+		for (int i = 0; i < vazImg.rows; ++i)
 		{
-			if (vazImg.at<uchar>(i,j) == 0)
-				continue;
+			for (int j = 0; j < vazImg.cols; ++j)
+			{
+				if (vazImg.at<uchar>(i, j) == 0)
+					continue;
 
-			data.push_back(dune::DuneSegmentData(cv::Point(j, i), 0.0));
+				data.push_back(dune::DuneSegmentData(cv::Point(j, i), 0.0));
+			}
 		}
-	}
-	segments[0].SetSegmentData(data);
+		segments[0].SetSegmentData(data);
 
-	std::ofstream resultsDatFile(DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 1_vaz_results_.dat");
-	for (int i = 2; i <= 50; i += 2)
-	{
 		dune::BaseDuneDetectorBenchmark benchmark;
-		benchmark.BenchmarkParams.MinError = i;
-		dune::BenchmarkResults benchmarkResults = benchmark.GetResults(image, gtImg, segments, DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 1_vaz_results_.png");
-		resultsDatFile << i << '\t' << benchmarkResults.GetPrecision() << '\t' << benchmarkResults.GetRecall() << std::endl;
+		benchmark.BenchmarkParams.MinError = 10.0;
+		dune::BenchmarkResults benchmarkResults = benchmark.GetResults(image, gtImg, segments, DUNE_ML_DATASET_BASE_PATH + "Vaz 1/" + images[i] + "_vaz_results_.png");
+
+		logFile << images[i] << " Benchmark results: " << std::endl
+			<< "\tTP: " << benchmarkResults.TP << std::endl
+			<< "\tFP: " << benchmarkResults.FP << std::endl
+			/*<< "\tTN: " << benchmarkResults.TN << std::endl
+			<< "\tFN: " << benchmarkResults.FN << std::endl*/
+			<< "\tPrecision: " << benchmarkResults.GetPrecision() << std::endl
+			<< "\tRecall: " << benchmarkResults.GetRecall() << std::endl
+			<< "\tAngular Error: " << benchmarkResults.AngularError << std::endl
+			<< "\tSpacing Error: " << benchmarkResults.SpacingError << std::endl
+			<< "\tNormalized Spacing Error: " << benchmarkResults.NormSpacingError << std::endl;
 	}
-	resultsDatFile.close();
+	logFile.close();
 
-	dune::BaseDuneDetectorBenchmark benchmark;
-	benchmark.BenchmarkParams.MinError = 10.0;
-	dune::BenchmarkResults benchmarkResults = benchmark.GetResults(image, gtImg, segments, DUNE_ML_DATASET_BASE_PATH + "Vaz 1/Area 1_vaz_results_.png");
 
-	std::cout << "Benchmark results: " << std::endl
-		<< "\tTP: " << benchmarkResults.TP << std::endl
-		<< "\tFP: " << benchmarkResults.FP << std::endl
-		/*<< "\tTN: " << benchmarkResults.TN << std::endl
-		<< "\tFN: " << benchmarkResults.FN << std::endl*/
-		<< "\tPrecision: " << benchmarkResults.GetPrecision() << std::endl
-		<< "\tRecall: " << benchmarkResults.GetRecall() << std::endl
-		<< "\tAngular Error: " << benchmarkResults.AngularError << std::endl
-		<< "\tSpacing Error: " << benchmarkResults.SpacingError << std::endl
-		<< "\tNormalized Spacing Error: " << benchmarkResults.NormSpacingError << std::endl;
+	
 
 
 

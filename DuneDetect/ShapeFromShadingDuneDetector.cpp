@@ -41,6 +41,7 @@ namespace dune
 		}
 
 		cv::imwrite("sampleOutput.png", peaks);
+		cv::imshow("processedImage", processedImage);
 		cv::imshow("peaks", peaks);
 		cv::waitKey(0);
 

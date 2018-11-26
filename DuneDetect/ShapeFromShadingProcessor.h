@@ -12,20 +12,31 @@ namespace dune
 		{
 			K = 7;
 			Iterations = 20;
+			MaskThreshold = 0;
+			ErosionIterations = 0;
 		}
 		~SFSProcessParameters() {}
 		SFSProcessParameters(const SFSProcessParameters &cpy)
 		{
 			K = cpy.K;
 			Iterations = cpy.Iterations;
+			MaskThreshold = cpy.MaskThreshold;
+			ErosionIterations = cpy.ErosionIterations;
+			Illumination = cpy.Illumination;
 		}
-		SFSProcessParameters(int k, int it)
+		SFSProcessParameters(int k, int it, int mask, int erode, const cv::Vec3f &illumination)
 		{
 			K = k;
 			Iterations = it;
+			MaskThreshold = mask;
+			ErosionIterations = erode;
+			Illumination = illumination;
 		}
 
 		int Iterations;
+		int MaskThreshold;
+		int ErosionIterations;
+		cv::Vec3f Illumination;
 		int K;
 	};
 

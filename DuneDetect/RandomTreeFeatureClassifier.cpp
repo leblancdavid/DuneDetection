@@ -39,6 +39,7 @@ namespace duneML
 
 		cv::Ptr<cv::ml::TrainData> inputData = cv::ml::TrainData::create(exampleSet, cv::ml::ROW_SAMPLE, responsesSet);
 		rt = RTrees::create();
+		rt->setMaxCategories(100);
 		rt->train(inputData);
 		//rt.train(exampleSet, CV_ROW_SAMPLE, responsesSet);
 

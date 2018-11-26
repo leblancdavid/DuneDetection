@@ -6,47 +6,119 @@ A level-1 auxiliary file: results.aux
 A level-1 auxiliary file: conclusion.aux
 The style file: plain.bst
 Database file #1: references.bib
-I was expecting a `,' or a `}'---line 19 of file references.bib
+Warning--entry type for "2005_topology_driven_algorithms_for_ridge_extraction" isn't style-file defined
+--line 496 of file references.bib
+I was expecting a `,' or a `}'---line 544 of file references.bib
  :  
  :  booktitle   = {Geomorphological Landscapes of the World},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 57 of file references.bib
+I was expecting a `,' or a `}'---line 585 of file references.bib
  :  
  :  booktitle   = {Australian Landscapes},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 77 of file references.bib
+I was expecting a `,' or a `}'---line 607 of file references.bib
  :  
  :  booktitle   = {The Geology of Mars: Evidence from Earth-based Analogs},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 89 of file references.bib
+I was expecting a `,' or a `}'---line 620 of file references.bib
  :  
  :  year        = {2015},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 115 of file references.bib
+I was expecting a `,' or a `}'---line 648 of file references.bib
  :  
- :  author  = {T. Huang, G. Yang, G. Tang}
+ :  author  = {J. Cooley, P. Lewis, and P. Welch},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 122 of file references.bib
+I was expecting a `,' or a `}'---line 659 of file references.bib
+ :  
+ :  author  = {J. Cooley, P. Lewis, and P. Welch},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 671 of file references.bib
+ :  
+ :  author  = {T. Huang, G. Yang, G. Tang},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 679 of file references.bib
  :  
  :  edition = {Third Edition}
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-You're missing a field part---line 155 of file references.bib
- :     title = 
- :             ,
-I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 397 of file references.bib
+I was expecting a `,' or a `}'---line 940 of file references.bib
  :   year =         "2012"
  :                        ",
 I'm skipping whatever remains of this entry
+Warning--entry type for "hough-1962-patent" isn't style-file defined
+--line 1205 of file references.bib
+Too many commas in name 1 of "von Gioi, R.G., Jakubowicz, J., Morel, J.M., Randall, G." for entry 2010_lsd_fast_line_segment_detector
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "von Gioi, R.G., Jakubowicz, J., Morel, J.M., Randall, G." for entry 2010_lsd_fast_line_segment_detector
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "von Gioi, R.G., Jakubowicz, J., Morel, J.M., Randall, G." for entry 2010_lsd_fast_line_segment_detector
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "von Gioi, R.G., Jakubowicz, J., Morel, J.M., Randall, G." for entry 2010_lsd_fast_line_segment_detector
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "von Gioi, R.G., Jakubowicz, J., Morel, J.M., Randall, G." for entry 2010_lsd_fast_line_segment_detector
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Loss, L., Bebis, G., Nicolescu, M., Skurikhin, A." for entry 2009_tensor_voting_cluttered_backgrounds
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Loss, L., Bebis, G., Nicolescu, M., Skurikhin, A." for entry 2009_tensor_voting_cluttered_backgrounds
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Loss, L., Bebis, G., Nicolescu, M., Skurikhin, A." for entry 2009_tensor_voting_cluttered_backgrounds
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Loss, L., Bebis, G., Nicolescu, M., Skurikhin, A." for entry 2009_tensor_voting_cluttered_backgrounds
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Loss, L., Bebis, G., Nicolescu, M., Skurikhin, A." for entry 2009_tensor_voting_cluttered_backgrounds
+while executing---line 1049 of file plain.bst
 Too many commas in name 1 of "David Vaz, Pedro Sarmento, Maria Barata, Lori Fenton, Timothy Michaels" for entry vaz_object_based_dune_analysis
 while executing---line 1049 of file plain.bst
 Too many commas in name 1 of "David Vaz, Pedro Sarmento, Maria Barata, Lori Fenton, Timothy Michaels" for entry vaz_object_based_dune_analysis
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Jain, A.K., Duin, R.P.W., Jianchang, M." for entry statistical-pattern-recognition
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Jain, A.K., Duin, R.P.W., Jianchang, M." for entry statistical-pattern-recognition
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Jain, A.K., Duin, R.P.W., Jianchang, M." for entry statistical-pattern-recognition
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Ewing, R., C., Kocurek, G., Lake.L.W." for entry ewing-kocurek-lake-2006
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Ewing, R., C., Kocurek, G., Lake.L.W." for entry ewing-kocurek-lake-2006
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Ewing, R., C., Kocurek, G., Lake.L.W." for entry ewing-kocurek-lake-2006
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Ewing, R.C., Peyret, A.-P.B., Kocurek, G., Bourke, M." for entry ewing-peyret-kocurek-bourke-2010
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Ewing, R.C., Peyret, A.-P.B., Kocurek, G., Bourke, M." for entry ewing-peyret-kocurek-bourke-2010
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Ewing, R.C., Peyret, A.-P.B., Kocurek, G., Bourke, M." for entry ewing-peyret-kocurek-bourke-2010
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Ewing, R.C., Peyret, A.-P.B., Kocurek, G., Bourke, M." for entry ewing-peyret-kocurek-bourke-2010
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Ewing, R.C., Peyret, A.-P.B., Kocurek, G., Bourke, M." for entry ewing-peyret-kocurek-bourke-2010
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Fenton, L.K., Michaels, T.I., Beyer, R.A." for entry fenton-michaels-beyer-2014
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Fenton, L.K., Michaels, T.I., Beyer, R.A." for entry fenton-michaels-beyer-2014
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Fenton, L.K., Michaels, T.I., Beyer, R.A." for entry fenton-michaels-beyer-2014
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Fenton, L.K., Michaels, T.I., Chojnacki, M., Beyer, R.A." for entry fenton-michaels-chojnacki-beyer-2014
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Fenton, L.K., Michaels, T.I., Chojnacki, M., Beyer, R.A." for entry fenton-michaels-chojnacki-beyer-2014
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Fenton, L.K., Michaels, T.I., Chojnacki, M., Beyer, R.A." for entry fenton-michaels-chojnacki-beyer-2014
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Fenton, L.K., Michaels, T.I., Chojnacki, M., Beyer, R.A." for entry fenton-michaels-chojnacki-beyer-2014
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Fenton, L.K., Michaels, T.I., Chojnacki, M., Beyer, R.A." for entry fenton-michaels-chojnacki-beyer-2014
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Kocurek, G., Ewing, R., C." for entry kocurek-ewing-2005
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Kocurek, G., Ewing, R., C." for entry kocurek-ewing-2005
 while executing---line 1049 of file plain.bst
 Name 1 in "Ryan C. Ewing, Aymeric-Pierre B. Peyret, Gary Kocurek, and Mary Bourke" has a comma at the end for entry Ewing_Peyret_Kocurek_Bourke
 while executing---line 1049 of file plain.bst
@@ -60,9 +132,45 @@ Name 1 in "Paul Bao, Lei Zhang, and Xiaolin Wu" has a comma at the end for entry
 while executing---line 1049 of file plain.bst
 Name 1 in "Weibin Rong, Zhanjing Li, Wei Zhang, and Lining Sun" has a comma at the end for entry Improved_Canny_Edge_Detection
 while executing---line 1049 of file plain.bst
+Name 1 in "Duda, R. O., and Hart, P. E." has a comma at the end for entry 1972_hough_transform_line_detect
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Burns, J.B., Hanson, A.R., Riseman, E.M." for entry 1986_extracting_straight_lines
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Burns, J.B., Hanson, A.R., Riseman, E.M." for entry 1986_extracting_straight_lines
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Burns, J.B., Hanson, A.R., Riseman, E.M." for entry 1986_extracting_straight_lines
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Desolneux, A., Moisan, L., Morel, J.-M." for entry 2000_meaningful_alignments
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Desolneux, A., Moisan, L., Morel, J.-M." for entry 2000_meaningful_alignments
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Desolneux, A., Moisan, L., Morel, J.-M." for entry 2000_meaningful_alignments
+while executing---line 1049 of file plain.bst
 Name 1 in "Shuai Wanh, Shuifa Sun, Qing Guo, Fangmin Dong, and Chunyan Zhou" has a comma at the end for entry Image_Edge_detection_Rotating_Kernel_Transformation
 while executing---line 1049 of file plain.bst
 Too many commas in name 1 of "Shuai Wanh, Shuifa Sun, Qing Guo, Fangmin Dong, and Chunyan Zhou" for entry Image_Edge_detection_Rotating_Kernel_Transformation
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Jia, J. , Tai, Y., Wu, T., Tang, C.K." for entry 2006_tensor_voting_video_repairing
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Jia, J. , Tai, Y., Wu, T., Tang, C.K." for entry 2006_tensor_voting_video_repairing
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Jia, J. , Tai, Y., Wu, T., Tang, C.K." for entry 2006_tensor_voting_video_repairing
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Jia, J. , Tai, Y., Wu, T., Tang, C.K." for entry 2006_tensor_voting_video_repairing
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Jia, J. , Tai, Y., Wu, T., Tang, C.K." for entry 2006_tensor_voting_video_repairing
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Jia, J., Tang, C.K." for entry 2005_tensor_voting_image_correction
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Mordohai, P. G., Medioni, G." for entry 2006_tensor_voting_stereo_monocular
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Nicolescu, M., Medioni, G." for entry 2005_tensor_voting_visual_motion_analysis
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Tang, C.K., G. Medioni, G., Lee, M.S." for entry 2001_tensor_voting_epipolar_geometry
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Tang, C.K., G. Medioni, G., Lee, M.S." for entry 2001_tensor_voting_epipolar_geometry
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Tang, C.K., G. Medioni, G., Lee, M.S." for entry 2001_tensor_voting_epipolar_geometry
 while executing---line 1049 of file plain.bst
 Name 1 in "Jos B.T.M. Roerdink, and Arnold Meijster" has a comma at the end for entry Watershed-transform-definition-algorithms-parallelization-strategies
 while executing---line 1049 of file plain.bst
@@ -72,19 +180,118 @@ Name 1 in "Shuang Wang, Xuili Ma, Xiangrong Zhang, and Licheng Jiao" has a comma
 while executing---line 1049 of file plain.bst
 Too many commas in name 1 of "Chih-Chung Kao, Liang-Hwei Lee, Chih-Chiang Tai, Yung-Chung Wei" for entry Extracting_ocean_surface_feature_modis
 while executing---line 1049 of file plain.bst
+Name 1 in "K. Hildebrandt, K. Polthier, and M. Wardetzky" has a comma at the end for entry 2005_smooth_feature_lines_surface_meshes
+while executing---line 1049 of file plain.bst
+Name 1 in "Y. Ohtake, A. Belyaev, and H.-P. Seidel" has a comma at the end for entry 2004_ridge_valley_lines_meshes_surface_fitting
+while executing---line 1049 of file plain.bst
+Name 1 in "C. Gouinaud, A. I. Doutoum, P. Gouinaud, and M. K. Traore" has a comma at the end for entry 2013_sar_image_automated_detection_dune_area
+while executing---line 1049 of file plain.bst
 Name 1 in "Lourenco Bandeira, Jorge S. Marques, Jose Saraiva, and Pedro Pina" has a comma at the end for entry BandeiraMarques
 while executing---line 1049 of file plain.bst
+Name 1 in "R. R. Chowdhury, B. Deshmukh, A. K. Goswami, and S. S. Prasad" has a comma at the end for entry 2011_neural_network_based_dunal_landform_mapping
+while executing---line 1049 of file plain.bst
+Name 1 in "R. M. Haralick, K. Shanmugam, and I. Dinstein" has a comma at the end for entry 1973_textural_features_image_classification
+while executing---line 1049 of file plain.bst
 Warning--to sort, need author or key in huang_median_filtering_algorithm
+Too many commas in name 1 of "Barnes, R., Lehman, C., Mulla, D." for entry 2014_priority_flood
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Barnes, R., Lehman, C., Mulla, D." for entry 2014_priority_flood
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Barnes, R., Lehman, C., Mulla, D." for entry 2014_priority_flood
+while executing---line 1049 of file plain.bst
+Name 1 in "Paul Viola, and Michael J. Jones" has a comma at the end for entry Robust-real-time-Object-Detection
+while executing---line 1049 of file plain.bst
+Warning--to sort, need author or key in 1988_fast_fourier_transform_applications
+Warning--to sort, need author or key in 1969_finite_fourier_transform
+Name 1 in "T. Ojala, M. Pietik{\"a}inen, and D. Harwood" has a comma at the end for entry 1994_lbp_paper
+while executing---line 1049 of file plain.bst
+Name 1 in "T. Ojala, M. Pietik{\"a}inen, and D. Harwood" has a comma at the end for entry 1996_lbp_paper
+while executing---line 1049 of file plain.bst
+Name 1 in "Herbert Bay, Andreas Ess, Tinne Tuytelaars, and Luc Van Gool" has a comma at the end for entry 2006_surf
+while executing---line 1049 of file plain.bst
+Name 1 in "A. Ben-Hur, D. Horn, H. Siegelmann, and V. Vapnik" has a comma at the end for entry 1995_support_vector_clustering
+while executing---line 1049 of file plain.bst
+Name 1 in "Igor V. Tetko, David J. Livingstone, and Alexander I. Luik" has a comma at the end for entry neural-network-studies-overfitting-overtraining
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Sasakthi Abeysinghe, Matthew Baker, Wah Chiu, Tao Ju" for entry segmentation-free-skeletonization-grayscale-volumes
+while executing---line 1049 of file plain.bst
+Warning--empty author in 1988_fast_fourier_transform_applications
+Warning--empty author in 1969_finite_fourier_transform
 Warning--empty author in huang_median_filtering_algorithm
+Name 1 in "A. Ben-Hur, D. Horn, H. Siegelmann, and V. Vapnik" has a comma at the end for entry 1995_support_vector_clustering
+while executing---line 1090 of file plain.bst
+Warning--there's a number but no volume in 1995_support_vector_clustering
+Too many commas in name 1 of "Barnes, R., Lehman, C., Mulla, D." for entry 2014_priority_flood
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Barnes, R., Lehman, C., Mulla, D." for entry 2014_priority_flood
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Barnes, R., Lehman, C., Mulla, D." for entry 2014_priority_flood
+while executing---line 1090 of file plain.bst
+Warning--empty journal in 1979_workshop_image_processing
+Warning--empty title in opencv_library
+Too many commas in name 1 of "Burns, J.B., Hanson, A.R., Riseman, E.M." for entry 1986_extracting_straight_lines
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Burns, J.B., Hanson, A.R., Riseman, E.M." for entry 1986_extracting_straight_lines
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Burns, J.B., Hanson, A.R., Riseman, E.M." for entry 1986_extracting_straight_lines
+while executing---line 1090 of file plain.bst
+Warning--there's a number but no volume in 1986_extracting_straight_lines
+Name 1 in "C. Gouinaud, A. I. Doutoum, P. Gouinaud, and M. K. Traore" has a comma at the end for entry 2013_sar_image_automated_detection_dune_area
+while executing---line 1090 of file plain.bst
+Warning--there's a number but no volume in 1986_canny_edge_detection
 Too many commas in name 1 of "Chih-Chung Kao, Liang-Hwei Lee, Chih-Chiang Tai, Yung-Chung Wei" for entry Extracting_ocean_surface_feature_modis
 while executing---line 1090 of file plain.bst
 Too many commas in name 1 of "David Vaz, Pedro Sarmento, Maria Barata, Lori Fenton, Timothy Michaels" for entry vaz_object_based_dune_analysis
 while executing---line 1090 of file plain.bst
 Too many commas in name 1 of "David Vaz, Pedro Sarmento, Maria Barata, Lori Fenton, Timothy Michaels" for entry vaz_object_based_dune_analysis
 while executing---line 1090 of file plain.bst
-Warning--there's a number but no volume in vaz_object_based_dune_analysis
+Too many commas in name 1 of "Desolneux, A., Moisan, L., Morel, J.-M." for entry 2000_meaningful_alignments
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Desolneux, A., Moisan, L., Morel, J.-M." for entry 2000_meaningful_alignments
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Desolneux, A., Moisan, L., Morel, J.-M." for entry 2000_meaningful_alignments
+while executing---line 1090 of file plain.bst
+Warning--there's a number but no volume in 2000_meaningful_alignments
+Name 1 in "Duda, R. O., and Hart, P. E." has a comma at the end for entry 1972_hough_transform_line_detect
+while executing---line 1090 of file plain.bst
+Warning--there's a number but no volume in 1972_hough_transform_line_detect
 Name 1 in "Garret P. Duffy, and John E. Hughes-Clarke" has a comma at the end for entry Application_spatial_cross_correlation_detection_submarine_dunes
 while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Ewing, R., C., Kocurek, G., Lake.L.W." for entry ewing-kocurek-lake-2006
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Ewing, R., C., Kocurek, G., Lake.L.W." for entry ewing-kocurek-lake-2006
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Ewing, R., C., Kocurek, G., Lake.L.W." for entry ewing-kocurek-lake-2006
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Ewing, R.C., Peyret, A.-P.B., Kocurek, G., Bourke, M." for entry ewing-peyret-kocurek-bourke-2010
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Ewing, R.C., Peyret, A.-P.B., Kocurek, G., Bourke, M." for entry ewing-peyret-kocurek-bourke-2010
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Ewing, R.C., Peyret, A.-P.B., Kocurek, G., Bourke, M." for entry ewing-peyret-kocurek-bourke-2010
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Ewing, R.C., Peyret, A.-P.B., Kocurek, G., Bourke, M." for entry ewing-peyret-kocurek-bourke-2010
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Ewing, R.C., Peyret, A.-P.B., Kocurek, G., Bourke, M." for entry ewing-peyret-kocurek-bourke-2010
+while executing---line 1090 of file plain.bst
+Warning--there's a number but no volume in ewing-peyret-kocurek-bourke-2010
+Too many commas in name 1 of "Fenton, L.K., Michaels, T.I., Beyer, R.A." for entry fenton-michaels-beyer-2014
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Fenton, L.K., Michaels, T.I., Beyer, R.A." for entry fenton-michaels-beyer-2014
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Fenton, L.K., Michaels, T.I., Beyer, R.A." for entry fenton-michaels-beyer-2014
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Fenton, L.K., Michaels, T.I., Chojnacki, M., Beyer, R.A." for entry fenton-michaels-chojnacki-beyer-2014
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Fenton, L.K., Michaels, T.I., Chojnacki, M., Beyer, R.A." for entry fenton-michaels-chojnacki-beyer-2014
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Fenton, L.K., Michaels, T.I., Chojnacki, M., Beyer, R.A." for entry fenton-michaels-chojnacki-beyer-2014
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Fenton, L.K., Michaels, T.I., Chojnacki, M., Beyer, R.A." for entry fenton-michaels-chojnacki-beyer-2014
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Fenton, L.K., Michaels, T.I., Chojnacki, M., Beyer, R.A." for entry fenton-michaels-chojnacki-beyer-2014
+while executing---line 1090 of file plain.bst
+Warning--there's a number but no volume in 1965_Cluster_analysis_multivariate_data
+Warning--empty journal in 1999_gradient_boosting_machine
 Warning--empty journal in goudie_desert_landforms_namibia
 Warning--empty year in goudie_desert_landforms_namibia
 Warning--empty booktitle in goodie_namib_sand_sea_ancient_desert
@@ -92,14 +299,60 @@ Warning--empty publisher in goodie_namib_sand_sea_ancient_desert
 Warning--empty year in goodie_namib_sand_sea_ancient_desert
 Name 1 in "Guoji Zhang, Qiang Chen, and Quansen Sun" has a comma at the end for entry Illumination_normalization_among_multiple_remote_senging_images
 while executing---line 1090 of file plain.bst
+Warning--empty publisher in book_organization_of_behavior
+Name 1 in "Herbert Bay, Andreas Ess, Tinne Tuytelaars, and Luc Van Gool" has a comma at the end for entry 2006_surf
+while executing---line 1090 of file plain.bst
 Warning--empty booktitle in hesse_australian_desert_dunefields
 Warning--empty publisher in hesse_australian_desert_dunefields
 Warning--empty year in hesse_australian_desert_dunefields
+Name 1 in "Igor V. Tetko, David J. Livingstone, and Alexander I. Luik" has a comma at the end for entry neural-network-studies-overfitting-overtraining
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Jain, A.K., Duin, R.P.W., Jianchang, M." for entry statistical-pattern-recognition
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Jain, A.K., Duin, R.P.W., Jianchang, M." for entry statistical-pattern-recognition
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Jain, A.K., Duin, R.P.W., Jianchang, M." for entry statistical-pattern-recognition
+while executing---line 1090 of file plain.bst
 Warning--empty booktitle in zimbelman_eolian_deposits_western_united_states
 Warning--empty publisher in zimbelman_eolian_deposits_western_united_states
 Warning--empty year in zimbelman_eolian_deposits_western_united_states
+Too many commas in name 1 of "Jia, J. , Tai, Y., Wu, T., Tang, C.K." for entry 2006_tensor_voting_video_repairing
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Jia, J. , Tai, Y., Wu, T., Tang, C.K." for entry 2006_tensor_voting_video_repairing
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Jia, J. , Tai, Y., Wu, T., Tang, C.K." for entry 2006_tensor_voting_video_repairing
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Jia, J. , Tai, Y., Wu, T., Tang, C.K." for entry 2006_tensor_voting_video_repairing
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Jia, J. , Tai, Y., Wu, T., Tang, C.K." for entry 2006_tensor_voting_video_repairing
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Jia, J., Tang, C.K." for entry 2005_tensor_voting_image_correction
+while executing---line 1090 of file plain.bst
+Name 1 in "K. Hildebrandt, K. Polthier, and M. Wardetzky" has a comma at the end for entry 2005_smooth_feature_lines_surface_meshes
+while executing---line 1090 of file plain.bst
+Warning--there's a number but no volume in 2005_smooth_feature_lines_surface_meshes
+Too many commas in name 1 of "Kocurek, G., Ewing, R., C." for entry kocurek-ewing-2005
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Kocurek, G., Ewing, R., C." for entry kocurek-ewing-2005
+while executing---line 1090 of file plain.bst
+Warning--there's a number but no volume in kocurek-ewing-2005
 Warning--empty booktitle in fenton_aeolian_sediment_ganges_chasma_mars
+Too many commas in name 1 of "Loss, L., Bebis, G., Nicolescu, M., Skurikhin, A." for entry 2009_tensor_voting_cluttered_backgrounds
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Loss, L., Bebis, G., Nicolescu, M., Skurikhin, A." for entry 2009_tensor_voting_cluttered_backgrounds
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Loss, L., Bebis, G., Nicolescu, M., Skurikhin, A." for entry 2009_tensor_voting_cluttered_backgrounds
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Loss, L., Bebis, G., Nicolescu, M., Skurikhin, A." for entry 2009_tensor_voting_cluttered_backgrounds
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Loss, L., Bebis, G., Nicolescu, M., Skurikhin, A." for entry 2009_tensor_voting_cluttered_backgrounds
+while executing---line 1090 of file plain.bst
 Name 1 in "Lourenco Bandeira, Jorge S. Marques, Jose Saraiva, and Pedro Pina" has a comma at the end for entry BandeiraMarques
+while executing---line 1090 of file plain.bst
+Warning--there's a number but no volume in 1967_method_classification_analysis_multivariate_observations
+Too many commas in name 1 of "Mordohai, P. G., Medioni, G." for entry 2006_tensor_voting_stereo_monocular
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Nicolescu, M., Medioni, G." for entry 2005_tensor_voting_visual_motion_analysis
 while executing---line 1090 of file plain.bst
 Name 1 in "Paul Bao, Lei Zhang, and Xiaolin Wu" has a comma at the end for entry Canny_edge_detection_enhancement_scale_multiplication
 while executing---line 1090 of file plain.bst
@@ -107,9 +360,17 @@ Name 1 in "Paul R. Hill, C. Nishan Canagarajah, and David R. Bull" has a comma a
 while executing---line 1090 of file plain.bst
 Warning--empty year in pepe_winnemucca_dune_complex
 Warning--empty publisher in digital_image_processing_book
+Name 1 in "R. M. Haralick, K. Shanmugam, and I. Dinstein" has a comma at the end for entry 1973_textural_features_image_classification
+while executing---line 1090 of file plain.bst
+Name 1 in "R. R. Chowdhury, B. Deshmukh, A. K. Goswami, and S. S. Prasad" has a comma at the end for entry 2011_neural_network_based_dunal_landform_mapping
+while executing---line 1090 of file plain.bst
+Warning--empty journal in 2003_tackling_poor_assumptions_naive_bayes
 Name 1 in "Jos B.T.M. Roerdink, and Arnold Meijster" has a comma at the end for entry Watershed-transform-definition-algorithms-parallelization-strategies
 while executing---line 1090 of file plain.bst
+Warning--empty publisher in book_artificial_intelligence_modern_approach
 Name 1 in "Ryan C. Ewing, Aymeric-Pierre B. Peyret, Gary Kocurek, and Mary Bourke" has a comma at the end for entry Ewing_Peyret_Kocurek_Bourke
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Sasakthi Abeysinghe, Matthew Baker, Wah Chiu, Tao Ju" for entry segmentation-free-skeletonization-grayscale-volumes
 while executing---line 1090 of file plain.bst
 Name 1 in "Shuai Wanh, Shuifa Sun, Qing Guo, Fangmin Dong, and Chunyan Zhou" has a comma at the end for entry Image_Edge_detection_Rotating_Kernel_Transformation
 while executing---line 1090 of file plain.bst
@@ -117,8 +378,36 @@ Too many commas in name 1 of "Shuai Wanh, Shuifa Sun, Qing Guo, Fangmin Dong, an
 while executing---line 1090 of file plain.bst
 Name 1 in "Shuang Wang, Xuili Ma, Xiangrong Zhang, and Licheng Jiao" has a comma at the end for entry Watershed-based-textural-image-segmentation
 while executing---line 1090 of file plain.bst
+Warning--empty journal in 2014_history_sobel_operator
+Name 1 in "T. Ojala, M. Pietik{\"a}inen, and D. Harwood" has a comma at the end for entry 1994_lbp_paper
+while executing---line 1090 of file plain.bst
+Name 1 in "T. Ojala, M. Pietik{\"a}inen, and D. Harwood" has a comma at the end for entry 1996_lbp_paper
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Tang, C.K., G. Medioni, G., Lee, M.S." for entry 2001_tensor_voting_epipolar_geometry
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Tang, C.K., G. Medioni, G., Lee, M.S." for entry 2001_tensor_voting_epipolar_geometry
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Tang, C.K., G. Medioni, G., Lee, M.S." for entry 2001_tensor_voting_epipolar_geometry
+while executing---line 1090 of file plain.bst
+Warning--there's a number but no volume in 2001_tensor_voting_epipolar_geometry
+Name 1 in "Paul Viola, and Michael J. Jones" has a comma at the end for entry Robust-real-time-Object-Detection
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "von Gioi, R.G., Jakubowicz, J., Morel, J.M., Randall, G." for entry 2010_lsd_fast_line_segment_detector
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "von Gioi, R.G., Jakubowicz, J., Morel, J.M., Randall, G." for entry 2010_lsd_fast_line_segment_detector
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "von Gioi, R.G., Jakubowicz, J., Morel, J.M., Randall, G." for entry 2010_lsd_fast_line_segment_detector
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "von Gioi, R.G., Jakubowicz, J., Morel, J.M., Randall, G." for entry 2010_lsd_fast_line_segment_detector
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "von Gioi, R.G., Jakubowicz, J., Morel, J.M., Randall, G." for entry 2010_lsd_fast_line_segment_detector
+while executing---line 1090 of file plain.bst
+Warning--there's a number but no volume in 2010_lsd_fast_line_segment_detector
 Name 1 in "Weibin Rong, Zhanjing Li, Wei Zhang, and Lining Sun" has a comma at the end for entry Improved_Canny_Edge_Detection
+while executing---line 1090 of file plain.bst
+Warning--empty journal in 1975_beyond_regression_prediction_analysis
+Name 1 in "Y. Ohtake, A. Belyaev, and H.-P. Seidel" has a comma at the end for entry 2004_ridge_valley_lines_meshes_surface_fitting
 while executing---line 1090 of file plain.bst
 Name 1 in "Yu Cheng, Zhigang Jin, and Cunming Hao" has a comma at the end for entry Illumination_normalization_based_on_2d_gaussian_model
 while executing---line 1090 of file plain.bst
-(There were 38 error messages)
+(There were 167 error messages)
